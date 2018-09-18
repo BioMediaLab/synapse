@@ -1,6 +1,0 @@
-type User {
-  id: ID! @unique
-  student_id: Int @unique
-  name: String!
-  email: String! @unique
-}
