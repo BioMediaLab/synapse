@@ -1,0 +1,10 @@
+endpoint: https://us1.prisma.sh/andy-kay-d8cdc8/prisma1/dev
+datamodel: datamodel.prisma
+
+generate:
+  - generator: flow-client
+    output: ./generated/prisma
+
+hooks:
+  post-deploy:
+    - prisma generate
