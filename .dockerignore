@@ -1,5 +1,6 @@
 *
 !components
 !pages
+!util
 !package.json
 !yarn.lock
