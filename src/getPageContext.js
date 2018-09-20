@@ -21,6 +21,9 @@ const theme = createMuiTheme({
       main: pink[500],
       dark: pink[700]
     }
+  },
+  zIndex: {
+    drawer: 1200
   }
 });
 

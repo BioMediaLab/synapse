@@ -16,10 +16,21 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 import MailIcon from "@material-ui/icons/Mail";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
+import Drawer from "@material-ui/core/Drawer";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import Avatar from "@material-ui/core/Avatar";
+
+const drawerWidth = 300;
 
 const styles = theme => ({
   root: {
     width: "100%"
+  },
+  appBar: {
+    zIndex: theme.zIndex.drawer + 1
   },
   grow: {
     flexGrow: 1
@@ -27,12 +38,6 @@ const styles = theme => ({
   menuButton: {
     marginLeft: -12,
     marginRight: 20
-  },
-  title: {
-    display: "none",
-    [theme.breakpoints.up("sm")]: {
-      display: "block"
-    }
   },
   search: {
     position: "relative",
@@ -84,7 +89,13 @@ const styles = theme => ({
     [theme.breakpoints.up("md")]: {
       display: "none"
     }
-  }
+  },
+  drawerPaper: {
+    position: "relative",
+    width: drawerWidth,
+    height: "100vh"
+  },
+  toolbar: theme.mixins.toolbar
 });
 
 class PrimarySearchAppBar extends React.Component {
@@ -172,7 +183,7 @@ class PrimarySearchAppBar extends React.Component {
 
     return (
       <div className={classes.root}>
-        <AppBar position="static">
+        <AppBar position="absolute" className={classes.appBar}>
           <Toolbar>
             <IconButton
               className={classes.menuButton}
@@ -236,8 +247,35 @@ class PrimarySearchAppBar extends React.Component {
             </div>
           </Toolbar>
         </AppBar>
+
         {renderMenu}
         {renderMobileMenu}
+
+        <Drawer
+          variant="permanent"
+          classes={{
+            paper: classes.drawerPaper
+          }}
+        >
+          <div className={classes.toolbar} />
+          <List>
+            <ListItem>
+              <Avatar>B</Avatar>
+              <ListItemText primary="Bio 100" secondary="Jan 9, 2014" />
+            </ListItem>
+            <ListItem>
+              <Avatar>B</Avatar>
+              <ListItemText
+                primary="Bio 100 LAB 0001"
+                secondary="Jan 7, 2014"
+              />
+            </ListItem>
+            <ListItem>
+              <Avatar>N</Avatar>
+              <ListItemText primary="NFA 117" secondary="July 20, 2014" />
+            </ListItem>
+          </List>
+        </Drawer>
       </div>
     );
   }
