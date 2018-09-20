@@ -1,15 +1,13 @@
 import React from "react";
-import PropTypes from "prop-types";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
-import Typography from "@material-ui/core/Typography";
 import Input from "@material-ui/core/Input";
 import Badge from "@material-ui/core/Badge";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import { fade } from "@material-ui/core/styles/colorManipulator";
-import { withStyles } from "@material-ui/core/styles";
+import { withStyles, createStyles } from "@material-ui/core/styles";
 import MenuIcon from "@material-ui/icons/Menu";
 import SearchIcon from "@material-ui/icons/Search";
 import AccountCircle from "@material-ui/icons/AccountCircle";
@@ -19,13 +17,12 @@ import MoreIcon from "@material-ui/icons/MoreVert";
 import Drawer from "@material-ui/core/Drawer";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Avatar from "@material-ui/core/Avatar";
 
 const drawerWidth = 300;
 
-const styles = theme => ({
+const styles = theme => createStyles({
   root: {
     width: "100%"
   },
@@ -98,11 +95,20 @@ const styles = theme => ({
   toolbar: theme.mixins.toolbar
 });
 
-class PrimarySearchAppBar extends React.Component {
+type Props = {
+  classes: any
+}
+
+type State = {
+  anchorEl: HTMLElement
+  mobileMoreAnchorEl: HTMLElement
+};
+
+class PrimarySearchAppBar extends React.Component<Props, State> {
   state = {
     anchorEl: null,
     mobileMoreAnchorEl: null
-  };
+  }
 
   handleProfileMenuOpen = event => {
     this.setState({ anchorEl: event.currentTarget });
@@ -135,8 +141,8 @@ class PrimarySearchAppBar extends React.Component {
         open={isMenuOpen}
         onClose={this.handleMenuClose}
       >
-        <MenuItem onClick={this.handleClose}>Profile</MenuItem>
-        <MenuItem onClick={this.handleClose}>My account</MenuItem>
+        <MenuItem onClick={this.handleMenuClose}>Profile</MenuItem>
+        <MenuItem onClick={this.handleMenuClose}>My account</MenuItem>
       </Menu>
     );
 
@@ -280,9 +286,5 @@ class PrimarySearchAppBar extends React.Component {
     );
   }
 }
-
-PrimarySearchAppBar.propTypes = {
-  classes: PropTypes.object.isRequired
-};
 
 export default withStyles(styles)(PrimarySearchAppBar);
