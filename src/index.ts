@@ -1,14 +1,32 @@
-const { prisma } = require("../generated/prisma");
+import { ApolloServer, gql } from "apollo-server";
+import { prisma } from "../generated/prisma";
 
 const main = async () => {
-  const newUser = await prisma.createUser({
-    name: "Alice",
-    email: "alice@prisma.io",
-  })
-  const allUsers = await prisma.users()
+  const allUsers = await prisma.users();
   console.log(allUsers);
-
 };
 
-console.log("hello world");
-main();
+// A map of functions which return data for the schema.
+const resolvers = {
+  Query: {
+    users: async (root, args, context) => {
+      const users = await prisma.users();
+      return users.map((user): string => user.name);
+    },
+  },
+};
+
+const typeDefs = gql`
+  type Query {
+    users: [String]
+  }
+`;
+
+const server = new ApolloServer({
+  resolvers,
+  typeDefs,
+});
+
+server.listen().then(({ url }) => {
+  console.log(`🚀 Server ready at ${url}`);
+});
