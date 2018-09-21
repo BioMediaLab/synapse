@@ -1,0 +1,7 @@
+type User {
+  id: ID! @unique
+  student_id: Int @unique
+  name: String!
+  nickname: String
+  email: String! @unique
+}
