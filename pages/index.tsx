@@ -96,7 +96,20 @@ const styles = theme => createStyles({
 });
 
 type Props = {
-  classes: any
+  classes: {
+    root: string,
+    appBar: string,
+    grow: string,
+    menuButton: string,
+    search: string,
+    searchIcon: string,
+    inputRoot: string,
+    inputInput: string,
+    sectionDesktop: string,
+    sectionMobile: string,
+    drawerPaper: string,
+    toolbar: string
+  }
 }
 
 type State = {
@@ -157,7 +170,6 @@ class PrimarySearchAppBar extends React.Component<Props, State> {
         <MenuItem>
           <IconButton color="inherit">
             <Badge
-              className={classes.margin}
               badgeContent={4}
               color="secondary"
             >
@@ -169,7 +181,6 @@ class PrimarySearchAppBar extends React.Component<Props, State> {
         <MenuItem>
           <IconButton color="inherit">
             <Badge
-              className={classes.margin}
               badgeContent={11}
               color="secondary"
             >
@@ -217,7 +228,6 @@ class PrimarySearchAppBar extends React.Component<Props, State> {
             <div className={classes.sectionDesktop}>
               <IconButton color="inherit">
                 <Badge
-                  className={classes.margin}
                   badgeContent={4}
                   color="secondary"
                 >
@@ -226,7 +236,6 @@ class PrimarySearchAppBar extends React.Component<Props, State> {
               </IconButton>
               <IconButton color="inherit">
                 <Badge
-                  className={classes.margin}
                   badgeContent={17}
                   color="secondary"
                 >
