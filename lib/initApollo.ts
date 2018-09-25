@@ -14,8 +14,8 @@ function create(initialState) {
     connectToDevTools: process.browser,
     ssrMode: !process.browser, // Disables forceFetch on the server (so queries are only run once)
     link: new HttpLink({
-      uri: "https://us1.prisma.sh/andy-kay-d8cdc8/synapse/dev", // Server URL (must be absolute)
-      credentials: "same-origin" // Additional fetch() options like `credentials` or `headers`
+      uri: 'http://localhost:4000/', // Server URL (must be absolute)
+      credentials: 'same-origin',
     }),
     cache: new InMemoryCache().restore(initialState || {})
   });
