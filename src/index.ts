@@ -1,6 +1,6 @@
 import { google } from "googleapis";
 import { GraphQLServer } from "graphql-yoga";
-import { prisma } from "../generated/prisma";
+import { prisma, Course } from "../generated/prisma";
 
 // import { passport } from "passport";
 // import { Strategy as GoogleStrategy } from "passport-google-oauth20";
@@ -31,19 +31,17 @@ const resolvers = {
       const oauth2Client = new google.auth.OAuth2(
         "850899037915-mntha2odh9sfftht3qp11ifo9nio6hit.apps.googleusercontent.com",
         "jebZ-wZ92SIdNVwGbhgSGRRh",
-        "http://localhost:3000/auth/google",
+        "http://localhost:3000/auth/google"
       );
 
-      const scopes = [
-        "https://www.googleapis.com/auth/plus.me",
-      ];
+      const scopes = ["https://www.googleapis.com/auth/plus.me"];
 
       const url = oauth2Client.generateAuthUrl({
         // 'online' (default) or 'offline' (gets refresh_token)
         access_type: "online",
 
         // If you only need one scope you can pass it as a string
-        scope: scopes,
+        scope: scopes
       });
 
       return url;
@@ -52,10 +50,16 @@ const resolvers = {
       const users = await prisma.users();
       return users.map((user): string => user.name);
     },
-  },
+    courses: async (root, args, context): Promise<any[]> => {
+      const courses = await prisma.courses();
+      return courses;
+    }
+  }
 };
 
 const typeDefs = `
+  scalar DateTime
+
   type Session {
     firstLogin: Boolean,
     uid: String,
@@ -65,13 +69,33 @@ const typeDefs = `
     users: [String],
     signupGoogle(email: String!): String!,
     confirmSignupGoogle(token: String!): Session!,
+    courses: [Course]!
   }
 
+  type User {
+    id: ID! @unique
+    courses: [Course!]!
+    student_id: Int @unique
+    name: String!
+    nickname: String
+    email: String! @unique
+    createdAt: DateTime!
+    updatedAt: DateTime!
+  }
+
+  type Course {
+    id: ID! @unique
+    users: [User!]!
+    name: String!
+    description: String
+    createdAt: DateTime!
+    updatedAt: DateTime!
+  }
 `;
 
 const server = new GraphQLServer({
   resolvers,
-  typeDefs,
+  typeDefs
 });
 
 server.express.get("/auth/connect");
