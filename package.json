@@ -17,10 +17,14 @@
     "@types/react": "^16.4.14",
     "@types/react-dom": "^16.0.7",
     "@zeit/next-typescript": "^1.1.1",
+    "apollo-boost": "^0.1.16",
     "draft-js": "^0.10.5",
+    "graphql": "^14.0.2",
+    "isomorphic-unfetch": "^3.0.0",
     "next": "^7.0.0",
     "npm": "^6.4.1",
     "react": "^16.5.1",
+    "react-apollo": "^2.1.11",
     "react-dom": "^16.5.1",
     "react-jss": "^8.6.1"
   }
