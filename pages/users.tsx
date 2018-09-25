@@ -13,7 +13,7 @@ function UserProfile({ data: { loading, error, user } }) {
 }
 
 const GET_USER = gql`
-  query GetUser {
+  query User() {
     user(id: "cjmcbo8j3zxsa0b051ps89tp9") {
       name
     }
