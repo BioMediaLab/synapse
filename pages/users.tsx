@@ -1,23 +1,30 @@
-import React from "react";
-import { graphql } from "react-apollo";
-import gql from "graphql-tag";
-import App from "../components/App";
-import ErrorMessage from "../components/ErrorMessage";
+import React from 'react';
+import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
+import App from '../components/App';
+import ErrorMessage from '../components/ErrorMessage';
 
-function UserProfile({ data: { loading, error, user } }) {
+type Props = {
+  data: {
+    loading: boolean,
+    error: string,
+    users: [string],
+  }
+};
+
+const UserProfile: React.SFC<Props> = ({ data: { loading, error, users } }) => {
+  console.log(users);
   if (error)
     return <ErrorMessage message={error}>Error loading user.</ErrorMessage>;
   if (loading) return <App>Loading...</App>;
 
-  return <App>{user.name}</App>;
+  return <App>{users.map(user => <li key={user}>{user}</li>)}</App>;
 }
 
 const GET_USER = gql`
-  {
-    user(where: { id: "cjmcbo8j3zxsa0b051ps89tp9" }) {
-      name
-    }
+  query {
+    users
   }
 `;
 
-export default graphql(GET_USER)(UserProfile);
+export default graphql(GET_USER)(UserProfile as any);
