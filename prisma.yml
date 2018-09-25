@@ -1,4 +1,4 @@
-endpoint: https://us1.prisma.sh/andy-kay-d8cdc8/prisma1/dev
+endpoint: https://us1.prisma.sh/andy-kay-d8cdc8/synapse/dev
 datamodel: datamodel.prisma
 generate:
   - generator: typescript-client
@@ -6,3 +6,8 @@ generate:
 hooks:
   post-deploy:
     - prisma generate
+# Points to a `.graphql` file containing GraphQL
+# operations that will be executed when initially
+# deploying a service.
+seed:
+  import: database/seed.graphql

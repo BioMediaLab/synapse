@@ -1,7 +1,19 @@
 type User {
   id: ID! @unique
+  courses: [Course!]!
   student_id: Int @unique
   name: String!
   nickname: String
   email: String! @unique
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Course {
+  id: ID! @unique
+  users: [User!]!
+  name: String!
+  description: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }

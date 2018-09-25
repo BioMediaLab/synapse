@@ -1,10 +1,24 @@
-import { ApolloServer, gql } from "apollo-server";
+import { GraphQLServer } from "graphql-yoga";
 import { prisma } from "../generated/prisma";
 
-const main = async () => {
-  const allUsers = await prisma.users();
-  console.log(allUsers);
-};
+import passport from "passport";
+import { Strategy as GoogleStrategy } from "passport-google-oauth20";
+
+passport.use(
+  new GoogleStrategy(
+    {
+      clientID:
+        "850899037915-mntha2odh9sfftht3qp11ifo9nio6hit.apps.googleusercontent.com",
+      clientSecret: "jebZ-wZ92SIdNVwGbhgSGRRh",
+      callbackURL: "https://api.synapse.now.sh/auth/google/callback"
+    },
+    function(accessToken, refreshToken, profile, cb) {
+      User.findOrCreate({ googleId: profile.id }, function(err, user) {
+        return cb(err, user);
+      });
+    }
+  )
+);
 
 // A map of functions which return data for the schema.
 const resolvers = {
@@ -12,21 +26,23 @@ const resolvers = {
     users: async (root, args, context) => {
       const users = await prisma.users();
       return users.map((user): string => user.name);
-    },
-  },
+    }
+  }
 };
 
-const typeDefs = gql`
+const typeDefs = `
   type Query {
     users: [String]
   }
 `;
 
-const server = new ApolloServer({
+const server = new GraphQLServer({
   resolvers,
-  typeDefs,
+  typeDefs
 });
 
-server.listen().then(({ url }) => {
+server.express.get("/auth/connect");
+
+server.start().then(({ url }) => {
   console.log(`🚀 Server ready at ${url}`);
 });
