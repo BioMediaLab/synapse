@@ -15,11 +15,7 @@ import MailIcon from "@material-ui/icons/Mail";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import Drawer from "@material-ui/core/Drawer";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import Avatar from "@material-ui/core/Avatar";
-import Link from "next/link";
+import CourseList from "./CourseList";
 
 const drawerWidth = 300;
 
@@ -99,24 +95,24 @@ const styles = theme =>
 
 type Props = {
   classes: {
-    root: string,
-    appBar: string,
-    grow: string,
-    menuButton: string,
-    search: string,
-    searchIcon: string,
-    inputRoot: string,
-    inputInput: string,
-    sectionDesktop: string,
-    sectionMobile: string,
-    drawerPaper: string,
-    toolbar: string
-  }
+    root: string;
+    appBar: string;
+    grow: string;
+    menuButton: string;
+    search: string;
+    searchIcon: string;
+    inputRoot: string;
+    inputInput: string;
+    sectionDesktop: string;
+    sectionMobile: string;
+    drawerPaper: string;
+    toolbar: string;
+  };
 };
 
 type State = {
-  anchorEl: HTMLElement,
-  mobileMoreAnchorEl: HTMLElement
+  anchorEl: HTMLElement;
+  mobileMoreAnchorEl: HTMLElement;
 };
 
 class PrimarySearchAppBar extends React.Component<Props, State> {
@@ -263,34 +259,7 @@ class PrimarySearchAppBar extends React.Component<Props, State> {
           }}
         >
           <div className={classes.toolbar} />
-          <List>
-            <ListItem>
-              <Avatar>B</Avatar>
-              <ListItemText primary="Bio 90001" secondary="Jan 9, 2014" />
-            </ListItem>
-            <ListItem>
-              <Avatar>B</Avatar>
-              <ListItemText
-                primary="Bio 100 LAB 0001"
-                secondary="Jan 7, 2014"
-              />
-            </ListItem>
-            <ListItem>
-              <Avatar>N</Avatar>
-              <ListItemText primary="NFA 117" secondary="July 20, 2014" />
-            </ListItem>
-            <ListItem>
-              <Avatar>U</Avatar>
-              <ListItemText
-                primary={
-                  <Link href="/users">
-                    <a>users</a>
-                  </Link>
-                }
-                secondary="July 20, 2014"
-              />
-            </ListItem>
-          </List>
+          <CourseList />
         </Drawer>
         {this.props.children}
       </div>
