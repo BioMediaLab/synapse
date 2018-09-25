@@ -1,3 +1,4 @@
+import { google } from "googleapis";
 import { GraphQLServer } from "graphql-yoga";
 import { prisma } from "../generated/prisma";
 
@@ -23,7 +24,31 @@ import { prisma } from "../generated/prisma";
 // A map of functions which return data for the schema.
 const resolvers = {
   Query: {
-    users: async (root, args, context) => {
+    signupGoogle: async (_, args): Promise<string> => {
+      if (!args.email.includes("maine.edu")) {
+        throw new Error("maine only!");
+      }
+      const oauth2Client = new google.auth.OAuth2(
+        "850899037915-mntha2odh9sfftht3qp11ifo9nio6hit.apps.googleusercontent.com",
+        "jebZ-wZ92SIdNVwGbhgSGRRh",
+        "http://localhost:3000/auth/google",
+      );
+
+      const scopes = [
+        "https://www.googleapis.com/auth/plus.me",
+      ];
+
+      const url = oauth2Client.generateAuthUrl({
+        // 'online' (default) or 'offline' (gets refresh_token)
+        access_type: "online",
+
+        // If you only need one scope you can pass it as a string
+        scope: scopes,
+      });
+
+      return url;
+    },
+    users: async (root, args, context): Promise<string[]> => {
       const users = await prisma.users();
       return users.map((user): string => user.name);
     },
@@ -31,9 +56,17 @@ const resolvers = {
 };
 
 const typeDefs = `
-  type Query {
-    users: [String]
+  type Session {
+    firstLogin: Boolean,
+    uid: String,
   }
+
+  type Query {
+    users: [String],
+    signupGoogle(email: String!): String!,
+    confirmSignupGoogle(token: String!): Session!,
+  }
+
 `;
 
 const server = new GraphQLServer({
