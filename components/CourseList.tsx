@@ -9,15 +9,13 @@ function CourseList({ data: { loading, error, courses } }) {
   if (error) return <ErrorMessage message={error} />;
   if (loading) return <App>Loading...</App>;
 
-  return <App>{courses.map(CourseListItem)}</App>;
+  return <div>{courses.map(CourseListItem)}</div>;
 }
 const GET_COURSES = gql`
   {
-    user(where: { id: "cjmcbo8j3zxsa0b051ps89tp9" }) {
-      courses {
-        id
-        name
-      }
+    courses {
+      id
+      name
     }
   }
 `;
