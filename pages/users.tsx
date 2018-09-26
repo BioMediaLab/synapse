@@ -13,7 +13,6 @@ type Props = {
 };
 
 const UserProfile: React.SFC<Props> = ({ data: { loading, error, users } }) => {
-  console.log(users);
   if (error)
     return <ErrorMessage message={error}>Error loading user.</ErrorMessage>;
   if (loading) return <App>Loading...</App>;
