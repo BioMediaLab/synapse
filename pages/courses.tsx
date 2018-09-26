@@ -4,7 +4,7 @@ import gql from "graphql-tag";
 import App from "../components/App";
 import ErrorMessage from "../components/ErrorMessage";
 
-interface Props {
+type Props = {
   data: {
     loading: boolean;
     error: string;
@@ -12,24 +12,18 @@ interface Props {
   };
 };
 
-const UserProfile: React.SFC<Props> = ({ data: { loading, error, users } }) => {
+const CoursePage: React.SFC<Props> = ({ data: { loading, error, course } }) => {
   if (error)
     return <ErrorMessage message={error}>Error loading user.</ErrorMessage>;
   if (loading) return <App>Loading...</App>;
 
-  return (
-    <App>
-      {users.map(user => (
-        <li key={user}>{user}</li>
-      ))}
-    </App>
-  );
+  return <App>{course.name}</App>;
 };
 
-const GET_USER = gql`
+const GET_COURSE = gql`
   query {
     users
   }
 `;
 
-export default graphql(GET_USER)(UserProfile as any);
+export default graphql(GET_COURSE)(CoursePage as any);
