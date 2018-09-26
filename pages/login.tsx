@@ -33,7 +33,7 @@ const styles = theme =>
     }
   });
 
-type Props = {
+interface Props {
   classes: {
     layout: string;
     paper: string;

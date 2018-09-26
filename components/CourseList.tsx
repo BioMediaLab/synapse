@@ -5,11 +5,9 @@ import App from "../components/App";
 import ErrorMessage from "../components/ErrorMessage";
 import CourseListItem from "./CourseListItem";
 
-function CourseList({ data: { loading, error, courses } }) {
-  if (error) return <ErrorMessage message={error} />;
-  if (loading) return <App>Loading...</App>;
-
-  return <div>{courses.map(CourseListItem)}</div>;
+type Course = {
+  id: string,
+  name: string,
 }
 const GET_COURSES = gql`
   {
@@ -20,4 +18,20 @@ const GET_COURSES = gql`
   }
 `;
 
-export default graphql(GET_COURSES)(CourseList);
+interface CourseListProps {
+  data: {
+    loading: boolean,
+    error: any,
+    courses: Course[],
+  }
+}
+
+const CourseList = ({ data: { loading, error, courses } }: CourseListProps) => {
+  if (error) return <ErrorMessage message={error} />;
+  if (loading) return <App>Loading...</App>;
+
+  return <div>{courses.map(CourseListItem)}</div>;
+}
+
+
+export default graphql(GET_COURSES)(CourseList as any);

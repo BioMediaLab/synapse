@@ -2,9 +2,19 @@ import React from "react";
 import initApollo from "./initApollo";
 import Head from "next/head";
 import { getDataFromTree } from "react-apollo";
+import { ApolloClient } from "apollo-boost";
+
+interface Proc {
+  browser: boolean,
+}
+declare var process: Proc;
 
 export default App => {
-  return class Apollo extends React.Component {
+  interface Apollo extends React.Component {
+    apolloClient: ApolloClient<any>
+  }
+
+  class Apollo extends React.Component {
     static displayName = "withApollo(App)";
     static async getInitialProps(ctx) {
       const { Component, router } = ctx;
@@ -58,4 +68,6 @@ export default App => {
       return <App {...this.props} apolloClient={this.apolloClient} />;
     }
   };
+
+  return Apollo;
 };

@@ -1,7 +1,7 @@
 {
   "rules": {
     "quotemark": [
-      true,
+      false,
       "single",
       "jsx-double"
     ],
