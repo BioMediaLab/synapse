@@ -4,6 +4,7 @@ import gql from "graphql-tag";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 import { withStyles, createStyles } from "@material-ui/core/styles";
 
@@ -11,7 +12,7 @@ import Redirect from "../components/Redirect";
 
 const GET_REDIRECT_URI = gql`
   query Login($email: String!) {
-    signupGoogle(email: $email)
+    googleUri(email: $email)
   }
 `;
 
@@ -135,7 +136,10 @@ class LoginPage extends React.Component<Props, LoginState> {
               return loadingBody;
             }
             return (
-              <Redirect url={data.signupGoogle} />
+              <React.Fragment>
+                <Redirect url={data.googleUri} />
+                <CircularProgress size={100} />
+              </React.Fragment>
             );
           }}
         </Query >

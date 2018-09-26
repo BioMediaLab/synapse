@@ -11,6 +11,6 @@ export default class Redirect extends React.Component<RedirectProps> {
   }
 
   render() {
-    return <div > redirecting... </div>;
+    return <div />;
   }
 }
