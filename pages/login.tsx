@@ -4,11 +4,10 @@ import gql from "graphql-tag";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
-import TextField from '@material-ui/core/TextField';
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
-
 import { withStyles, createStyles } from "@material-ui/core/styles";
-// import Router from 'next/router'
+
+import Redirect from "../components/Redirect";
 
 const GET_REDIRECT_URI = gql`
   query Login($email: String!) {
@@ -59,21 +58,6 @@ interface LoginState {
   emailEntry: string,
   emailEntered: boolean,
   moveOnReady: boolean,
-}
-
-interface ContinueProps {
-  url: string
-}
-
-class Continue extends React.Component<ContinueProps> {
-  componentWillMount() {
-    console.log("doing redirect,", this.props.url);
-    location.href = this.props.url;
-  }
-
-  render() {
-    return <div > redirecting... </div>;
-  }
 }
 
 
@@ -151,7 +135,7 @@ class LoginPage extends React.Component<Props, LoginState> {
               return loadingBody;
             }
             return (
-              <Continue url={data.signupGoogle} />
+              <Redirect url={data.signupGoogle} />
             );
           }}
         </Query >

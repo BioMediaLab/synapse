@@ -4,4 +4,5 @@ module.exports = routes()
   .add("/", "index")
   .add("users", "/user/:id")
   .add("courses", "/courses", "users")
-  .add("login");
+  .add("login")
+  .add("google", "/auth/google", "finishLogin");
