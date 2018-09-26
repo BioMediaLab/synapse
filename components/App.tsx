@@ -15,6 +15,7 @@ import MailIcon from "@material-ui/icons/Mail";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import Drawer from "@material-ui/core/Drawer";
+import Link from "next/link";
 import CourseList from "./CourseList";
 
 const drawerWidth = 300;
@@ -57,6 +58,9 @@ const styles = theme =>
       display: "flex",
       alignItems: "center",
       justifyContent: "center"
+    },
+    mainIcon: {
+      marginTop: "0.5rem",
     },
     inputRoot: {
       color: "inherit",
@@ -101,6 +105,7 @@ type Props = {
     menuButton: string;
     search: string;
     searchIcon: string;
+    mainIcon: string;
     inputRoot: string;
     inputInput: string;
     sectionDesktop: string;
@@ -202,7 +207,11 @@ class PrimarySearchAppBar extends React.Component<Props, State> {
               <MenuIcon />
             </IconButton>
 
-            <img src="/static/synapse@2x.png" alt="Synapse" height="25px" />
+            <Link href="/">
+              <a className={classes.mainIcon}>
+                <img src="/static/synapse@2x.png" alt="Synapse" height="25px" />
+              </a>
+            </Link>
             <div className={classes.search}>
               <div className={classes.searchIcon}>
                 <SearchIcon />
