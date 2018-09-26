@@ -1,4 +1,5 @@
 import { google } from "googleapis";
+import { OAuth2Client } from "google-auth-library";
 import { GraphQLServer } from "graphql-yoga";
 import { prisma, Course } from "../generated/prisma";
 
@@ -21,29 +22,49 @@ import { prisma, Course } from "../generated/prisma";
   ),
 );*/
 
+const getGoogleApiClient = (): OAuth2Client => {
+    const oauth2Client = new google.auth.OAuth2(
+        "224734824930-79g0hpfj9fvdatefrp32sj0cj49qbign.apps.googleusercontent.com",
+        "CESTwV2H9hMfP_nd5pv698Zj",
+        "http://localhost:3000/auth/google",
+    );
+    google.options({ auth: oauth2Client });
+    return oauth2Client;
+};
+
 // A map of functions which return data for the schema.
 const resolvers = {
     Query: {
-        confirmSignupGoogle: async (_, args): Promise<string> => {
-            const { token } = args;
-            return "test";
+        confirmSignupGoogle: async (_, args): Promise<any> => {
+            const oauth2Client = getGoogleApiClient();
+            const { tokens } = await oauth2Client.getToken(args.token);
+            oauth2Client.setCredentials(tokens);
+            const plusClient = google.plus({
+                version: "v1",
+            });
+            const me = await plusClient.people.get({
+                userId: "me",
+            });
+            console.log(me);
+            return {
+                firstLogin: true,
+                jwt: "test2",
+                uid: "test",
+            };
         },
         courses: async (root, args, context): Promise<any[]> => {
             const courses = await prisma.courses();
             return courses;
         },
-        signupGoogle: async (_, args): Promise<string> => {
+        googleUri: async (_, args): Promise<string> => {
             if (!args.email.includes("maine.edu")) {
                 throw new Error("maine only!");
             }
-            const oauth2Client = new google.auth.OAuth2(
-                "850899037915-mntha2odh9sfftht3qp11ifo9nio6hit.apps.googleusercontent.com",
-                "jebZ-wZ92SIdNVwGbhgSGRRh",
-                "http://localhost:3000/auth/google",
-            );
-
-            const scopes = ["https://www.googleapis.com/auth/plus.me"];
-
+            const oauth2Client = getGoogleApiClient();
+            const scopes = [
+                "https://www.googleapis.com/auth/plus.me",
+                "https://www.googleapis.com/auth/userinfo.email",
+            ];
             const url = oauth2Client.generateAuthUrl({
                 // 'online' (default) or 'offline' (gets refresh_token)
                 access_type: "online",
@@ -63,16 +84,17 @@ const resolvers = {
 const typeDefs = `
   scalar DateTime
 
-  type Session {
-    firstLogin: Boolean,
-    uid: String,
-  }
-
   type Query {
     users: [String],
-    signupGoogle(email: String!): String!,
+    googleUri(email: String!): String!,
     confirmSignupGoogle(token: String!): Session!,
     courses: [Course]!
+  }
+
+  type Session {
+    firstLogin: Boolean,
+    uid: String!,
+    jwt: String!,
   }
 
   type User {

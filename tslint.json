@@ -8,6 +8,11 @@
     "semicolon": [
       true,
       "always"
+    ],
+    "indent": [
+      true,
+      "spaces",
+      2
     ]
   },
   "rulesDirectory": []
