@@ -23,38 +23,41 @@ import { prisma, Course } from "../generated/prisma";
 
 // A map of functions which return data for the schema.
 const resolvers = {
-  Query: {
-    signupGoogle: async (_, args): Promise<string> => {
-      if (!args.email.includes("maine.edu")) {
-        throw new Error("maine only!");
-      }
-      const oauth2Client = new google.auth.OAuth2(
-        "850899037915-mntha2odh9sfftht3qp11ifo9nio6hit.apps.googleusercontent.com",
-        "jebZ-wZ92SIdNVwGbhgSGRRh",
-        "http://localhost:3000/auth/google"
-      );
+    Query: {
+        confirmSignupGoogle: async (_, args): Promise<string> => {
+            const { token } = args;
+            return "test";
+        },
+        courses: async (root, args, context): Promise<any[]> => {
+            const courses = await prisma.courses();
+            return courses;
+        },
+        signupGoogle: async (_, args): Promise<string> => {
+            if (!args.email.includes("maine.edu")) {
+                throw new Error("maine only!");
+            }
+            const oauth2Client = new google.auth.OAuth2(
+                "850899037915-mntha2odh9sfftht3qp11ifo9nio6hit.apps.googleusercontent.com",
+                "jebZ-wZ92SIdNVwGbhgSGRRh",
+                "http://localhost:3000/auth/google",
+            );
 
-      const scopes = ["https://www.googleapis.com/auth/plus.me"];
+            const scopes = ["https://www.googleapis.com/auth/plus.me"];
 
-      const url = oauth2Client.generateAuthUrl({
-        // 'online' (default) or 'offline' (gets refresh_token)
-        access_type: "online",
+            const url = oauth2Client.generateAuthUrl({
+                // 'online' (default) or 'offline' (gets refresh_token)
+                access_type: "online",
 
-        // If you only need one scope you can pass it as a string
-        scope: scopes
-      });
+                scope: scopes,
+            });
 
-      return url;
+            return url;
+        },
+        users: async (root, args, context): Promise<string[]> => {
+            const users = await prisma.users();
+            return users.map((user): string => user.name);
+        },
     },
-    users: async (root, args, context): Promise<string[]> => {
-      const users = await prisma.users();
-      return users.map((user): string => user.name);
-    },
-    courses: async (root, args, context): Promise<any[]> => {
-      const courses = await prisma.courses();
-      return courses;
-    }
-  }
 };
 
 const typeDefs = `
@@ -94,12 +97,12 @@ const typeDefs = `
 `;
 
 const server = new GraphQLServer({
-  resolvers,
-  typeDefs
+    resolvers,
+    typeDefs,
 });
 
 server.express.get("/auth/connect");
 
 server.start().then(() => {
-  console.log("server ready");
+    console.log("server ready");
 });
