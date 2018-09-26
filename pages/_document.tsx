@@ -2,7 +2,11 @@ import React from "react";
 import Document, { Head, Main, NextScript } from "next/document";
 import flush from "styled-jsx/server";
 
-class MyDocument extends Document {
+interface MyDocumentProps {
+  pageContext: any
+}
+
+class MyDocument extends Document<MyDocumentProps> {
   render() {
     const { pageContext } = this.props;
 
@@ -36,7 +40,7 @@ class MyDocument extends Document {
   }
 }
 
-MyDocument.getInitialProps = ctx => {
+MyDocument.getInitialProps = (ctx): any => {
   // Resolution order
   //
   // On the server:
@@ -62,8 +66,9 @@ MyDocument.getInitialProps = ctx => {
   // Render app and page and get the context of the page with collected side effects.
   let pageContext;
   const page = ctx.renderPage(Component => {
-    type WrappedComponentProps = {
+    interface WrappedComponentProps {
       pageContext: any,
+      url: any,
     };
 
     const WrappedComponent: React.SFC<WrappedComponentProps> = props => {

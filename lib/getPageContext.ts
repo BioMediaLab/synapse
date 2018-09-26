@@ -1,10 +1,27 @@
-import { SheetsRegistry } from "jss";
+import { SheetsRegistry, GenerateClassName } from "jss";
 import {
   createMuiTheme,
-  createGenerateClassName
+  createGenerateClassName,
+  Theme,
 } from "@material-ui/core/styles";
 import blue from "@material-ui/core/colors/blue";
 import pink from "@material-ui/core/colors/pink";
+
+interface Proc {
+  browser: boolean,
+}
+declare var process: Proc;
+
+export interface PageContext {
+  theme: Theme,
+  sheetsManager: Map<any, any>,
+  sheetsRegistry: SheetsRegistry,
+  generateClassName: GenerateClassName,
+}
+interface Global {
+  __INIT_MATERIAL_UI__?: PageContext,
+}
+declare var global: Global;
 
 // A theme with custom primary and secondary color.
 // It's optional.
@@ -26,7 +43,8 @@ const theme = createMuiTheme({
   }
 });
 
-function createPageContext() {
+
+function createPageContext(): PageContext {
   return {
     theme,
     // This is needed in order to deduplicate the injection of CSS in the page.
@@ -38,7 +56,7 @@ function createPageContext() {
   };
 }
 
-export default function getPageContext() {
+export default function getPageContext(): PageContext {
   // Make sure to create a new context for every server-side request so that data
   // isn't shared between connections (which would be bad).
   if (!process.browser) {

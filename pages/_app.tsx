@@ -3,17 +3,25 @@ import App, { Container } from "next/app";
 import { MuiThemeProvider } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import JssProvider from "react-jss/lib/JssProvider";
-import getPageContext from "../lib/getPageContext";
+import getPageContext, { PageContext } from "../lib/getPageContext";
 import withApolloClient from "../lib/withApolloClient";
 import { ApolloProvider } from "react-apollo";
 
-class MyApp extends App {
+interface MyAppProps {
+  Component: any,
+  pageProps: any,
+  apolloClient: any,
+}
+
+interface MyApp {
+  pageContext: PageContext,
+}
+
+class MyApp extends App<MyAppProps> {
   constructor(props) {
     super(props);
     this.pageContext = getPageContext();
   }
-
-  pageContext = null;
 
   componentDidMount() {
     // Remove the server-side injected CSS.

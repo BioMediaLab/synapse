@@ -4,7 +4,7 @@ import gql from "graphql-tag";
 import App from "../components/App";
 import ErrorMessage from "../components/ErrorMessage";
 
-type Props = {
+interface Props {
   data: {
     loading: boolean;
     error: string;

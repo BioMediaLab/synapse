@@ -4,7 +4,7 @@ export default ({ message }) => (
   <App>
     <aside>
       {message}
-      <style jsx>{`
+      <style>{`
         aside {
           padding: 1.5em;
           font-size: 14px;
