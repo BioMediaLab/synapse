@@ -113,6 +113,7 @@ type Props = {
     drawerPaper: string;
     toolbar: string;
   };
+  hasSession: boolean | string;
 };
 
 type State = {
@@ -195,84 +196,92 @@ class PrimarySearchAppBar extends React.Component<Props, State> {
       </Menu>
     );
 
-    return (
-      <div className={classes.root}>
-        <AppBar position="absolute" className={classes.appBar}>
-          <Toolbar>
-            <IconButton
-              className={classes.menuButton}
-              color="inherit"
-              aria-label="Open drawer"
-            >
-              <MenuIcon />
-            </IconButton>
+    if (this.props.hasSession) {
+      return (
+        <div className={classes.root}>
+          <AppBar position="absolute" className={classes.appBar}>
+            <Toolbar>
+              <IconButton
+                className={classes.menuButton}
+                color="inherit"
+                aria-label="Open drawer"
+              >
+                <MenuIcon />
+              </IconButton>
 
-            <Link href="/">
-              <a className={classes.mainIcon}>
-                <img src="/static/synapse@2x.png" alt="Synapse" height="25px" />
-              </a>
-            </Link>
-            <div className={classes.search}>
-              <div className={classes.searchIcon}>
-                <SearchIcon />
+              <Link href="/">
+                <a className={classes.mainIcon}>
+                  <img src="/static/synapse@2x.png" alt="Synapse" height="25px" />
+                </a>
+              </Link>
+              <div className={classes.search}>
+                <div className={classes.searchIcon}>
+                  <SearchIcon />
+                </div>
+                <Input
+                  placeholder="Search…"
+                  disableUnderline
+                  classes={{
+                    root: classes.inputRoot,
+                    input: classes.inputInput
+                  }}
+                />
               </div>
-              <Input
-                placeholder="Search…"
-                disableUnderline
-                classes={{
-                  root: classes.inputRoot,
-                  input: classes.inputInput
-                }}
-              />
-            </div>
-            <div className={classes.grow} />
-            <div className={classes.sectionDesktop}>
-              <IconButton color="inherit">
-                <Badge badgeContent={4} color="secondary">
-                  <MailIcon />
-                </Badge>
-              </IconButton>
-              <IconButton color="inherit">
-                <Badge badgeContent={17} color="secondary">
-                  <NotificationsIcon />
-                </Badge>
-              </IconButton>
-              <IconButton
-                aria-owns={isMenuOpen ? "material-appbar" : null}
-                aria-haspopup="true"
-                onClick={this.handleProfileMenuOpen}
-                color="inherit"
-              >
-                <AccountCircle />
-              </IconButton>
-            </div>
-            <div className={classes.sectionMobile}>
-              <IconButton
-                aria-haspopup="true"
-                onClick={this.handleMobileMenuOpen}
-                color="inherit"
-              >
-                <MoreIcon />
-              </IconButton>
-            </div>
-          </Toolbar>
-        </AppBar>
+              <div className={classes.grow} />
+              <div className={classes.sectionDesktop}>
+                <IconButton color="inherit">
+                  <Badge badgeContent={4} color="secondary">
+                    <MailIcon />
+                  </Badge>
+                </IconButton>
+                <IconButton color="inherit">
+                  <Badge badgeContent={17} color="secondary">
+                    <NotificationsIcon />
+                  </Badge>
+                </IconButton>
+                <IconButton
+                  aria-owns={isMenuOpen ? "material-appbar" : null}
+                  aria-haspopup="true"
+                  onClick={this.handleProfileMenuOpen}
+                  color="inherit"
+                >
+                  <AccountCircle />
+                </IconButton>
+              </div>
+              <div className={classes.sectionMobile}>
+                <IconButton
+                  aria-haspopup="true"
+                  onClick={this.handleMobileMenuOpen}
+                  color="inherit"
+                >
+                  <MoreIcon />
+                </IconButton>
+              </div>
+            </Toolbar>
+          </AppBar>
 
-        {renderMenu}
-        {renderMobileMenu}
+          {renderMenu}
+          {renderMobileMenu}
 
-        <Drawer
-          variant="permanent"
-          classes={{
-            paper: classes.drawerPaper
-          }}
-        >
-          <div className={classes.toolbar} />
-          <CourseList />
-        </Drawer>
-        {this.props.children}
-      </div>
-    );
+          <Drawer
+            variant="permanent"
+            classes={{
+              paper: classes.drawerPaper
+            }}
+          >
+            <div className={classes.toolbar} />
+            <CourseList />
+          </Drawer>
+          {this.props.children}
+        </div>
+      );
+    } else {
+      return (
+        <React.Fragment>
+          {this.props.children}
+        </React.Fragment>
+      )
+    }
   }
 }
 

@@ -9,7 +9,9 @@ interface Props {
 
 const GET_USER = gql`
   query user($user_id: String!) {
-    user(id: $user_id)
+    user(id: $user_id) {
+      email
+    }
   }
 `;
 
