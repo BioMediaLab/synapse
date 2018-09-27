@@ -1,12 +1,15 @@
 import { google } from "googleapis";
 import { OAuth2Client } from "google-auth-library";
+
 import { prisma } from "../../generated/prisma";
+import { createJWT } from "../auth";
+import googleConfig from "../config/google";
 
 const getGoogleApiClient = (): OAuth2Client => {
   const oauth2Client = new google.auth.OAuth2(
-    "224734824930-79g0hpfj9fvdatefrp32sj0cj49qbign.apps.googleusercontent.com",
-    "CESTwV2H9hMfP_nd5pv698Zj",
-    "http://localhost:3000/auth/google",
+    googleConfig.appId,
+    googleConfig.appSecret,
+    googleConfig.appRedirect,
   );
   google.options({ auth: oauth2Client });
   return oauth2Client;
@@ -22,14 +25,43 @@ export const resolvers = {
       const plusClient = google.plus({
         version: "v1",
       });
-      const me = await plusClient.people.get({
+
+      // fetch the data from Google Plus API
+      const { data: me } = await plusClient.people.get({
         userId: "me",
       });
       console.log(me);
+      const email: string = me.emails[0].value;
+      const name: string = me.displayName;
+      const nickname = me.nickname;
+
+      // does the user already have an account?
+      const accounts = await prisma.users({ where: { email } });
+
+      let firstLogin = true;
+      let id: string;
+      if (accounts.length === 0) {
+        // create a new account
+        const newUser = await prisma.createUser({
+          email,
+          name,
+          nickname,
+        });
+        id = newUser.id;
+      } else if (accounts.length === 1) {
+        // retrieve an existing account
+        const [account] = accounts;
+        firstLogin = false;
+        id = account.id;
+      } else {
+        throw new Error("deplucate email");
+      }
+
+      const jwt = await createJWT(id);
       return {
-        firstLogin: true,
-        jwt: "test2",
-        uid: "test",
+        firstLogin,
+        id,
+        jwt,
       };
     },
     courses: async (root, args, context): Promise<any[]> => {
@@ -73,7 +105,7 @@ export const typeDefs = `
 
   type Session {
     firstLogin: Boolean,
-    uid: String!,
+    id: String!,
     jwt: String!,
   }
 
