@@ -5,4 +5,5 @@ module.exports = routes()
   .add("home", "/home", "index")
   .add("users", "/users/:id")
   .add("courses", "/courses", "users")
-  .add("login");
+  .add("login")
+  .add("google", "/auth/google", "finishLogin");
