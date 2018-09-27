@@ -86,8 +86,8 @@ export const resolvers = {
 
       return url;
     },
-    user: async (root, args): Promise<any> => {
-      return prisma.user({ id: args.id });
+    user: async (root, args) => {
+      return await prisma.user({ id: args.id });
     },
     users: async (root, args, context): Promise<string[]> => {
       const users = await prisma.users();
