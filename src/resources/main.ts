@@ -9,7 +9,7 @@ const getGoogleApiClient = (): OAuth2Client => {
   const oauth2Client = new google.auth.OAuth2(
     googleConfig.appId,
     googleConfig.appSecret,
-    googleConfig.appRedirect,
+    googleConfig.appRedirect
   );
   google.options({ auth: oauth2Client });
   return oauth2Client;
@@ -23,12 +23,12 @@ export const resolvers = {
       const { tokens } = await oauth2Client.getToken(args.token);
       oauth2Client.setCredentials(tokens);
       const plusClient = google.plus({
-        version: "v1",
+        version: "v1"
       });
 
       // fetch the data from Google Plus API
       const { data: me } = await plusClient.people.get({
-        userId: "me",
+        userId: "me"
       });
       console.log(me);
       const email: string = me.emails[0].value;
@@ -45,7 +45,7 @@ export const resolvers = {
         const newUser = await prisma.createUser({
           email,
           name,
-          nickname,
+          nickname
         });
         id = newUser.id;
       } else if (accounts.length === 1) {
@@ -61,7 +61,7 @@ export const resolvers = {
       return {
         firstLogin,
         id,
-        jwt,
+        jwt
       };
     },
     courses: async (root, args, context): Promise<any[]> => {
@@ -74,16 +74,19 @@ export const resolvers = {
       const oauth2Client = getGoogleApiClient();
       const scopes = [
         "https://www.googleapis.com/auth/plus.me",
-        "https://www.googleapis.com/auth/userinfo.email",
+        "https://www.googleapis.com/auth/userinfo.email"
       ];
       const url = oauth2Client.generateAuthUrl({
         // 'online' (default) or 'offline' (gets refresh_token)
         access_type: "online",
 
-        scope: scopes,
+        scope: scopes
       });
 
       return url;
+    },
+    user: async (root, args) => {
+      return await prisma.user({ id: args.id });
     },
     users: async (root, args, context): Promise<string[]> => {
       const users = await prisma.users();
@@ -100,6 +103,7 @@ export const typeDefs = `
   scalar DateTime
 
   type Query {
+    user(id: String!): User!,
     users: [String],
     user(id: String!): User,
     googleUri(email: String!): String!,
