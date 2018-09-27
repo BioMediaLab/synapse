@@ -24,7 +24,7 @@ const UserProfile: React.SFC<Props> = ({ user_id }) => {
         if (loading) return <div>Loading...</div>;
         if (error) return <ErrorMessage message={error.message} />;
 
-        return <div id="kramer">{user.name}</div>;
+        return <div>{user.name}</div>;
       }}
     </Query>
   );

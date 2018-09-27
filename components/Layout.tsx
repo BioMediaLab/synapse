@@ -23,7 +23,11 @@ const drawerWidth = 300;
 const styles = theme =>
   createStyles({
     root: {
-      width: "100%"
+      flexGrow: 1,
+      zIndex: 1,
+      overflow: "hidden",
+      position: "relative",
+      display: "flex"
     },
     appBar: {
       zIndex: theme.zIndex.drawer + 1
@@ -60,7 +64,7 @@ const styles = theme =>
       justifyContent: "center"
     },
     mainIcon: {
-      marginTop: "0.5rem",
+      marginTop: "0.5rem"
     },
     inputRoot: {
       color: "inherit",
@@ -94,6 +98,12 @@ const styles = theme =>
       width: drawerWidth,
       height: "100vh"
     },
+    content: {
+      flexGrow: 1,
+      backgroundColor: theme.palette.background.default,
+      padding: theme.spacing.unit * 3,
+      minWidth: 0 // So the Typography noWrap works
+    },
     toolbar: theme.mixins.toolbar
   });
 
@@ -112,6 +122,7 @@ type Props = {
     sectionMobile: string;
     drawerPaper: string;
     toolbar: string;
+    content: string;
   };
 };
 
@@ -270,7 +281,10 @@ class PrimarySearchAppBar extends React.Component<Props, State> {
           <div className={classes.toolbar} />
           <CourseList />
         </Drawer>
-        {this.props.children}
+        <main className={classes.content}>
+          <div className={classes.toolbar} />
+          {this.props.children}
+        </main>
       </div>
     );
   }
