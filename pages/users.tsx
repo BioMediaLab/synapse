@@ -9,18 +9,22 @@ interface Props {
 
 const GET_USER = gql`
   query user($user_id: String!) {
-    user(id: $user_id)
+    user(id: $user_id) {
+      id
+      name
+      email
+    }
   }
 `;
 
 const UserProfile: React.SFC<Props> = ({ user_id }) => {
   return (
     <Query query={GET_USER} variables={{ user_id }}>
-      {({ loading, error, data: user }) => {
+      {({ loading, error, data: { user } }) => {
         if (loading) return <div>Loading...</div>;
         if (error) return <ErrorMessage message={error.message} />;
 
-        return <div>{user.name}</div>;
+        return <div id="kramer">{user.name}</div>;
       }}
     </Query>
   );
