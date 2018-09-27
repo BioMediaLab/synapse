@@ -98,7 +98,6 @@ export const typeDefs = `
   scalar DateTime
 
   type Query {
-    user(id: String!): User!,
     users: [String],
     user(id: String!): User,
     googleUri(email: String!): String!,
