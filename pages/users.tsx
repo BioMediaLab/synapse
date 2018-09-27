@@ -1,35 +1,33 @@
 import React from "react";
-import { graphql } from "react-apollo";
+import { Query } from "react-apollo";
 import gql from "graphql-tag";
-import App from "../components/App";
 import ErrorMessage from "../components/ErrorMessage";
 
 interface Props {
-  data: {
-    loading: boolean;
-    error: string;
-    users: [string];
-  };
-};
-
-const UserProfile: React.SFC<Props> = ({ data: { loading, error, users } }) => {
-  if (error)
-    return <ErrorMessage message={error}>Error loading user.</ErrorMessage>;
-  if (loading) return <App>Loading...</App>;
-
-  return (
-    <App>
-      {users.map(user => (
-        <li key={user}>{user}</li>
-      ))}
-    </App>
-  );
-};
+  user_id: object;
+}
 
 const GET_USER = gql`
-  query {
-    users
+  query user($user_id: String!) {
+    user(id: $user_id)
   }
 `;
 
-export default graphql(GET_USER)(UserProfile as any);
+const UserProfile: React.SFC<Props> = ({ user_id }) => {
+  return (
+    <Query query={GET_USER} variables={{ user_id }}>
+      {({ loading, error, data: user }) => {
+        if (loading) return <div>Loading...</div>;
+        if (error) return <ErrorMessage message={error.message} />;
+
+        return <div>{user.name}</div>;
+      }}
+    </Query>
+  );
+};
+
+UserProfile.getInitialProps = async ({ query }) => {
+  return { user_id: query.id };
+};
+
+export default UserProfile;

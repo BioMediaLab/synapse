@@ -1,7 +1,5 @@
-import App from "../components/App";
-
 export default ({ message }) => (
-  <App>
+  <div>
     <aside>
       {message}
       <style>{`
@@ -13,5 +11,5 @@ export default ({ message }) => (
         }
       `}</style>
     </aside>
-  </App>
+  </div>
 );

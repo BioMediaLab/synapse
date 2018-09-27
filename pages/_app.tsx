@@ -6,18 +6,29 @@ import JssProvider from "react-jss/lib/JssProvider";
 import getPageContext, { PageContext } from "../lib/getPageContext";
 import withApolloClient from "../lib/withApolloClient";
 import { ApolloProvider } from "react-apollo";
+import Layout from "../components/Layout";
 
 interface MyAppProps {
-  Component: any,
-  pageProps: any,
-  apolloClient: any,
+  Component: any;
+  pageProps: any;
+  apolloClient: any;
 }
 
 interface MyApp {
-  pageContext: PageContext,
+  pageContext: PageContext;
 }
 
 class MyApp extends App<MyAppProps> {
+  static async getInitialProps({ Component, router, ctx }) {
+    let pageProps = {};
+
+    if (Component.getInitialProps) {
+      pageProps = await Component.getInitialProps(ctx);
+    }
+
+    return { pageProps };
+  }
+
   constructor(props) {
     super(props);
     this.pageContext = getPageContext();
@@ -51,7 +62,9 @@ class MyApp extends App<MyAppProps> {
               <CssBaseline />
               {/* Pass pageContext to the _document though the renderPage enhancer
                 to render collected styles on server side. */}
-              <Component pageContext={this.pageContext} {...pageProps} />
+              <Layout>
+                <Component pageContext={this.pageContext} {...pageProps} />
+              </Layout>
             </MuiThemeProvider>
           </JssProvider>
         </ApolloProvider>

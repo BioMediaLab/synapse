@@ -5,13 +5,13 @@ import { getDataFromTree } from "react-apollo";
 import { ApolloClient } from "apollo-boost";
 
 interface Proc {
-  browser: boolean,
+  browser: boolean;
 }
 declare var process: Proc;
 
 export default App => {
   interface Apollo extends React.Component {
-    apolloClient: ApolloClient<any>
+    apolloClient: ApolloClient<any>;
   }
 
   class Apollo extends React.Component {
@@ -67,7 +67,7 @@ export default App => {
     render() {
       return <App {...this.props} apolloClient={this.apolloClient} />;
     }
-  };
+  }
 
   return Apollo;
 };
