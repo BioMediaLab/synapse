@@ -10,11 +10,6 @@ interface Course {
 };
 
 interface CourseListProps {
-  loading: boolean;
-  error: any;
-  data: {
-    courses: Course[];
-  }
 }
 
 const GET_COURSES = gql`
