@@ -1,15 +1,16 @@
 import React from "react";
-import Router from "../routes";
+import Router from "../Router";
 import gql from "graphql-tag";
 import { ApolloConsumer, WithApolloClient } from 'react-apollo';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { withStyles, createStyles } from '@material-ui/core/styles';
+import { getSession, setSession } from "../lib/handleSessions";
 
 const GET_JWT_QUERY = gql`
   query Complete($code: String!) {
     confirmSignupGoogle(token: $code) {
       firstLogin,
-      uid,
+      id,
       jwt,
     }
   }
@@ -22,13 +23,15 @@ class Fetcher extends React.Component<WithApolloClient<any>> {
       throw new Error("no google auth code found");
     }
     const googleAuthCode = myGetParams.get("code");
-    console.log("time to redirect");
+
     this.props.client.query({
       query: GET_JWT_QUERY,
       variables: { code: googleAuthCode },
-    }).then(({ data }) => {
-      console.log(data.jwt);
-      Router.pushRoute("/");
+    }).then(({ data: { confirmSignupGoogle } }) => {
+      console.log("time to redirect");
+      console.log(confirmSignupGoogle);
+      setSession(confirmSignupGoogle.jwt);
+      window.location = `${window.location.protocol}//${window.location.host}/` as any;
     })
   }
 
