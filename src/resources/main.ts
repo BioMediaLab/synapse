@@ -65,8 +65,7 @@ export const resolvers = {
       };
     },
     courses: async (root, args, context): Promise<any[]> => {
-      const courses = await prisma.courses();
-      return courses;
+      return prisma.user({ id: context.id }).courses();
     },
     googleUri: async (_, args): Promise<string> => {
       if (!args.email.includes("maine.edu")) {
@@ -90,6 +89,10 @@ export const resolvers = {
       const users = await prisma.users();
       return users.map((user): string => user.name);
     },
+    user: async (_, args, context): Promise<any> => {
+      const accounts = await prisma.users({ where: { id: args.id } });
+      return accounts[0];
+    },
   },
 };
 
@@ -98,6 +101,7 @@ export const typeDefs = `
 
   type Query {
     users: [String],
+    user(id: String!): User,
     googleUri(email: String!): String!,
     confirmSignupGoogle(token: String!): Session!,
     courses: [Course]!
