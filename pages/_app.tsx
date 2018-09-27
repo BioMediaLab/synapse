@@ -12,6 +12,7 @@ interface MyAppProps {
   Component: any;
   pageProps: any;
   apolloClient: any;
+  hasSession: boolean | string;
 }
 
 interface MyApp {
@@ -62,7 +63,7 @@ class MyApp extends App<MyAppProps> {
               <CssBaseline />
               {/* Pass pageContext to the _document though the renderPage enhancer
                 to render collected styles on server side. */}
-              <Layout>
+              <Layout hasSession={this.props.hasSession}>
                 <Component pageContext={this.pageContext} {...pageProps} />
               </Layout>
             </MuiThemeProvider>

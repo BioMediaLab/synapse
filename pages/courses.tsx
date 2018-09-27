@@ -1,7 +1,6 @@
 import React from "react";
 import { graphql } from "react-apollo";
 import gql from "graphql-tag";
-import App from "../components/App";
 import ErrorMessage from "../components/ErrorMessage";
 
 type Props = {
@@ -13,11 +12,8 @@ type Props = {
 };
 
 const CoursePage: React.SFC<Props> = ({ data: { loading, error, course } }) => {
-  if (error)
-    return <ErrorMessage message={error}>Error loading user.</ErrorMessage>;
-  if (loading) return <App>Loading...</App>;
+  return <ErrorMessage message={error}>Error loading user.</ErrorMessage>;
 
-  return <App>{course.name}</App>;
 };
 
 const GET_COURSE = gql`

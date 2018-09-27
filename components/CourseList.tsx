@@ -4,10 +4,14 @@ import gql from "graphql-tag";
 import ErrorMessage from "../components/ErrorMessage";
 import CourseListItem from "./CourseListItem";
 
-type Course = {
+interface Course {
   id: string;
   name: string;
 };
+
+interface CourseListProps {
+}
+
 const GET_COURSES = gql`
   {
     courses {
@@ -17,7 +21,7 @@ const GET_COURSES = gql`
   }
 `;
 
-const CourseList = () => (
+const CourseList: React.SFC<CourseListProps> = () => (
   <Query query={GET_COURSES}>
     {({ loading, error, data: { courses } }) => {
       if (loading) return <div>Loading...</div>;
