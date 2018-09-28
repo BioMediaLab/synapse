@@ -2,6 +2,9 @@ import BrowserCookies from "js-cookie";
 import cookieParse from "cookie";
 
 export const getSessionCookie = (ctx): boolean | string => {
+  if (!ctx.ctx) {
+    return false;
+  }
   if (ctx.ctx.req) {
     // we are on the server
     const { req } = ctx.ctx;
@@ -40,10 +43,10 @@ const redirectServer = (ctx) => {
 };
 
 const redirectClient = () => {
-  const pathMatch = new RegExp("/auth/google|/login|/finishLogin");
-  if (!pathMatch.test(window.location.pathname)) {
-    window.location = `${window.location.protocol}//${window.location.host}/login` as any;
-  }
+  //const pathMatch = new RegExp("/auth/google|/login|/finishLogin");
+  //if (!pathMatch.test(window.location.pathname)) {
+  window.location = `${window.location.protocol}//${window.location.host}/login` as any;
+  //}
 }
 
 export const doWeRedirect = (ctx): void => {
@@ -66,5 +69,6 @@ export const getSessionFrontend = (): string => {
 
 export const destroySessionFrontend = () => {
   BrowserCookies.remove("session");
+  redirectClient();
 }
 
