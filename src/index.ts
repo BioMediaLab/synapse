@@ -2,12 +2,14 @@ import { GraphQLServer } from "graphql-yoga";
 import { resolvers, typeDefs } from "./resources/main";
 
 const server = new GraphQLServer({
-    resolvers,
-    typeDefs,
+  resolvers,
+  typeDefs,
 });
 
-server.start({
+server
+  .start({
     port: 4000,
-}).then(() => {
+  })
+  .then(() => {
     console.log("server ready");
-});
+  });
