@@ -28,32 +28,32 @@ const styles = theme =>
       zIndex: 1,
       overflow: "hidden",
       position: "relative",
-      display: "flex"
+      display: "flex",
     },
     appBar: {
-      zIndex: theme.zIndex.drawer + 1
+      zIndex: theme.zIndex.drawer + 1,
     },
     grow: {
-      flexGrow: 1
+      flexGrow: 1,
     },
     menuButton: {
       marginLeft: -12,
-      marginRight: 20
+      marginRight: 20,
     },
     search: {
       position: "relative",
       borderRadius: theme.shape.borderRadius,
       backgroundColor: fade(theme.palette.common.white, 0.15),
       "&:hover": {
-        backgroundColor: fade(theme.palette.common.white, 0.25)
+        backgroundColor: fade(theme.palette.common.white, 0.25),
       },
       marginRight: theme.spacing.unit * 2,
       marginLeft: 0,
       width: "100%",
       [theme.breakpoints.up("sm")]: {
         marginLeft: theme.spacing.unit * 3,
-        width: "auto"
-      }
+        width: "auto",
+      },
     },
     searchIcon: {
       width: theme.spacing.unit * 9,
@@ -62,14 +62,14 @@ const styles = theme =>
       pointerEvents: "none",
       display: "flex",
       alignItems: "center",
-      justifyContent: "center"
+      justifyContent: "center",
     },
     mainIcon: {
-      marginTop: "0.5rem"
+      marginTop: "0.5rem",
     },
     inputRoot: {
       color: "inherit",
-      width: "100%"
+      width: "100%",
     },
     inputInput: {
       paddingTop: theme.spacing.unit,
@@ -79,33 +79,33 @@ const styles = theme =>
       transition: theme.transitions.create("width"),
       width: "100%",
       [theme.breakpoints.up("md")]: {
-        width: 200
-      }
+        width: 200,
+      },
     },
     sectionDesktop: {
       display: "none",
       [theme.breakpoints.up("md")]: {
-        display: "flex"
-      }
+        display: "flex",
+      },
     },
     sectionMobile: {
       display: "flex",
       [theme.breakpoints.up("md")]: {
-        display: "none"
-      }
+        display: "none",
+      },
     },
     drawerPaper: {
       position: "relative",
       width: drawerWidth,
-      height: "100vh"
+      height: "100vh",
     },
     content: {
       flexGrow: 1,
       backgroundColor: theme.palette.background.default,
       padding: theme.spacing.unit * 3,
-      minWidth: 0 // So the Typography noWrap works
+      minWidth: 0, // So the Typography noWrap works
     },
-    toolbar: theme.mixins.toolbar
+    toolbar: theme.mixins.toolbar,
   });
 
 type Props = {
@@ -136,7 +136,7 @@ type State = {
 class PrimarySearchAppBar extends React.Component<Props, State> {
   state = {
     anchorEl: null,
-    mobileMoreAnchorEl: null
+    mobileMoreAnchorEl: null,
   };
 
   handleProfileMenuOpen = event => {
@@ -228,7 +228,11 @@ class PrimarySearchAppBar extends React.Component<Props, State> {
 
               <Link href="/">
                 <a className={classes.mainIcon}>
-                  <img src="/static/synapse@2x.png" alt="Synapse" height="25px" />
+                  <img
+                    src="/static/synapse@2x.png"
+                    alt="Synapse"
+                    height="25px"
+                  />
                 </a>
               </Link>
               <div className={classes.search}>
@@ -240,7 +244,7 @@ class PrimarySearchAppBar extends React.Component<Props, State> {
                   disableUnderline
                   classes={{
                     root: classes.inputRoot,
-                    input: classes.inputInput
+                    input: classes.inputInput,
                   }}
                 />
               </div>
@@ -283,21 +287,20 @@ class PrimarySearchAppBar extends React.Component<Props, State> {
           <Drawer
             variant="permanent"
             classes={{
-              paper: classes.drawerPaper
+              paper: classes.drawerPaper,
             }}
           >
             <div className={classes.toolbar} />
             <CourseList />
           </Drawer>
-          {this.props.children}
+          <main className={classes.content}>
+            <div className={classes.toolbar} />
+            {this.props.children}
+          </main>
         </div>
       );
     } else {
-      return (
-        <React.Fragment>
-          {this.props.children}
-        </React.Fragment>
-      )
+      return <React.Fragment>{this.props.children}</React.Fragment>;
     }
   }
 }
