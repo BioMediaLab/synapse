@@ -2,7 +2,7 @@ import BrowserCookies from "js-cookie";
 import cookieParse from "cookie";
 
 export const getSessionCookie = (ctx): boolean | string => {
-  if (ctx.req) {
+  if (ctx.ctx.req) {
     // we are on the server
     const { req } = ctx.ctx;
     if (req.headers.cookie) {
