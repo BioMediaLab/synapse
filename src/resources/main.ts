@@ -30,7 +30,6 @@ export const resolvers = {
       const { data: me } = await plusClient.people.get({
         userId: "me",
       });
-      console.log(me);
       const email: string = me.emails[0].value;
       const name: string = me.displayName;
       const nickname = me.nickname;
@@ -74,7 +73,7 @@ export const resolvers = {
       const oauth2Client = getGoogleApiClient();
       const scopes = [
         "https://www.googleapis.com/auth/plus.me",
-        "https://www.googleapis.com/auth/userinfo.email"
+        "https://www.googleapis.com/auth/userinfo.email",
       ];
       const url = oauth2Client.generateAuthUrl({
         // 'online' (default) or 'offline' (gets refresh_token)
