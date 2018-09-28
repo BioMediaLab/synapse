@@ -17,6 +17,7 @@ import MoreIcon from "@material-ui/icons/MoreVert";
 import Drawer from "@material-ui/core/Drawer";
 import Link from "next/link";
 import CourseList from "./CourseList";
+import { destroySession } from "../lib/handleSessions";
 
 const drawerWidth = 300;
 
@@ -155,6 +156,11 @@ class PrimarySearchAppBar extends React.Component<Props, State> {
     this.setState({ mobileMoreAnchorEl: null });
   };
 
+  logout = () => {
+    this.handleMobileMenuClose();
+    destroySession();
+  }
+
   render() {
     const { anchorEl, mobileMoreAnchorEl } = this.state;
     const { classes } = this.props;
@@ -170,7 +176,7 @@ class PrimarySearchAppBar extends React.Component<Props, State> {
         onClose={this.handleMenuClose}
       >
         <MenuItem onClick={this.handleMenuClose}>Profile</MenuItem>
-        <MenuItem onClick={this.handleMenuClose}>My account</MenuItem>
+        <MenuItem onClick={this.handleMenuClose}>Log Out</MenuItem>
       </Menu>
     );
 

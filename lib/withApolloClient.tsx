@@ -1,6 +1,7 @@
 import React from "react";
 import initApollo from "./initApollo";
 import Head from "next/head";
+import Router from "next/router";
 import { getDataFromTree } from "react-apollo";
 import { ApolloClient, NormalizedCacheObject } from "apollo-boost";
 import cookieParse from "cookie";
@@ -54,6 +55,10 @@ export default App => {
         const cookie = getSessionFrontend();
         if (cookie) {
           hasSession = cookie;
+        } else {
+          // TODO: fix this
+          console.log("redirect them to /login")
+          // Router.push("/login");
         }
       }
 
