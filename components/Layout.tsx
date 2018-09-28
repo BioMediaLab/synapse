@@ -17,7 +17,7 @@ import MoreIcon from "@material-ui/icons/MoreVert";
 import Drawer from "@material-ui/core/Drawer";
 import Link from "next/link";
 import CourseList from "./CourseList";
-import { destroySession } from "../lib/handleSessions";
+// import { destroySessionFrontend } from "../lib/handleSessions";
 
 const drawerWidth = 300;
 
@@ -158,7 +158,7 @@ class PrimarySearchAppBar extends React.Component<Props, State> {
 
   logout = () => {
     this.handleMobileMenuClose();
-    destroySession();
+    // destroySessionFrontend();
   }
 
   render() {

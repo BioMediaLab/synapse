@@ -1,11 +1,9 @@
 import React from "react";
 import initApollo from "./initApollo";
 import Head from "next/head";
-import Router from "next/router";
 import { getDataFromTree } from "react-apollo";
 import { ApolloClient, NormalizedCacheObject } from "apollo-boost";
-import cookieParse from "cookie";
-import { getSessionFrontend } from "./handleSessions";
+import { doWeRedirect, getSessionCookie } from "./handleSessions";
 
 interface Proc {
   browser: boolean;
@@ -34,32 +32,11 @@ export default App => {
         appProps = await App.getInitialProps(ctx);
       }
 
-      let hasSession: boolean | string = false;
-      if (ctx.ctx && ctx.ctx.req && ctx.ctx.res) {
-        const { req, res } = ctx.ctx;
-        const path = req.url;
-        if (req.headers.cookie) {
-          const cookie = cookieParse.parse(req.headers.cookie);
-          if (cookie.session && cookie.session.length > 10) {
-            hasSession = cookie.session;
-          }
-        }
-        const pathMatch = new RegExp("/auth/google|/login|/finishLogin");
-        if (!hasSession && !pathMatch.test(path)) {
-          res.writeHead(302, {
-            Location: "/login"
-          });
-          res.end();
-        }
-      } else {
-        const cookie = getSessionFrontend();
-        if (cookie) {
-          hasSession = cookie;
-        } else {
-          // TODO: fix this
-          console.log("redirect them to /login")
-          // Router.push("/login");
-        }
+      // works on both the client and server
+      const hasSession = getSessionCookie(ctx);
+      if (!hasSession) {
+        // redirects to the login page if the user is not authenticated
+        doWeRedirect(ctx);
       }
 
       // Run all GraphQL queries in the component tree
@@ -94,7 +71,7 @@ export default App => {
       return {
         ...appProps,
         apolloState,
-        hasSession
+        hasSession,
       };
     }
 

@@ -1,10 +1,9 @@
 import React from "react";
-import Router from "../Router";
 import gql from "graphql-tag";
-import { ApolloConsumer, WithApolloClient } from 'react-apollo';
+import { ApolloConsumer } from 'react-apollo';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { withStyles, createStyles } from '@material-ui/core/styles';
-import { getSession, setSession } from "../lib/handleSessions";
+import { setSessionFrontend } from "../lib/handleSessions";
 
 const GET_JWT_QUERY = gql`
   query Complete($code: String!) {
@@ -16,11 +15,15 @@ const GET_JWT_QUERY = gql`
   }
 `;
 
-class Fetcher extends React.Component<WithApolloClient<any>> {
+// needs to be a seperate class so that it can use the apollo client
+// to make a manual query
+class Fetcher extends React.Component<any> {
   componentDidMount() {
     const myGetParams = new URLSearchParams(location.search);
     if (!myGetParams.has("code")) {
-      throw new Error("no google auth code found");
+      window.location = `${window.location.protocol}//${window.location.host}/login` as any;
+      console.warn("no google auth code found");
+      return;
     }
     const googleAuthCode = myGetParams.get("code");
 
@@ -30,7 +33,7 @@ class Fetcher extends React.Component<WithApolloClient<any>> {
     }).then(({ data: { confirmSignupGoogle } }) => {
       console.log("time to redirect");
       console.log(confirmSignupGoogle);
-      setSession(confirmSignupGoogle.jwt);
+      setSessionFrontend(confirmSignupGoogle.jwt);
       window.location = `${window.location.protocol}//${window.location.host}/` as any;
     })
   }
