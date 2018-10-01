@@ -30,10 +30,6 @@ export const resolvers = {
       const { data: me } = await plusClient.people.get({
         userId: "me",
       });
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
       const email: string = me.emails[0].value;
       const name: string = me.displayName;
       const nickname = me.nickname;
