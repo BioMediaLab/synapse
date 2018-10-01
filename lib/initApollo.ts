@@ -1,12 +1,17 @@
-import { ApolloClient, InMemoryCache, HttpLink, NormalizedCacheObject } from "apollo-boost";
+import {
+  ApolloClient,
+  InMemoryCache,
+  HttpLink,
+  NormalizedCacheObject,
+} from "apollo-boost";
 import fetch from "isomorphic-unfetch";
 
 interface Proc {
-  browser: boolean,
+  browser: boolean;
 }
 declare var process: Proc;
 interface Global {
-  fetch: any,
+  fetch: any;
 }
 declare var global: Global;
 
@@ -27,14 +32,17 @@ function create(hasSession: boolean | string, initialState?) {
     connectToDevTools: process.browser,
     ssrMode: !process.browser, // Disables forceFetch on the server (so queries are only run once)
     link: new HttpLink({
-      uri: 'http://localhost:4000/', // Server URL (must be absolute)
+      uri: "http://localhost:4000/", // Server URL (must be absolute)
       headers,
     }),
-    cache: new InMemoryCache().restore(initialState || {})
+    cache: new InMemoryCache().restore(initialState || {}),
   });
 }
 
-export default function initApollo(hasSession: boolean | string, initialState?): ApolloClient<NormalizedCacheObject> {
+export default function initApollo(
+  hasSession: boolean | string,
+  initialState?,
+): ApolloClient<NormalizedCacheObject> {
   // Make sure to create a new client for every server-side request so that data
   // isn't shared between connections (which would be bad)
   if (!process.browser) {

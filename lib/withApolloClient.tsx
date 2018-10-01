@@ -3,7 +3,7 @@ import initApollo from "./initApollo";
 import Head from "next/head";
 import { getDataFromTree } from "react-apollo";
 import { ApolloClient, NormalizedCacheObject } from "apollo-boost";
-import { doWeRedirect, getSessionCookie } from "./handleSessions";
+import { getSessionCookie } from "./handleSessions";
 
 interface Proc {
   browser: boolean;
@@ -34,10 +34,6 @@ export default App => {
 
       // works on both the client and server
       const hasSession = getSessionCookie(ctx);
-      if (!hasSession) {
-        // redirects to the login page if the user is not authenticated
-        doWeRedirect(ctx);
-      }
 
       // Run all GraphQL queries in the component tree
       // and extract the resulting data
@@ -51,7 +47,7 @@ export default App => {
               Component={Component}
               router={router}
               apolloClient={apollo}
-            />
+            />,
           );
         } catch (error) {
           // Prevent Apollo Client GraphQL errors from crashing SSR.

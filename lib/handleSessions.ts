@@ -26,14 +26,16 @@ export const getSessionCookie = (ctx): boolean | string => {
   return false;
 };
 
-const redirectServer = (ctx) => {
+const redirectServer = ctx => {
   if (ctx.ctx && ctx.ctx.req && ctx.ctx.res) {
-    const { ctx: { req, res, } } = ctx;
+    const {
+      ctx: { req, res },
+    } = ctx;
     const path = req.url;
     const pathMatch = new RegExp("/auth/google|/login|/finishLogin");
     if (!pathMatch.test(path)) {
       res.writeHead(302, {
-        Location: "/login"
+        Location: "/login",
       });
       res.end();
     }
@@ -45,9 +47,9 @@ const redirectServer = (ctx) => {
 const redirectClient = () => {
   //const pathMatch = new RegExp("/auth/google|/login|/finishLogin");
   //if (!pathMatch.test(window.location.pathname)) {
-  window.location = `${window.location.protocol}//${window.location.host}/login` as any;
+  window.location = `/` as any;
   //}
-}
+};
 
 export const doWeRedirect = (ctx): void => {
   if (!getSessionCookie(ctx)) {
@@ -70,5 +72,4 @@ export const getSessionFrontend = (): string => {
 export const destroySessionFrontend = () => {
   BrowserCookies.remove("session");
   redirectClient();
-}
-
+};

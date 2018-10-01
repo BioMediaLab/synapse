@@ -63,9 +63,26 @@ class MyApp extends App<MyAppProps> {
               <CssBaseline />
               {/* Pass pageContext to the _document though the renderPage enhancer
                 to render collected styles on server side. */}
-              <Layout hasSession={this.props.hasSession}>
-                <Component pageContext={this.pageContext} {...pageProps} />
-              </Layout>
+
+              {this.hasSession ? (
+                <Layout
+                  hasSession={this.props.hasSession}
+                  pageContext={this.pageContext}
+                >
+                  <Component
+                    hasSession={this.props.hasSession}
+                    pageContext={this.pageContext}
+                    {...pageProps}
+                  />
+                  )}
+                </Layout>
+              ) : (
+                <Component
+                  hasSession={this.props.hasSession}
+                  pageContext={this.pageContext}
+                  {...pageProps}
+                />
+              )}
             </MuiThemeProvider>
           </JssProvider>
         </ApolloProvider>
