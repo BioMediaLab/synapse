@@ -2448,7 +2448,7 @@ fast-json-stable-stringify@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/fast-json-stable-stringify/-/fast-json-stable-stringify-2.0.0.tgz#d5142c0caee6b1189f87d3a76111064f86c8bbf2"
 
-fbjs@^0.8.1, fbjs@^0.8.15, fbjs@^0.8.16:
+fbjs@^0.8.1, fbjs@^0.8.15, fbjs@^0.8.16, fbjs@^0.8.4:
   version "0.8.17"
   resolved "https://registry.yarnpkg.com/fbjs/-/fbjs-0.8.17.tgz#c4d598ead6949112653d6588b01a5cdcd9f90fdd"
   dependencies:
@@ -3463,7 +3463,7 @@ junk@^1.0.1:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/junk/-/junk-1.0.3.tgz#87be63488649cbdca6f53ab39bec9ccd2347f592"
 
-keycode@^2.1.9:
+keycode@^2.1.7, keycode@^2.1.9:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/keycode/-/keycode-2.2.0.tgz#3d0af56dc7b8b8e5cba8d0a97f107204eec22b04"
 
@@ -4763,7 +4763,7 @@ prop-types-exact@1.2.0:
     object.assign "^4.1.0"
     reflect.ownkeys "^0.2.0"
 
-prop-types@15.6.2, prop-types@^15.5.8, prop-types@^15.6.0, prop-types@^15.6.2:
+prop-types@15.6.2, prop-types@^15.5.4, prop-types@^15.5.8, prop-types@^15.6.0, prop-types@^15.6.2:
   version "15.6.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.6.2.tgz#05d5ca77b4453e985d60fc7ff8c859094a497102"
   dependencies:
@@ -4932,6 +4932,14 @@ react-error-overlay@4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-4.0.0.tgz#d198408a85b4070937a98667f500c832f86bd5d4"
 
+react-event-listener@^0.6.0:
+  version "0.6.4"
+  resolved "https://registry.yarnpkg.com/react-event-listener/-/react-event-listener-0.6.4.tgz#d0ea5ed897da1a796616c44b5a8758898140f203"
+  dependencies:
+    "@babel/runtime" "7.0.0"
+    prop-types "^15.6.0"
+    warning "^4.0.1"
+
 react-event-listener@^0.6.2:
   version "0.6.3"
   resolved "https://registry.yarnpkg.com/react-event-listener/-/react-event-listener-0.6.3.tgz#8eab88129a76e095ed8aa684c29679eded1e843d"
@@ -4945,6 +4953,13 @@ react-form-validator-core@0.5.0:
   resolved "https://registry.yarnpkg.com/react-form-validator-core/-/react-form-validator-core-0.5.0.tgz#dfb669bd9475b7dd1c275096f7f3414a6fb3077a"
   dependencies:
     react-lifecycles-compat "^3.0.2"
+
+react-google-login@^3.2.1:
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/react-google-login/-/react-google-login-3.2.1.tgz#9ab6ac3694d0e6e2974f1e588c53cf7b903a36e6"
+  dependencies:
+    "@types/react" "*"
+    prop-types "^15.6.0"
 
 react-jss@^8.1.0, react-jss@^8.6.1:
   version "8.6.1"
@@ -4965,6 +4980,35 @@ react-material-ui-form-validator@^2.0.2:
   resolved "https://registry.yarnpkg.com/react-material-ui-form-validator/-/react-material-ui-form-validator-2.0.2.tgz#6e1f4178a556805e86561904dcf7a5a75371cec3"
   dependencies:
     react-form-validator-core "0.5.0"
+
+react-swipeable-views-core@^0.13.0:
+  version "0.13.0"
+  resolved "https://registry.yarnpkg.com/react-swipeable-views-core/-/react-swipeable-views-core-0.13.0.tgz#6bf8a8132a756355444537672a14e84b1e3b53c2"
+  dependencies:
+    "@babel/runtime" "7.0.0"
+    warning "^4.0.1"
+
+react-swipeable-views-utils@^0.13.0:
+  version "0.13.0"
+  resolved "https://registry.yarnpkg.com/react-swipeable-views-utils/-/react-swipeable-views-utils-0.13.0.tgz#0ea17aa67f88a69d534c79d591f8d82ef98346a4"
+  dependencies:
+    "@babel/runtime" "7.0.0"
+    fbjs "^0.8.4"
+    keycode "^2.1.7"
+    prop-types "^15.6.0"
+    react-event-listener "^0.6.0"
+    react-swipeable-views-core "^0.13.0"
+
+react-swipeable-views@^0.13.0:
+  version "0.13.0"
+  resolved "https://registry.yarnpkg.com/react-swipeable-views/-/react-swipeable-views-0.13.0.tgz#a200cef1005d55af6a27b97048afe9a4056e0ab8"
+  dependencies:
+    "@babel/runtime" "7.0.0"
+    dom-helpers "^3.2.1"
+    prop-types "^15.5.4"
+    react-swipeable-views-core "^0.13.0"
+    react-swipeable-views-utils "^0.13.0"
+    warning "^4.0.1"
 
 react-transition-group@^2.2.1:
   version "2.4.0"
