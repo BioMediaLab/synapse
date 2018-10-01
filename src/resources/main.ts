@@ -30,6 +30,10 @@ export const resolvers = {
       const { data: me } = await plusClient.people.get({
         userId: "me",
       });
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
       const email: string = me.emails[0].value;
       const name: string = me.displayName;
       const nickname = me.nickname;
@@ -67,9 +71,6 @@ export const resolvers = {
       return prisma.user({ id: context.id }).courses();
     },
     googleUri: async (_, args): Promise<string> => {
-      if (!args.email.includes("maine.edu")) {
-        throw new Error("maine only!");
-      }
       const oauth2Client = getGoogleApiClient();
       const scopes = [
         "https://www.googleapis.com/auth/plus.me",
