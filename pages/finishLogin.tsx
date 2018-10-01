@@ -31,6 +31,7 @@ class Fetcher extends React.Component<any> {
       query: GET_JWT_QUERY,
       variables: { code: googleAuthCode },
     }).then(({ data: { confirmSignupGoogle } }) => {
+      console.log('in Fetecher',confirmSignupGoogle);
       setSessionFrontend(confirmSignupGoogle.jwt);
       window.location = `${window.location.protocol}//${window.location.host}/` as any;
     })
