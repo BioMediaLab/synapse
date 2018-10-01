@@ -1,5 +1,4 @@
 import React, { ReactNode } from "react";
-import Login from "../components/Login";
 import Content from "./Content";
 
 type Props = {
