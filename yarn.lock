@@ -4954,13 +4954,6 @@ react-form-validator-core@0.5.0:
   dependencies:
     react-lifecycles-compat "^3.0.2"
 
-react-google-login@^3.2.1:
-  version "3.2.1"
-  resolved "https://registry.yarnpkg.com/react-google-login/-/react-google-login-3.2.1.tgz#9ab6ac3694d0e6e2974f1e588c53cf7b903a36e6"
-  dependencies:
-    "@types/react" "*"
-    prop-types "^15.6.0"
-
 react-jss@^8.1.0, react-jss@^8.6.1:
   version "8.6.1"
   resolved "https://registry.yarnpkg.com/react-jss/-/react-jss-8.6.1.tgz#a06e2e1d2c4d91b4d11befda865e6c07fbd75252"

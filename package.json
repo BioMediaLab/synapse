@@ -34,7 +34,6 @@
     "react": "^16.5.1",
     "react-apollo": "^2.1.11",
     "react-dom": "^16.5.1",
-    "react-google-login": "^3.2.1",
     "react-jss": "^8.6.1",
     "react-material-ui-form-validator": "^2.0.2",
     "react-swipeable-views": "^0.13.0"
