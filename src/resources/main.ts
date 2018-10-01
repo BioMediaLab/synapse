@@ -30,7 +30,11 @@ export const resolvers = {
       const { data: me } = await plusClient.people.get({
         userId: "me",
       });
+
+     
+      console.log(me);
       const email: string = me.emails[0].value;
+      const photo: string = me.image.url;
       const name: string = me.displayName;
       const nickname = me.nickname;
 
@@ -45,6 +49,7 @@ export const resolvers = {
           email,
           name,
           nickname,
+          photo
         });
         id = newUser.id;
       } else if (accounts.length === 1) {
@@ -60,6 +65,9 @@ export const resolvers = {
       return {
         firstLogin,
         id,
+        photo,
+        name, 
+        email,
         jwt,
       };
     },
