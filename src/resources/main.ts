@@ -1,6 +1,5 @@
 import { google } from "googleapis";
-import { OAuth2Client } from "google-auth-library";
-
+import {OAuth2Client} from "google-auth-library";
 import { prisma } from "../../generated/prisma";
 import { createJWT } from "../auth";
 import googleConfig from "../config/google";
@@ -31,8 +30,6 @@ export const resolvers = {
         userId: "me",
       });
 
-     
-      console.log(me);
       const email: string = me.emails[0].value;
       const photo: string = me.image.url;
       const name: string = me.displayName;
@@ -49,7 +46,7 @@ export const resolvers = {
           email,
           name,
           nickname,
-          photo
+          photo,
         });
         id = newUser.id;
       } else if (accounts.length === 1) {
@@ -65,9 +62,9 @@ export const resolvers = {
       return {
         firstLogin,
         id,
-        photo,
-        name, 
         email,
+        name,
+        photo,
         jwt,
       };
     },
