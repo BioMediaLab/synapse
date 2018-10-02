@@ -7,7 +7,7 @@ import Badge from "@material-ui/core/Badge";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import { fade } from "@material-ui/core/styles/colorManipulator";
-import { withStyles, createStyles } from "@material-ui/core/styles";
+import {createStyles,withStyles} from "@material-ui/core/styles";
 import MenuIcon from "@material-ui/icons/Menu";
 import SearchIcon from "@material-ui/icons/Search";
 import AccountCircle from "@material-ui/icons/AccountCircle";
@@ -18,6 +18,7 @@ import Drawer from "@material-ui/core/Drawer";
 import Link from "next/link";
 import CourseList from "./CourseList";
 import { destroySessionFrontend } from "../lib/handleSessions";
+import { Avatar } from "@material-ui/core";
 
 const drawerWidth = 300;
 
@@ -248,6 +249,7 @@ class PrimarySearchAppBar extends React.Component<Props, State> {
                 onClick={this.handleProfileMenuOpen}
                 color="inherit"
               >
+              <Avatar></Avatar>
                 <AccountCircle />
               </IconButton>
             </div>
