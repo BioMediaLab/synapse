@@ -8,6 +8,7 @@ type User {
   photo: String
   createdAt: DateTime!
   updatedAt: DateTime!
+  activations: [Activation!]!
 }
 
 type Course {
@@ -15,6 +16,17 @@ type Course {
   users: [User!]!
   name: String!
   description: String
+  activations: [Activation!]!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Activation {
+  id: ID! @unique
+  activation_code: String! @unique
+  course_id: String
+  user_id: String
+  activatedAt: DateTime!
   createdAt: DateTime!
   updatedAt: DateTime!
 }
