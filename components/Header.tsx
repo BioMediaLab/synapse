@@ -7,18 +7,29 @@ import Badge from "@material-ui/core/Badge";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import { fade } from "@material-ui/core/styles/colorManipulator";
-import {createStyles,withStyles} from "@material-ui/core/styles";
+import { createStyles, withStyles } from "@material-ui/core/styles";
 import MenuIcon from "@material-ui/icons/Menu";
 import SearchIcon from "@material-ui/icons/Search";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import MailIcon from "@material-ui/icons/Mail";
 import NotificationsIcon from "@material-ui/icons/Notifications";
+import AdminIcon from "@material-ui/icons/Security";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import Drawer from "@material-ui/core/Drawer";
 import Link from "next/link";
 import CourseList from "./CourseList";
+import gql from "graphql-tag";
 import { destroySessionFrontend } from "../lib/handleSessions";
 import { Avatar } from "@material-ui/core";
+import { Query } from "react-apollo";
+
+const IS_ADMIN = gql`
+  {
+    me {
+      isAdmin
+    }
+  }
+`;
 
 const drawerWidth = 300;
 
@@ -114,6 +125,7 @@ type Props = {
     content: string;
   };
 };
+
 
 type State = {
   anchorEl: HTMLElement;
@@ -233,6 +245,23 @@ class PrimarySearchAppBar extends React.Component<Props, State> {
             </div>
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
+              <Query query={IS_ADMIN} >
+                {({ loading, error, data }) => {
+                  console.log(data);
+                  if (!loading && !error) {
+                    if (data.me && data.me.isAdmin) {
+                      return (
+                        <Link href="/admin" >
+                          <IconButton color="secondary">
+                            <AdminIcon />
+                          </IconButton>
+                        </Link>
+                      );
+                    }
+                  }
+                  return <div />;
+                }}
+              </Query>
               <IconButton color="inherit">
                 <Badge badgeContent={4} color="secondary">
                   <MailIcon />
@@ -249,7 +278,7 @@ class PrimarySearchAppBar extends React.Component<Props, State> {
                 onClick={this.handleProfileMenuOpen}
                 color="inherit"
               >
-              <Avatar></Avatar>
+                <Avatar></Avatar>
                 <AccountCircle />
               </IconButton>
             </div>
