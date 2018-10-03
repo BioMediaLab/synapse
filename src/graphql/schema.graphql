@@ -13,8 +13,9 @@ type Mutation {
   createCourse(name: String!, description: String): Course
   editCourse(name: String, description: String): Course
   addUsersToCourse(user_ids: [String], course_id: String!): Course
-  deleteCourse(id: String): Course
-  promoteUserToAdmin(id: String): User
+  deleteCourse(id: String!): Course
+  promoteUser(id: String!, admin: Boolean): User
+  deleteUser(id: String!): User
 }
 
 type Session {

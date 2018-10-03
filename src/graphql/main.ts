@@ -97,19 +97,26 @@ export const resolvers = {
     },
   },
   Mutation: {
-    promoteUserToAdmin: async (root, args, context) => {
+    promoteUser: async (root, args, context) => {
       const me = await prisma.user({ id: context.id });
       if (!me.isAdmin) {
         throw new Error("not authorized to create courses");
       }
       return prisma.updateUser({
         data: {
-          isAdmin: true,
+          isAdmin: args.admin,
         },
         where: {
           id: args.id,
         }
       })
+    },
+    deleteUser: async (root, args, context) => {
+      const me = await prisma.user({ id: context.id });
+      if (!me.isAdmin) {
+        throw new Error("not authorized to create courses");
+      }
+      return prisma.deleteUser({ id: args.id });
     },
     createCourse: async (root, args, context) => {
       const me = await prisma.user({ id: context.id });
