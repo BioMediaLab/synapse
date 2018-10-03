@@ -1,0 +1,7 @@
+{
+  "watch": [
+    "src/**/*.ts",
+    "*.graphql"
+  ],
+  "exec": "ts-node src/index.ts"
+}

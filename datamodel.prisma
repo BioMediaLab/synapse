@@ -6,6 +6,7 @@ type User {
   nickname: String
   email: String! @unique
   photo: String
+  isAdmin: Boolean @default(value: "false")
   createdAt: DateTime!
   updatedAt: DateTime!
   activations: [Activation!]!
@@ -24,8 +25,8 @@ type Course {
 type Activation {
   id: ID! @unique
   activation_code: String! @unique
-  course_id: String
-  user_id: String
+  course: Course!
+  user: User
   activatedAt: DateTime!
   createdAt: DateTime!
   updatedAt: DateTime!

@@ -1,5 +1,5 @@
 import { google } from "googleapis";
-import {OAuth2Client} from "google-auth-library";
+import { OAuth2Client } from "google-auth-library";
 import { prisma } from "../../generated/prisma";
 import { createJWT } from "../auth";
 import googleConfig from "../config/google";
@@ -86,49 +86,78 @@ export const resolvers = {
       return url;
     },
     user: async (root, args) => {
-      return await prisma.user({ id: args.id });
+      return prisma.user({ id: args.id });
+    },
+    me: async (root, args, context) => {
+      return prisma.user({ id: context.id });
     },
     users: async (root, args, context): Promise<string[]> => {
       const users = await prisma.users();
       return users.map((user): string => user.name);
     },
   },
+  Mutation: {
+    promoteUserToAdmin: async (root, args, context) => {
+      const me = await prisma.user({ id: context.id });
+      if (!me.isAdmin) {
+        throw new Error("not authorized to create courses");
+      }
+      return prisma.updateUser({
+        data: {
+          isAdmin: true,
+        },
+        where: {
+          id: args.id,
+        }
+      })
+    },
+    createCourse: async (root, args, context) => {
+      const me = await prisma.user({ id: context.id });
+      if (!me.isAdmin) {
+        throw new Error("not authorized to create courses");
+      }
+      const { name } = args;
+      return prisma.createCourse({
+        name, description: args.description
+      });
+    },
+    editCourse: async (root, args, context) => {
+      const me = await prisma.user({ id: context.id });
+      if (!me.isAdmin) {
+        throw new Error("not authorized to update courses");
+      }
+      return prisma.updateCourse({
+        data: { name: args.name, description: args.description },
+        where: { id: args.id }
+      });
+    },
+    deleteCourse: async (root, args, context) => {
+      const me = await prisma.user({ id: context.id });
+      if (!me.isAdmin) {
+        throw new Error("not authorized to delete courses");
+      }
+      return prisma.deleteCourse({ id: args.id });
+    },
+    addUsersToCourse: async (root, args, context) => {
+      const me = await prisma.user({ id: context.id });
+      if (!me.isAdmin) {
+        throw new Error("not authorized to update courses");
+      }
+      const { course_id: courseId } = args;
+      const newUsers = args.user_ids ? args.user_ids : [];
+      return prisma.updateCourse({
+        data: {
+          users: {
+            connect: [
+              ...newUsers.map(id => ({ id }))
+            ]
+
+          },
+        },
+        where: {
+          id: courseId,
+        }
+      });
+    },
+  }
 };
-
-export const typeDefs = `
-  scalar DateTime
-
-  type Query {
-    users: [String],
-    user(id: String!): User,
-    googleUri(email: String!): String!,
-    confirmSignupGoogle(token: String!): Session!,
-    courses: [Course]!
-  }
-
-  type Session {
-    firstLogin: Boolean,
-    id: String!,
-    jwt: String!,
-  }
-
-  type User {
-    id: ID! @unique
-    courses: [Course!]!
-    student_id: Int @unique
-    name: String!
-    nickname: String
-    email: String! @unique
-    createdAt: DateTime!
-    updatedAt: DateTime!
-  }
-
-  type Course {
-    id: ID! @unique
-    users: [User!]!
-    name: String!
-    description: String
-    createdAt: DateTime!
-    updatedAt: DateTime!
-  }
-`;
