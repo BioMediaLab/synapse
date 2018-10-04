@@ -14,17 +14,17 @@ const getGoogleApiClient = (): OAuth2Client => {
   return oauth2Client;
 };
 
-interface Me {
-  me: object;
+interface ConfirmSignup {
+  jwt: string;
+  firstLogin: boolean;
 }
 
 // A map of functions which return data for the schema.
 export const resolvers = {
   Query: {
-    confirmSignupGoogle: async (_, args): Promise<any> => {
+    confirmSignupGoogle: async (_, args): Promise<ConfirmSignup> => {
       const oauth2Client = getGoogleApiClient();
       const { tokens } = await oauth2Client.getToken(args.token);
-
       oauth2Client.setCredentials(tokens);
 
       const { data } = await google
@@ -38,41 +38,29 @@ export const resolvers = {
       const photo = data.picture;
 
       // does the user already have an account?
-      const accounts = await prisma.users({ where: { email } });
+      let account = await prisma.user({ email });
 
-      let firstLogin = true;
-      let id: string;
-
-      if (accounts.length === 0) {
+      let firstLogin = false;
+      if (!account) {
         // create a new account
-        const newUser = await prisma.createUser({
+        account = await prisma.createUser({
           email,
           name,
           photo,
         });
-        id = newUser.id;
-      } else if (accounts.length === 1) {
-        // retrieve an existing account
-        const [account] = accounts;
-        firstLogin = false;
-        id = account.id;
-      } else {
-        throw new Error("deplucate email");
+        firstLogin = true;
       }
 
       const jwt = await createJWT({
-        id,
-        name,
-        email,
-        photo,
+        id: account.id,
+        name: account.name,
+        email: account.email,
+        photo: account.photo,
+        isAdmin: account.isAdmin,
       });
 
       return {
         firstLogin,
-        id,
-        name,
-        email,
-        photo,
         jwt,
       };
     },

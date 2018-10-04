@@ -14,10 +14,12 @@ interface User {
   name: string;
   email: string;
   photo: string;
+  isAdmin: boolean;
 }
 
 export const createJWT = (user: User): Promise<string> =>
   new Promise(async (resolve, reject) => {
+    console.log(user);
     const sec = await getSecret();
     jwt.sign(
       user,

@@ -20,7 +20,6 @@ type Mutation {
 
 type Session {
   firstLogin: Boolean,
-  id: String!,
   jwt: String!,
 }
 
