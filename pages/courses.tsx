@@ -11,7 +11,7 @@ type Props = {
   };
 };
 
-const CoursePage: React.SFC<Props> = ({ data: { loading, error, course } }) => {
+const CoursePage: React.SFC<Props> = ({ data: { loading, error } }) => {
   return <ErrorMessage message={error}>Error loading user.</ErrorMessage>;
 
 };
