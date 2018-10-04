@@ -1,7 +1,7 @@
 import {
   ApolloClient,
-  InMemoryCache,
   HttpLink,
+  InMemoryCache,
   NormalizedCacheObject,
 } from "apollo-boost";
 import { ApolloLink } from "apollo-link";
@@ -26,10 +26,17 @@ if (!process.browser) {
   global.fetch = fetch;
 }
 
+interface User {
+  id: string | null,
+  photo?: string,
+  name?: string,
+  isAdmin?: boolean,
+}
+
 function create(hasSession: boolean | string, initialState?) {
   // Check out https://github.com/zeit/next.js/pull/4611 if you want to use the AWSAppSyncClient
   const headers: any = {};
-  let loggedInUser = {
+  let loggedInUser: User = {
     id: null,
   };
 
@@ -37,14 +44,14 @@ function create(hasSession: boolean | string, initialState?) {
     headers.Authorization = hasSession;
     loggedInUser = jwtDecode(hasSession);
   }
-
+  console.log(loggedInUser);
   const cache = new InMemoryCache().restore(initialState || {});
 
   const stateLink = withClientState({
     cache,
     defaults: {
       me: {
-        __typename: "Me",
+        __typename: "User",
         ...loggedInUser,
       },
     },
@@ -61,8 +68,8 @@ function create(hasSession: boolean | string, initialState?) {
   return new ApolloClient({
     connectToDevTools: process.browser,
     ssrMode: !process.browser, // Disables forceFetch on the server (so queries are only run once)
-    link: link,
-    cache: cache,
+    link,
+    cache,
   });
 }
 

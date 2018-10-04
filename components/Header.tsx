@@ -91,6 +91,7 @@ const styles = theme =>
       display: "none",
       [theme.breakpoints.up("md")]: {
         display: "flex",
+
       },
     },
     sectionMobile: {
@@ -247,7 +248,6 @@ class PrimarySearchAppBar extends React.Component<Props, State> {
             <div className={classes.sectionDesktop}>
               <Query query={IS_ADMIN} >
                 {({ loading, error, data }) => {
-                  console.log(data);
                   if (!loading && !error) {
                     if (data.me && data.me.isAdmin) {
                       return (

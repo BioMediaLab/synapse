@@ -9,7 +9,6 @@ const GET_JWT_QUERY = gql`
   query Complete($code: String!) {
     confirmSignupGoogle(token: $code) {
       firstLogin
-      id
       jwt
     }
   }
@@ -23,7 +22,7 @@ class Fetcher extends React.Component<any> {
     if (!myGetParams.has("code")) {
       window.location = `${window.location.protocol}//${
         window.location.host
-      }/login` as any;
+        }/login` as any;
       console.warn("no google auth code found");
       return;
     }
@@ -38,7 +37,7 @@ class Fetcher extends React.Component<any> {
         setSessionFrontend(confirmSignupGoogle.jwt);
         window.location = `${window.location.protocol}//${
           window.location.host
-        }/` as any;
+          }/` as any;
       });
   }
 
