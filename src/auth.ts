@@ -9,20 +9,32 @@ const getSecret = async (): Promise<string> => {
   return secret as string;
 };
 
-export const createJWT = (userId: string): Promise<string> =>
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  photo: string;
+}
+
+export const createJWT = (user: User): Promise<string> =>
   new Promise(async (resolve, reject) => {
     const sec = await getSecret();
-    jwt.sign({}, sec, {
-      algorithm: "HS512",
-      expiresIn: "30 days",
-      subject: userId,
-    }, (err, token: string) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(token);
-      }
-    });
+    jwt.sign(
+      user,
+      sec,
+      {
+        algorithm: "HS512",
+        expiresIn: "30 days",
+        subject: user.id,
+      },
+      (err, token: string) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(token);
+        }
+      },
+    );
   });
 
 interface IntJWTVailidate {
@@ -31,7 +43,7 @@ interface IntJWTVailidate {
 }
 
 export const validateJWT = (token: string): Promise<IntJWTVailidate> =>
-  new Promise(async (resolve) => {
+  new Promise(async resolve => {
     const sec = await getSecret();
     jwt.verify(token, sec, {}, (err, payload) => {
       if (err) {

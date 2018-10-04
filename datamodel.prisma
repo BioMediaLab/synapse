@@ -5,6 +5,7 @@ type User {
   name: String!
   nickname: String
   email: String! @unique
+  photo: String
   createdAt: DateTime!
   updatedAt: DateTime!
 }

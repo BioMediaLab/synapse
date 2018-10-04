@@ -11,7 +11,6 @@ const makePublic = async (resolve, parent, args, context, info) => {
 const publicRoutesMiddleware = {
   Query: {
     confirmSignupGoogle: makePublic,
-    googleUri: makePublic,
   },
 };
 
