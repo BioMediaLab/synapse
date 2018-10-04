@@ -10,6 +10,10 @@
       "spaces",
       2
     ],
+    "ordered-imports": [true, {
+      "import-sources-order": "any",
+      "named-imports-order": "case-insensitive"
+    }],
     "trailing-comma": [
       true
     ]
