@@ -92,7 +92,6 @@ class CreateCourse extends React.Component<CreateCourseProps, CreateCourseState>
   createCourse = async (creator) => {
     this.closeCreateForm();
     const result = await creator();
-    console.log("RESULT", result);
     let status = true;
     if (result.error) {
       status = false;

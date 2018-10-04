@@ -44,7 +44,6 @@ function create(hasSession: boolean | string, initialState?) {
     headers.Authorization = hasSession;
     loggedInUser = jwtDecode(hasSession);
   }
-  console.log(loggedInUser);
   const cache = new InMemoryCache().restore(initialState || {});
 
   const stateLink = withClientState({

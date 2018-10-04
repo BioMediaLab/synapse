@@ -24,7 +24,6 @@ const GET_COURSES = gql`
 const CourseList: React.SFC<CourseListProps> = () => (
   <Query query={GET_COURSES}>
     {({ loading, error, data: { courses } }) => {
-      console.log(loading, error);
       if (loading) return <div>Loading...</div>;
       if (error) return <ErrorMessage message={error} />;
 
