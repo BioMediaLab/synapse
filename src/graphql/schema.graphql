@@ -1,0 +1,47 @@
+scalar DateTime
+
+type Query {
+  users: [String],
+  user(id: String!): User,
+  me: User,
+  googleUri(email: String!): String!,
+  confirmSignupGoogle(token: String!): Session!,
+  courses: [Course]!
+}
+
+type Mutation {
+  createCourse(name: String!, description: String): Course
+  editCourse(name: String, description: String): Course
+  addUsersToCourse(user_ids: [String], course_id: String!): Course
+  deleteCourse(id: String!): Course
+  promoteUser(id: String!, admin: Boolean): User
+  deleteUser(id: String!): User
+}
+
+type Session {
+  firstLogin: Boolean,
+  id: String!,
+  jwt: String!,
+}
+
+type User {
+  id: ID!
+  courses: [Course!]!
+  student_id: Int
+  name: String!
+  nickname: String
+  photo: String
+  email: String!
+  isAdmin: Boolean
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Course {
+  id: ID!
+  users: [User!]!
+  name: String!
+  description: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}

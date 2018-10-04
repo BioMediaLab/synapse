@@ -1,6 +1,6 @@
 import { GraphQLServer } from "graphql-yoga";
 import { validateJWT } from "./auth";
-import { resolvers, typeDefs } from "./resources/main";
+import { resolvers } from "./graphql/main";
 import googleAuthRouter from "./routes/auth/google";
 
 const makePublic = async (resolve, parent, args, context, info) => {
@@ -30,8 +30,8 @@ const authMiddleware = async (resolve, parent, args, context, info) => {
 const server = new GraphQLServer({
   context: req => ({ ...req }),
   middlewares: [publicRoutesMiddleware, authMiddleware],
+  typeDefs: "./src/graphql/schema.graphql",
   resolvers,
-  typeDefs,
 });
 
 server.express.use("/auth/google/", googleAuthRouter);

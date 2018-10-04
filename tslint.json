@@ -9,11 +9,16 @@
       true,
       "always"
     ],
+    "ordered-imports": [true, {
+      "import-sources-order": "any",
+      "named-imports-order": "case-insensitive"
+    }],
     "indent": [
       true,
       "spaces",
       2
     ]
   },
-  "rulesDirectory": []
+  "rulesDirectory": [],
+  
 }
