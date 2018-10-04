@@ -4,8 +4,6 @@ type User {
   student_id: Int @unique
   name: String!
   nickname: String
-  picture: String
-  admin: Boolean! @default(value: "false") 
   email: String! @unique
   photo: String
   isAdmin: Boolean @default(value: "false")
