@@ -1,7 +1,13 @@
 {
-  "watch": [
-    "src/**/*.ts",
-    "*.graphql"
+  "ignore": [
+    "**/*.test.ts",
+    "**/*.spec.ts",
+    ".git",
+    "node_modules"
   ],
-  "exec": "ts-node src/index.ts"
+  "watch": [
+    "src"
+  ],
+  "exec": "npm start",
+  "ext": "ts"
 }
