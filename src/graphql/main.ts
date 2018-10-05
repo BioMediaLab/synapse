@@ -65,7 +65,19 @@ export const resolvers = {
       };
     },
     courses: async (root, args, context): Promise<any[]> => {
-      return prisma.user({ id: context.id }).courses();
+      const courses = await prisma.user({ id: context.id }).courses();
+      if (!courses) {
+        return [];
+      }
+      return courses;
+    },
+    course: async (root, args, context) => {
+      const courses = await prisma.user({ id: context.id })
+        .courses({ where: { id: args.id } });
+      if (courses.length !== 1) {
+        throw new Error("user is not a member of the course");
+      }
+      return courses[0];
     },
     user: async (root, args) => {
       return prisma.user({ id: args.id });

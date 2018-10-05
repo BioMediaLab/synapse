@@ -6,7 +6,8 @@ type Query {
   me: User,
   googleUri(email: String!): String!,
   confirmSignupGoogle(token: String!): Session!,
-  courses: [Course]!
+  courses: [Course]!,
+  course(id: String!): Course,
 }
 
 type Mutation {
