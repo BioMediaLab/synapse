@@ -4,6 +4,9 @@ This file simply re-exports the router object from
 that want access.
 */
 
-import { Router } from "./routes";
+import * as Routing from "./routes";
 
-export default Router;
+const Router = Routing.Router;
+const Link = Routing.Link;
+
+export { Router, Link };

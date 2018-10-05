@@ -9,4 +9,9 @@ module.exports = routes()
   .add("users", "/users/:id")
   .add("courses", "/courses", "courses")
   .add("login", "/login", "login")
-  .add("google", "/auth/google", "finishLogin");
+  .add("google", "/auth/google", "finishLogin")
+  .add({
+    name: "course",
+    pattern: "/course/:course",
+    page: "course",
+  });

@@ -31,7 +31,6 @@ export default App => {
       if (App.getInitialProps) {
         appProps = await App.getInitialProps(ctx);
       }
-
       // works on both the client and server
       const hasSession = getSessionCookie(ctx);
 

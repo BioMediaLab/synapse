@@ -3,6 +3,10 @@ import { Query } from "react-apollo";
 import gql from "graphql-tag";
 import ErrorMessage from "../components/ErrorMessage";
 import CourseListItem from "./CourseListItem";
+import Link from "next/link";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
+import Avatar from "@material-ui/core/Avatar";
 
 interface Course {
   id: string;
@@ -18,16 +22,32 @@ const GET_COURSES = gql`
       id
       name
     }
+    me @client {
+      isAdmin
+      id
+    }
   }
 `;
 
 const CourseList: React.SFC<CourseListProps> = () => (
   <Query query={GET_COURSES}>
-    {({ loading, error, data: { courses } }) => {
+    {({ loading, error, data }) => {
       if (loading) return <div>Loading...</div>;
       if (error) return <ErrorMessage message={error} />;
-
-      return <div>{courses.map(CourseListItem)}</div>;
+      const courses: Course[] = data.courses;
+      return (
+        <div>
+          {data.me.isAdmin ? <div>
+            <Link href="/admin">
+              <ListItem>
+                <Avatar>A</Avatar>
+                <ListItemText primary="Admin Dashboard" />
+              </ListItem>
+            </Link>
+          </div> : <span />}
+          {courses.map(CourseListItem)}
+        </div>
+      );
     }}
   </Query>
 );

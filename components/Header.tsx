@@ -17,16 +17,7 @@ import MoreIcon from "@material-ui/icons/MoreVert";
 import Drawer from "@material-ui/core/Drawer";
 import Link from "next/link";
 import CourseList from "./CourseList";
-import gql from "graphql-tag";
 import { destroySessionFrontend } from "../lib/handleSessions";
-
-const IS_ADMIN = gql`
-  {
-    me {
-      isAdmin
-    }
-  }
-`;
 
 const drawerWidth = 300;
 

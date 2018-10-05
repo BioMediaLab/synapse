@@ -2,7 +2,7 @@ import React from "react";
 import gql from "graphql-tag";
 import { ApolloConsumer } from "react-apollo";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import { withStyles, createStyles } from "@material-ui/core/styles";
+import { createStyles, withStyles } from "@material-ui/core/styles";
 import { setSessionFrontend } from "../lib/handleSessions";
 
 const GET_JWT_QUERY = gql`
@@ -49,7 +49,7 @@ class Fetcher extends React.Component<any> {
 const styles = theme =>
   createStyles({
     progress: {
-      margin: theme.spacing.unit * 2,
+      margin: "auto",
     },
   });
 
