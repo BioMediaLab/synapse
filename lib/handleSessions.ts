@@ -62,7 +62,7 @@ export const doWeRedirect = (ctx): void => {
 };
 
 export const setSessionFrontend = (jwt: string) => {
-  BrowserCookies.set("session", jwt);
+  BrowserCookies.set("session", jwt, { expires: 30 });
 };
 
 export const getSessionFrontend = (): string => {
