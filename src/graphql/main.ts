@@ -75,7 +75,7 @@ export const resolvers = {
       const courses = await prisma.user({ id: context.id })
         .courses({ where: { id: args.id } });
       if (courses.length !== 1) {
-        throw new Error("user is not a member of the course");
+        throw new Error("user is not a member of the current course");
       }
       return courses[0];
     },
@@ -89,12 +89,22 @@ export const resolvers = {
       const users = await prisma.users();
       return users.map((user): string => user.name);
     },
+    userSearch: async (root, args, context): Promise<any[]> => {
+      const { name, email } = args;
+      return prisma.users({
+        where: {
+          OR: [{ name_contains: name }, { email_contains: email }]
+        },
+        orderBy: "name_DESC",
+        first: 30,
+      });
+    },
   },
   Mutation: {
     promoteUser: async (root, args, context) => {
       const me = await prisma.user({ id: context.id });
       if (!me.isAdmin) {
-        throw new Error("not authorized to create courses");
+        throw new Error("not authorized to change user's admin status");
       }
       return prisma.updateUser({
         data: {
