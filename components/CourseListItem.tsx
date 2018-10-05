@@ -5,8 +5,8 @@ import { Link } from "../Router";
 
 const CourseListItem = (course) => {
   return (
-    <Link route="course" params={{ course: course.id }}>
-      <ListItem key={course.id}>
+    <Link route="course" params={{ course: course.id }} key={course.id}>
+      <ListItem button>
         <Avatar>{course.name.charAt(0).toUpperCase()}</Avatar>
         <ListItemText primary={course.name} />
       </ListItem>

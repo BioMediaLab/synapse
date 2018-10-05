@@ -6,10 +6,13 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 
+import withAuth from "../lib/withAuth";
+
 
 const styles = theme => createStyles({
   rootComp: {
-    paddingTop: 2,
+    marginTop: theme.spacing.unit * -2,
+    marginLeft: theme.spacing.unit * -2,
   },
   tab: {
     paddingTop: theme.spacing.unit,
@@ -79,4 +82,4 @@ class SettingsPage extends React.Component<SettingsPageProps, SettingsPageState>
   }
 }
 
-export default withStyles(styles)(SettingsPage);
+export default withAuth(withStyles(styles)(SettingsPage));

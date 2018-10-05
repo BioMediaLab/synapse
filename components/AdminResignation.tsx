@@ -1,5 +1,5 @@
 import React from "react";
-import { Mutation } from 'react-apollo'
+import { Mutation, Query } from 'react-apollo'
 import gql from 'graphql-tag'
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -7,12 +7,22 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import Router from 'next/router';
+
+import { Router } from '../Router';
+import { destroySessionFrontend } from "../lib/handleSessions";
 
 const REMOVE_ADMIN = gql`
   mutation ($myId: String!) {
     promoteUser(id: $myId, admin: false) {
         isAdmin
+    }
+  }
+`;
+
+const MY_ID = gql`
+  {
+    me @client {
+      id
     }
   }
 `;
@@ -35,16 +45,15 @@ class AdminResignation extends React.Component<{}, AdminResignationState> {
 
   resign = async (resigner) => {
     this.changeWarning(false);
+    Router.pushRoute("/");
     resigner();
-    Router.push({
-      pathname: "/",
-    });
+    destroySessionFrontend();
   }
 
   render() {
     return (
       <React.Fragment>
-        <Button variant="raised" onClick={() => { this.changeWarning(true); }}>
+        <Button variant="raised" color="secondary" onClick={() => { this.changeWarning(true); }}>
           Resign As Admin
         </Button>
         <Dialog
@@ -64,9 +73,26 @@ class AdminResignation extends React.Component<{}, AdminResignationState> {
             <Button onClick={() => { this.changeWarning(false) }} color="primary">
               No
             </Button>
-            <Button color="primary" autoFocus onClick={() => { this.resign(() => { }) }}>
-              Yes
-            </Button>
+            <Query query={MY_ID}>
+              {({ loading, data }) => {
+                if (loading) {
+                  return (
+                    <Button color="secondary" disabled={true}>
+                      Yes
+                  </Button>
+                  );
+                }
+                return (
+                  <Mutation mutation={REMOVE_ADMIN} variables={{ myId: data.me.id }}>
+                    {(doResign) => (
+                      <Button color="secondary" autoFocus onClick={() => { this.resign(doResign) }}>
+                        Yes
+                    </Button>
+                    )}
+                  </Mutation>
+                )
+              }}
+            </Query>
           </DialogActions>
         </Dialog>
       </React.Fragment>

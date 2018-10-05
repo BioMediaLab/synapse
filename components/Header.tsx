@@ -16,8 +16,11 @@ import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import Drawer from "@material-ui/core/Drawer";
 import Link from "next/link";
+
+
 import CourseList from "./CourseList";
 import { destroySessionFrontend } from "../lib/handleSessions";
+import { Router } from "../Router";
 
 const drawerWidth = 300;
 
@@ -148,6 +151,11 @@ class PrimarySearchAppBar extends React.Component<Props, State> {
     destroySessionFrontend();
   };
 
+  goToSettings = () => {
+    this.handleMenuClose();
+    Router.pushRoute('/settings');
+  }
+
   render() {
     const { anchorEl, mobileMoreAnchorEl } = this.state;
     const { classes } = this.props;
@@ -162,8 +170,7 @@ class PrimarySearchAppBar extends React.Component<Props, State> {
         open={isMenuOpen}
         onClose={this.handleMenuClose}
       >
-        <MenuItem onClick={this.handleMenuClose}>Profile</MenuItem>
-        <MenuItem onClick={this.handleMenuClose}>My account</MenuItem>
+        <MenuItem onClick={this.goToSettings}>My account</MenuItem>
         <MenuItem onClick={this.logout}>Log Out</MenuItem>
       </Menu>
     );

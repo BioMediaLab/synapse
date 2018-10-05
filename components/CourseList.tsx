@@ -39,7 +39,7 @@ const CourseList: React.SFC<CourseListProps> = () => (
         <div>
           {data.me.isAdmin ? <div>
             <Link href="/admin">
-              <ListItem>
+              <ListItem button>
                 <Avatar>A</Avatar>
                 <ListItemText primary="Admin Dashboard" />
               </ListItem>
