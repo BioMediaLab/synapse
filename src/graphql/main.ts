@@ -91,11 +91,20 @@ export const resolvers = {
     },
     userSearch: async (root, args, context): Promise<any[]> => {
       const { name, email } = args;
-      return prisma.users({
+      if (!args.course_id) {
+        return prisma.users({
+          where: {
+            OR: [{ name_contains: name }, { email_contains: email }]
+          },
+          orderBy: "name_ASC",
+          first: 30,
+        });
+      }
+      return prisma.course({ id: args.course_id }).users({
         where: {
           OR: [{ name_contains: name }, { email_contains: email }]
         },
-        orderBy: "name_DESC",
+        orderBy: "name_ASC",
         first: 30,
       });
     },
