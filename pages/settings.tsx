@@ -11,8 +11,9 @@ import withAuth from "../lib/withAuth";
 
 const styles = theme => createStyles({
   rootComp: {
-    marginTop: theme.spacing.unit * -2,
-    marginLeft: theme.spacing.unit * -2,
+    marginTop: theme.spacing.unit * -3,
+    marginLeft: theme.spacing.unit * -3,
+    width: "110%",
   },
   tab: {
     paddingTop: theme.spacing.unit,
@@ -46,9 +47,9 @@ class SettingsPage extends React.Component<SettingsPageProps, SettingsPageState>
   }
 
   render() {
-    const { classes, theme } = this.props;
+    const { classes } = this.props;
     return (
-      <div className={classes.rootComp}>
+      <main className={classes.rootComp}>
         <AppBar position="static" color="default">
           <Tabs
             value={this.state.tab}
@@ -77,7 +78,7 @@ class SettingsPage extends React.Component<SettingsPageProps, SettingsPageState>
             Google
           </div>
         </SwipeableViews>
-      </div>
+      </main>
     );
   }
 }

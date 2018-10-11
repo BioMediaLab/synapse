@@ -20,6 +20,7 @@
     "@types/node": "^10.11.0",
     "@types/react": "^16.4.14",
     "@types/react-dom": "^16.0.7",
+    "@types/react-select": "^2.0.4",
     "@zeit/next-typescript": "^1.1.1",
     "apollo-boost": "^0.1.16",
     "apollo-link": "^1.2.3",
@@ -33,12 +34,12 @@
     "jwt-decode": "^2.2.0",
     "next": "^7.0.0",
     "next-routes": "^1.4.2",
-    "npm": "^6.4.1",
     "react": "^16.5.1",
     "react-apollo": "^2.1.11",
     "react-dom": "^16.5.1",
     "react-jss": "^8.6.1",
     "react-material-ui-form-validator": "^2.0.2",
+    "react-select": "^2.1.0",
     "react-swipeable-views": "^0.13.0"
   }
 }

@@ -15,8 +15,8 @@ import MailIcon from "@material-ui/icons/Mail";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import Drawer from "@material-ui/core/Drawer";
+import { Avatar } from "@material-ui/core";
 import Link from "next/link";
-
 
 import CourseList from "./CourseList";
 import { destroySessionFrontend } from "../lib/handleSessions";
