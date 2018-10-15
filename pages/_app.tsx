@@ -7,6 +7,7 @@ import getPageContext, { PageContext } from "../lib/getPageContext";
 import withApolloClient from "../lib/withApolloClient";
 import { ApolloProvider } from "react-apollo";
 import Layout from "../components/Layout";
+import Meta from "../components/Meta";
 
 interface MyAppProps {
   Component: any;
@@ -64,6 +65,8 @@ class MyApp extends App<MyAppProps> {
               {/* Pass pageContext to the _document though the renderPage enhancer
                 to render collected styles on server side. */}
 
+              <Meta />
+
               {this.hasSession ? (
                 <Layout
                   hasSession={this.props.hasSession}
@@ -77,12 +80,12 @@ class MyApp extends App<MyAppProps> {
                   )}
                 </Layout>
               ) : (
-                <Component
-                  hasSession={this.props.hasSession}
-                  pageContext={this.pageContext}
-                  {...pageProps}
-                />
-              )}
+                  <Component
+                    hasSession={this.props.hasSession}
+                    pageContext={this.pageContext}
+                    {...pageProps}
+                  />
+                )}
             </MuiThemeProvider>
           </JssProvider>
         </ApolloProvider>

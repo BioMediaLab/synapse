@@ -3,6 +3,7 @@
 !pages
 !lib
 !static
+!resolvers
 !package.json
 !yarn.lock
 !*.js 
