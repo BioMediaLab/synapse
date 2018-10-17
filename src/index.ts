@@ -1,4 +1,6 @@
 import * as dotenv from "dotenv";
+dotenv.config({ path: ".env" });
+
 import { GraphQLServer } from "graphql-yoga";
 
 import { validateJWT } from "./auth";
@@ -6,7 +8,6 @@ import db from "./db";
 import { resolvers } from "./graphql/main";
 import googleAuthRouter from "./routes/auth/google";
 
-dotenv.config({ path: ".env" });
 
 const makePublic = async (resolve, parent, args, context, info) => {
   context.request.isPublic = true;
