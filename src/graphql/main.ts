@@ -1,5 +1,6 @@
 import { OAuth2Client } from "google-auth-library";
 import { google } from "googleapis";
+import { forwardTo } from "prisma-binding";
 
 import { prisma } from "../../generated/prisma";
 import { createJWT } from "../auth";
@@ -72,14 +73,7 @@ export const resolvers = {
       }
       return courses;
     },
-    course: async (root, args, context) => {
-      const courses = await prisma.user({ id: context.id })
-        .courses({ where: { id: args.id } });
-      if (courses.length !== 1) {
-        throw new Error("user is not a member of the current course");
-      }
-      return courses[0];
-    },
+    course: forwardTo("db"),
     user: async (root, args) => {
       return prisma.user({ id: args.id });
     },
