@@ -8,8 +8,8 @@ import gql from "graphql-tag";
 import ErrorMessage from "../components/ErrorMessage";
 
 const COURSE_INFO = gql`
-  query Course($courseId: String!) {
-    course(id: $courseId) {
+  query Course($courseId: ID!) {
+    course(where: { id: $courseId }) {
       name
       description
       users {
@@ -27,7 +27,6 @@ interface CoursesProps {
 class Courses extends React.Component<CoursesProps, any> {
   render() {
     const course_id = this.props.router.query.id;
-    console.log(course_id);
 
     return (
       <Query query={COURSE_INFO} variables={{ courseId: course_id }}>
