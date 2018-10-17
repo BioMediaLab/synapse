@@ -1,6 +1,11 @@
 *
 !components
 !pages
-!util
+!lib
+!static
+!resolvers
 !package.json
 !yarn.lock
+!*.js 
+!now.json
+!.babelrc
