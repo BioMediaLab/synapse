@@ -1,5 +1,6 @@
-import { google } from "googleapis";
 import { OAuth2Client } from "google-auth-library";
+import { google } from "googleapis";
+
 import { prisma } from "../../generated/prisma";
 import { createJWT } from "../auth";
 import googleConfig from "../config/google";
@@ -14,7 +15,7 @@ const getGoogleApiClient = (): OAuth2Client => {
   return oauth2Client;
 };
 
-interface ConfirmSignup {
+interface IntConfirmSignup {
   jwt: string;
   firstLogin: boolean;
 }
@@ -22,7 +23,7 @@ interface ConfirmSignup {
 // A map of functions which return data for the schema.
 export const resolvers = {
   Query: {
-    confirmSignupGoogle: async (_, args): Promise<ConfirmSignup> => {
+    confirmSignupGoogle: async (_, args): Promise<IntConfirmSignup> => {
       const oauth2Client = getGoogleApiClient();
       const { tokens } = await oauth2Client.getToken(args.token);
       oauth2Client.setCredentials(tokens);
@@ -94,7 +95,7 @@ export const resolvers = {
       if (!args.course_id) {
         return prisma.users({
           where: {
-            OR: [{ name_contains: name }, { email_contains: email }]
+            OR: [{ name_contains: name }, { email_contains: email }],
           },
           orderBy: "name_ASC",
           first: 30,
@@ -102,7 +103,7 @@ export const resolvers = {
       }
       return prisma.course({ id: args.course_id }).users({
         where: {
-          OR: [{ name_contains: name }, { email_contains: email }]
+          OR: [{ name_contains: name }, { email_contains: email }],
         },
         orderBy: "name_ASC",
         first: 30,
@@ -169,11 +170,27 @@ export const resolvers = {
       return prisma.updateCourse({
         data: {
           users: {
-            connect: [...newUsers.map(id => ({ id }))],
+            connect: [...newUsers.map((id) => ({ id }))],
           },
         },
         where: {
           id: courseId,
+        },
+      });
+    },
+    removeUsersFromCourse: async (root, args, context) => {
+      const me = await prisma.user({ id: context.id });
+      if (!me.isAdmin) {
+        throw new Error("not authorized to update courses");
+      }
+      return prisma.updateCourse({
+        data: {
+          users: {
+            disconnect: [...args.user_ids.map((id) => ({ id }))],
+          },
+        },
+        where: {
+          id: args.course_id,
         },
       });
     },

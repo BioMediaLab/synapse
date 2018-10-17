@@ -25,15 +25,3 @@ type Session {
   firstLogin: Boolean,
   jwt: String!,
 }
-
-type User {
-  id: ID!
-  student_id: Int
-  name: String!
-  nickname: String
-  photo: String
-  email: String!
-  isAdmin: Boolean
-  createdAt: DateTime!
-  updatedAt: DateTime!
-}

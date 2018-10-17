@@ -9,7 +9,7 @@ const getSecret = async (): Promise<string> => {
   return secret as string;
 };
 
-interface User {
+interface IUser {
   id: string;
   name: string;
   email: string;
@@ -17,7 +17,7 @@ interface User {
   isAdmin: boolean;
 }
 
-export const createJWT = (user: User): Promise<string> =>
+export const createJWT = (user: IUser): Promise<string> =>
   new Promise(async (resolve, reject) => {
     const sec = await getSecret();
     jwt.sign(
@@ -44,7 +44,7 @@ interface IntJWTVailidate {
 }
 
 export const validateJWT = (token: string): Promise<IntJWTVailidate> =>
-  new Promise(async resolve => {
+  new Promise(async (resolve) => {
     const sec = await getSecret();
     jwt.verify(token, sec, {}, (err, payload) => {
       if (err) {

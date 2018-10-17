@@ -28,7 +28,7 @@ const authMiddleware = async (resolve, parent, args, context, info) => {
 };
 
 const server = new GraphQLServer({
-  context: req => ({ ...req }),
+  context: (req) => ({ ...req }),
   middlewares: [publicRoutesMiddleware, authMiddleware],
   typeDefs: "./src/graphql/schema.graphql",
   resolvers,
