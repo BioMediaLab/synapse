@@ -3,6 +3,7 @@ import { OAuth2Client } from "google-auth-library";
 import { prisma } from "../../generated/prisma";
 import { createJWT } from "../auth";
 import googleConfig from "../config/google";
+import { forwardTo } from "prisma-binding";
 
 const getGoogleApiClient = (): OAuth2Client => {
   const oauth2Client = new google.auth.OAuth2(
@@ -71,13 +72,7 @@ export const resolvers = {
       }
       return courses;
     },
-    course: async (root, args, context) => {
-      const courses = await prisma.user({ id: context.id })
-        .courses({ where: { id: args.id } });
-      if (courses.length !== 1) {
-        throw new Error("user is not a member of the current course");
-      }
-      return courses[0];
+    course: forwardTo('db')
     },
     user: async (root, args) => {
       return prisma.user({ id: args.id });
@@ -94,7 +89,7 @@ export const resolvers = {
       if (!args.course_id) {
         return prisma.users({
           where: {
-            OR: [{ name_contains: name }, { email_contains: email }]
+            OR: [{ name_contains: name }, { email_contains: email }],
           },
           orderBy: "name_ASC",
           first: 30,
@@ -102,7 +97,7 @@ export const resolvers = {
       }
       return prisma.course({ id: args.course_id }).users({
         where: {
-          OR: [{ name_contains: name }, { email_contains: email }]
+          OR: [{ name_contains: name }, { email_contains: email }],
         },
         orderBy: "name_ASC",
         first: 30,
