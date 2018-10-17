@@ -72,8 +72,7 @@ export const resolvers = {
       }
       return courses;
     },
-    course: forwardTo('db')
-    },
+    course: forwardTo("db"),
     user: async (root, args) => {
       return prisma.user({ id: args.id });
     },
