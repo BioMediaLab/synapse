@@ -1,17 +1,9 @@
 const routes = require("next-routes");
 
+// .add(name, pattern, page)
 module.exports = routes()
-  .add({
-    name: "index",
-    pattern: "/",
-    page: "index",
-  })
+  .add("index", "/")
   .add("users", "/users/:id")
-  .add("courses", "/courses", "courses")
+  .add("courses", "/courses/:id", "courses")
   .add("login", "/login", "login")
-  .add("google", "/auth/google", "finishLogin")
-  .add({
-    name: "course",
-    pattern: "/course/:course",
-    page: "course",
-  });
+  .add("google", "/auth/google", "finishLogin");
