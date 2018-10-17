@@ -24,6 +24,18 @@ const SEARCH = gql`
   }
 `;
 
+const COURSE_SEARCH = gql`
+  query UserSearch($searchString: String!, $courseId: String!) {
+    userSearch(name: $searchString, email: $searchString, course_id: $courseId) {
+      name
+      id
+      photo
+      nickname
+      email
+    }
+  }
+`;
+
 const styles = createStyles((theme) => ({
   input: {
     display: "flex",
@@ -52,6 +64,7 @@ interface User {
 
 interface UserSearchProps {
   onValueChange?(users: User[]): void,
+  courseId: string | null,
   disabled: boolean,
   classes: {
     input: string,
@@ -72,6 +85,7 @@ interface UserSearchState {
 class UserSearch extends React.Component<UserSearchPropsApollo, UserSearchState> {
   static defaultProps = {
     disabled: false,
+    courseId: null,
   };
 
   state = {
@@ -120,10 +134,18 @@ class UserSearch extends React.Component<UserSearchPropsApollo, UserSearchState>
     // clean and sanitize input
     const searchString = input.replace(/  */, " ").replace(/^ | $/, '').toLocaleLowerCase();
     try {
-      const results = await this.props.client.query({
+      const queryOpts = (this.props.courseId !== null) ? {
+        query: COURSE_SEARCH,
+        variables: {
+          searchString,
+          courseId: this.props.courseId,
+        }
+      } : {
         query: SEARCH,
         variables: { searchString },
-      });
+      } as any; // quieting typescript
+
+      const results = await this.props.client.query(queryOpts);
 
       if (results.errors) {
         console.warn(results.errors);
