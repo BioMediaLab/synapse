@@ -1,25 +1,50 @@
 import React from "react";
-import { graphql } from "react-apollo";
+import withAuth from "../lib/withAuth";
+import { withRouter } from "next/router";
+import { Router } from "next-routes";
+import Typography from "@material-ui/core/Typography";
+import { Query } from "react-apollo";
 import gql from "graphql-tag";
 import ErrorMessage from "../components/ErrorMessage";
 
-type Props = {
-  data: {
-    loading: boolean;
-    error: string;
-    users: [string];
-  };
-};
-
-const CoursePage: React.SFC<Props> = ({ data: { loading, error } }) => {
-  return <ErrorMessage message={error}>Error loading user.</ErrorMessage>;
-
-};
-
-const GET_COURSE = gql`
-  query {
-    users
+const COURSE_INFO = gql`
+  query Course($courseId: String!) {
+    course(id: $courseId) {
+      name
+      description
+      users {
+        id
+        name
+      }
+    }
   }
 `;
 
-export default graphql(GET_COURSE)(CoursePage as any);
+interface CoursesProps {
+  router: Router;
+}
+
+class Courses extends React.Component<CoursesProps, any> {
+  render() {
+    const course_id = this.props.router.query.id;
+    console.log(course_id);
+
+    return (
+      <Query query={COURSE_INFO} variables={{ courseId: course_id }}>
+        {({ loading, error, data }) => {
+          if (loading) {
+            return <div>Loading...</div>;
+          }
+          if (error) {
+            return <ErrorMessage message={error.message} />;
+          }
+          const { course } = data;
+
+          return <Typography variant="title">test</Typography>;
+        }}
+      </Query>
+    );
+  }
+}
+
+export default withAuth(withRouter(Courses));
