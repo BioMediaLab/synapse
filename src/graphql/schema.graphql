@@ -1,14 +1,14 @@
 # import * from './../../generated/schema/prisma.graphql'
 
 type Query {
-  users: [String],
-  user(id: String!): User,
-  userSearch(name: String, email: String, course_id: String): [User]!,
-  me: User,
-  googleUri(email: String!): String!,
-  confirmSignupGoogle(token: String!): Session!,
-  courses: [Course]!,
-  course(id: String!): Course,
+  users: [String]
+  user(id: String!): User
+  userSearch(name: String, email: String, course_id: String): [User]!
+  me: User
+  googleUri(email: String!): String!
+  confirmSignupGoogle(token: String!): Session!
+  courses: [Course]!
+  course(where: CourseWhereUniqueInput!): Course
 }
 
 type Mutation {
@@ -26,6 +26,6 @@ type Subscription {
 }
 
 type Session {
-  firstLogin: Boolean,
-  jwt: String!,
+  firstLogin: Boolean
+  jwt: String!
 }

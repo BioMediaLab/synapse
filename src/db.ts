@@ -5,7 +5,7 @@ const db = new Prisma({
   typeDefs: "generated/schema/prisma.graphql",
   endpoint: process.env.PRISMA_ENDPOINT,
   secret: process.env.PRISMA_SECRET,
-  debug: false,
+  debug: true,
 });
 
 export default db;
