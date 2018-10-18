@@ -2,10 +2,22 @@ import React from "react";
 import withAuth from "../lib/withAuth";
 import { withRouter } from "next/router";
 import { Router } from "next-routes";
-import Typography from "@material-ui/core/Typography";
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
 import ErrorMessage from "../components/ErrorMessage";
+
+import Avatar from "@material-ui/core/Avatar";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
+import Typography from "@material-ui/core/Typography";
+
+const UserListItem = user => (
+  <ListItem key={user.id}>
+    <Avatar>{user.name.charAt(0).toUpperCase()}</Avatar>
+    <ListItemText primary={user.name} />
+  </ListItem>
+);
 
 const COURSE_INFO = gql`
   query Course($courseId: ID!) {
@@ -37,9 +49,18 @@ class Courses extends React.Component<CoursesProps, any> {
           if (error) {
             return <ErrorMessage message={error.message} />;
           }
+
           const { course } = data;
 
-          return <Typography variant="title">test</Typography>;
+          return (
+            <div>
+              <Typography variant="display1">{course.name}</Typography>
+              <Typography variant="subheading">
+                {course.users.length} students
+              </Typography>
+              <List>{course.users.map(UserListItem)}</List>
+            </div>
+          );
         }}
       </Query>
     );
