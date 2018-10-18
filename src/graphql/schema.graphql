@@ -21,6 +21,10 @@ type Mutation {
   deleteUser(id: String!): User
 }
 
+type Subscription {
+  notifications: Notification
+}
+
 type Session {
   firstLogin: Boolean,
   jwt: String!,

@@ -1,8 +1,9 @@
 import { OAuth2Client } from "google-auth-library";
 import { google } from "googleapis";
+import { PubSub } from "graphql-yoga";
 import { forwardTo } from "prisma-binding";
 
-import { prisma } from "../../generated/prisma";
+import { prisma, Prisma, UserNode } from "../../generated/prisma";
 import { createJWT } from "../auth";
 import googleConfig from "../config/google";
 
@@ -15,6 +16,16 @@ const getGoogleApiClient = (): OAuth2Client => {
   google.options({ auth: oauth2Client });
   return oauth2Client;
 };
+
+// TODO improve this type signature
+// The interface for the context variable in resolver fuctions
+interface IntResolverContext {
+  id?: string;
+  req?: any;
+  pubsub: PubSub;
+  bindingDb: any; // this is the Prisma object from prisma-bindings
+  db: Prisma;
+}
 
 interface IntConfirmSignup {
   jwt: string;
@@ -73,11 +84,11 @@ export const resolvers = {
       }
       return courses;
     },
-    course: forwardTo("db"),
+    course: forwardTo("bindingDb"),
     user: async (root, args) => {
       return prisma.user({ id: args.id });
     },
-    me: async (root, args, context) => {
+    me: async (root, args, context): Promise<UserNode> => {
       return prisma.user({ id: context.id });
     },
     users: async (root, args, context): Promise<string[]> => {
@@ -105,7 +116,7 @@ export const resolvers = {
     },
   },
   Mutation: {
-    promoteUser: async (root, args, context) => {
+    promoteUser: async (root, args, context: IntResolverContext) => {
       const me = await prisma.user({ id: context.id });
       if (!me.isAdmin) {
         throw new Error("not authorized to change user's admin status");
@@ -187,6 +198,27 @@ export const resolvers = {
           id: args.course_id,
         },
       });
+    },
+  },
+  Subscription: {
+    notifications: {
+      subscribe:
+        async (root, args, { db, id }: IntResolverContext, info): Promise<AsyncIterator<any>> => {
+          return db.$subscribe.notification({
+            where: {
+              AND: [
+                { mutation_in: ["CREATED"] },
+                {
+                  node: {
+                    user: {
+                      id, // filter for notifications where the user has the current id
+                    },
+                  },
+                },
+              ],
+            },  // typescript seems to be broken here 😠
+          } as any).node();
+        },
     },
   },
 };

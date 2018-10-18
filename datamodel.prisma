@@ -1,7 +1,7 @@
 type User {
   id: ID! @unique
   courses: [Course!]!
-  student_id: Int @unique
+  student_id: Int
   name: String!
   nickname: String
   email: String! @unique
@@ -10,6 +10,7 @@ type User {
   createdAt: DateTime!
   updatedAt: DateTime!
   activations: [Activation!]!
+  notifications: [Notification!]! @relation(name: "UserNotifications")
 }
 
 type Course {
@@ -18,6 +19,7 @@ type Course {
   name: String!
   description: String
   activations: [Activation!]!
+  notifications: [Notification!]! @relation(name: "CourseNotifications")
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -28,6 +30,23 @@ type Activation {
   course: Course!
   user: User
   activatedAt: DateTime!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+enum NoteType {
+  INFORMATIVE,
+  NEW_COURSE,
+}
+
+type Notification {
+  id: ID! @unique
+  user: User @relation(name: "UserNotifications")
+  course: Course @relation(name: "CourseNotifications")
+  is_global: Boolean @default(value: "false")
+  note_type: NoteType! @default(value: "INFORMATIVE")
+  msg: String
+  add_data: Json
   createdAt: DateTime!
   updatedAt: DateTime!
 }
