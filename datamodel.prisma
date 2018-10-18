@@ -1,7 +1,7 @@
 type User {
   id: ID! @unique
   courses: [Course!]!
-  student_id: Int @unique
+  student_id: Int
   name: String!
   nickname: String
   email: String! @unique
