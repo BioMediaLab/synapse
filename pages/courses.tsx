@@ -12,11 +12,15 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import Typography from "@material-ui/core/Typography";
 
+import { Link } from "../Router";
+
 const UserListItem = user => (
-  <ListItem key={user.id}>
-    <Avatar>{user.name.charAt(0).toUpperCase()}</Avatar>
-    <ListItemText primary={user.name} />
-  </ListItem>
+  <Link route="users" params={{ id: user.id }} key={user.id}>
+    <ListItem key={user.id} button>
+      <Avatar>{user.name.charAt(0).toUpperCase()}</Avatar>
+      <ListItemText primary={user.name} />
+    </ListItem>
+  </Link>
 );
 
 const COURSE_INFO = gql`
