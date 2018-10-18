@@ -3,9 +3,12 @@ import { Query } from "react-apollo";
 import gql from "graphql-tag";
 import ErrorMessage from "../components/ErrorMessage";
 import Typography from "@material-ui/core/Typography";
-
+import withAuth from "../lib/withAuth";
+import { withRouter } from "next/router";
+import { Router } from "next-routes";
 interface Props {
   user_id: object;
+  router: Router;
 }
 
 const GET_USER = gql`
@@ -18,7 +21,9 @@ const GET_USER = gql`
   }
 `;
 
-const UserProfile: React.SFC<Props> = ({ user_id }) => {
+const UserProfile: React.SFC<Props> = ({ router }) => {
+  const user_id = router.query.id;
+
   return (
     <Query query={GET_USER} variables={{ user_id }}>
       {({ loading, error, data: { user } }) => {
@@ -36,8 +41,4 @@ const UserProfile: React.SFC<Props> = ({ user_id }) => {
   );
 };
 
-UserProfile.getInitialProps = async ({ query }) => {
-  return { user_id: query.id };
-};
-
-export default UserProfile;
+export default withAuth(withRouter(UserProfile));

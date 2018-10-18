@@ -3,18 +3,19 @@ import { Query } from "react-apollo";
 import gql from "graphql-tag";
 import ErrorMessage from "../components/ErrorMessage";
 import CourseListItem from "./CourseListItem";
-import Link from "next/link";
+import { Link } from "../Router";
+import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
+import Divider from "@material-ui/core/Divider";
 import Avatar from "@material-ui/core/Avatar";
 
 interface Course {
   id: string;
   name: string;
-};
-
-interface CourseListProps {
 }
+
+interface CourseListProps {}
 
 const GET_COURSES = gql`
   {
@@ -25,6 +26,9 @@ const GET_COURSES = gql`
     me @client {
       isAdmin
       id
+      name
+      email
+      photo
     }
   }
 `;
@@ -37,15 +41,30 @@ const CourseList: React.SFC<CourseListProps> = () => (
       const courses: Course[] = data.courses;
       return (
         <div>
-          {data.me.isAdmin ? <div>
-            <Link href="/admin">
+          <List>
+            <Link route="users" params={{ id: data.me.id }} key={data.me.id}>
               <ListItem button>
-                <Avatar>A</Avatar>
-                <ListItemText primary="Admin Dashboard" />
+                <Avatar alt={data.me.name} src={data.me.photo} />
+                <ListItemText
+                  primary={data.me.name}
+                  secondary={data.me.email}
+                />
               </ListItem>
             </Link>
-          </div> : <span />}
-          {courses.map(CourseListItem)}
+
+            <Divider />
+
+            {data.me.isAdmin ? (
+              <Link href="/admin" key="admin">
+                <ListItem button>
+                  <Avatar>A</Avatar>
+                  <ListItemText primary="Admin Dashboard" />
+                </ListItem>
+              </Link>
+            ) : null}
+
+            {courses.map(CourseListItem)}
+          </List>
         </div>
       );
     }}
