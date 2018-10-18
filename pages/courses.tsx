@@ -59,9 +59,14 @@ class Courses extends React.Component<CoursesProps, any> {
           return (
             <div>
               <Typography variant="display1">{course.name}</Typography>
-              <Typography variant="subheading">
+              <Typography variant="subheading" gutterBottom>
                 {course.users.length} students
               </Typography>
+
+              <Typography variant="body1" gutterBottom>
+                {course.description}
+              </Typography>
+
               <List>{course.users.map(UserListItem)}</List>
             </div>
           );
