@@ -5,7 +5,7 @@ import { GraphQLServer, PubSub } from "graphql-yoga";
 
 import { prisma } from "../generated/prisma";
 import { validateJWT } from "./auth";
-import bindingDb from "./db";
+import bindingDB from "./db";
 import { resolvers } from "./graphql/main";
 import googleAuthRouter from "./routes/auth/google";
 
@@ -45,7 +45,7 @@ const authMiddleware = async (resolve, parent, args, context, info) => {
 const pubsub = new PubSub();
 
 const server = new GraphQLServer({
-  context: (req) => ({ ...req, bindingDb, db: prisma, pubsub }),
+  context: req => ({ ...req, bindingDB, db: prisma, pubsub }),
   middlewares: [publicRoutesMiddleware, authMiddleware],
   typeDefs: "./src/graphql/schema.graphql",
   resolvers,

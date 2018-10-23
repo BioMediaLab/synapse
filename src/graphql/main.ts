@@ -23,7 +23,7 @@ interface IntResolverContext {
   id?: string;
   req?: any;
   pubsub: PubSub;
-  bindingDb: any; // this is the Prisma object from prisma-bindings
+  bindingDB: any; // this is the Prisma object from prisma-bindings
   db: Prisma;
 }
 
@@ -84,7 +84,7 @@ export const resolvers = {
       }
       return courses;
     },
-    course: forwardTo("bindingDb"),
+    course: forwardTo("bindingDB"),
     user: async (root, args) => {
       return prisma.user({ id: args.id });
     },
@@ -175,7 +175,7 @@ export const resolvers = {
       return prisma.updateCourse({
         data: {
           users: {
-            connect: [...newUsers.map((id) => ({ id }))],
+            connect: [...newUsers.map(id => ({ id }))],
           },
         },
         where: {
@@ -191,7 +191,7 @@ export const resolvers = {
       return prisma.updateCourse({
         data: {
           users: {
-            disconnect: [...args.user_ids.map((id) => ({ id }))],
+            disconnect: [...args.user_ids.map(id => ({ id }))],
           },
         },
         where: {
@@ -202,9 +202,14 @@ export const resolvers = {
   },
   Subscription: {
     notifications: {
-      subscribe:
-        async (root, args, { db, id }: IntResolverContext, info): Promise<AsyncIterator<any>> => {
-          return db.$subscribe.notification({
+      subscribe: async (
+        root,
+        args,
+        { db, id }: IntResolverContext,
+        info,
+      ): Promise<AsyncIterator<any>> => {
+        return db.$subscribe
+          .notification({
             where: {
               AND: [
                 { mutation_in: ["CREATED"] },
@@ -216,9 +221,10 @@ export const resolvers = {
                   },
                 },
               ],
-            },  // typescript seems to be broken here 😠
-          } as any).node();
-        },
+            }, // typescript seems to be broken here 😠
+          } as any)
+          .node();
+      },
     },
   },
 };
