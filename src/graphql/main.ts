@@ -1,11 +1,12 @@
 import { OAuth2Client } from "google-auth-library";
 import { google } from "googleapis";
-import { PubSub } from "graphql-yoga";
+import { IResolvers } from "graphql-yoga/dist/types";
 import { forwardTo } from "prisma-binding";
 
-import { prisma, Prisma, UserNode } from "../../generated/prisma";
+import { Notification, prisma, UserNode } from "../../generated/prisma";
 import { createJWT } from "../auth";
 import googleConfig from "../config/google";
+import { IntResolverContext } from "../graphqlContext";
 
 const getGoogleApiClient = (): OAuth2Client => {
   const oauth2Client = new google.auth.OAuth2(
@@ -17,23 +18,13 @@ const getGoogleApiClient = (): OAuth2Client => {
   return oauth2Client;
 };
 
-// TODO improve this type signature
-// The interface for the context variable in resolver fuctions
-interface IntResolverContext {
-  id?: string;
-  req?: any;
-  pubsub: PubSub;
-  bindingDb: any; // this is the Prisma object from prisma-bindings
-  db: Prisma;
-}
-
 interface IntConfirmSignup {
   jwt: string;
   firstLogin: boolean;
 }
 
 // A map of functions which return data for the schema.
-export const resolvers = {
+export const resolvers: IResolvers = {
   Query: {
     confirmSignupGoogle: async (_, args): Promise<IntConfirmSignup> => {
       const oauth2Client = getGoogleApiClient();
@@ -84,7 +75,7 @@ export const resolvers = {
       }
       return courses;
     },
-    course: forwardTo("bindingDb"),
+    course: forwardTo("bindingDb") as any,
     user: async (root, args) => {
       return prisma.user({ id: args.id });
     },
@@ -201,13 +192,14 @@ export const resolvers = {
     },
   },
   Subscription: {
-    notifications: {
+    notification: {
       subscribe:
-        async (root, args, { db, id }: IntResolverContext, info): Promise<AsyncIterator<any>> => {
+        async (root, args, context: IntResolverContext, info): Promise<AsyncIterator<Notification>> => {
+          const { db, id } = context;
           return db.$subscribe.notification({
             where: {
               AND: [
-                { mutation_in: ["CREATED"] },
+                { mutation_in: ["CREATED"] }, // the notification was just created, rather than updated or deleted
                 {
                   node: {
                     user: {

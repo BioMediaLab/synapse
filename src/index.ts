@@ -1,12 +1,11 @@
 import * as dotenv from "dotenv";
 dotenv.config({ path: ".env" });
 
-import { GraphQLServer, PubSub } from "graphql-yoga";
+import { GraphQLServer } from "graphql-yoga";
 
-import { prisma } from "../generated/prisma";
 import { validateJWT } from "./auth";
-import bindingDb from "./db";
 import { resolvers } from "./graphql/main";
+import { contextCreatorFactory } from "./graphqlContext";
 import googleAuthRouter from "./routes/auth/google";
 
 const makePublic = async (resolve, parent, args, context, info) => {
@@ -25,14 +24,7 @@ const authMiddleware = async (resolve, parent, args, context, info) => {
     return resolve();
   }
 
-  // when using websockets for subscription the normal request
-  // object is not populated.
-  let jwt: string;
-  try {
-    jwt = context.request.get("authorization");
-  } catch {
-    jwt = context.connection.context.authorization;
-  }
+  const jwt = context.jwt;
 
   const me = await validateJWT(jwt);
   if (!me.isValid) {
@@ -42,10 +34,10 @@ const authMiddleware = async (resolve, parent, args, context, info) => {
   return resolve();
 };
 
-const pubsub = new PubSub();
+const contextGetter = contextCreatorFactory();
 
 const server = new GraphQLServer({
-  context: (req) => ({ ...req, bindingDb, db: prisma, pubsub }),
+  context: contextGetter,
   middlewares: [publicRoutesMiddleware, authMiddleware],
   typeDefs: "./src/graphql/schema.graphql",
   resolvers,
@@ -56,6 +48,17 @@ server.express.use("/auth/google/", googleAuthRouter);
 server
   .start({
     port: 4000,
+    subscriptions: {
+      onConnect: (connectionParams, ws) => {
+        const jwt = connectionParams.Authorization;
+        if (jwt) {
+          return {
+            jwt,
+          };
+        }
+        throw new Error("invalid credentials from incoming websocket connection.");
+      },
+    },
   })
   .then(() => {
     console.log("server ready");
