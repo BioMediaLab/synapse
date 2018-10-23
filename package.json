@@ -29,6 +29,7 @@
     "apollo-link-ws": "^1.0.9",
     "bufferutil": "^4.0.0",
     "cookie": "^0.3.1",
+    "downshift": "^3.1.2",
     "draft-js": "^0.10.5",
     "express": "^4.16.4",
     "graphql": "^14.0.2",
