@@ -166,7 +166,7 @@ export const resolvers: IResolvers = {
       return prisma.updateCourse({
         data: {
           users: {
-            connect: [...newUsers.map((id) => ({ id }))],
+            connect: [...newUsers.map(id => ({ id }))],
           },
         },
         where: {
@@ -182,7 +182,7 @@ export const resolvers: IResolvers = {
       return prisma.updateCourse({
         data: {
           users: {
-            disconnect: [...args.user_ids.map((id) => ({ id }))],
+            disconnect: [...args.user_ids.map(id => ({ id }))],
           },
         },
         where: {
@@ -208,8 +208,9 @@ export const resolvers: IResolvers = {
                   },
                 },
               ],
-            },  // typescript seems to be broken here 😠
-          } as any).node();
+            }, // typescript seems to be broken here 😠
+          } as any)
+            .node();
         },
     },
   },
