@@ -4,8 +4,12 @@ import {
   InMemoryCache,
   NormalizedCacheObject,
 } from "apollo-boost";
-import { ApolloLink } from "apollo-link";
+import { getMainDefinition } from 'apollo-utilities';
+import { ApolloLink, split } from "apollo-link";
 import { withClientState } from "apollo-link-state";
+import { WebSocketLink } from 'apollo-link-ws';
+import { SubscriptionClient } from 'subscriptions-transport-ws'
+import ws from 'ws';
 import fetch from "isomorphic-unfetch";
 import { MeResolvers } from "../resolvers/me";
 import jwtDecode from "jwt-decode";
@@ -62,7 +66,30 @@ function create(hasSession: boolean | string, initialState?) {
     headers,
   });
 
-  const link = ApolloLink.from([stateLink, httpLink]);
+  const defaultLink = ApolloLink.from([stateLink, httpLink]);
+
+  let websocketSubscription;
+  if (typeof (window) !== "undefined") {
+    websocketSubscription = new SubscriptionClient('ws://localhost:4000/', {
+      reconnect: true,
+    })
+  } else {
+    websocketSubscription =
+      websocketSubscription = new SubscriptionClient('ws://localhost:4000/', {
+        reconnect: true,
+      }, ws);
+  }
+
+  const wsLink = new WebSocketLink(websocketSubscription);
+  const link = split(
+    // split based on operation type. If true, use websocket link, else, use normal link
+    ({ query }) => {
+      const { kind, operation } = getMainDefinition(query);
+      return kind === 'OperationDefinition' && operation === 'subscription';
+    },
+    wsLink,
+    defaultLink,
+  );
 
   return new ApolloClient({
     connectToDevTools: process.browser,
