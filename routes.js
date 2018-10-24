@@ -6,6 +6,6 @@ module.exports = routes()
   .add("index", "/")
   .add("admin")
   .add("users", "/users/:id")
-  .add("courses", "/courses/:id", "courses")
+  .add("courses", "/courses/:id")
   .add("login", "/login", "login")
   .add("google", "/auth/google", "finishLogin");
