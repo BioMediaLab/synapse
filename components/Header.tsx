@@ -2,7 +2,6 @@ import React from "react";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
-import Input from "@material-ui/core/Input";
 import Badge from "@material-ui/core/Badge";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
@@ -15,8 +14,8 @@ import MailIcon from "@material-ui/icons/Mail";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import Drawer from "@material-ui/core/Drawer";
-import { Avatar } from "@material-ui/core";
 import Link from "next/link";
+import SearchBar from "../components/SearchBar";
 
 import CourseList from "./CourseList";
 import { destroySessionFrontend } from "../lib/handleSessions";
@@ -63,26 +62,10 @@ const styles = theme =>
     mainIcon: {
       marginTop: "0.5rem",
     },
-    inputRoot: {
-      color: "inherit",
-      width: "100%",
-    },
-    inputInput: {
-      paddingTop: theme.spacing.unit,
-      paddingRight: theme.spacing.unit,
-      paddingBottom: theme.spacing.unit,
-      paddingLeft: theme.spacing.unit * 10,
-      transition: theme.transitions.create("width"),
-      width: "100%",
-      [theme.breakpoints.up("md")]: {
-        width: 200,
-      },
-    },
     sectionDesktop: {
       display: "none",
       [theme.breakpoints.up("md")]: {
         display: "flex",
-
       },
     },
     sectionMobile: {
@@ -153,8 +136,8 @@ class PrimarySearchAppBar extends React.Component<Props, State> {
 
   goToSettings = () => {
     this.handleMenuClose();
-    Router.pushRoute('/settings');
-  }
+    Router.pushRoute("/settings");
+  };
 
   render() {
     const { anchorEl, mobileMoreAnchorEl } = this.state;
@@ -229,14 +212,7 @@ class PrimarySearchAppBar extends React.Component<Props, State> {
               <div className={classes.searchIcon}>
                 <SearchIcon />
               </div>
-              <Input
-                placeholder="Search…"
-                disableUnderline
-                classes={{
-                  root: classes.inputRoot,
-                  input: classes.inputInput,
-                }}
-              />
+              <SearchBar />
             </div>
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>

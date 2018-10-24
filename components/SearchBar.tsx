@@ -29,6 +29,21 @@ const styles = theme =>
       left: 0,
       right: 0,
     },
+    inputRoot: {
+      color: "inherit",
+      width: "100%",
+    },
+    inputInput: {
+      paddingTop: theme.spacing.unit,
+      paddingRight: theme.spacing.unit,
+      paddingBottom: theme.spacing.unit,
+      paddingLeft: theme.spacing.unit * 10,
+      transition: theme.transitions.create("width"),
+      width: "100%",
+      [theme.breakpoints.up("md")]: {
+        width: 200,
+      },
+    },
   });
 
 type Props = {
@@ -77,11 +92,15 @@ class SearchBar extends Component<Props> {
                         placeholder: "Search...",
                         onChange: this.handleInputChange,
                       })}
+                      classes={{
+                        root: classes.inputRoot,
+                        input: classes.inputInput,
+                      }}
                       disableUnderline
                     />
 
                     {isOpen ? (
-                      <Paper square>
+                      <Paper className={classes.paper} square>
                         {data.userSearch.map(user => {
                           return (
                             <Link
