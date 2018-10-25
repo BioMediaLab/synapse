@@ -58,12 +58,10 @@ class SearchBar extends Component<Props> {
   };
 
   handleInputChange = event => {
-    console.log("inputValue", event.target.value);
     this.setState({ inputValue: event.target.value });
   };
 
   render() {
-    console.log("this.state.inputValue", this.state.inputValue);
     const { classes } = this.props;
 
     return (
@@ -72,7 +70,6 @@ class SearchBar extends Component<Props> {
           if (loading) <div>Loading...</div>;
           if (error) <div>Error...</div>;
 
-          console.log("data", data);
           return (
             <Downshift>
               {({

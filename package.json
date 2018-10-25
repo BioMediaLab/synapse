@@ -1,9 +1,14 @@
 {
   "private": true,
-  "workspaces": [
-    "api",
-    "web"
-  ],
+  "workspaces": {
+    "packages": [
+      "api",
+      "web"
+    ],
+    "nohoist": [
+      "**/graphql/**"
+    ]
+  },
   "scripts": {
     "dev": "wsrun dev"
   },
