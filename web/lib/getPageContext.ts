@@ -8,18 +8,18 @@ import blue from "@material-ui/core/colors/blue";
 import pink from "@material-ui/core/colors/pink";
 
 interface Proc {
-  browser: boolean,
+  browser: boolean;
 }
 declare var process: Proc;
 
 export interface PageContext {
-  theme: Theme,
-  sheetsManager: Map<any, any>,
-  sheetsRegistry: SheetsRegistry,
-  generateClassName: GenerateClassName,
+  theme: Theme;
+  sheetsManager: Map<any, any>;
+  sheetsRegistry: SheetsRegistry;
+  generateClassName: GenerateClassName;
 }
 interface Global {
-  __INIT_MATERIAL_UI__?: PageContext,
+  __INIT_MATERIAL_UI__?: PageContext;
 }
 declare var global: Global;
 
@@ -30,19 +30,18 @@ const theme = createMuiTheme({
     primary: {
       light: blue[300],
       main: "#2948ff",
-      dark: blue[700]
+      dark: blue[700],
     },
     secondary: {
       light: pink[300],
       main: pink[500],
-      dark: pink[700]
-    }
+      dark: pink[700],
+    },
   },
   zIndex: {
-    drawer: 1200
-  }
+    drawer: 1200,
+  },
 });
-
 
 function createPageContext(): PageContext {
   return {
@@ -52,7 +51,7 @@ function createPageContext(): PageContext {
     // This is needed in order to inject the critical CSS.
     sheetsRegistry: new SheetsRegistry(),
     // The standard class name generator.
-    generateClassName: createGenerateClassName()
+    generateClassName: createGenerateClassName(),
   };
 }
 

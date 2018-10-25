@@ -45,10 +45,7 @@ const redirectServer = ctx => {
 };
 
 const redirectClient = () => {
-  //const pathMatch = new RegExp("/auth/google|/login|/finishLogin");
-  //if (!pathMatch.test(window.location.pathname)) {
   window.location = `/` as any;
-  //}
 };
 
 export const doWeRedirect = (ctx): void => {

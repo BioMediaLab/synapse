@@ -1,11 +1,12 @@
 import React, { ReactNode } from "react";
 import Content from "./Content";
 
-type Props = {
+interface ILayoutProps {
   children: ReactNode;
-};
+  hasSession?: string | boolean;
+}
 
-class Layout extends React.Component<Props> {
+class Layout extends React.Component<ILayoutProps> {
   render() {
     return <Content>{this.props.children}</Content>;
   }

@@ -2,10 +2,16 @@ import React from "react";
 import Login from "../components/Login";
 import Layout from "../components/Layout";
 
+interface IWithAuthProps {
+  hasSession: string | boolean;
+}
+
 function withAuth(BaseComponent) {
-  class withAuthWrapper extends React.Component {
-    render() {
-      if (!this.props.hasSession) return <Login />;
+  class WithAuthWrapper extends React.Component<IWithAuthProps> {
+    public render() {
+      if (!this.props.hasSession) {
+        return <Login />;
+      }
 
       return (
         <Layout>
@@ -15,7 +21,7 @@ function withAuth(BaseComponent) {
     }
   }
 
-  return withAuthWrapper;
+  return WithAuthWrapper;
 }
 
 export default withAuth;

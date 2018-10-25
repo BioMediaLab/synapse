@@ -14,9 +14,7 @@
     "sourceMap": true,
     "skipLibCheck": true,
     "baseUrl": ".",
-    "lib": [
-      "dom",
-      "es2017"
-    ]
-  }
+    "lib": ["dom", "es2017"]
+  },
+  "exclude": ["*/Router.js"]
 }

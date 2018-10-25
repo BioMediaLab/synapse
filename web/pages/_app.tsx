@@ -9,19 +9,19 @@ import { ApolloProvider } from "react-apollo";
 import Layout from "../components/Layout";
 import Meta from "../components/Meta";
 
-interface MyAppProps {
+interface IMyAppProps {
   Component: any;
   pageProps: any;
   apolloClient: any;
   hasSession: boolean | string;
 }
 
-interface MyApp {
+interface IMyApp {
   pageContext: PageContext;
 }
 
-class MyApp extends App<MyAppProps> {
-  static async getInitialProps({ Component, router, ctx }) {
+class IMyApp extends App<IMyAppProps> {
+  public static async getInitialProps({ Component, router, ctx }) {
     let pageProps = {};
 
     if (Component.getInitialProps) {
@@ -36,7 +36,7 @@ class MyApp extends App<MyAppProps> {
     this.pageContext = getPageContext();
   }
 
-  componentDidMount() {
+  public componentDidMount() {
     // Remove the server-side injected CSS.
     const jssStyles = document.querySelector("#jss-server-side");
     if (jssStyles && jssStyles.parentNode) {
@@ -44,7 +44,7 @@ class MyApp extends App<MyAppProps> {
     }
   }
 
-  render() {
+  public render() {
     const { Component, pageProps, apolloClient } = this.props;
     return (
       <Container>
@@ -80,12 +80,12 @@ class MyApp extends App<MyAppProps> {
                   )}
                 </Layout>
               ) : (
-                  <Component
-                    hasSession={this.props.hasSession}
-                    pageContext={this.pageContext}
-                    {...pageProps}
-                  />
-                )}
+                <Component
+                  hasSession={this.props.hasSession}
+                  pageContext={this.pageContext}
+                  {...pageProps}
+                />
+              )}
             </MuiThemeProvider>
           </JssProvider>
         </ApolloProvider>
@@ -94,4 +94,4 @@ class MyApp extends App<MyAppProps> {
   }
 }
 
-export default withApolloClient(MyApp);
+export default withApolloClient(IMyApp);

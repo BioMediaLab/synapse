@@ -4,12 +4,12 @@ import {
   InMemoryCache,
   NormalizedCacheObject,
 } from "apollo-boost";
-import { getMainDefinition } from 'apollo-utilities';
+import { getMainDefinition } from "apollo-utilities";
 import { ApolloLink, split } from "apollo-link";
 import { withClientState } from "apollo-link-state";
-import { WebSocketLink } from 'apollo-link-ws';
-import { SubscriptionClient } from 'subscriptions-transport-ws'
-import ws from 'ws';
+import { WebSocketLink } from "apollo-link-ws";
+import { SubscriptionClient } from "subscriptions-transport-ws";
+import ws from "ws";
 import fetch from "isomorphic-unfetch";
 import { MeResolvers } from "../resolvers/me";
 import jwtDecode from "jwt-decode";
@@ -30,17 +30,20 @@ if (!process.browser) {
   global.fetch = fetch;
 }
 
-interface User {
-  id: string | null,
-  photo?: string,
-  name?: string,
-  isAdmin?: boolean,
+interface IUser {
+  id: string | null;
+  photo?: string;
+  name?: string;
+  isAdmin?: boolean;
 }
 
-function create(hasSession: boolean | string, initialState?): ApolloClient<NormalizedCacheObject> {
+function create(
+  hasSession: boolean | string,
+  initialState?,
+): ApolloClient<NormalizedCacheObject> {
   // Check out https://github.com/zeit/next.js/pull/4611 if you want to use the AWSAppSyncClient
   const headers: any = {};
-  let loggedInUser: User = {
+  let loggedInUser: IUser = {
     id: null,
   };
 
@@ -69,29 +72,33 @@ function create(hasSession: boolean | string, initialState?): ApolloClient<Norma
   const defaultLink = ApolloLink.from([stateLink, httpLink]);
 
   let websocketSubscription;
-  if (typeof (window) !== "undefined") {
-    websocketSubscription = new SubscriptionClient('ws://localhost:4000/', {
+  if (typeof window !== "undefined") {
+    websocketSubscription = new SubscriptionClient("ws://localhost:4000/", {
       reconnect: true,
       connectionParams: {
-        Authorization: hasSession
+        Authorization: hasSession,
       },
-    })
+    });
   } else {
-    websocketSubscription =
-      websocketSubscription = new SubscriptionClient('ws://localhost:4000/', {
+    websocketSubscription = websocketSubscription = new SubscriptionClient(
+      "ws://localhost:4000/",
+      {
         reconnect: true,
         connectionParams: {
-          Authorization: hasSession
+          Authorization: hasSession,
         },
-      }, ws);
+      },
+      ws,
+    );
   }
 
   const wsLink = new WebSocketLink(websocketSubscription);
   const link = split(
     // split based on operation type. If true, use websocket link, else, use normal link
     ({ query }) => {
-      const { kind, operation } = getMainDefinition(query);
-      return kind === 'OperationDefinition' && operation === 'subscription';
+      // possible types problem here:
+      const { kind, operation } = getMainDefinition(query) as any;
+      return kind === "OperationDefinition" && operation === "subscription";
     },
     wsLink,
     defaultLink,

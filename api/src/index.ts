@@ -56,7 +56,9 @@ server
             jwt,
           };
         }
-        throw new Error("invalid credentials from incoming websocket connection.");
+        throw new Error(
+          "invalid credentials from incoming websocket connection.",
+        );
       },
     },
   })

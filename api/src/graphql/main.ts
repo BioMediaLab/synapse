@@ -6,6 +6,7 @@ import { Notification, prisma, UserNode } from "../../generated/prisma";
 import { createJWT } from "../auth";
 import googleConfig from "../config/google";
 import { IntResolverContext } from "../graphqlContext";
+import { IResolvers } from "graphql-tools";
 
 const getGoogleApiClient = (): OAuth2Client => {
   const oauth2Client = new google.auth.OAuth2(
@@ -23,7 +24,7 @@ interface IntConfirmSignup {
 }
 
 // A map of functions which return data for the schema.
-export const resolvers = {
+export const resolvers: IResolvers = {
   Query: {
     confirmSignupGoogle: async (_, args): Promise<IntConfirmSignup> => {
       const oauth2Client = getGoogleApiClient();

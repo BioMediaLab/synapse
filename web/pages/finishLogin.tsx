@@ -22,7 +22,7 @@ class Fetcher extends React.Component<any> {
     if (!myGetParams.has("code")) {
       window.location = `${window.location.protocol}//${
         window.location.host
-        }/login` as any;
+      }/login` as any;
       console.warn("no google auth code found");
       return;
     }
@@ -37,7 +37,7 @@ class Fetcher extends React.Component<any> {
         setSessionFrontend(confirmSignupGoogle.jwt);
         window.location = `${window.location.protocol}//${
           window.location.host
-          }/` as any;
+        }/` as any;
       });
   }
 
@@ -53,13 +53,13 @@ const styles = theme =>
     },
   });
 
-interface FinishLoginMainProps {
+interface IFinishLoginMainProps {
   classes: {
     progress: string;
   };
 }
 
-class FinishLoginMain extends React.Component<FinishLoginMainProps> {
+class FinishLoginMain extends React.Component<IFinishLoginMainProps> {
   render() {
     return (
       <ApolloConsumer>
