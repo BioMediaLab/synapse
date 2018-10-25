@@ -37,7 +37,7 @@ interface User {
   isAdmin?: boolean,
 }
 
-function create(hasSession: boolean | string, initialState?) {
+function create(hasSession: boolean | string, initialState?): ApolloClient<NormalizedCacheObject> {
   // Check out https://github.com/zeit/next.js/pull/4611 if you want to use the AWSAppSyncClient
   const headers: any = {};
   let loggedInUser: User = {
@@ -72,11 +72,17 @@ function create(hasSession: boolean | string, initialState?) {
   if (typeof (window) !== "undefined") {
     websocketSubscription = new SubscriptionClient('ws://localhost:4000/', {
       reconnect: true,
+      connectionParams: {
+        Authorization: hasSession
+      },
     })
   } else {
     websocketSubscription =
       websocketSubscription = new SubscriptionClient('ws://localhost:4000/', {
         reconnect: true,
+        connectionParams: {
+          Authorization: hasSession
+        },
       }, ws);
   }
 

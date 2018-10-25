@@ -64,8 +64,8 @@ interface User {
 
 interface UserSearchProps {
   onValueChange?(users: User[]): void,
-  courseId: string | null,
-  disabled: boolean,
+  courseId?: string | null,
+  disabled?: boolean,
   classes: {
     input: string,
     main: string,

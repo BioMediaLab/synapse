@@ -15,6 +15,7 @@
     "@material-ui/core": "^3.1.0",
     "@material-ui/icons": "^3.0.1",
     "@types/cookie": "^0.3.1",
+    "@types/graphql": "^14.0.3",
     "@types/js-cookie": "^2.2.0",
     "@types/next": "^6.1.8",
     "@types/node": "^10.11.0",
