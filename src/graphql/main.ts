@@ -211,7 +211,10 @@ export const resolvers: IResolvers = {
             }, // typescript seems to be broken here 😠
           } as any)
             .node();
-        },
+        }, // for some reason we need to explicitely return the data here
+      resolve: (data) => {
+        return data;
+      },
     },
   },
 };
