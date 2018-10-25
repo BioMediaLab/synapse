@@ -1,4 +1,3 @@
-import { OAuth2Client } from "google-auth-library";
 import { google } from "googleapis";
 import { forwardTo } from "prisma-binding";
 
@@ -8,7 +7,7 @@ import googleConfig from "../config/google";
 import { IntResolverContext } from "../graphqlContext";
 import { IResolvers } from "graphql-tools";
 
-const getGoogleApiClient = (): OAuth2Client => {
+const getGoogleApiClient = () => {
   const oauth2Client = new google.auth.OAuth2(
     googleConfig.appId,
     googleConfig.appSecret,
@@ -166,7 +165,7 @@ export const resolvers: IResolvers = {
       return prisma.updateCourse({
         data: {
           users: {
-            connect: [...newUsers.map((id) => ({ id }))],
+            connect: [...newUsers.map(id => ({ id }))],
           },
         },
         where: {
@@ -182,7 +181,7 @@ export const resolvers: IResolvers = {
       return prisma.updateCourse({
         data: {
           users: {
-            disconnect: [...args.user_ids.map((id) => ({ id }))],
+            disconnect: [...args.user_ids.map(id => ({ id }))],
           },
         },
         where: {
@@ -193,10 +192,15 @@ export const resolvers: IResolvers = {
   },
   Subscription: {
     notification: {
-      subscribe:
-        async (root, args, context: IntResolverContext, info): Promise<AsyncIterator<Notification>> => {
-          const { db, id } = context;
-          return db.$subscribe.notification({
+      subscribe: async (
+        root,
+        args,
+        context: IntResolverContext,
+        info,
+      ): Promise<AsyncIterator<Notification>> => {
+        const { db, id } = context;
+        return db.$subscribe
+          .notification({
             where: {
               AND: [
                 { mutation_in: ["CREATED"] }, // the notification was just created, rather than updated or deleted
@@ -210,9 +214,9 @@ export const resolvers: IResolvers = {
               ],
             }, // typescript seems to be broken here 😠
           } as any)
-            .node();
-        }, // for some reason we need to explicitely return the data here
-      resolve: (data) => {
+          .node();
+      }, // for some reason we need to explicitely return the data here
+      resolve: data => {
         return data;
       },
     },

@@ -1765,7 +1765,7 @@ apollo-utilities@1.0.22:
   dependencies:
     fast-json-stable-stringify "^2.0.0"
 
-apollo-utilities@^1.0.0, apollo-utilities@^1.0.1, apollo-utilities@^1.0.22, apollo-utilities@^1.0.8:
+apollo-utilities@^1.0.0, apollo-utilities@^1.0.1, apollo-utilities@^1.0.22, apollo-utilities@^1.0.23, apollo-utilities@^1.0.8:
   version "1.0.23"
   resolved "https://registry.yarnpkg.com/apollo-utilities/-/apollo-utilities-1.0.23.tgz#9416e5da31cc8d9d46502de6f90aa1447cd368c6"
   integrity sha512-RW65kZZxSEysvzm5YBrNU6SvE+Z62VQ+lpxYX/3d9pZYsMBkaMdfr3OnUwGKt/MqUsDfUb/LLoXpMRhKukMpeQ==
@@ -6329,7 +6329,7 @@ next-routes@^1.4.2:
   dependencies:
     path-to-regexp "^2.1.0"
 
-next@^7.0.0:
+next@^7.0.2:
   version "7.0.2"
   resolved "https://registry.yarnpkg.com/next/-/next-7.0.2.tgz#5ff6b3f0e6cf03ce539d5779a55dc1f8fb1759d7"
   integrity sha512-DOPKKk+2rAEvXS/JMaZL5+jd2WUJI5BEv8xXiR4ijqIuvAL0dI/cT8H6bhFCqbYIgFNuefp+NSVh2kvxpELyeg==

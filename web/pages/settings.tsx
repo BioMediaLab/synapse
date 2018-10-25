@@ -1,50 +1,52 @@
 import React from "react";
-import { createStyles, withStyles } from '@material-ui/core/styles';
-import SwipeableViews from 'react-swipeable-views';
-import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
+import { createStyles, withStyles } from "@material-ui/core/styles";
+import SwipeableViews from "react-swipeable-views";
+import AppBar from "@material-ui/core/AppBar";
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
 
 import withAuth from "../lib/withAuth";
 
+const styles = theme =>
+  createStyles({
+    rootComp: {
+      marginTop: theme.spacing.unit * -3,
+      marginLeft: theme.spacing.unit * -3,
+      width: "110%",
+    },
+    tab: {
+      paddingTop: theme.spacing.unit,
+      paddingLeft: theme.spacing.unit * 2,
+    },
+  });
 
-const styles = theme => createStyles({
-  rootComp: {
-    marginTop: theme.spacing.unit * -3,
-    marginLeft: theme.spacing.unit * -3,
-    width: "110%",
-  },
-  tab: {
-    paddingTop: theme.spacing.unit,
-    paddingLeft: theme.spacing.unit * 2
-  }
-});
-
-interface SettingsPageProps {
+interface ISettingsPageProps {
   classes: {
-    rootComp: string,
-    tab: string,
-  }
-  theme: any
+    rootComp: string;
+    tab: string;
+  };
+  theme: any;
 }
 
-interface SettingsPageState {
-  tab: number,
+interface ISettingsPageState {
+  tab: number;
 }
 
-class SettingsPage extends React.Component<SettingsPageProps, SettingsPageState> {
+class SettingsPage extends React.Component<
+  ISettingsPageProps,
+  ISettingsPageState
+> {
   state = {
     tab: 0,
   };
 
   handleTabChange = (_, value) => {
     this.setState(state => ({ ...state, tab: value }));
-  }
+  };
 
-  handletabSwipe = (tab) => {
+  handletabSwipe = tab => {
     this.setState(state => ({ ...state, tab }));
-  }
+  };
 
   render() {
     const { classes } = this.props;
@@ -67,16 +69,9 @@ class SettingsPage extends React.Component<SettingsPageProps, SettingsPageState>
           index={this.state.tab}
           onChangeIndex={this.handleTabChange}
         >
-          <div className={classes.tab}>
-            Add an activation code:
-          </div>
-          <div className={classes.tab}>
-            Nickname
-            Profile pic
-          </div>
-          <div className={classes.tab}>
-            Google
-          </div>
+          <div className={classes.tab}>Add an activation code:</div>
+          <div className={classes.tab}>Nickname Profile pic</div>
+          <div className={classes.tab}>Google</div>
         </SwipeableViews>
       </main>
     );

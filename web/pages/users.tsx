@@ -6,7 +6,7 @@ import Typography from "@material-ui/core/Typography";
 import withAuth from "../lib/withAuth";
 import { withRouter } from "next/router";
 import { Router } from "next-routes";
-interface Props {
+interface IUserProps {
   user_id: object;
   router: Router;
 }
@@ -21,14 +21,18 @@ const GET_USER = gql`
   }
 `;
 
-const UserProfile: React.SFC<Props> = ({ router }) => {
-  const user_id = router.query.id;
+const UserProfile: React.SFC<IUserProps> = ({ router }) => {
+  const userId = router.query.id;
 
   return (
-    <Query query={GET_USER} variables={{ user_id }}>
+    <Query query={GET_USER} variables={{ userId }}>
       {({ loading, error, data: { user } }) => {
-        if (loading) return <div>Loading...</div>;
-        if (error) return <ErrorMessage message={error.message} />;
+        if (loading) {
+          return <div>Loading...</div>;
+        }
+        if (error) {
+          return <ErrorMessage message={error.message} />;
+        }
 
         return (
           <div>

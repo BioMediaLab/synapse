@@ -10,12 +10,10 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Divider from "@material-ui/core/Divider";
 import Avatar from "@material-ui/core/Avatar";
 
-interface Course {
+interface ICourse {
   id: string;
   name: string;
 }
-
-interface CourseListProps {}
 
 const GET_COURSES = gql`
   {
@@ -33,12 +31,16 @@ const GET_COURSES = gql`
   }
 `;
 
-const CourseList: React.SFC<CourseListProps> = () => (
+const CourseList: React.SFC<{}> = () => (
   <Query query={GET_COURSES}>
     {({ loading, error, data }) => {
-      if (loading) return <div>Loading...</div>;
-      if (error) return <ErrorMessage message={error} />;
-      const courses: Course[] = data.courses;
+      if (loading) {
+        return <div>Loading...</div>;
+      }
+      if (error) {
+        return <ErrorMessage message={error} />;
+      }
+      const courses: ICourse[] = data.courses;
       return (
         <div>
           <List>

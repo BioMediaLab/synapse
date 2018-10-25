@@ -14,14 +14,14 @@ import fetch from "isomorphic-unfetch";
 import { MeResolvers } from "../resolvers/me";
 import jwtDecode from "jwt-decode";
 
-interface Proc {
+interface IProc {
   browser: boolean;
 }
-declare var process: Proc;
-interface Global {
+declare var process: IProc;
+interface IGlobal {
   fetch: any;
 }
-declare var global: Global;
+declare var global: IGlobal;
 
 let apolloClient = null;
 

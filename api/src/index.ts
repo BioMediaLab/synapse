@@ -63,5 +63,5 @@ server
     },
   })
   .then(() => {
-    console.log("server ready");
+    console.warn("server ready");
   });

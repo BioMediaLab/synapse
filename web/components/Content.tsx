@@ -20,16 +20,16 @@ const styles = theme =>
     toolbar: theme.mixins.toolbar,
   });
 
-type Props = {
+interface IContentProps {
   children: ReactNode;
   classes: {
     root: string;
     toolbar: string;
     content: string;
   };
-};
+}
 
-const Content: React.SFC<Props> = ({ classes, children }) => (
+const Content: React.SFC<IContentProps> = ({ classes, children }) => (
   <div className={classes.root}>
     <Header />
     <main className={classes.content}>

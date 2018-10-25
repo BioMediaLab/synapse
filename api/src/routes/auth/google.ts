@@ -1,5 +1,4 @@
 import { Router } from "express";
-import { OAuth2Client } from "google-auth-library";
 import { google } from "googleapis";
 
 import googleConfig from "../../config/google";
@@ -7,7 +6,7 @@ import googleConfig from "../../config/google";
 const googleAuthRouter = Router();
 
 googleAuthRouter.get("/", (req, res) => {
-  const getGoogleApiClient = (): OAuth2Client => {
+  const getGoogleApiClient = () => {
     const oClient = new google.auth.OAuth2(
       googleConfig.appId,
       googleConfig.appSecret,

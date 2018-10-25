@@ -36,16 +36,16 @@ const COURSE_INFO = gql`
   }
 `;
 
-interface CoursesProps {
+interface ICoursesProps {
   router: Router;
 }
 
-class Courses extends React.Component<CoursesProps, any> {
+class Courses extends React.Component<ICoursesProps, any> {
   render() {
-    const course_id = this.props.router.query.id;
+    const courseId = this.props.router.query.id;
 
     return (
-      <Query query={COURSE_INFO} variables={{ courseId: course_id }}>
+      <Query query={COURSE_INFO} variables={{ courseId }}>
         {({ loading, error, data }) => {
           if (loading) {
             return <div>Loading...</div>;

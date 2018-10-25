@@ -2,11 +2,11 @@ import React from "react";
 import Document, { Head, Main, NextScript } from "next/document";
 import flush from "styled-jsx/server";
 
-interface MyDocumentProps {
-  pageContext: any
+interface IMyDocumentProps {
+  pageContext: any;
 }
 
-class MyDocument extends Document<MyDocumentProps> {
+class MyDocument extends Document<IMyDocumentProps> {
   render() {
     const { pageContext } = this.props;
 
@@ -67,12 +67,12 @@ MyDocument.getInitialProps = (ctx): any => {
 
   let pageContext;
   const page = ctx.renderPage(Component => {
-    interface WrappedComponentProps {
-      pageContext: any,
-      url: any,
-    };
+    interface IWrappedComponentProps {
+      pageContext: any;
+      url: any;
+    }
 
-    const WrappedComponent: React.SFC<WrappedComponentProps> = props => {
+    const WrappedComponent: React.SFC<IWrappedComponentProps> = props => {
       pageContext = props.pageContext;
       return <Component {...props} />;
     };
@@ -90,12 +90,12 @@ MyDocument.getInitialProps = (ctx): any => {
           id="jss-server-side"
           // eslint-disable-next-line react/no-danger
           dangerouslySetInnerHTML={{
-            __html: pageContext.sheetsRegistry.toString()
+            __html: pageContext.sheetsRegistry.toString(),
           }}
         />
         {flush() || null}
       </React.Fragment>
-    )
+    ),
   };
 };
 

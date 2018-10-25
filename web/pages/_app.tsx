@@ -21,7 +21,7 @@ interface IMyApp {
 }
 
 class IMyApp extends App<IMyAppProps> {
-  public static async getInitialProps({ Component, router, ctx }) {
+  static async getInitialProps({ Component, router, ctx }) {
     let pageProps = {};
 
     if (Component.getInitialProps) {
@@ -36,7 +36,7 @@ class IMyApp extends App<IMyAppProps> {
     this.pageContext = getPageContext();
   }
 
-  public componentDidMount() {
+  componentDidMount() {
     // Remove the server-side injected CSS.
     const jssStyles = document.querySelector("#jss-server-side");
     if (jssStyles && jssStyles.parentNode) {
@@ -44,7 +44,7 @@ class IMyApp extends App<IMyAppProps> {
     }
   }
 
-  public render() {
+  render() {
     const { Component, pageProps, apolloClient } = this.props;
     return (
       <Container>

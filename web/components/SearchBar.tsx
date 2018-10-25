@@ -6,7 +6,6 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Paper from "@material-ui/core/Paper";
 import gql from "graphql-tag";
 import { Query } from "react-apollo";
-import { classNames } from "react-select/lib/utils";
 import { Link } from "../Router";
 
 const SEARCH = gql`
@@ -46,13 +45,15 @@ const styles = theme =>
     },
   });
 
-type Props = {
+interface ISearchBarProps {
   classes: {
-    paper;
+    paper: string;
+    inputRoot: string;
+    inputInput: string;
   };
-};
+}
 
-class SearchBar extends Component<Props> {
+class SearchBar extends Component<ISearchBarProps> {
   state = {
     inputValue: "",
   };
