@@ -37,7 +37,6 @@ build/Release
 */.env
 
 */.DS_Store
-*/.vscode
 
 # ignore prisma generated code
 */generated
