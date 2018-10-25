@@ -1,6 +1,5 @@
 import { OAuth2Client } from "google-auth-library";
 import { google } from "googleapis";
-import { IResolvers } from "graphql-yoga/dist/types";
 import { forwardTo } from "prisma-binding";
 
 import { Notification, prisma, UserNode } from "../../generated/prisma";
@@ -24,7 +23,7 @@ interface IntConfirmSignup {
 }
 
 // A map of functions which return data for the schema.
-export const resolvers: IResolvers = {
+export const resolvers = {
   Query: {
     confirmSignupGoogle: async (_, args): Promise<IntConfirmSignup> => {
       const oauth2Client = getGoogleApiClient();
@@ -166,7 +165,7 @@ export const resolvers: IResolvers = {
       return prisma.updateCourse({
         data: {
           users: {
-            connect: [...newUsers.map(id => ({ id }))],
+            connect: [...newUsers.map((id) => ({ id }))],
           },
         },
         where: {
@@ -182,7 +181,7 @@ export const resolvers: IResolvers = {
       return prisma.updateCourse({
         data: {
           users: {
-            disconnect: [...args.user_ids.map(id => ({ id }))],
+            disconnect: [...args.user_ids.map((id) => ({ id }))],
           },
         },
         where: {
