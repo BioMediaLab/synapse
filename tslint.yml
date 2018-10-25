@@ -1,0 +1,8 @@
+extends: "tslint:recommended"
+rules:
+  max-line-length:
+    options: [120]
+  no-arg: true
+  no-bitwise: true
+  object-literal-sort-keys: false
+
