@@ -1,0 +1,13 @@
+{
+  "private": true,
+  "workspaces": [
+    "api",
+    "web"
+  ],
+  "scripts": {
+    "dev": "wsrun dev"
+  },
+  "devDependencies": {
+    "wsrun": "^3.3.3"
+  }
+}
