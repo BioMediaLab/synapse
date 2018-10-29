@@ -105,23 +105,29 @@ class SearchBar extends Component<ISearchBarProps> {
                     {isOpen ? (
                       <Paper className={classes.paper} square>
                         <List>
-                          {data.userSearch.map(user => {
-                            return (
-                              <Link
-                                route="users"
-                                params={{ id: user.id }}
-                                key={user.id}
-                              >
-                                <ListItem button>
-                                  <ProfilePic user={user} />
-                                  <ListItemText
-                                    primary={user.name}
-                                    secondary={user.email}
-                                  />
-                                </ListItem>
-                              </Link>
-                            );
-                          })}
+                          {data.userSearch.length ? (
+                            data.userSearch.map(user => {
+                              return (
+                                <Link
+                                  route="users"
+                                  params={{ id: user.id }}
+                                  key={user.id}
+                                >
+                                  <ListItem button>
+                                    <ProfilePic user={user} />
+                                    <ListItemText
+                                      primary={user.name}
+                                      secondary={user.email}
+                                    />
+                                  </ListItem>
+                                </Link>
+                              );
+                            })
+                          ) : (
+                            <ListItem>
+                              <ListItemText primary="No search results." />
+                            </ListItem>
+                          )}
                         </List>
                       </Paper>
                     ) : null}
