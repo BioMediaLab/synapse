@@ -31,6 +31,7 @@ const styles = theme =>
       marginTop: theme.spacing.unit,
       left: 0,
       right: 0,
+      minWidth: "500px",
     },
     inputRoot: {
       color: "inherit",
