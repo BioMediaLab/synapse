@@ -11,16 +11,16 @@ interface Proc {
 declare var process: Proc;
 
 export default App => {
-  interface ApolloProps {
+  interface IApolloProps {
     apolloState: NormalizedCacheObject;
     hasSession: boolean;
   }
 
-  interface Apollo extends React.Component<ApolloProps, {}> {
+  interface Apollo extends React.Component<IApolloProps, {}> {
     apolloClient: ApolloClient<any>;
   }
 
-  class Apollo extends React.Component<ApolloProps, {}> {
+  class Apollo extends React.Component<IApolloProps, {}> {
     static displayName = "withApollo(App)";
 
     // Runs on server

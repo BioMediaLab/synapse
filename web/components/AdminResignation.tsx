@@ -54,7 +54,7 @@ class AdminResignation extends React.Component<{}, IAdminResignationState> {
     return (
       <React.Fragment>
         <Button
-          variant="raised"
+          variant="contained"
           color="secondary"
           onClick={() => {
             this.changeWarning(true);

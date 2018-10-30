@@ -804,7 +804,7 @@
   resolved "https://registry.yarnpkg.com/@heroku/linewrap/-/linewrap-1.0.0.tgz#a9d4e99f0a3e423a899b775f5f3d6747a1ff15c6"
   integrity sha512-qPeQp2DnALUwWKaL6ZXfnOw/lHp+zNg5V8whx5c/Y10HMWYjuQFqKupgoJgyuEYjnvYwoZTarW280+aOXWQLCQ==
 
-"@material-ui/core@^3.1.0":
+"@material-ui/core@^3.2.0":
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/@material-ui/core/-/core-3.3.1.tgz#e4ecce8b56065364d2a937e845af63d720b696e8"
   integrity sha512-uXTL6L8ISAAlXK1cNX4sFpRvZFEoyHTMZPIqt3dlqJe4dZxsLA+dzSRMYGd4x3xJAUjjspMFEPAVATjzi6gp+A==
@@ -1995,9 +1995,9 @@ aws-lambda@^0.1.2:
     dotenv "^0.4.0"
 
 aws-sdk@^*:
-  version "2.342.0"
-  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.342.0.tgz#87566a054db0373221de1c958e1d34db1dcb0818"
-  integrity sha512-MEEBC3JArsCoOqLGZ3WcGuSf5FBMjSusk2/OKLQhrcv0nBGADC+y71R5qvq8eTZbIoA1x/qooSGxSBU1LxQ53A==
+  version "2.343.0"
+  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.343.0.tgz#4277b6f5a2fe359f38978c1d8170947138af45d9"
+  integrity sha512-WB7uwmlyQ2NHEmXufYgJa6Qr1uwAFqBJ5GBgO8YALYAck9C6TLGD9/oKJGK93PXBpmgPdJqVIfxZE80YQ5/xXQ==
   dependencies:
     buffer "4.9.1"
     events "1.1.1"
@@ -6535,6 +6535,11 @@ normalize-scroll-left@^0.1.2:
   resolved "https://registry.yarnpkg.com/normalize-scroll-left/-/normalize-scroll-left-0.1.2.tgz#6b79691ba79eb5fb107fa5edfbdc06b55caee2aa"
   integrity sha512-F9YMRls0zCF6BFIE2YnXDRpHPpfd91nOIaNdDgrx5YMoPLo8Wqj+6jNXHQsYBavJeXP4ww8HCt0xQAKc5qk2Fg==
 
+notistack@^0.3.7:
+  version "0.3.7"
+  resolved "https://registry.yarnpkg.com/notistack/-/notistack-0.3.7.tgz#3546f0a43e307ee2f513af7b0aedfa2b3a4cc5d7"
+  integrity sha512-OmoTnUdwTqKAmxRhZWVmWg8N9ZOvaSGh+MpCGfKKAKXjX72Do15/XthxfJscfJTkOylYsnhkz8sGcMXUBVu2AQ==
+
 npm-bundled@^1.0.1:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/npm-bundled/-/npm-bundled-1.0.5.tgz#3c1732b7ba936b3a10325aef616467c0ccbcc979"
@@ -8780,7 +8785,7 @@ strip-outer@^1.0.0:
   dependencies:
     escape-string-regexp "^1.0.2"
 
-styled-jsx@3.1.0:
+styled-jsx@3.1.0, styled-jsx@^3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/styled-jsx/-/styled-jsx-3.1.0.tgz#c295e4170298b5bb858f848c4b73e423a73a68f3"
   integrity sha512-drcLtuMC9wKhxZ5C7PyGxy9ADWfw7svB8zemWu+zpG8x4n/hih2xQU2U+SG6HF3TjV3tOjRrNIQOV8vUvffifA==
@@ -8933,9 +8938,9 @@ terser-webpack-plugin@1.0.2:
     worker-farm "^1.5.2"
 
 terser@^3.8.1:
-  version "3.10.2"
-  resolved "https://registry.yarnpkg.com/terser/-/terser-3.10.2.tgz#a61d2c97065f9fdc8c49a18655e2a80ca7298a94"
-  integrity sha512-+QrFoqBImmsQGB4c/HvaqgZynmbNvNBwoBxuu7fYXtq5EEtlLUzph+WimDj+xMkuqawXPMl2lgCIz81CdXvt+w==
+  version "3.10.3"
+  resolved "https://registry.yarnpkg.com/terser/-/terser-3.10.3.tgz#4085f9e62171ca746c5759fe955d921291703ee6"
+  integrity sha512-uyL5hwDICjnv49JANhZvQYLikt/HADWNbUFsKQpZ/i+JSOkL2T4V7WUpW7S/5QGZceVq2x0HRVhEQQuW2ZpX6g==
   dependencies:
     commander "~2.17.1"
     source-map "~0.6.1"
@@ -9192,9 +9197,9 @@ typescript@^3.0.3:
   integrity sha512-+81MUSyX+BaSo+u2RbozuQk/UWx6hfG0a5gHu4ANEM4sU96XbuIyAB+rWBW1u70c6a5QuZfuYICn3s2UjuHUpA==
 
 ua-parser-js@^0.7.18:
-  version "0.7.18"
-  resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.18.tgz#a7bfd92f56edfb117083b69e31d2aa8882d4b1ed"
-  integrity sha512-LtzwHlVHwFGTptfNSgezHp7WUlwiqb0gA9AALRbKaERfxwJoiX0A73QbTToxteIAuIaFshhgIZfqK8s7clqgnA==
+  version "0.7.19"
+  resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.19.tgz#94151be4c0a7fb1d001af7022fdaca4642659e4b"
+  integrity sha512-T3PVJ6uz8i0HzPxOF9SWzWAlfN/DavlpQqepn22xgve/5QecC+XMCAtmUNnY7C9StehaV6exjUCI801lOI7QlQ==
 
 uglify-es@^3.3.4:
   version "3.3.9"
