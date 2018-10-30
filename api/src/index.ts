@@ -5,11 +5,17 @@ import { GraphQLServer } from "graphql-yoga";
 
 import { validateJWT } from "./auth";
 import { resolvers } from "./graphql/main";
-import { contextCreatorFactory } from "./graphqlContext";
+import { contextCreatorFactory, IntResolverContext } from "./graphqlContext";
 import googleAuthRouter from "./routes/auth/google";
 
-const makePublic = async (resolve, parent, args, context, info) => {
-  context.request.isPublic = true;
+const makePublic = async (
+  resolve,
+  parent,
+  args,
+  context: IntResolverContext,
+  info,
+) => {
+  context.isPublic = true;
   return resolve();
 };
 
@@ -19,8 +25,14 @@ const publicRoutesMiddleware = {
   },
 };
 
-const authMiddleware = async (resolve, parent, args, context, info) => {
-  if (context.request && context.request.isPublic) {
+const authMiddleware = async (
+  resolve,
+  parent,
+  args,
+  context: IntResolverContext,
+  info,
+) => {
+  if (context.isPublic) {
     return resolve();
   }
 

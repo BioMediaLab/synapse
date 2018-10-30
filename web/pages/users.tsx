@@ -12,8 +12,8 @@ interface IUserProps {
 }
 
 const GET_USER = gql`
-  query user($user_id: String!) {
-    user(id: $user_id) {
+  query user($userID: String!) {
+    user(id: $userID) {
       id
       name
       email
@@ -22,10 +22,10 @@ const GET_USER = gql`
 `;
 
 const UserProfile: React.SFC<IUserProps> = ({ router }) => {
-  const userId = router.query.id;
+  const userID = router.query.id;
 
   return (
-    <Query query={GET_USER} variables={{ userId }}>
+    <Query query={GET_USER} variables={{ userID }}>
       {({ loading, error, data: { user } }) => {
         if (loading) {
           return <div>Loading...</div>;

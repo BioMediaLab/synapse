@@ -38,6 +38,7 @@ export const contextCreatorFactory = (): ContextCallback => {
       jwt,
       pubsub,
       bindingDb,
+      isPublic: false,
     };
   };
   return contextCreator;

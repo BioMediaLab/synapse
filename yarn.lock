@@ -804,10 +804,17 @@
   resolved "https://registry.yarnpkg.com/@heroku/linewrap/-/linewrap-1.0.0.tgz#a9d4e99f0a3e423a899b775f5f3d6747a1ff15c6"
   integrity sha512-qPeQp2DnALUwWKaL6ZXfnOw/lHp+zNg5V8whx5c/Y10HMWYjuQFqKupgoJgyuEYjnvYwoZTarW280+aOXWQLCQ==
 
+<<<<<<< HEAD
 "@material-ui/core@^3.2.0":
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/@material-ui/core/-/core-3.3.1.tgz#e4ecce8b56065364d2a937e845af63d720b696e8"
   integrity sha512-uXTL6L8ISAAlXK1cNX4sFpRvZFEoyHTMZPIqt3dlqJe4dZxsLA+dzSRMYGd4x3xJAUjjspMFEPAVATjzi6gp+A==
+=======
+"@material-ui/core@^3.1.0":
+  version "3.3.2"
+  resolved "https://registry.yarnpkg.com/@material-ui/core/-/core-3.3.2.tgz#ca9ce331ac5a31ef8acc732305967f3e5cfe4934"
+  integrity sha512-3yYGrWBzML7OhzmgwBvWpQnFq9ROWj+so+ULADB+lXjpOuxbUf8IUWbR4/S4chh+8/DTNMjTGIUdpj//XeubLQ==
+>>>>>>> abdcc3d6eb2fd2bc7ab1db2b336ca6429fd23f74
   dependencies:
     "@babel/runtime" "7.1.2"
     "@types/jss" "^9.5.6"
@@ -905,14 +912,14 @@
     "@types/node" "*"
 
 "@types/algoliasearch@^3.27.7":
-  version "3.27.8"
-  resolved "https://registry.yarnpkg.com/@types/algoliasearch/-/algoliasearch-3.27.8.tgz#16833bb41390bca0fc9d8acd196bb51104d3b8e4"
-  integrity sha512-o4+3mfNRWfEtfh4KGZPSENhnS2dBpERidb97Puf0remweQUqDAiY+NL8dxeIn9Oi8JDhabtGWx3NUkb5iLCApw==
+  version "3.30.0"
+  resolved "https://registry.yarnpkg.com/@types/algoliasearch/-/algoliasearch-3.30.0.tgz#01dc59b8be1df7d69eaec00d377b49fc1000fe8c"
+  integrity sha512-9gPDQiMDC6AxV7RiamvX2JR9xgBA3kzNlzS1UahDbF4fL5pdmTuAEmq2fHIXv77DTFX/GRGT7EhBE9QKgUB2fA==
 
-"@types/async@2.0.49":
-  version "2.0.49"
-  resolved "https://registry.yarnpkg.com/@types/async/-/async-2.0.49.tgz#92e33d13f74c895cb9a7f38ba97db8431ed14bc0"
-  integrity sha512-Benr3i5odUkvpFkOpzGqrltGdbSs+EVCkEBGXbuR7uT0VzhXKIkhem6PDzHdx5EonA+rfbB3QvP6aDOw5+zp5Q==
+"@types/async@2.0.50":
+  version "2.0.50"
+  resolved "https://registry.yarnpkg.com/@types/async/-/async-2.0.50.tgz#117540e026d64e1846093abbd5adc7e27fda7bcb"
+  integrity sha512-VMhZMMQgV1zsR+lX/0IBfAk+8Eb7dPVMWiQGFAt3qjo5x7Ml6b77jUo0e1C3ToD+XRDXqtrfw+6AB0uUsPEr3Q==
 
 "@types/body-parser@*", "@types/body-parser@1.17.0":
   version "1.17.0"
@@ -1056,7 +1063,12 @@
   dependencies:
     "@types/node" "*"
 
-"@types/node@*", "@types/node@^10.1.0", "@types/node@^10.10.2", "@types/node@^10.11.0", "@types/node@^10.12.0", "@types/node@^10.7.0":
+"@types/node@*", "@types/node@^10.10.2", "@types/node@^10.11.0", "@types/node@^10.12.0":
+  version "10.12.1"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.12.1.tgz#da61b64a2930a80fa708e57c45cd5441eb379d5b"
+  integrity sha512-i1sl+WCX2OCHeUi9oi7PiCNUtYFrpWhpcx878vpeq/tlZTKzcFdHePlyFHVbWqeuKN0SRPl/9ZFDSTsfv9h7VQ==
+
+"@types/node@^10.1.0", "@types/node@^10.7.0":
   version "10.12.0"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-10.12.0.tgz#ea6dcbddbc5b584c83f06c60e82736d8fbb0c235"
   integrity sha512-3TUHC3jsBAB7qVRGxT6lWyYo2v96BMmD2PTcl47H25Lu7UXtFH/2qqmKiVrnel6Ne//0TFYf6uvNX+HW2FRkLQ==
@@ -1471,13 +1483,13 @@ anymatch@^2.0.0:
     normalize-path "^2.1.1"
 
 apollo-boost@^0.1.17:
-  version "0.1.17"
-  resolved "https://registry.yarnpkg.com/apollo-boost/-/apollo-boost-0.1.17.tgz#ccba9dc8b2ab8a6bcac2ab7a358a44a6e649d7b7"
-  integrity sha512-f6edZV5UM6Ywj69XZP7w7Yy3mS23fGrTVTCzQv9MY5wZnkJ6jw3QzYGPYtEPQd/Jap5Ri61/hpFM3QqwiGSV0g==
+  version "0.1.19"
+  resolved "https://registry.yarnpkg.com/apollo-boost/-/apollo-boost-0.1.19.tgz#6ab4b94da38610eb3bee16bfbec99e34a38a5574"
+  integrity sha512-IjY8HpPbOTCGBzAoQhY3qh7cnIAiZAX4azFinkh7g4B2ut5YfJBnLwhfWOkM1rKUCrkoJ+QMZTRIIm53uYvkSw==
   dependencies:
-    apollo-cache "^1.1.18"
-    apollo-cache-inmemory "^1.3.6"
-    apollo-client "^2.4.3"
+    apollo-cache "^1.1.20"
+    apollo-cache-inmemory "^1.3.8"
+    apollo-client "^2.4.5"
     apollo-link "^1.0.6"
     apollo-link-error "^1.0.3"
     apollo-link-http "^1.3.1"
@@ -1499,36 +1511,36 @@ apollo-cache-control@^0.2.5:
     apollo-server-env "^2.0.3"
     graphql-extensions "^0.2.1"
 
-apollo-cache-inmemory@^1.3.6:
-  version "1.3.6"
-  resolved "https://registry.yarnpkg.com/apollo-cache-inmemory/-/apollo-cache-inmemory-1.3.6.tgz#5761268c0f9f9d09df62cf3435046635e29b708b"
-  integrity sha512-ARSMDNFAPS1xLx79PrOFGd+iEFsC/pVusRbirA+p0AHVJSWyZdhW2fNy7RyFA+2pLbCFFgOgS2SoCq+JFu1RTA==
+apollo-cache-inmemory@^1.3.8:
+  version "1.3.8"
+  resolved "https://registry.yarnpkg.com/apollo-cache-inmemory/-/apollo-cache-inmemory-1.3.8.tgz#5529a58b7b72b4bb133ce11ab22a012951297bb7"
+  integrity sha512-bT1v8+kKgM9u8NvCODOZ2qKxdufsmBaUsnLp7s5+kv0Zq5u/Bw4Ltb3DxrYFQoqZYrKJKy1iMJE3MV2J/Dthjg==
   dependencies:
-    apollo-cache "^1.1.18"
-    apollo-utilities "^1.0.22"
+    apollo-cache "^1.1.20"
+    apollo-utilities "^1.0.25"
     optimism "^0.6.6"
 
-apollo-cache@1.1.18, apollo-cache@^1.1.18:
-  version "1.1.18"
-  resolved "https://registry.yarnpkg.com/apollo-cache/-/apollo-cache-1.1.18.tgz#384a7e1e39414fd2a09c80d5295d36f15c85b9ab"
-  integrity sha512-XZ17PxZw+FE75SKZcymsIqA5EetcmLxoHKXqvkGmWi4WZpVDX/hUoPTIUbRsGmHOfZfOokFviDOzOSnEdQo1Mw==
+apollo-cache@1.1.20, apollo-cache@^1.1.20:
+  version "1.1.20"
+  resolved "https://registry.yarnpkg.com/apollo-cache/-/apollo-cache-1.1.20.tgz#6152cc4baf6a63e376efee79f75de4f5c84bf90e"
+  integrity sha512-+Du0/4kUSuf5PjPx0+pvgMGV12ezbHA8/hubYuqRQoy/4AWb4faa61CgJNI6cKz2mhDd9m94VTNKTX11NntwkQ==
   dependencies:
-    apollo-utilities "^1.0.22"
+    apollo-utilities "^1.0.25"
 
-apollo-client@^2.4.3:
-  version "2.4.3"
-  resolved "https://registry.yarnpkg.com/apollo-client/-/apollo-client-2.4.3.tgz#261749c531eda367a1e2a3c5def024abb09add6e"
-  integrity sha512-ALfqkvnv2ZXrk08rqegFDkgRNVh7G/hz+jK+dblCKjcbgUmBduSHsnIfc335povbZTLPjtb0/z0iMECJu3FvZw==
+apollo-client@^2.4.3, apollo-client@^2.4.5:
+  version "2.4.5"
+  resolved "https://registry.yarnpkg.com/apollo-client/-/apollo-client-2.4.5.tgz#545beda1ef60814943b5622f0feabc9f29ee9822"
+  integrity sha512-nUm06EGa4TP/IY68OzmC3lTD32TqkjLOQdb69uYo+lHl8NnwebtrAw3qFtsQtTEz6ueBp/Z/HasNZng4jwafVQ==
   dependencies:
     "@types/zen-observable" "^0.8.0"
-    apollo-cache "1.1.18"
+    apollo-cache "1.1.20"
     apollo-link "^1.0.0"
     apollo-link-dedup "^1.0.0"
-    apollo-utilities "1.0.22"
+    apollo-utilities "1.0.25"
     symbol-observable "^1.0.2"
     zen-observable "^0.8.0"
   optionalDependencies:
-    "@types/async" "2.0.49"
+    "@types/async" "2.0.50"
 
 apollo-datasource@^0.1.3:
   version "0.1.3"
@@ -1758,17 +1770,10 @@ apollo-upload-server@^5.0.0:
     busboy "^0.2.14"
     object-path "^0.11.4"
 
-apollo-utilities@1.0.22:
-  version "1.0.22"
-  resolved "https://registry.yarnpkg.com/apollo-utilities/-/apollo-utilities-1.0.22.tgz#0e11350d1220d83ae1c784115d0fa18bdc549a60"
-  integrity sha512-6+78Woy+js6LrMrI/TS3Lbdti7D8LhgZnVANSGfsPqjVlEkMnl0p7XSfpEFfX69hDN04wf43+BnqgS2cgJkiMA==
-  dependencies:
-    fast-json-stable-stringify "^2.0.0"
-
-apollo-utilities@^1.0.0, apollo-utilities@^1.0.1, apollo-utilities@^1.0.22, apollo-utilities@^1.0.23, apollo-utilities@^1.0.8:
-  version "1.0.23"
-  resolved "https://registry.yarnpkg.com/apollo-utilities/-/apollo-utilities-1.0.23.tgz#9416e5da31cc8d9d46502de6f90aa1447cd368c6"
-  integrity sha512-RW65kZZxSEysvzm5YBrNU6SvE+Z62VQ+lpxYX/3d9pZYsMBkaMdfr3OnUwGKt/MqUsDfUb/LLoXpMRhKukMpeQ==
+apollo-utilities@1.0.25, apollo-utilities@^1.0.0, apollo-utilities@^1.0.1, apollo-utilities@^1.0.23, apollo-utilities@^1.0.25, apollo-utilities@^1.0.8:
+  version "1.0.25"
+  resolved "https://registry.yarnpkg.com/apollo-utilities/-/apollo-utilities-1.0.25.tgz#899b00f5f990fb451675adf84cb3de82eb6372ea"
+  integrity sha512-AXvqkhni3Ir1ffm4SA1QzXn8k8I5BBl4PVKEyak734i4jFdp+xgfUyi2VCqF64TJlFTA/B73TRDUvO2D+tKtZg==
   dependencies:
     fast-json-stable-stringify "^2.0.0"
 
@@ -2600,7 +2605,7 @@ chokidar@^1.7.0:
   optionalDependencies:
     fsevents "^1.0.0"
 
-chokidar@^2.0.2:
+chokidar@^2.0.2, chokidar@^2.0.4:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/chokidar/-/chokidar-2.0.4.tgz#356ff4e2b0e8e43e322d18a372460bbcf3accd26"
   integrity sha512-z9n7yt9rOvIJrMhvDtDictKrkFHeihkNl6uWMmZlmL6tJtX9Cs+87oK+teBx+JIgzvbX3yZHT3eF8vpbDxHJXQ==
@@ -4428,11 +4433,11 @@ graphcool-inquirer@^1.0.3:
     through "^2.3.6"
 
 graphql-anywhere@^4.1.0-alpha.0:
-  version "4.1.20"
-  resolved "https://registry.yarnpkg.com/graphql-anywhere/-/graphql-anywhere-4.1.20.tgz#636186e89e5f817c4f277b8781fb02d43032d342"
-  integrity sha512-Imz2d2BYsBP7nY1+7wSAtGAPZq16BBoqN6/rSEqjgDRJHLQ+2Tu4ipCldWLgYwoHP8Z/TZdH/sD+fcJ/ulwTEw==
+  version "4.1.22"
+  resolved "https://registry.yarnpkg.com/graphql-anywhere/-/graphql-anywhere-4.1.22.tgz#1c831ba3c9e5664a0dd24d10d23a9e9512d92056"
+  integrity sha512-qm2/1cKM8nfotxDhm4J0r1znVlK0Yge/yEKt26EVVBgpIhvxjXYFALCGbr7cvfDlvzal1iSPpaYa+8YTtjsxQA==
   dependencies:
-    apollo-utilities "^1.0.22"
+    apollo-utilities "^1.0.25"
 
 graphql-binding@2.2.5:
   version "2.2.5"
@@ -4584,7 +4589,18 @@ graphql-tools@3.1.1, graphql-tools@^3.0.4:
     iterall "^1.1.3"
     uuid "^3.1.0"
 
-graphql-tools@^4.0.0, graphql-tools@^4.0.1:
+graphql-tools@^4.0.0:
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/graphql-tools/-/graphql-tools-4.0.3.tgz#23b5cb52c519212b1b2e4630a361464396ad264b"
+  integrity sha512-NNZM0WSnVLX1zIMUxu7SjzLZ4prCp15N5L2T2ro02OVyydZ0fuCnZYRnx/yK9xjGWbZA0Q58yEO//Bv/psJWrg==
+  dependencies:
+    apollo-link "^1.2.3"
+    apollo-utilities "^1.0.1"
+    deprecated-decorator "^0.1.6"
+    iterall "^1.1.3"
+    uuid "^3.1.0"
+
+graphql-tools@^4.0.1:
   version "4.0.2"
   resolved "https://registry.yarnpkg.com/graphql-tools/-/graphql-tools-4.0.2.tgz#9da22974cc6bf6524ed4f4af35556fd15aa6516d"
   integrity sha512-GijRFaHmSbyVphtTb23wd6wxXNkct9usiXHl2v4cOFNdUWe3Qz7VqoNyOwINlff2nf01xO+lCkhVlay0svJqfQ==
@@ -6483,11 +6499,11 @@ node-releases@^1.0.0-alpha.15:
     semver "^5.3.0"
 
 nodemon@^1.18.4:
-  version "1.18.4"
-  resolved "https://registry.yarnpkg.com/nodemon/-/nodemon-1.18.4.tgz#873f65fdb53220eb166180cf106b1354ac5d714d"
-  integrity sha512-hyK6vl65IPnky/ee+D3IWvVGgJa/m3No2/Xc/3wanS6Ce1MWjCzH6NnhPJ/vZM+6JFym16jtHx51lmCMB9HDtg==
+  version "1.18.5"
+  resolved "https://registry.yarnpkg.com/nodemon/-/nodemon-1.18.5.tgz#3d3924df23d06806952e8b6d3de052f2a3351807"
+  integrity sha512-8806dC8dfBlbxQmqNOSEeay/qlbddKvFzxIGNxnPtxUlTtH77xsrC66RnA3M47HCSgMgE5bj+U586o50RowXBg==
   dependencies:
-    chokidar "^2.0.2"
+    chokidar "^2.0.4"
     debug "^3.1.0"
     ignore-by-default "^1.0.1"
     minimatch "^3.0.4"
@@ -7019,9 +7035,9 @@ pg-types@~1.12.1:
     postgres-interval "^1.1.0"
 
 pg@^7.4.1:
-  version "7.5.0"
-  resolved "https://registry.yarnpkg.com/pg/-/pg-7.5.0.tgz#c2853bef2fcb91424ba2f649fd951ce866a84760"
-  integrity sha512-VFyAnp8xsMZp8nwZnMp7lmU5QcWDOZSI3IDNcWv6pblsiOXis5o7lD7/zzVK1Z1JTBiIDDGQAMbFMkiUzCL59A==
+  version "7.6.0"
+  resolved "https://registry.yarnpkg.com/pg/-/pg-7.6.0.tgz#0c9ecaf0ce6f3c7e3c68ce8f621df79e741a89e3"
+  integrity sha512-INUjsobS7O0Slad6fVlSSSVpMd5wozwtdSrWL5/JfEGYCWtPwgka0uQOf2KCo7QbWUmwefcuNQtzijeztDquQg==
   dependencies:
     buffer-writer "1.0.1"
     packet-reader "0.3.1"
@@ -7171,10 +7187,10 @@ prisma-binding@^2.1.6:
     subscriptions-transport-ws "0.9.8"
     yargs "12.0.1"
 
-prisma-cli-core@1.19.0:
-  version "1.19.0"
-  resolved "https://registry.yarnpkg.com/prisma-cli-core/-/prisma-cli-core-1.19.0.tgz#0714ae13d1cd5b1c4b03699535311ba28c32a4e1"
-  integrity sha512-Y+DDabNBbzM7bGEGHQoUtanBDfRBB5cbo86hwdeqwr6NTmUWFArtaynbDOlzTkHxWWnoNj+Os87UPmZxMg9Z+A==
+prisma-cli-core@1.19.1:
+  version "1.19.1"
+  resolved "https://registry.yarnpkg.com/prisma-cli-core/-/prisma-cli-core-1.19.1.tgz#0851ea13fe0042f11d3f4873992bc558cf6f7b10"
+  integrity sha512-RBLgJIXWQVsC1AnTzMWLWV+gx2ylEgRqt64WRPtn66YADmkgPsUHHBDApeGBVzqxPSMwQhiD09jn8eIe5m3M1A==
   dependencies:
     adm-zip "^0.4.7"
     archiver "^2.0.3"
@@ -7207,11 +7223,11 @@ prisma-cli-core@1.19.0:
     opn "^5.1.0"
     pause "^0.1.0"
     portfinder "^1.0.13"
-    prisma-client-lib "1.19.0"
-    prisma-db-introspection "1.19.0"
-    prisma-generate-schema "1.19.0"
+    prisma-client-lib "1.19.1"
+    prisma-db-introspection "1.19.1"
+    prisma-generate-schema "1.19.1"
     prisma-json-schema "0.1.2"
-    prisma-yml "1.19.0"
+    prisma-yml "1.19.1"
     scuid "^1.0.2"
     semver "^5.4.1"
     sillyname "^0.1.0"
@@ -7220,10 +7236,10 @@ prisma-cli-core@1.19.0:
     util.promisify "^1.0.0"
     validator "^8.2.0"
 
-prisma-cli-engine@1.19.0:
-  version "1.19.0"
-  resolved "https://registry.yarnpkg.com/prisma-cli-engine/-/prisma-cli-engine-1.19.0.tgz#dd5be8740b0387829c204f9bfaf8412c4266606e"
-  integrity sha512-BoTHvc9ZVZzXThcu4BMjG5rlRa+QHkBRdx63iskEwLt7QUppWlHw2slxUf5rirCUphf3pNVSMa9m4hUfozLYfw==
+prisma-cli-engine@1.19.1:
+  version "1.19.1"
+  resolved "https://registry.yarnpkg.com/prisma-cli-engine/-/prisma-cli-engine-1.19.1.tgz#1c079ca6a0e30e3babed6cc71c5f0ad7dcc4bfeb"
+  integrity sha512-EVvmELo2+gYujap+tkr0vD1dpa9JNoVyOzI6PpvasoYpMtPK5FhAFk9QsWmAoR/NYv1JLA9/Ilxx7+4NC0mZoA==
   dependencies:
     "@heroku/linewrap" "^1.0.0"
     ajv "5"
@@ -7265,7 +7281,7 @@ prisma-cli-engine@1.19.0:
     memfs "^2.5.3"
     opn "^5.1.0"
     prisma-json-schema "0.1.2"
-    prisma-yml "1.19.0"
+    prisma-yml "1.19.1"
     raven "2.3.0"
     replaceall "^0.1.6"
     rwlockfile "^1.4.8"
@@ -7280,10 +7296,10 @@ prisma-cli-engine@1.19.0:
     update-notifier "^2.3.0"
     validator "^8.2.0"
 
-prisma-client-lib@1.19.0:
-  version "1.19.0"
-  resolved "https://registry.yarnpkg.com/prisma-client-lib/-/prisma-client-lib-1.19.0.tgz#879a0f30e05e37af0161f62b15a29d0e020d89f5"
-  integrity sha512-3I+qtZLnONVPhBr/0v8nMbg6KXiQjRUpMjsdyCicARBpKbXkQp5qKYVnOmxygkbVuiHBzAbY/TpKm/bJ7D/7IA==
+prisma-client-lib@1.19.1:
+  version "1.19.1"
+  resolved "https://registry.yarnpkg.com/prisma-client-lib/-/prisma-client-lib-1.19.1.tgz#e4f6b1c1791280f86c60e006b4b8664687218b1b"
+  integrity sha512-40D4AH5FjWzR7gw2OubAFYWd9X1UtRAp2dP+Zi5E8nGb5ouOc5XmCiERvT83C5B1yX9NyTqCoerpwL8SAJlPUg==
   dependencies:
     "@types/node" "^10.12.0"
     "@types/prettier" "^1.13.2"
@@ -7316,10 +7332,10 @@ prisma-client-lib@^0.2.58:
     ws "^6.1.0"
     zen-observable "^0.8.10"
 
-prisma-db-introspection@1.19.0:
-  version "1.19.0"
-  resolved "https://registry.yarnpkg.com/prisma-db-introspection/-/prisma-db-introspection-1.19.0.tgz#65f26e886e4aacbe15bc015967d86f3daf6c1396"
-  integrity sha512-U/Pvx6m5y049npscWqyH+Bj4gRw5zTLaFZsJTb149z+IZa59Mt2mTiPymW1TItwSoP/8mYhkanvF8eGGTtZCpw==
+prisma-db-introspection@1.19.1:
+  version "1.19.1"
+  resolved "https://registry.yarnpkg.com/prisma-db-introspection/-/prisma-db-introspection-1.19.1.tgz#7c2f05a11cc4160bf7be84fdb4ba0671a3df61fa"
+  integrity sha512-PA8HhWBMZT0CTRdUpOuILiKaBpRm0N/E+AD3NffMn9MRp97bK6uuXhPQC/hxUwYA5s2SdFnEE694eTLLVE4mYA==
   dependencies:
     ajv "5"
     bluebird "^3.5.1"
@@ -7336,16 +7352,16 @@ prisma-db-introspection@1.19.0:
     pg "^7.4.1"
     pluralize "^7.0.0"
     prisma-json-schema "0.1.2"
-    prisma-yml "1.19.0"
+    prisma-yml "1.19.1"
     replaceall "^0.1.6"
     scuid "^1.0.2"
     uppercamelcase "^3.0.0"
     yaml-ast-parser "^0.0.40"
 
-prisma-generate-schema@1.19.0:
-  version "1.19.0"
-  resolved "https://registry.yarnpkg.com/prisma-generate-schema/-/prisma-generate-schema-1.19.0.tgz#ab4c24a772affab1145e31accd258cc8ede89424"
-  integrity sha512-g1nNEzVnnrQkvE8GaMSVJOcZJLYdJDVv1YLm7Bl9gvIroEzntM4SzvCjVWB2AadkRz8WmVYQPLNLEgutrOMpyA==
+prisma-generate-schema@1.19.1:
+  version "1.19.1"
+  resolved "https://registry.yarnpkg.com/prisma-generate-schema/-/prisma-generate-schema-1.19.1.tgz#ee13c1148787d50e3eefcab96844c8eab474d272"
+  integrity sha512-/QHGW6RoRvbyEFyjrrXOvoq5JQHBBjg/5ekSteigM29BdGVt3IYWHEg+G5uhXRlNC9s4XchM+ESJIDIhOwrTCA==
   dependencies:
     graphql "^14.0.2"
     pluralize "^7.0.0"
@@ -7407,10 +7423,10 @@ prisma-yml@1.0.97:
     scuid "^1.0.2"
     yaml-ast-parser "^0.0.40"
 
-prisma-yml@1.19.0:
-  version "1.19.0"
-  resolved "https://registry.yarnpkg.com/prisma-yml/-/prisma-yml-1.19.0.tgz#0d04502f55951422e8e27763608563c07433e27e"
-  integrity sha512-tOUs8Z75m7hpFcKz8tiDnp0tdMoc39YmGowXXzis/syLJLYRC/6bILmWfSHCLA+m0sarflI75RDSn4MgCP6O5A==
+prisma-yml@1.19.1:
+  version "1.19.1"
+  resolved "https://registry.yarnpkg.com/prisma-yml/-/prisma-yml-1.19.1.tgz#a9e5e0b838eb1995ffdf8f8318b5480f05a20544"
+  integrity sha512-8o96hflxzoaWjodT3/2JXSI2Ew3efOhwMAJuMTSBHy7wzb+8t+joQZH4kq/ji8qS4fWPrBDfL7VrSzKWH1kalA==
   dependencies:
     ajv "5"
     bluebird "^3.5.1"
@@ -7432,13 +7448,13 @@ prisma-yml@1.19.0:
     yaml-ast-parser "^0.0.40"
 
 prisma@^1.17.1:
-  version "1.19.0"
-  resolved "https://registry.yarnpkg.com/prisma/-/prisma-1.19.0.tgz#c174e95f520a494f3947f75252d082d79a50ddae"
-  integrity sha512-xMUoALPSwL+n/zEdr87lyDI75VlVLgPt5m9iDMsTTcYFCOEbLTmHoFscjnVRLGYa/6aOvjTGsmuro5ol61HBRQ==
+  version "1.19.1"
+  resolved "https://registry.yarnpkg.com/prisma/-/prisma-1.19.1.tgz#031b8a6e6e8adadb14b5d7d4be53d0efeff3fd1e"
+  integrity sha512-t+KdWFO/USv0IRLE45F36ZdPi1BrQVXhZ0O97Uql6EAGwTItPH4viWA2NHxEIRhF+3gsQqaFC1Bdm2mbFOPuaw==
   dependencies:
     fs-extra "^5.0.0"
-    prisma-cli-core "1.19.0"
-    prisma-cli-engine "1.19.0"
+    prisma-cli-core "1.19.1"
+    prisma-cli-engine "1.19.1"
     require-onct "^0.0.2"
     semver "^5.4.1"
     source-map-support "^0.4.18"
@@ -8579,9 +8595,9 @@ sprintf-js@~1.0.2:
   integrity sha1-BOaSb2YolTVPPdAVIDYzuFcpfiw=
 
 sshpk@^1.7.0:
-  version "1.15.1"
-  resolved "https://registry.yarnpkg.com/sshpk/-/sshpk-1.15.1.tgz#b79a089a732e346c6e0714830f36285cd38191a2"
-  integrity sha512-mSdgNUaidk+dRU5MhYtN9zebdzF2iG0cNPWy8HG+W8y+fT1JnSkh0fzzpjOa0L7P8i1Rscz38t0h4gPcKz43xA==
+  version "1.15.2"
+  resolved "https://registry.yarnpkg.com/sshpk/-/sshpk-1.15.2.tgz#c946d6bd9b1a39d0e8635763f5242d6ed6dcb629"
+  integrity sha512-Ra/OXQtuh0/enyl4ETZAfTaeksa6BXks5ZcjpSUNrjBr0DvrJKX+1fsKDPpT9TBXgHAFsa4510aNVgI8g/+SzA==
   dependencies:
     asn1 "~0.2.3"
     assert-plus "^1.0.0"
@@ -9192,9 +9208,9 @@ typedarray@^0.0.6:
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
 typescript@^3.0.3:
-  version "3.1.3"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.1.3.tgz#01b70247a6d3c2467f70c45795ef5ea18ce191d5"
-  integrity sha512-+81MUSyX+BaSo+u2RbozuQk/UWx6hfG0a5gHu4ANEM4sU96XbuIyAB+rWBW1u70c6a5QuZfuYICn3s2UjuHUpA==
+  version "3.1.4"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.1.4.tgz#c74ef7b3c2da65beff548b903022cb8c3cd997ed"
+  integrity sha512-JZHJtA6ZL15+Q3Dqkbh8iCUmvxD3iJ7ujXS+fVkKnwIVAdHc5BJTDNM0aTrnr2luKulFjU7W+SRhDZvi66Ru7Q==
 
 ua-parser-js@^0.7.18:
   version "0.7.19"

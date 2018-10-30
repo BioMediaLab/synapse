@@ -2,17 +2,21 @@ import React, { Component } from "react";
 import Downshift from "downshift";
 import { createStyles, withStyles } from "@material-ui/core/styles";
 import Input from "@material-ui/core/Input";
-import MenuItem from "@material-ui/core/MenuItem";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
 import Paper from "@material-ui/core/Paper";
 import gql from "graphql-tag";
 import { Query } from "react-apollo";
 import { Link } from "../Router";
+import ProfilePic from "../components/ProfilePic";
 
 const SEARCH = gql`
   query UserSearch($searchString: String!) {
     userSearch(name: $searchString, email: $searchString) {
-      name
       id
+      email
+      name
       photo
       nickname
     }
@@ -27,6 +31,7 @@ const styles = theme =>
       marginTop: theme.spacing.unit,
       left: 0,
       right: 0,
+      minWidth: "500px",
     },
     inputRoot: {
       color: "inherit",
@@ -99,17 +104,31 @@ class SearchBar extends Component<ISearchBarProps> {
 
                     {isOpen ? (
                       <Paper className={classes.paper} square>
-                        {data.userSearch.map(user => {
-                          return (
-                            <Link
-                              route="users"
-                              params={{ id: user.id }}
-                              key={user.id}
-                            >
-                              <MenuItem component="div">{user.name}</MenuItem>
-                            </Link>
-                          );
-                        })}
+                        <List>
+                          {data.userSearch.length ? (
+                            data.userSearch.map(user => {
+                              return (
+                                <Link
+                                  route="users"
+                                  params={{ id: user.id }}
+                                  key={user.id}
+                                >
+                                  <ListItem button>
+                                    <ProfilePic user={user} />
+                                    <ListItemText
+                                      primary={user.name}
+                                      secondary={user.email}
+                                    />
+                                  </ListItem>
+                                </Link>
+                              );
+                            })
+                          ) : (
+                            <ListItem>
+                              <ListItemText primary="No search results." />
+                            </ListItem>
+                          )}
+                        </List>
                       </Paper>
                     ) : null}
                   </div>
