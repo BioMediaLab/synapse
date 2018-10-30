@@ -19,7 +19,6 @@ type Course {
   name: String!
   description: String
   activations: [Activation!]!
-  notifications: [Notification!]! @relation(name: "CourseNotifications")
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -35,15 +34,13 @@ type Activation {
 }
 
 enum NoteType {
-  INFORMATIVE,
-  NEW_COURSE,
+  INFORMATIVE
+  NEW_COURSE
 }
 
 type Notification {
   id: ID! @unique
   user: User @relation(name: "UserNotifications")
-  course: Course @relation(name: "CourseNotifications")
-  is_global: Boolean @default(value: "false")
   note_type: NoteType! @default(value: "INFORMATIVE")
   msg: String
   add_data: Json

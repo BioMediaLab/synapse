@@ -9,6 +9,7 @@ type Query {
   confirmSignupGoogle(token: String!): Session!
   courses: [Course]!
   course(where: CourseWhereUniqueInput!): Course
+  recentNotifications(start: Int): RecentNotification
 }
 
 type Mutation {
@@ -28,4 +29,9 @@ type Subscription {
 type Session {
   firstLogin: Boolean
   jwt: String!
+}
+
+type RecentNotification {
+  total: Int!
+  notes: [Notification]
 }
