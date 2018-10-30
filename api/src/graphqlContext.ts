@@ -24,7 +24,11 @@ export const contextCreatorFactory = (): ContextCallback => {
     if (req && req.get) {
       jwt = req.get("authorization");
     }
-    if (initialCtx.connection && initialCtx.connection.context && initialCtx.connection.context.jwt) {
+    if (
+      initialCtx.connection &&
+      initialCtx.connection.context &&
+      initialCtx.connection.context.jwt
+    ) {
       jwt = initialCtx.connection.context.jwt;
     }
 
@@ -34,6 +38,7 @@ export const contextCreatorFactory = (): ContextCallback => {
       jwt,
       pubsub,
       bindingDb,
+      isPublic: false,
     };
   };
   return contextCreator;
