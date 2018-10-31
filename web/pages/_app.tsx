@@ -18,6 +18,7 @@ interface IMyAppProps {
 
 interface IMyApp {
   pageContext: PageContext;
+  hasSession: boolean;
 }
 
 class IMyApp extends App<IMyAppProps> {

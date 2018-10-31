@@ -22,7 +22,7 @@
     "arrow-parens": [true, "ban-single-arg-parens"],
     "semicolon": [true, "always", "ignore-bound-class-methods"],
     "object-literal-key-quotes": false,
-    "no-console": [true, "log", "error"],
+    "no-console": [true, "log"],
     "max-classes-per-file": [true, 2, "exclude-class-expressions"],
     "member-access": [true, "no-public"]
   }

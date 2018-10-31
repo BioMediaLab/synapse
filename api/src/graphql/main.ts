@@ -104,6 +104,31 @@ export const resolvers: IResolvers = {
         first: 30,
       });
     },
+    recentNotifications: async (root, args, context) => {
+      const { start } = args;
+      const startAt = start ? start : 0;
+      const total = await prisma
+        .notificationsConnection({
+          where: {
+            user: { id: context.id },
+          },
+          orderBy: "createdAt_DESC",
+        })
+        .aggregate()
+        .count();
+      const notes = await prisma.notifications({
+        where: {
+          user: { id: context.id },
+        },
+        orderBy: "createdAt_DESC",
+        skip: startAt,
+        last: startAt + 10,
+      });
+      return {
+        total,
+        notes,
+      };
+    },
   },
   Mutation: {
     promoteUser: async (root, args, context: IntResolverContext) => {

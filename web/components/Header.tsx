@@ -11,13 +11,13 @@ import MenuIcon from "@material-ui/icons/Menu";
 import SearchIcon from "@material-ui/icons/Search";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import MailIcon from "@material-ui/icons/Mail";
-import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import Drawer from "@material-ui/core/Drawer";
 import Link from "next/link";
 import SearchBar from "../components/SearchBar";
 
 import CourseList from "./CourseList";
+import Notifications from "./Notifications";
 import { destroySessionFrontend } from "../lib/handleSessions";
 import { Router } from "../Router";
 
@@ -82,7 +82,7 @@ const styles = theme =>
     toolbar: theme.mixins.toolbar,
   });
 
-type Props = {
+interface Props {
   classes: {
     root: string;
     appBar: string;
@@ -99,12 +99,12 @@ type Props = {
     toolbar: string;
     content: string;
   };
-};
+}
 
-type State = {
+interface State {
   anchorEl: HTMLElement;
   mobileMoreAnchorEl: HTMLElement;
-};
+}
 
 class PrimarySearchAppBar extends React.Component<Props, State> {
   state = {
@@ -175,11 +175,7 @@ class PrimarySearchAppBar extends React.Component<Props, State> {
           <p>Messages</p>
         </MenuItem>
         <MenuItem>
-          <IconButton color="inherit">
-            <Badge badgeContent={11} color="secondary">
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
+          <Notifications />
           <p>Notifications</p>
         </MenuItem>
         <MenuItem onClick={this.handleProfileMenuOpen}>
@@ -216,14 +212,10 @@ class PrimarySearchAppBar extends React.Component<Props, State> {
             </div>
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
+              <Notifications />
               <IconButton color="inherit">
                 <Badge badgeContent={4} color="secondary">
                   <MailIcon />
-                </Badge>
-              </IconButton>
-              <IconButton color="inherit">
-                <Badge badgeContent={17} color="secondary">
-                  <NotificationsIcon />
                 </Badge>
               </IconButton>
               <IconButton

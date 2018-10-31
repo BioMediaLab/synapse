@@ -60,7 +60,7 @@ class Login extends React.Component<Props> {
           </Typography>
           <Button
             type="submit"
-            variant="raised"
+            variant="contained"
             color="primary"
             onClick={this.signIn}
           >
