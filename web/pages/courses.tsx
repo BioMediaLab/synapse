@@ -14,6 +14,8 @@ import Typography from "@material-ui/core/Typography";
 
 import { Link } from "../Router";
 
+import TextEditor from "../components/TextEditor";
+
 const UserListItem = user => (
   <Link route="users" params={{ id: user.id }} key={user.id}>
     <ListItem key={user.id} button>
@@ -66,6 +68,8 @@ class Courses extends React.Component<ICoursesProps, any> {
               <Typography variant="body1" gutterBottom>
                 {course.description}
               </Typography>
+
+              <TextEditor />
 
               <List>{course.users.map(UserListItem)}</List>
             </div>
