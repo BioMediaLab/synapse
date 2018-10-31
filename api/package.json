@@ -40,11 +40,11 @@
     "prisma-binding": "^2.1.6",
     "prisma-client-lib": "^0.2.58",
     "prisma-lib": "^0.1.44",
-    "typescript": "^3.0.3"
+    "typescript": "^3.0.3",
+    "prisma": "^1.17.1"
   },
   "devDependencies": {
     "nodemon": "^1.18.4",
-    "prisma": "^1.17.1",
     "ts-node": "^7.0.1",
     "tslint": "^5.11.0"
   }
