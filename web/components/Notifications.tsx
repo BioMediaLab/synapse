@@ -101,10 +101,14 @@ class Notifications extends React.Component<
               unreadNotes = data.recentNotifications.total;
             }
             return (
-              <IconButton disabled={unreadNotes === 0} color="inherit">
-                <Badge badgeContent={unreadNotes} color="secondary">
+              <IconButton color="inherit">
+                {unreadNotes !== 0 ? (
+                  <Badge badgeContent={unreadNotes} color="secondary">
+                    <NotificationsIcon />
+                  </Badge>
+                ) : (
                   <NotificationsIcon />
-                </Badge>
+                )}
               </IconButton>
             );
           }}
