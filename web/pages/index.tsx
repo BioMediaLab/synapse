@@ -1,11 +1,6 @@
 import React from "react";
 import withAuth from "../lib/withAuth";
-import UserSearch from "../components/UserSearch";
 
-const Index = () => (
-  <div>
-    <UserSearch /> "Yaaaaargh!!!"
-  </div>
-);
+const Index = () => <div>Welcome to Synapse!</div>;
 
 export default withAuth(Index);
