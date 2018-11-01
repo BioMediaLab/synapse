@@ -15,7 +15,10 @@ function withAuth(BaseComponent) {
       }
 
       return (
-        <SnackbarProvider maxSnack={3}>
+        <SnackbarProvider
+          maxSnack={3}
+          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        >
           <Layout>
             <BaseComponent {...this.props} />
           </Layout>
