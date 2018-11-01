@@ -68,6 +68,7 @@ server
             jwt,
           };
         }
+        console.warn("invalid creds from incoming websocket conn");
         throw new Error(
           "invalid credentials from incoming websocket connection.",
         );

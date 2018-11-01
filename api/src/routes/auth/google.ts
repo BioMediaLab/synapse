@@ -1,15 +1,13 @@
 import { Router } from "express";
 import { google } from "googleapis";
 
-import googleConfig from "../../config/google";
-
 const googleAuthRouter = Router();
 
 googleAuthRouter.get("/", (req, res) => {
   const getGoogleApiClient = () => {
     const oClient = new google.auth.OAuth2(
-      googleConfig.appId,
-      googleConfig.appSecret,
+      process.env.GOOGLE_APP_CLIENT_ID,
+      process.env.GOOGLE_APP_SECRET,
       process.env.GOOGLE_APP_REDIRECT_URL,
     );
     google.options({ auth: oClient });

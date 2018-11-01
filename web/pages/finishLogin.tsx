@@ -27,7 +27,6 @@ class Fetcher extends React.Component<any> {
       return;
     }
     const googleAuthCode = myGetParams.get("code");
-
     this.props.client
       .query({
         query: GET_JWT_QUERY,

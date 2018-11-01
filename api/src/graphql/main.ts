@@ -3,15 +3,14 @@ import { forwardTo } from "prisma-binding";
 
 import { Notification, prisma, UserNode } from "../../generated/prisma";
 import { createJWT } from "../auth";
-import googleConfig from "../config/google";
 import { IntResolverContext } from "../graphqlContext";
 import { IResolvers } from "graphql-tools";
 
 const getGoogleApiClient = () => {
   const oauth2Client = new google.auth.OAuth2(
-    googleConfig.appId,
-    googleConfig.appSecret,
-    googleConfig.appRedirect,
+    process.env.GOOGLE_APP_CLIENT_ID,
+    process.env.GOOGLE_APP_SECRET,
+    process.env.GOOGLE_APP_REDIRECT_URL,
   );
   google.options({ auth: oauth2Client });
   return oauth2Client;

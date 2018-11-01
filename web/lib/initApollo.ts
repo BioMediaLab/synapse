@@ -55,6 +55,7 @@ function create(
     headers.Authorization = hasSession;
     loggedInUser = jwtDecode(hasSession);
   }
+
   const cache = new InMemoryCache().restore(initialState || {});
 
   const stateLink = withClientState({
@@ -69,7 +70,7 @@ function create(
   });
 
   const httpLink = new HttpLink({
-    uri: publicRuntimeConfig.API_URL, // Server URL (must be absolute)
+    uri: "http://localhost:4000/", // Server URL (must be absolute)
     headers,
   });
 
@@ -77,19 +78,16 @@ function create(
 
   let link = defaultLink;
 
+  let websocketSubscription;
   if (!ssrMode) {
-    const websocketSubscription = new SubscriptionClient(
-      "ws://localhost:4000/",
-      {
-        reconnect: true,
-        connectionParams: {
-          Authorization: hasSession,
-        },
+    websocketSubscription = new SubscriptionClient("ws://localhost:4000/", {
+      reconnect: true,
+      connectionParams: {
+        Authorization: hasSession,
       },
-    );
+    });
 
     const wsLink = new WebSocketLink(websocketSubscription);
-
     link = split(
       // split based on operation type. If true, use websocket link, else, use normal link
       ({ query }) => {
@@ -97,8 +95,8 @@ function create(
         const { kind, operation } = getMainDefinition(query) as any;
         return kind === "OperationDefinition" && operation === "subscription";
       },
-      defaultLink,
       wsLink,
+      defaultLink,
     );
   }
 
