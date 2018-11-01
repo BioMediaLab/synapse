@@ -38,7 +38,7 @@ const CourseList: React.SFC<{}> = () => (
         return <div>Loading...</div>;
       }
       if (error) {
-        return <ErrorMessage message={error} />;
+        return <ErrorMessage message={error.message} />;
       }
       const courses: ICourse[] = data.courses;
       return (

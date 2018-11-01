@@ -30,7 +30,6 @@ export const contextCreatorFactory = (): ContextCallback => {
       initialCtx.connection.context.jwt
     ) {
       jwt = initialCtx.connection.context.jwt;
-      console.log(jwt);
     }
 
     return {
