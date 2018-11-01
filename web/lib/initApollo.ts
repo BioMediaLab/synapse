@@ -9,11 +9,11 @@ import { ApolloLink, split } from "apollo-link";
 import { withClientState } from "apollo-link-state";
 import { WebSocketLink } from "apollo-link-ws";
 import { SubscriptionClient } from "subscriptions-transport-ws";
-import ws from "ws";
 import fetch from "isomorphic-unfetch";
 import { MeResolvers } from "../resolvers/me";
 import jwtDecode from "jwt-decode";
 import getConfig from "next/config";
+import ws from "ws";
 const { publicRuntimeConfig } = getConfig();
 
 interface IProc {
@@ -38,6 +38,8 @@ interface IUser {
   name?: string;
   isAdmin?: boolean;
 }
+
+const ssrMode = !process.browser;
 
 function create(
   hasSession: boolean | string,
@@ -73,16 +75,10 @@ function create(
 
   const defaultLink = ApolloLink.from([stateLink, httpLink]);
 
-  let websocketSubscription;
-  if (typeof window !== "undefined") {
-    websocketSubscription = new SubscriptionClient("ws://localhost:4000/", {
-      reconnect: true,
-      connectionParams: {
-        Authorization: hasSession,
-      },
-    });
-  } else {
-    websocketSubscription = websocketSubscription = new SubscriptionClient(
+  let link = defaultLink;
+
+  if (!ssrMode) {
+    const websocketSubscription = new SubscriptionClient(
       "ws://localhost:4000/",
       {
         reconnect: true,
@@ -90,21 +86,21 @@ function create(
           Authorization: hasSession,
         },
       },
-      ws,
+    );
+
+    const wsLink = new WebSocketLink(websocketSubscription);
+
+    link = split(
+      // split based on operation type. If true, use websocket link, else, use normal link
+      ({ query }) => {
+        // possible types problem here:
+        const { kind, operation } = getMainDefinition(query) as any;
+        return kind === "OperationDefinition" && operation === "subscription";
+      },
+      defaultLink,
+      wsLink,
     );
   }
-
-  const wsLink = new WebSocketLink(websocketSubscription);
-  const link = split(
-    // split based on operation type. If true, use websocket link, else, use normal link
-    ({ query }) => {
-      // possible types problem here:
-      const { kind, operation } = getMainDefinition(query) as any;
-      return kind === "OperationDefinition" && operation === "subscription";
-    },
-    wsLink,
-    defaultLink,
-  );
 
   return new ApolloClient({
     connectToDevTools: process.browser,
