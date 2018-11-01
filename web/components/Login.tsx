@@ -1,8 +1,9 @@
 import React from "react";
 import SignInWithGoogleButton from "../components/SignInWithGoogleButton";
-import Typography from "@material-ui/core/Typography";
 import { withStyles, createStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
+import getConfig from "next/config";
+const { publicRuntimeConfig } = getConfig();
 
 const styles = theme =>
   createStyles({
@@ -28,7 +29,7 @@ interface IProps {
 
 class Login extends React.Component<IProps> {
   signIn = () => {
-    location.href = process.env.AUTH_ENDPOINT_GOOGLE;
+    location.href = publicRuntimeConfig.API_URL_GOOGLE;
   };
 
   render() {

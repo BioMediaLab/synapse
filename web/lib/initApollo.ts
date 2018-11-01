@@ -13,6 +13,10 @@ import ws from "ws";
 import fetch from "isomorphic-unfetch";
 import { MeResolvers } from "../resolvers/me";
 import jwtDecode from "jwt-decode";
+import getConfig from "next/config";
+const { publicRuntimeConfig } = getConfig();
+
+console.log("API URL", publicRuntimeConfig.API_URL);
 
 interface IProc {
   browser: boolean;
@@ -65,7 +69,7 @@ function create(
   });
 
   const httpLink = new HttpLink({
-    uri: process.env.SYNAPSE_API_ENDPOINT, // Server URL (must be absolute)
+    uri: publicRuntimeConfig.API_URL, // Server URL (must be absolute)
     headers,
   });
 
