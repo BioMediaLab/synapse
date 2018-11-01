@@ -16,8 +16,6 @@ import jwtDecode from "jwt-decode";
 import getConfig from "next/config";
 const { publicRuntimeConfig } = getConfig();
 
-console.log("API URL", publicRuntimeConfig.API_URL);
-
 interface IProc {
   browser: boolean;
 }
