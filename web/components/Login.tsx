@@ -1,73 +1,55 @@
 import React from "react";
-import Paper from "@material-ui/core/Paper";
-import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
+import SignInWithGoogleButton from "../components/SignInWithGoogleButton";
 import { withStyles, createStyles } from "@material-ui/core/styles";
+import Grid from "@material-ui/core/Grid";
+import getConfig from "next/config";
+const { publicRuntimeConfig } = getConfig();
 
 const styles = theme =>
   createStyles({
-    layout: {
-      width: "auto",
-      marginLeft: theme.spacing.unit * 3,
-      marginTop: theme.spacing.unit,
-      marginRight: theme.spacing.unit * 3,
+    root: {
+      height: "100%",
+      flexGrow: 1,
+      backgroundColor: theme.palette.primary.main,
     },
-    paper: {
-      [theme.breakpoints.down("sm")]: {
-        width: "90%",
-      },
-      [theme.breakpoints.up("sm")]: {
-        width: theme.spacing.unit * 50,
-      },
-      margin: "auto",
-      padding: theme.spacing.unit,
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-    },
-    title: {
-      paddingTop: theme.spacing.unit,
-      paddingBottom: theme.spacing.unit * 2,
-    },
-    entry: {
-      margin: theme.spacing.unit * 2,
+    logo_container: {
+      width: "100%",
+      textAlign: "center",
+      paddingBottom: theme.spacing.unit * 4,
     },
   });
 
-interface Props {
+interface IProps {
   classes: {
-    layout: string;
+    root: string;
     paper: string;
-    title: string;
-    entry: string;
+    logo_container: string;
   };
 }
 
-class Login extends React.Component<Props> {
+class Login extends React.Component<IProps> {
   signIn = () => {
-    location.href = "http://localhost:4000/auth/google";
+    location.href = publicRuntimeConfig.API_URL_GOOGLE;
   };
 
   render() {
     const { classes } = this.props;
 
     return (
-      <main className={classes.layout}>
-        <Paper className={classes.paper}>
-          <img src="/static/synapse-icon@2x.png" alt="Synapse" height="50" />
-          <Typography className={classes.title} variant="title">
-            Synapse
-          </Typography>
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            onClick={this.signIn}
-          >
-            Sign in with Google
-          </Button>
-        </Paper>
-      </main>
+      <Grid
+        container
+        direction="row"
+        className={classes.root}
+        justify="center"
+        alignItems="center"
+      >
+        <Grid item>
+          <div className={classes.logo_container}>
+            <img src="/static/synapse@login.png" alt="Synapse" height="35px" />
+          </div>
+          <SignInWithGoogleButton onClick={this.signIn} />
+        </Grid>
+      </Grid>
     );
   }
 }

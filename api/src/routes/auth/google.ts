@@ -10,7 +10,7 @@ googleAuthRouter.get("/", (req, res) => {
     const oClient = new google.auth.OAuth2(
       googleConfig.appId,
       googleConfig.appSecret,
-      googleConfig.appRedirect,
+      process.env.GOOGLE_APP_REDIRECT_URL,
     );
     google.options({ auth: oClient });
     return oClient;

@@ -1,10 +1,10 @@
 import React from "react";
 import withAuth from "../lib/withAuth";
-import UserSearch from "../components/UserSearch";
+import Typogrophy from "@material-ui/core/Typography";
 
 const Index = () => (
   <div>
-    <UserSearch /> "Yaaaaargh!!!"
+    <Typogrophy variant="h5">Welcome to Synapse!</Typogrophy>
   </div>
 );
 
