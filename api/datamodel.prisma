@@ -43,6 +43,7 @@ type Notification {
   user: User @relation(name: "UserNotifications")
   note_type: NoteType! @default(value: "INFORMATIVE")
   msg: String
+  read: Boolean @default(value: false)
   add_data: Json
   createdAt: DateTime!
   updatedAt: DateTime!

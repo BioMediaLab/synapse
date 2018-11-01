@@ -105,24 +105,29 @@ export const resolvers: IResolvers = {
       });
     },
     recentNotifications: async (root, args, context) => {
-      const { start } = args;
-      const startAt = start ? start : 0;
+      const read = args.read ? args.read : false;
+      const startAt = args.start ? args.start : 0;
+      const where = {
+        AND: [{ user: { id: context.id } }, { read }],
+      };
+
       const total = await prisma
         .notificationsConnection({
-          where: {
-            user: { id: context.id },
-          },
-          orderBy: "createdAt_DESC",
+          where,
         })
         .aggregate()
         .count();
       const notes = await prisma.notifications({
-        where: {
-          user: { id: context.id },
-        },
-        orderBy: "createdAt_DESC",
+        where,
+        orderBy: "createdAt_ASC",
         skip: startAt,
         last: startAt + 10,
+      });
+      prisma.updateManyNotifications({
+        data: { read: true },
+        where: {
+          AND: [...notes.map(note => ({ id: note.id }))],
+        },
       });
       return {
         total,
@@ -212,6 +217,12 @@ export const resolvers: IResolvers = {
         where: {
           id: args.course_id,
         },
+      });
+    },
+    readNotification: async (root, args, context) => {
+      return prisma.updateNotification({
+        data: { read: true },
+        where: { id: args.note_id },
       });
     },
   },
