@@ -67,7 +67,9 @@ const SignInWithGoogleButton: React.SFC<ISignInWithGoogleButtonProps> = ({
           />
         </svg>
       )}
-    />
+    >
+      {" "}
+    </SvgIcon>
     Sign In With Google
   </Button>
 );
