@@ -45,7 +45,7 @@ class Login extends React.Component<IProps> {
       >
         <Grid item>
           <div className={classes.logo_container}>
-            <img src="/static/synapse@2x.png" alt="Synapse" height="35px" />
+            <img src="/static/synapse@login.png" alt="Synapse" height="35px" />
           </div>
           <SignInWithGoogleButton onClick={this.signIn} />
         </Grid>
