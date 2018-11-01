@@ -65,7 +65,7 @@ function create(
   });
 
   const httpLink = new HttpLink({
-    uri: "http://localhost:4000/", // Server URL (must be absolute)
+    uri: process.env.SYNAPSE_API_ENDPOINT, // Server URL (must be absolute)
     headers,
   });
 

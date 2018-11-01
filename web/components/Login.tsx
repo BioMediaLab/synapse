@@ -28,7 +28,7 @@ interface IProps {
 
 class Login extends React.Component<IProps> {
   signIn = () => {
-    location.href = "http://localhost:4000/auth/google";
+    location.href = process.env.AUTH_ENDPOINT_GOOGLE;
   };
 
   render() {
