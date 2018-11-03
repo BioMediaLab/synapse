@@ -102,7 +102,7 @@ class SearchBar extends Component<ISearchBarProps> {
                       disableUnderline
                     />
 
-                    {isOpen ? (
+                    {isOpen && inputValue ? (
                       <Paper className={classes.paper} square>
                         <List>
                           {data.userSearch.length ? (
