@@ -104,12 +104,14 @@ interface Props {
 interface State {
   anchorEl: HTMLElement;
   mobileMoreAnchorEl: HTMLElement;
+  open: boolean;
 }
 
 class PrimarySearchAppBar extends React.Component<Props, State> {
   state = {
     anchorEl: null,
     mobileMoreAnchorEl: null,
+    open: true,
   };
 
   handleProfileMenuOpen = event => {
@@ -137,6 +139,11 @@ class PrimarySearchAppBar extends React.Component<Props, State> {
   goToSettings = () => {
     this.handleMenuClose();
     Router.pushRoute("/settings");
+  };
+
+  handleMenuClick = () => {
+    console.log(this.state.open);
+    this.setState({ open: !this.state.open });
   };
 
   render() {
@@ -195,6 +202,7 @@ class PrimarySearchAppBar extends React.Component<Props, State> {
               className={classes.menuButton}
               color="inherit"
               aria-label="Open drawer"
+              onClick={this.handleMenuClick}
             >
               <MenuIcon />
             </IconButton>
@@ -238,19 +246,20 @@ class PrimarySearchAppBar extends React.Component<Props, State> {
             </div>
           </Toolbar>
         </AppBar>
-
         {renderMenu}
         {renderMobileMenu}
 
-        <Drawer
-          variant="permanent"
-          classes={{
-            paper: classes.drawerPaper,
-          }}
-        >
-          <div className={classes.toolbar} />
-          <CourseList />
-        </Drawer>
+        {this.state.open ? (
+          <Drawer
+            variant="permanent"
+            classes={{
+              paper: classes.drawerPaper,
+            }}
+          >
+            <div className={classes.toolbar} />
+            <CourseList />
+          </Drawer>
+        ) : null}
       </>
     );
   }
