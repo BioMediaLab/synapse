@@ -33,7 +33,7 @@ Contact a Synapse admin for what to update these files with.
 
 #### Generate files needed for backend server
 
-In the `/api` directory, run
+In the `/synapse/api` directory, run
 
 ```sh
 prisma generate
