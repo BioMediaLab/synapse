@@ -7806,6 +7806,13 @@ react-material-ui-form-validator@^2.0.2:
   dependencies:
     react-form-validator-core "0.5.0"
 
+react-placeholder@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/react-placeholder/-/react-placeholder-3.0.1.tgz#fa6e915f41ce8da66eb10a4aa6d87d31e50aeaaa"
+  integrity sha512-FMTAMBDn5ozWWBeS//QmGenaAy2qYeCytlC7s6DG+NL/TYOu5C33CkrysXgqv4LZ18dgKKspo0BekeACkWfV/w==
+  dependencies:
+    prop-types "^15.6.0"
+
 react-select@^2.1.0:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/react-select/-/react-select-2.1.1.tgz#762d0babd8c7c46a944db51cbb72e4ee117253f9"
