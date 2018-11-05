@@ -1,6 +1,6 @@
 # Synapse
 
-This is the main Synapse monoreop. It uses yarn workspaces and contains a web workspace and an api workspace.
+This is the main Synapse monorepo. It uses yarn workspaces and contains a web workspace and an api workspace.
 
 # Configuration
 Make sure yarn is installed
