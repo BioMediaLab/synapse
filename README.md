@@ -33,7 +33,7 @@ Contact a Synapse admin for what to update these files with.
 
 #### Generate files needed for backend server
 
-In the api directory, run
+In the `/api` directory, run
 
 ```sh
 prisma generate
@@ -41,13 +41,13 @@ prisma generate
 
 #### Start up the servers
 
-In the synapse directory, run
+In the `/synapse` directory, run
 
 ```sh
 yarn dev
 ```
 
-Now Synapse web layer will be running on localhost:3000, with the backend on localhost:4000
+Now Synapse web layer will be running on `localhost:3000`, with the backend on `localhost:4000`
 
 # Technology Used
 
