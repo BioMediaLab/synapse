@@ -10,26 +10,44 @@ Thie new verion of Synapse has been under full-time development since September,
 
 # First Time Setup
 
+The first step to run Synapse locally is downloading the code by cloning the repository:
 
-### Downloading
-The first step to running Synapse locally is downloading the code by cloning the repository:
-```git clone https://github.com/BioMediaLab/synapse.git```
+```sh
+git clone https://github.com/BioMediaLab/synapse.git
+```
 
-Make sure yarn is installed. If you're unfamilar with Yarn [check it out here](https://yarnpkg.com/en/)
-Make sure nodemon is installed ```sudo yarn global add nodemon```
-Make sure prisma is installed ```sudo yarn global add prisma```
+### Installation
+
+**Install yarn**: If you're unfamilar with Yarn [check it out here](https://yarnpkg.com/en/)  
+**Install nodemon**: `sudo yarn global add nodemon`  
+**Install prisma**: `sudo yarn global add prisma`
 
 ### Setup
-Two .env files will need to be created.
-Copy ROOT/api/.env.example and name the new file .env in the same directory
-do the same for ROOT/web/.env.example 
+
+#### Create .env files
+
+Two .env files will need to be created.  
+Copy ROOT/api/.env.example and name the new file .env in the same directory  
+Do the same for ROOT/web/.env.example  
 Contact a Synapse admin for what to update these files with.
 
-Go to ROOT/api and run ```prisma generate``` this will set up the backend. 
+#### Generate files needed for backend server
 
-Go to ROOT/ and run ```yarn dev``` this will start the synapse frontend on localhost:3000 and the backend on localhost:4000
+In the api directory, run
 
-Synapse will now be running.
+```sh
+prisma generate
+```
+
+#### Start up the servers
+
+In the synapse directory, run
+
+```sh
+yarn dev
+```
+
+Now Synapse web layer will be running on localhost:3000, with the backend on localhost:4000
 
 # Technology Used
 
@@ -39,9 +57,8 @@ React.js
 
 Apollo Client
 
-
 ## Backend
 
 GraphQL Yoga
 
-Prisma 
+Prisma
