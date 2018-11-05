@@ -142,7 +142,6 @@ class PrimarySearchAppBar extends React.Component<Props, State> {
   };
 
   handleMenuClick = () => {
-    console.log(this.state.open);
     this.setState({ open: !this.state.open });
   };
 
