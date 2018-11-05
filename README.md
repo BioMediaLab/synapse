@@ -28,7 +28,7 @@ git clone https://github.com/BioMediaLab/synapse.git
 
 Two .env files will need to be created.  
 Copy and paste `api/.env.example` to the same directory, and name the new file `.env`  
-Do the same thing for `web/.env.example`
+Do the same thing for `web/.env.example`  
 Contact a Synapse admin for what to update these files with.
 
 #### Generate files needed for backend server
