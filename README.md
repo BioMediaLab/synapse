@@ -1,3 +1,11 @@
 # synapse
 
-Please put the proceedure on how to build this project- Thanks 
+Synapse Repo. 
+
+# Configuration
+Make sure yarn is installed
+
+run "yarn install -g nodemon"
+run "yarn install"
+
+
