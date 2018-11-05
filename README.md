@@ -31,7 +31,7 @@ Go to ROOT/ and run ```yarn dev``` this will start the synapse frontend on local
 
 Synapse will now be running.
 
-# Techonolgy Used
+# Technology Used
 
 ## Frontend
 
