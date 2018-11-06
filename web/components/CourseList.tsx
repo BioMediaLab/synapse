@@ -2,13 +2,7 @@ import React from "react";
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
 import ReactPlaceholder from "react-placeholder";
-import {
-  TextBlock,
-  MediaBlock,
-  TextRow,
-  RectShape,
-  RoundShape,
-} from "react-placeholder/lib/placeholders";
+import { TextBlock, RoundShape } from "react-placeholder/lib/placeholders";
 import ErrorMessage from "../components/ErrorMessage";
 import CourseListItem from "./CourseListItem";
 import { Link } from "../Router";
