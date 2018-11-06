@@ -123,6 +123,11 @@ class Notifications extends React.Component<ITNPropsFull, ITNState> {
           {notes.map(note => (
             <NotificationItem key={note.id} onClick={this.hideMenu} {...note} />
           ))}
+          {notes.length === 0 ? (
+            <span>No Notifications at this time</span>
+          ) : (
+            <span />
+          )}
         </Menu>
       </React.Fragment>
     );

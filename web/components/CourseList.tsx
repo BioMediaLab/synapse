@@ -11,7 +11,6 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import Divider from "@material-ui/core/Divider";
 import Avatar from "@material-ui/core/Avatar";
-import { MenuItem } from "@material-ui/core";
 
 interface ICourse {
   id: string;
@@ -101,7 +100,11 @@ const CourseList: React.SFC<{}> = () => (
       return (
         <div>
           <List>
-            <Link route="users" params={{ id: data.me.id }} key={data.me.id}>
+            <Link
+              route="/settings"
+              params={{ id: data.me.id }}
+              key={data.me.id}
+            >
               <ListItem button>
                 <Avatar alt={data.me.name} src={data.me.photo} />
                 <ListItemText

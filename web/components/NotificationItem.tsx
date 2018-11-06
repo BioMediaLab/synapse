@@ -34,7 +34,7 @@ const NotificationItem: React.SFC<Props> = ({
   let action = onClick;
   if (note_type === NoteType.NEW_COURSE) {
     action = () => {
-      Router.push(`/courses/${add_data.id}`);
+      Router.pushRoute(`/courses/${add_data.id}`);
       onClick();
     };
   }
