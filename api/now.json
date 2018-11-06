@@ -3,5 +3,6 @@
   "features": {
     "cloud": "v2"
   },
-  "alias": "synapse-api"
+  "alias": "synapse-api",
+  "dotenv": ".env.production"
 }
