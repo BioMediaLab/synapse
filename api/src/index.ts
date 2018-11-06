@@ -57,6 +57,10 @@ const server = new GraphQLServer({
 
 server.express.use("/auth/google/", googleAuthRouter);
 
+server.express.use("/test", (req, res) => {
+  return res.send('testing...');
+});
+
 server
   .start({
     port: 4000,
