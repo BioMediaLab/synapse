@@ -7,5 +7,6 @@ module.exports = withTypescript({
     staticFolder: "/static",
     API_URL: process.env.API_URL,
     API_URL_GOOGLE: process.env.API_URL_GOOGLE,
+    WEBSOCKET_URL: process.env.WEBSOCKET_URL,
   },
 });

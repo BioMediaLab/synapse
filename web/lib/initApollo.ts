@@ -70,7 +70,7 @@ function create(
   });
 
   const httpLink = new HttpLink({
-    uri: "http://localhost:4000/", // Server URL (must be absolute)
+    uri: publicRuntimeConfig.API_URL, // Server URL (must be absolute)
     headers,
   });
 
@@ -80,7 +80,7 @@ function create(
 
   let websocketSubscription;
   if (!ssrMode) {
-    websocketSubscription = new SubscriptionClient("ws://localhost:4000/", {
+    websocketSubscription = new SubscriptionClient(publicRuntimeConfig.WEBSOCKET_URL, {
       reconnect: true,
       connectionParams: {
         Authorization: hasSession,
