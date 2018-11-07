@@ -100,11 +100,7 @@ const CourseList: React.SFC<{}> = () => (
       return (
         <div>
           <List>
-            <Link
-              route="/settings"
-              params={{ id: data.me.id }}
-              key={data.me.id}
-            >
+            <Link route="users" params={{ id: data.me.id }} key={data.me.id}>
               <ListItem button>
                 <Avatar alt={data.me.name} src={data.me.photo} />
                 <ListItemText
