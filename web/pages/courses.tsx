@@ -5,7 +5,7 @@ import { Router } from "next-routes";
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
 import ErrorMessage from "../components/ErrorMessage";
-
+import CourseHeader from "../components/CourseHeader";
 import Avatar from "@material-ui/core/Avatar";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -40,6 +40,9 @@ const COURSE_INFO = gql`
 
 interface ICoursesProps {
   router: Router;
+  classes: {
+    courseHeading: string;
+  };
 }
 
 class Courses extends React.Component<ICoursesProps, any> {
@@ -60,14 +63,9 @@ class Courses extends React.Component<ICoursesProps, any> {
 
           return (
             <div>
-              <Typography variant="display1">{course.name}</Typography>
-              <Typography variant="subheading" gutterBottom>
-                {course.users.length} students
-              </Typography>
+              <CourseHeader course={course} />
 
-              <Typography variant="body1" gutterBottom>
-                {course.description}
-              </Typography>
+              <Typography variant="headline">📢 Announcements</Typography>
 
               <TextEditor />
 
