@@ -1,9 +1,5 @@
 # Synapse
 
-This is the main Synapse monorepo for version. It uses yarn workspaces and contains a web workspace and an api workspace.
-
-## What is Synapse?
-
 Synapse is a Web application developed by the BioMediaLab, part of the School of Biology at the University of Maine. It is used by multiple courses each semester to provide online resources, such as course handouts, quizzes, grades, and discussion.
 
 Thie new verion of Synapse has been under full-time development since September, 2018.
