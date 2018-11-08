@@ -121,7 +121,9 @@ const CourseList: React.SFC<{}> = () => (
               </Link>
             ) : null}
 
-            {courses.map(CourseListItem)}
+            {courses.map(course => (
+              <CourseListItem course={course} key={course.id} />
+            ))}
           </List>
         </div>
       );
