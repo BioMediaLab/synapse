@@ -62,7 +62,7 @@ export const setSessionFrontend = (jwt: string) => {
   BrowserCookies.set("session", jwt, { expires: 30 });
 };
 
-export const getSessionFrontend = (): string => {
+export const getSessionFrontend = (): string | null => {
   return BrowserCookies.get("session");
 };
 
