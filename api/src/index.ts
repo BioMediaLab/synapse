@@ -7,6 +7,7 @@ import { validateJWT } from "./auth";
 import { resolvers } from "./graphql/main";
 import { contextCreatorFactory, IntResolverContext } from "./graphqlContext";
 import googleAuthRouter from "./routes/auth/google";
+import { json } from "body-parser";
 
 const makePublic = async (
   resolve,
@@ -54,11 +55,11 @@ const server = new GraphQLServer({
   typeDefs: "./src/graphql/schema.graphql",
   resolvers,
 });
-
+server.express.use(json());
 server.express.use("/auth/google/", googleAuthRouter);
 
 server.express.use("/test", (req, res) => {
-  return res.send('testing...');
+  return res.send("testing...");
 });
 
 server

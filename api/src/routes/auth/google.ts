@@ -1,5 +1,7 @@
 import { Router } from "express";
 import { google } from "googleapis";
+import { prisma } from "../../../generated/prisma";
+import { createJWT } from "../../auth";
 
 const getGoogleApiClient = () => {
   const oClient = new google.auth.OAuth2(
@@ -29,8 +31,53 @@ googleAuthRouter.get("/", (req, res) => {
   return res.redirect(url);
 });
 
-googleAuthRouter.get("/googleComplete", (res, req) => {
-  const code = req.get("code");
+googleAuthRouter.post("/complete", async (req, res) => {
+  const code = req.body.code;
+
+  console.log("code", code);
+
+  const oauth2Client = getGoogleApiClient();
+  const { tokens } = await oauth2Client.getToken(code);
+  oauth2Client.setCredentials(tokens);
+
+  const { data } = await google
+    .oauth2({
+      version: "v2",
+    })
+    .userinfo.get();
+
+  const email: string = data.email;
+  const name: string = data.name;
+  const photo = data.picture;
+
+  // does the user already have an account?
+  let account = await prisma.user({ email });
+
+  let firstLogin = false;
+  if (!account) {
+    // create a new account
+    account = await prisma.createUser({
+      email,
+      name,
+      photo,
+    });
+    firstLogin = true;
+  }
+
+  const jwt = await createJWT({
+    id: account.id,
+    name: account.name,
+    email: account.email,
+    photo: account.photo,
+    isAdmin: account.isAdmin,
+  });
+
+  return res.send(
+    JSON.stringify({
+      jwt,
+      firstLogin,
+    }),
+  );
 });
 
 export default googleAuthRouter;
