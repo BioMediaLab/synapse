@@ -44,6 +44,10 @@ git clone https://github.com/BioMediaLab/synapse.git
 **Install prisma**: `yarn global add prisma`
 
 ### Setup
+Make sure you are in the root `/synapse` directory and then run
+```sh
+yarn
+```
 
 #### Create .env files
 
