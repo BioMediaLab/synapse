@@ -1,7 +1,7 @@
 import { google } from "googleapis";
 import { forwardTo } from "prisma-binding";
 
-import { Notification, prisma, UserNode } from "../../generated/prisma";
+import { Notification, prisma, User } from "../../generated/prisma";
 import { createJWT } from "../auth";
 import { IntResolverContext } from "../graphqlContext";
 import { IResolvers } from "graphql-tools";
@@ -77,7 +77,7 @@ export const resolvers: IResolvers = {
     user: async (root, args) => {
       return prisma.user({ id: args.id });
     },
-    me: async (root, args, context): Promise<UserNode> => {
+    me: async (root, args, context): Promise<User> => {
       return prisma.user({ id: context.id });
     },
     users: async (root, args, context): Promise<string[]> => {
@@ -114,8 +114,7 @@ export const resolvers: IResolvers = {
         .notificationsConnection({
           where,
         })
-        .aggregate()
-        .count();
+        .aggregate().count;
       const notes = await prisma.notifications({
         where,
         orderBy: "createdAt_ASC",
