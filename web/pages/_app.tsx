@@ -22,7 +22,8 @@ interface IMyApp {
 }
 
 class IMyApp extends App<IMyAppProps> {
-  static async getInitialProps({ Component, router, ctx }) {
+  static async getInitialProps(context) {
+    const { Component, ctx } = context;
     let pageProps = {};
 
     if (Component.getInitialProps) {
@@ -49,6 +50,7 @@ class IMyApp extends App<IMyAppProps> {
     const { Component, pageProps, apolloClient } = this.props;
     return (
       <Container>
+        <title>Synapse</title>
         <ApolloProvider client={apolloClient}>
           {/* Wrap every page in Jss and Theme providers */}
           <JssProvider

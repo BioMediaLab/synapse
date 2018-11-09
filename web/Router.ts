@@ -6,7 +6,11 @@ that want access.
 
 import * as Routing from "./routes";
 
-const Router = Routing.Router;
-const Link = Routing.Link;
+import { Router as IRouter, LinkProps } from "next-routes";
+
+type LinkType = React.ComponentType<LinkProps>;
+
+const Router: IRouter = Routing.Router;
+const Link: LinkType = Routing.Link;
 
 export { Router, Link };

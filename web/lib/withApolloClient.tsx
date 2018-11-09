@@ -4,6 +4,7 @@ import Head from "next/head";
 import { getDataFromTree } from "react-apollo";
 import { ApolloClient, NormalizedCacheObject } from "apollo-boost";
 import { getSessionCookie } from "./handleSessions";
+import { NextAppContext } from "next/app";
 
 interface Proc {
   browser: boolean;
@@ -24,7 +25,7 @@ export default App => {
     static displayName = "withApollo(App)";
 
     // Runs on server
-    static async getInitialProps(ctx) {
+    static async getInitialProps(ctx: NextAppContext) {
       const { Component, router } = ctx;
 
       let appProps = {};

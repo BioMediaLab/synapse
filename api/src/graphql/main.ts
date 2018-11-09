@@ -2,70 +2,12 @@ import { google } from "googleapis";
 import { forwardTo } from "prisma-binding";
 
 import { Notification, prisma, User } from "../../generated/prisma";
-import { createJWT } from "../auth";
 import { IntResolverContext } from "../graphqlContext";
 import { IResolvers } from "graphql-tools";
-
-const getGoogleApiClient = () => {
-  const oauth2Client = new google.auth.OAuth2(
-    process.env.GOOGLE_APP_CLIENT_ID,
-    process.env.GOOGLE_APP_SECRET,
-    process.env.GOOGLE_APP_REDIRECT_URL,
-  );
-  google.options({ auth: oauth2Client });
-  return oauth2Client;
-};
-
-interface IntConfirmSignup {
-  jwt: string;
-  firstLogin: boolean;
-}
 
 // A map of functions which return data for the schema.
 export const resolvers: IResolvers = {
   Query: {
-    confirmSignupGoogle: async (_, args): Promise<IntConfirmSignup> => {
-      const oauth2Client = getGoogleApiClient();
-      const { tokens } = await oauth2Client.getToken(args.token);
-      oauth2Client.setCredentials(tokens);
-
-      const { data } = await google
-        .oauth2({
-          version: "v2",
-        })
-        .userinfo.get();
-
-      const email: string = data.email;
-      const name: string = data.name;
-      const photo = data.picture;
-
-      // does the user already have an account?
-      let account = await prisma.user({ email });
-
-      let firstLogin = false;
-      if (!account) {
-        // create a new account
-        account = await prisma.createUser({
-          email,
-          name,
-          photo,
-        });
-        firstLogin = true;
-      }
-
-      const jwt = await createJWT({
-        id: account.id,
-        name: account.name,
-        email: account.email,
-        photo: account.photo,
-        isAdmin: account.isAdmin,
-      });
-
-      return {
-        firstLogin,
-        jwt,
-      };
-    },
     courses: async (root, args, context): Promise<any[]> => {
       const courses = await prisma.user({ id: context.id }).courses();
       if (!courses) {

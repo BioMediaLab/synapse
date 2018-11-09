@@ -92,7 +92,7 @@ class Notifications extends React.Component<ITNPropsFull, ITNState> {
         ? 0
         : this.props.data.recentNotifications.total;
 
-    const notes = (this.props.data.loading
+    const notes = (this.props.data.loading || this.props.data.error
       ? []
       : this.props.data.recentNotifications.notes
     ).sort((note1, note2) =>
