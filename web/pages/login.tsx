@@ -3,8 +3,12 @@ import Login from "../components/Login";
 import { Router } from "../Router";
 import { getSessionFrontend } from "../lib/handleSessions";
 import { withRouter, WithRouterProps } from "next/router";
+import nookies from "nookies";
 
 class LoginPage extends React.Component<WithRouterProps> {
+  getInitialProps(ctx) {
+    console.log("login", nookies.get(ctx));
+  }
   componentDidMount() {
     // If the user is already logged in, we will redirect them
     // to the main page

@@ -10,11 +10,11 @@ import { withClientState } from "apollo-link-state";
 import { WebSocketLink } from "apollo-link-ws";
 import { SubscriptionClient } from "subscriptions-transport-ws";
 import fetch from "isomorphic-unfetch";
-import { MeResolvers } from "../resolvers/me";
 import jwtDecode from "jwt-decode";
 import getConfig from "next/config";
-import ws from "ws";
 const { publicRuntimeConfig } = getConfig();
+
+import { MeResolvers } from "../resolvers/me";
 
 interface IProc {
   browser: boolean;
@@ -80,12 +80,15 @@ function create(
 
   let websocketSubscription;
   if (!ssrMode) {
-    websocketSubscription = new SubscriptionClient(publicRuntimeConfig.WEBSOCKET_URL, {
-      reconnect: true,
-      connectionParams: {
-        Authorization: hasSession,
+    websocketSubscription = new SubscriptionClient(
+      publicRuntimeConfig.WEBSOCKET_URL,
+      {
+        reconnect: true,
+        connectionParams: {
+          Authorization: hasSession,
+        },
       },
-    });
+    );
 
     const wsLink = new WebSocketLink(websocketSubscription);
     link = split(

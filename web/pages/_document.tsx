@@ -1,6 +1,13 @@
 import React from "react";
 import Document, { Head, Main, NextScript } from "next/document";
 import flush from "styled-jsx/server";
+import fetch from "isomorphic-unfetch";
+import getConfig from "next/config";
+import nookies from "nookies";
+import { ServerResponse } from "http";
+import { addDays } from "date-fns";
+
+const serverConfig = getConfig();
 
 interface IMyDocumentProps {
   pageContext: any;
@@ -13,7 +20,6 @@ class MyDocument extends Document<IMyDocumentProps> {
     return (
       <html lang="en" dir="ltr">
         <Head>
-          <title>Synapse</title>
           <meta charSet="utf-8" />
           {/* Use minimum-scale=1 to enable GPU rasterization */}
           <meta
@@ -46,7 +52,7 @@ class MyDocument extends Document<IMyDocumentProps> {
   }
 }
 
-MyDocument.getInitialProps = (ctx): any => {
+MyDocument.getInitialProps = async (ctx): Promise<any> => {
   // Resolution order
   //
   // On the server:
@@ -71,6 +77,45 @@ MyDocument.getInitialProps = (ctx): any => {
 
   // Render app and page and get the context of the page with collected side effects.
 
+  const doRedirect = (res: ServerResponse, path) => {
+    res.writeHead(302, { Location: path });
+    res.end();
+  };
+
+  if (new RegExp("/finishLogin").test(ctx.pathname)) {
+    if (nookies.get(ctx).session) {
+      doRedirect(ctx.res, "/");
+    } else {
+      const code = ctx.query.code;
+      if (!code) {
+        doRedirect(ctx.res, "/login?err=1");
+      }
+
+      const resp = await fetch(
+        `${serverConfig.publicRuntimeConfig.API_URL}auth/google/complete`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json; charset=utf-8",
+          },
+          body: JSON.stringify({ code }),
+        },
+      );
+      if (resp.status !== 200) {
+        doRedirect(ctx.res, "/login?err=1");
+      } else {
+        const result = await resp.json();
+        nookies.set(ctx, "session", result.jwt, {
+          expires: addDays(new Date(), 30),
+          sameSite: true,
+          httpOnly: false, // maybe this can be set to true later
+          path: "/",
+        });
+        doRedirect(ctx.res, "/?first=1");
+      }
+    }
+  }
+
   let pageContext;
   const page = ctx.renderPage(Component => {
     interface IWrappedComponentProps {
@@ -94,7 +139,6 @@ MyDocument.getInitialProps = (ctx): any => {
       <React.Fragment>
         <style
           id="jss-server-side"
-          // eslint-disable-next-line react/no-danger
           dangerouslySetInnerHTML={{
             __html: pageContext.sheetsRegistry.toString(),
           }}
