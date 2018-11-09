@@ -77,6 +77,16 @@ Now Synapse the web layer will be running on `localhost:3000`, with the backend 
 
 # Contributions
 
+Ron Kozlowski - Product Manager & Director <a href="https://www.linkedin.com/in/tirranna/" target="_blank"><img src="https://3uil8r2z7mmf1j7qlc2us9x1121h-wpengine.netdna-ssl.com/wp-content/plugins/team-members-pro/inc/img/links/linkedin.png" height=15px width=15px></a>
+<br/>
+Andy Kay - Head Software Engineer <a href="https://www.linkedin.com/in/andy-kay-450474120" target="_blank"><img src="https://3uil8r2z7mmf1j7qlc2us9x1121h-wpengine.netdna-ssl.com/wp-content/plugins/team-members-pro/inc/img/links/linkedin.png" height=15px width=15px></a>
+<br/>
+Nick Dieffenbacher-Krall - Student Software Engineer
+<br/>
+Matthew Loewen - Student Software Engineer <a href="https://www.linkedin.com/in/matthew-loewen-03a991116/" target="_blank"><img src="https://3uil8r2z7mmf1j7qlc2us9x1121h-wpengine.netdna-ssl.com/wp-content/plugins/team-members-pro/inc/img/links/linkedin.png" height=15px width=15px></a>
+<br/>
+Enoch Lin - Student Software Engineer
+
 # Technology Used
 
 ## Frontend
