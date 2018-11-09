@@ -42,7 +42,6 @@ git clone https://github.com/BioMediaLab/synapse.git
 
 **Install yarn**: If you're unfamilar with Yarn [check it out here](https://yarnpkg.com/en/)  
 **Install prisma**: `yarn global add prisma`
-**Install nodemon** `yarn add nodemon -W`
 
 ### Setup
 
