@@ -13,13 +13,26 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 import MailIcon from "@material-ui/icons/Mail";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import Drawer from "@material-ui/core/Drawer";
-import Link from "next/link";
+import { Link, Router } from "../Router";
 import SearchBar from "../components/SearchBar";
-
 import CourseList from "./CourseList";
 import Notifications from "./Notifications";
 import { destroySessionFrontend } from "../lib/handleSessions";
-import { Router } from "../Router";
+import { Query } from "react-apollo";
+import gql from "graphql-tag";
+import ProfilePic from "../components/ProfilePic";
+
+const GET_ME = gql`
+  {
+    me @client {
+      isAdmin
+      id
+      name
+      email
+      photo
+    }
+  }
+`;
 
 const drawerWidth = 300;
 
@@ -80,9 +93,17 @@ const styles = theme =>
       height: "100vh",
     },
     toolbar: theme.mixins.toolbar,
+    profilePicIconButton: {
+      width: "48px",
+      height: "48px",
+    },
+    profilePicIconButtonMobile: {
+      width: "24px",
+      height: "24px",
+    },
   });
 
-interface Props {
+interface IProps {
   classes: {
     root: string;
     appBar: string;
@@ -98,16 +119,18 @@ interface Props {
     drawerPaper: string;
     toolbar: string;
     content: string;
+    profilePicIconButton: string;
+    profilePicIconButtonMobile: string;
   };
 }
 
-interface State {
+interface IState {
   anchorEl: HTMLElement;
   mobileMoreAnchorEl: HTMLElement;
   open: boolean;
 }
 
-class PrimarySearchAppBar extends React.Component<Props, State> {
+class PrimarySearchAppBar extends React.Component<IProps, IState> {
   state = {
     anchorEl: null,
     mobileMoreAnchorEl: null,
@@ -159,7 +182,7 @@ class PrimarySearchAppBar extends React.Component<Props, State> {
         open={isMenuOpen}
         onClose={this.handleMenuClose}
       >
-        <MenuItem onClick={this.goToSettings}>My account</MenuItem>
+        <MenuItem onClick={this.goToSettings}>My Settings</MenuItem>
         <MenuItem onClick={this.logout}>Log Out</MenuItem>
       </Menu>
     );
@@ -172,6 +195,43 @@ class PrimarySearchAppBar extends React.Component<Props, State> {
         open={isMobileMenuOpen}
         onClose={this.handleMobileMenuClose}
       >
+        <Query query={GET_ME}>
+          {({ loading, error, data }) => {
+            if (loading || error) {
+              return (
+                <MenuItem>
+                  <IconButton
+                    aria-owns={isMenuOpen ? "material-appbar" : null}
+                    aria-haspopup="true"
+                    color="inherit"
+                  >
+                    <AccountCircle />
+                  </IconButton>
+                </MenuItem>
+              );
+            }
+
+            return (
+              <Link route="users" params={{ id: data.me.id }} key={data.me.id}>
+                <MenuItem>
+                  <IconButton
+                    aria-owns={isMenuOpen ? "material-appbar" : null}
+                    aria-haspopup="true"
+                    color="inherit"
+                    className={classes.profilePicIconButtonMobile}
+                  >
+                    <ProfilePic
+                      user={data.me}
+                      classesOverride={classes.profilePicIconButtonMobile}
+                    />
+                  </IconButton>
+                  <p>My Profile</p>
+                </MenuItem>
+              </Link>
+            );
+          }}
+        </Query>
+
         <MenuItem>
           <IconButton color="inherit">
             <Badge badgeContent={4} color="secondary">
@@ -183,12 +243,6 @@ class PrimarySearchAppBar extends React.Component<Props, State> {
         <MenuItem>
           <Notifications />
           <p>Notifications</p>
-        </MenuItem>
-        <MenuItem onClick={this.handleProfileMenuOpen}>
-          <IconButton color="inherit">
-            <AccountCircle />
-          </IconButton>
-          <p>Profile</p>
         </MenuItem>
       </Menu>
     );
@@ -225,14 +279,34 @@ class PrimarySearchAppBar extends React.Component<Props, State> {
                   <MailIcon />
                 </Badge>
               </IconButton>
-              <IconButton
-                aria-owns={isMenuOpen ? "material-appbar" : null}
-                aria-haspopup="true"
-                onClick={this.handleProfileMenuOpen}
-                color="inherit"
-              >
-                <AccountCircle />
-              </IconButton>
+              <Query query={GET_ME}>
+                {({ loading, error, data }) => {
+                  if (loading || error) {
+                    return (
+                      <IconButton
+                        aria-owns={isMenuOpen ? "material-appbar" : null}
+                        aria-haspopup="true"
+                        onClick={this.handleProfileMenuOpen}
+                        color="inherit"
+                      >
+                        <AccountCircle />
+                      </IconButton>
+                    );
+                  }
+
+                  return (
+                    <IconButton
+                      aria-owns={isMenuOpen ? "material-appbar" : null}
+                      aria-haspopup="true"
+                      onClick={this.handleProfileMenuOpen}
+                      color="inherit"
+                      className={classes.profilePicIconButton}
+                    >
+                      <ProfilePic user={data.me} />
+                    </IconButton>
+                  );
+                }}
+              </Query>
             </div>
             <div className={classes.sectionMobile}>
               <IconButton
