@@ -3,9 +3,9 @@ import Document, { Head, Main, NextScript } from "next/document";
 import flush from "styled-jsx/server";
 import fetch from "isomorphic-unfetch";
 import getConfig from "next/config";
-import nookies from "nookies";
 import { ServerResponse } from "http";
 import { addDays } from "date-fns";
+import { parseCookie } from "../lib/handleSessions";
 
 const serverConfig = getConfig();
 
@@ -77,19 +77,27 @@ MyDocument.getInitialProps = async (ctx): Promise<any> => {
 
   // Render app and page and get the context of the page with collected side effects.
 
-  const doRedirect = (res: ServerResponse, path) => {
+  const doRedirect = (res: ServerResponse, path: string) => {
     res.writeHead(302, { Location: path });
     res.end();
   };
-  if (new RegExp("/finishLogin").test(ctx.pathname)) {
-    if (nookies.get(ctx).session) {
+
+  if (ctx.pathname === "/finishLogin") {
+    if (
+      ctx.req.headers.cookie &&
+      parseCookie(ctx.req.headers.cookie as any).session
+    ) {
+      // we already have the session, so we can redirect them to the main page.
       doRedirect(ctx.res, "/");
     } else {
       const code = ctx.query.code;
       if (!code) {
+        // the code from google is not here, redirect them to the login page with an
+        // error message.
         doRedirect(ctx.res, "/login?err=1");
       }
 
+      // make a request to the api server to get a JWT.
       const resp = await fetch(
         `${serverConfig.publicRuntimeConfig.API_URL}auth/google/complete`,
         {
@@ -101,16 +109,16 @@ MyDocument.getInitialProps = async (ctx): Promise<any> => {
         },
       );
       if (resp.status !== 200) {
+        // an error ocurred on the api server when generating the JWT. redirect them to the login.
         doRedirect(ctx.res, "/login?err=1");
       } else {
         const result = await resp.json();
-        nookies.set(ctx, "session", result.jwt, {
-          expires: addDays(new Date(), 30),
-          sameSite: true,
-          httpOnly: false, // maybe this can be set to true later
-          path: "/",
-        });
-        // doRedirect(ctx.res, "/?first=1");
+        const expDate = addDays(new Date(), 30).toUTCString();
+        ctx.res.setHeader(
+          "Set-Cookie",
+          `session=${result.jwt}; Path=/; Expires=${expDate};`,
+        );
+        doRedirect(ctx.res, "/?first=1");
       }
     }
   }

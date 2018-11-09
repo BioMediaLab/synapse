@@ -3,7 +3,6 @@ import Login from "../components/Login";
 import { Router } from "../Router";
 import { getSessionFrontend } from "../lib/handleSessions";
 import { withRouter, WithRouterProps } from "next/router";
-import nookies from "nookies";
 
 class LoginPage extends React.Component<WithRouterProps> {
   componentDidMount() {

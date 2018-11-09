@@ -1,7 +1,6 @@
 import React from "react";
 import { createStyles, withStyles } from "@material-ui/core/styles";
 import { withRouter, WithRouterProps } from "next/router";
-import { Router } from "../Router";
 import { AppBar, Toolbar, LinearProgress, Typography } from "@material-ui/core";
 
 const styles = theme =>
@@ -33,10 +32,6 @@ type FinishLoginProps = IFinishLoginMainProps & WithRouterProps;
 class FinishLoginMain extends React.Component<FinishLoginProps> {
   constructor(props) {
     super(props);
-  }
-
-  getInitialProps(stuff) {
-    console.log(stuff);
   }
 
   componentDidMount() {

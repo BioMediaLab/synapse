@@ -1,22 +1,26 @@
 import BrowserCookies from "js-cookie";
 import { NextAppContext } from "next/app";
 
-const parseCookie = (cookieString: string): { [key: string]: string } => {
-  const splits = cookieString.split("=");
-  if (splits.length === 0 || splits.length % 2 !== 0) {
+export const parseCookie = (
+  cookieString: string,
+): { [key: string]: string } => {
+  const splitsCookieParts = cookieString.split("=");
+  if (splitsCookieParts.length === 0 || splitsCookieParts.length % 2 !== 0) {
     return {};
   }
-  const groups: string[][] = [];
-  splits.forEach((part, ind, arr) => {
-    if (ind % 2 === 0) {
-      groups.push([part, arr[ind + 1]]);
+
+  const keyValGroups: string[][] = [];
+  splitsCookieParts.forEach((part, index, arr) => {
+    if (index % 2 === 0) {
+      keyValGroups.push([part, arr[index + 1]]);
     }
   });
-  const res = Object.create({});
-  groups.forEach(([name, val]) => {
-    res[name] = val;
+
+  const result = Object.create({});
+  keyValGroups.forEach(([name, val]) => {
+    result[name] = val;
   });
-  return res;
+  return result;
 };
 
 export const getSessionCookie = (ctx: NextAppContext): boolean | string => {
@@ -69,11 +73,6 @@ export const doWeRedirect = (ctx): void => {
       redirectClient();
     }
   }
-};
-
-export const setSessionFrontend = (jwt: string) => {
-  console.warn("don't call this pls.");
-  BrowserCookies.set("session", jwt, { expires: 30 });
 };
 
 export const getSessionFrontend = (): string | null => {
