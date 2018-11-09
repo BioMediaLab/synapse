@@ -34,7 +34,6 @@ export default App => {
       }
       // works on both the client and server
       const hasSession = getSessionCookie(ctx);
-      console.log(hasSession);
 
       // Run all GraphQL queries in the component tree
       // and extract the resulting data

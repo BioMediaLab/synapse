@@ -81,7 +81,6 @@ MyDocument.getInitialProps = async (ctx): Promise<any> => {
     res.writeHead(302, { Location: path });
     res.end();
   };
-
   if (new RegExp("/finishLogin").test(ctx.pathname)) {
     if (nookies.get(ctx).session) {
       doRedirect(ctx.res, "/");
@@ -111,7 +110,7 @@ MyDocument.getInitialProps = async (ctx): Promise<any> => {
           httpOnly: false, // maybe this can be set to true later
           path: "/",
         });
-        doRedirect(ctx.res, "/?first=1");
+        // doRedirect(ctx.res, "/?first=1");
       }
     }
   }

@@ -21,7 +21,6 @@ const parseCookie = (cookieString: string): { [key: string]: string } => {
 
 export const getSessionCookie = (ctx: NextAppContext): boolean | string => {
   let session: boolean | string = false;
-  console.log(ctx.ctx.req);
   if (ctx.ctx.req && ctx.ctx.req.headers && ctx.ctx.req.headers.cookie) {
     let cookieData = ctx.ctx.req.headers.cookie;
     if (typeof cookieData === "object") {
