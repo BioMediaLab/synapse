@@ -11,6 +11,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import Divider from "@material-ui/core/Divider";
 import Avatar from "@material-ui/core/Avatar";
+import "react-placeholder/lib/reactPlaceholder.css";
 
 interface ICourse {
   id: string;
@@ -67,6 +68,7 @@ const CourseList: React.SFC<{}> = () => (
           <div>
             <div style={{ margin: 20, marginBottom: 14 }}>
               <ReactPlaceholder
+                showLoadingAnimation
                 ready={false}
                 customPlaceholder={customPlaceholderUser}
               >
@@ -76,14 +78,34 @@ const CourseList: React.SFC<{}> = () => (
             <Divider />
             <div style={{ margin: 20, marginTop: 11, marginBottom: 22 }}>
               <ReactPlaceholder
+                showLoadingAnimation
                 ready={false}
                 customPlaceholder={customPlaceholderCourse}
               >
                 {" "}
               </ReactPlaceholder>
             </div>
-            <div style={{ margin: 20, marginTop: 11, marginBottom: 15 }}>
+            <div style={{ margin: 20, marginTop: 11, marginBottom: 22 }}>
               <ReactPlaceholder
+                showLoadingAnimation
+                ready={false}
+                customPlaceholder={customPlaceholderCourse}
+              >
+                {" "}
+              </ReactPlaceholder>
+            </div>
+            <div style={{ margin: 20, marginTop: 11, marginBottom: 22 }}>
+              <ReactPlaceholder
+                showLoadingAnimation
+                ready={false}
+                customPlaceholder={customPlaceholderCourse}
+              >
+                {" "}
+              </ReactPlaceholder>
+            </div>
+            <div style={{ margin: 20, marginTop: 11, marginBottom: 22 }}>
+              <ReactPlaceholder
+                showLoadingAnimation
                 ready={false}
                 customPlaceholder={customPlaceholderCourse}
               >
@@ -121,7 +143,9 @@ const CourseList: React.SFC<{}> = () => (
               </Link>
             ) : null}
 
-            {courses.map(CourseListItem)}
+            {courses.map(course => (
+              <CourseListItem course={course} key={course.id} />
+            ))}
           </List>
         </div>
       );
