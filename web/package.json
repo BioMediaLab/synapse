@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "test": "NODE_ENV=test jest",
     "dev": "node server.js",
     "build": "next build",
-    "start": "next start",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "next start"
   },
   "author": "",
   "license": "ISC",
@@ -57,5 +57,11 @@
     "styled-jsx": "^3.1.0",
     "subscriptions-transport-ws": "^0.9.15",
     "ws": "^6.1.0"
+  },
+  "devDependencies": {
+    "babel-core": "7.0.0-bridge.0",
+    "babel-jest": "^23.6.0",
+    "jest": "^23.6.0",
+    "wsrun": "^3.3.3"
   }
 }
