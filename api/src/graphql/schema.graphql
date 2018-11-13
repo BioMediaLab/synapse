@@ -17,6 +17,7 @@ type Mutation {
   editCourse(name: String, description: String): Course
   addUsersToCourse(user_ids: [String]!, course_id: String!): Course
   removeUsersFromCourse(user_ids: [String]!, course_id: String!): Course
+  updateCourseDescription(description: String, course_id: String!): Course
   deleteCourse(id: String!): Course
   promoteUser(id: String!, admin: Boolean): User
   deleteUser(id: String!): User

@@ -159,6 +159,25 @@ export const resolvers: IResolvers = {
         },
       });
     },
+    updateCourseDescription: async (root, args, context) => {
+      let newDesc = "";
+      const { description, course_id } = args;
+      if (description) {
+        newDesc = description;
+      }
+      if (!course_id) {
+        throw new Error("no course id found");
+      }
+      // TODO: check for permissions here!
+      return prisma.updateCourse({
+        data: {
+          description: newDesc,
+        },
+        where: {
+          id: course_id,
+        },
+      });
+    },
     readNotification: async (root, args, context) => {
       return prisma.updateNotification({
         data: { read: true },
