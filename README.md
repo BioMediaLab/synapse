@@ -28,7 +28,8 @@ Thie new verion of Synapse has been under full-time development since September,
 - [Guidlines for Commits](#guidelines-for-commits)
 - [Naming Conventions](#naming-conventions)
 - [Contributions](#contributions)
-- [Techonolgy Used](#techonolgy-used)
+- [Techonolgy Used](#technology-used)
+- [VScode Addons](#vscode-addons)
 
 # First Time Setup
 
@@ -102,3 +103,18 @@ Apollo Client
 GraphQL Yoga
 
 Prisma
+
+# VScode Addons
+
+## Required
+
+<a href="https://marketplace.visualstudio.com/items?itemName=eg2.tslint"> TsLint </a>
+</br>
+<a href="https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode"> Prettier </a>
+
+## Reccomended
+  
+<a href="https://marketplace.visualstudio.com/items?itemName=mikestead.dotenv"> DotENV </a>
+</br>
+<a href="https://marketplace.visualstudio.com/items?itemName=mquandalle.graphql"> GraphQL </a>
+
