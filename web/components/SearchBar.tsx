@@ -32,6 +32,8 @@ const styles = theme =>
       left: 0,
       right: 0,
       minWidth: "500px",
+      maxHeight: "100vh",
+      overflowY: "scroll",
     },
     inputRoot: {
       color: "inherit",
@@ -73,7 +75,7 @@ class SearchBar extends Component<ISearchBarProps> {
     return (
       <Query query={SEARCH} variables={{ searchString: this.state.inputValue }}>
         {({ loading, error, data }) => {
-          if (loading) <div>Loading...</div>;
+          if (loading) null;
           if (error) <div>Error...</div>;
 
           return (
@@ -87,6 +89,7 @@ class SearchBar extends Component<ISearchBarProps> {
                 inputValue,
                 highlightedIndex,
                 selectedItem,
+                openMenu,
               }) => {
                 return (
                   <div>
@@ -94,6 +97,7 @@ class SearchBar extends Component<ISearchBarProps> {
                       {...getInputProps({
                         placeholder: "Search...",
                         onChange: this.handleInputChange,
+                        onFocus: () => openMenu(),
                       })}
                       classes={{
                         root: classes.inputRoot,
@@ -102,7 +106,7 @@ class SearchBar extends Component<ISearchBarProps> {
                       disableUnderline
                     />
 
-                    {isOpen && inputValue ? (
+                    {isOpen && data.userSearch ? (
                       <Paper className={classes.paper} square>
                         <List>
                           {data.userSearch.length ? (
