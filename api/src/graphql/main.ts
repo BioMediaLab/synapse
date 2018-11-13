@@ -57,7 +57,7 @@ export const resolvers: IResolvers = {
           where,
         })
         .aggregate().count;
-      const notes = await prisma.notifications({
+      const notifications = await prisma.notifications({
         where,
         orderBy: "createdAt_ASC",
         skip: startAt,
@@ -66,12 +66,12 @@ export const resolvers: IResolvers = {
       prisma.updateManyNotifications({
         data: { read: true },
         where: {
-          AND: [...notes.map(note => ({ id: note.id }))],
+          AND: [...notifications.map(notif => ({ id: notif.id }))],
         },
       });
       return {
         total,
-        notes,
+        notifications,
       };
     },
   },

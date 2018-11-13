@@ -34,8 +34,6 @@ googleAuthRouter.get("/", (req, res) => {
 googleAuthRouter.post("/complete", async (req, res) => {
   const code = req.body.code;
 
-  console.log("code", code);
-
   const oauth2Client = getGoogleApiClient();
   const { tokens } = await oauth2Client.getToken(code);
   oauth2Client.setCredentials(tokens);
