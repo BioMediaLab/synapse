@@ -10,6 +10,9 @@ import gql from "graphql-tag";
 import { Query } from "react-apollo";
 import { Link } from "../Router";
 import ProfilePic from "../components/ProfilePic";
+import { fade } from "@material-ui/core/styles/colorManipulator";
+import SearchIcon from "@material-ui/icons/Search";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const SEARCH = gql`
   query UserSearch($searchString: String!) {
@@ -50,6 +53,30 @@ const styles = theme =>
         width: 200,
       },
     },
+    search: {
+      position: "relative",
+      borderRadius: theme.shape.borderRadius,
+      backgroundColor: fade(theme.palette.common.white, 0.15),
+      "&:hover": {
+        backgroundColor: fade(theme.palette.common.white, 0.25),
+      },
+      marginRight: theme.spacing.unit * 2,
+      marginLeft: 0,
+      width: "100%",
+      [theme.breakpoints.up("sm")]: {
+        marginLeft: theme.spacing.unit * 3,
+        width: "auto",
+      },
+    },
+    searchIcon: {
+      width: theme.spacing.unit * 9,
+      height: "100%",
+      position: "absolute",
+      pointerEvents: "none",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+    },
   });
 
 interface ISearchBarProps {
@@ -57,6 +84,8 @@ interface ISearchBarProps {
     paper: string;
     inputRoot: string;
     inputInput: string;
+    search: string;
+    searchIcon: string;
   };
 }
 
@@ -75,70 +104,76 @@ class SearchBar extends Component<ISearchBarProps> {
     return (
       <Query query={SEARCH} variables={{ searchString: this.state.inputValue }}>
         {({ loading, error, data }) => {
-          if (loading) null;
-          if (error) <div>Error...</div>;
+          const searchIcon = loading ? (
+            <CircularProgress size={24} />
+          ) : (
+            <SearchIcon />
+          );
 
           return (
-            <Downshift>
-              {({
-                getInputProps,
-                getItemProps,
-                getLabelProps,
-                getMenuProps,
-                isOpen,
-                inputValue,
-                highlightedIndex,
-                selectedItem,
-                openMenu,
-              }) => {
-                return (
-                  <div>
-                    <Input
-                      {...getInputProps({
-                        placeholder: "Search...",
-                        onChange: this.handleInputChange,
-                        onFocus: () => openMenu(),
-                      })}
-                      classes={{
-                        root: classes.inputRoot,
-                        input: classes.inputInput,
-                      }}
-                      disableUnderline
-                    />
+            <div className={classes.search}>
+              <div className={classes.searchIcon}>{searchIcon}</div>
+              <Downshift>
+                {({
+                  getInputProps,
+                  getItemProps,
+                  getLabelProps,
+                  getMenuProps,
+                  isOpen,
+                  inputValue,
+                  highlightedIndex,
+                  selectedItem,
+                  openMenu,
+                }) => {
+                  return (
+                    <div>
+                      <Input
+                        {...getInputProps({
+                          placeholder: "Search...",
+                          onChange: this.handleInputChange,
+                          onFocus: () => openMenu(),
+                        })}
+                        classes={{
+                          root: classes.inputRoot,
+                          input: classes.inputInput,
+                        }}
+                        disableUnderline
+                      />
 
-                    {isOpen && data.userSearch ? (
-                      <Paper className={classes.paper} square>
-                        <List>
-                          {data.userSearch.length ? (
-                            data.userSearch.map(user => {
-                              return (
-                                <Link
-                                  route="users"
-                                  params={{ id: user.id }}
-                                  key={user.id}
-                                >
-                                  <ListItem button>
-                                    <ProfilePic user={user} />
-                                    <ListItemText
-                                      primary={user.name}
-                                      secondary={user.email}
-                                    />
-                                  </ListItem>
-                                </Link>
-                              );
-                            })
-                          ) : (
-                            <ListItem>
-                              <ListItemText primary="No search results." />
-                            </ListItem>
-                          )}
-                        </List>
-                      </Paper>
-                    ) : null}
-                  </div>
-                );
-              }}
-            </Downshift>
+                      {isOpen && data.userSearch ? (
+                        <Paper className={classes.paper} square>
+                          <List>
+                            {data.userSearch.length ? (
+                              data.userSearch.map(user => {
+                                return (
+                                  <Link
+                                    route="users"
+                                    params={{ id: user.id }}
+                                    key={user.id}
+                                  >
+                                    <ListItem button>
+                                      <ProfilePic user={user} />
+                                      <ListItemText
+                                        primary={user.name}
+                                        secondary={user.email}
+                                      />
+                                    </ListItem>
+                                  </Link>
+                                );
+                              })
+                            ) : (
+                              <ListItem>
+                                <ListItemText primary="No search results." />
+                              </ListItem>
+                            )}
+                          </List>
+                        </Paper>
+                      ) : null}
+                    </div>
+                  );
+                }}
+              </Downshift>
+            </div>
           );
         }}
       </Query>
