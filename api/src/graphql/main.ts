@@ -34,7 +34,7 @@ export const resolvers: IResolvers = {
             OR: [{ name_contains: name }, { email_contains: email }],
           },
           orderBy: "name_ASC",
-          first: 30,
+          first: 10,
         });
       }
       return prisma.course({ id: args.course_id }).users({
