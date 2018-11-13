@@ -16,7 +16,7 @@ const NOTIFICATION_SUBSCRIPTION = gql`
       id
       msg
       add_data
-      note_type
+      notify_type
       createdAt
     }
   }
@@ -26,11 +26,11 @@ const GET_RECENT_NOTIFICATIONS = gql`
   query {
     recentNotifications {
       total
-      notes {
+      notifications {
         id
         msg
         add_data
-        note_type
+        notify_type
         createdAt
       }
     }
@@ -41,13 +41,15 @@ interface IRecentNotifications {
   recentNotifications: {
     __typename: string;
     total: number;
-    notes: INotification[];
+    notifications: INotification[];
   };
 }
 
 interface ITNProps {
   data: DataValue<IRecentNotifications, {}>;
-  subscribeToUpdates: (updateCb: (note: INotification) => void) => void;
+  subscribeToUpdates: (
+    updateCb: (newNotification: INotification) => void,
+  ) => void;
 }
 
 type ITNPropsFull = ITNProps & InjectedNotistackProps;
@@ -56,11 +58,8 @@ interface ITNState {
   menuOpen: boolean;
 }
 
-interface Notifications {
-  anchorEl: any;
-}
-
 class Notifications extends React.Component<ITNPropsFull, ITNState> {
+  anchorEl: any;
   constructor(props) {
     super(props);
 
@@ -71,8 +70,10 @@ class Notifications extends React.Component<ITNPropsFull, ITNState> {
   }
 
   componentDidMount() {
-    this.props.subscribeToUpdates(note => {
-      this.props.enqueueSnackbar(note.msg);
+    this.props.subscribeToUpdates(notification => {
+      if (notification.msg) {
+        this.props.enqueueSnackbar(notification.msg);
+      }
     });
 
     this.anchorEl = document.getElementById("notification_menu_icon_button");
@@ -94,7 +95,7 @@ class Notifications extends React.Component<ITNPropsFull, ITNState> {
 
     const notes = (this.props.data.loading || this.props.data.error
       ? []
-      : this.props.data.recentNotifications.notes
+      : this.props.data.recentNotifications.notifications
     ).sort((note1, note2) =>
       compareDesc(new Date(note1.createdAt), new Date(note2.createdAt)),
     );
@@ -141,20 +142,30 @@ export default withSnackbar(
       props: ({ data, ownProps }) => ({
         data,
         subscribeToUpdates: updateCb => {
+          // adding a new Prop to the component that starts the subscription
           data.subscribeToMore({
-            document: NOTIFICATION_SUBSCRIPTION,
+            document: NOTIFICATION_SUBSCRIPTION, // the graphql query to run
             updateQuery: (
+              // a callback to fire when data is recieved
               prevData: DataValue<IRecentNotifications, {}>,
               { subscriptionData },
             ) => {
-              const newNote: INotification = subscriptionData.data.notification;
-              updateCb(newNote);
+              if (!subscriptionData.data.notification) {
+                return prevData;
+              }
+
+              const newNotification: INotification =
+                subscriptionData.data.notification;
+              updateCb(newNotification);
               return {
                 ...prevData,
                 recentNotifications: {
                   ...prevData.recentNotifications,
                   total: prevData.recentNotifications.total + 1,
-                  notes: [...prevData.recentNotifications.notes, newNote],
+                  notes: [
+                    ...prevData.recentNotifications.notifications,
+                    newNotification,
+                  ],
                 },
               };
             },
