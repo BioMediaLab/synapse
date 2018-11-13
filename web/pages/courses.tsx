@@ -28,6 +28,7 @@ const UserListItem = user => (
 const COURSE_INFO = gql`
   query Course($courseId: ID!) {
     course(where: { id: $courseId }) {
+      id
       name
       description
       users {

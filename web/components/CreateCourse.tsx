@@ -1,65 +1,64 @@
 import React from "react";
-import { Mutation } from 'react-apollo'
-import gql from 'graphql-tag'
+import { Mutation } from "react-apollo";
+import gql from "graphql-tag";
 import { createStyles, withStyles } from "@material-ui/core/styles";
-import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import TextField from '@material-ui/core/TextField';
-import Dialog from '@material-ui/core/Dialog';
-import Slide from '@material-ui/core/Slide';
-import IconButton from '@material-ui/core/IconButton';
-import CloseIcon from '@material-ui/icons/Close';
-import Snackbar from '@material-ui/core/Snackbar';
+import Button from "@material-ui/core/Button";
+import Grid from "@material-ui/core/Grid";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import TextField from "@material-ui/core/TextField";
+import Dialog from "@material-ui/core/Dialog";
+import Slide from "@material-ui/core/Slide";
+import IconButton from "@material-ui/core/IconButton";
+import CloseIcon from "@material-ui/icons/Close";
+import Snackbar from "@material-ui/core/Snackbar";
 
 const CREATE_COURSE = gql`
-  mutation CreateCourse($name: String!, $description: String!){
-    createCourse(
-      name: $name,
-      description: $description,
-    ) {
-      name,
+  mutation CreateCourse($name: String!, $description: String!) {
+    createCourse(name: $name, description: $description) {
+      name
       id
     }
   }
-
 `;
 
-const styles = (theme) => createStyles({
-  appBar: {
-    position: "relative",
-  },
-  grow: {
-    flexGrow: 1,
-  },
-  formMain: {
-    marginTop: theme.spacing.unit,
-    marginLeft: theme.spacing.unit * 2,
-  }
-});
+const styles = theme =>
+  createStyles({
+    appBar: {
+      position: "relative",
+    },
+    grow: {
+      flexGrow: 1,
+    },
+    formMain: {
+      marginTop: theme.spacing.unit,
+      marginLeft: theme.spacing.unit * 2,
+    },
+  });
 
-const Transition = (props) =>
-  (<Slide direction="up" {...props} />)
+const Transition = props => <Slide direction="up" {...props} />;
 
-interface CreateCourseProps {
+interface ICreateCourseProps {
   classes: {
-    appBar: string,
-    grow: string,
-    formMain: string,
-  }
+    appBar: string;
+    grow: string;
+    formMain: string;
+  };
 }
 
-interface CreateCourseState {
-  createFormOpen: boolean,
-  courseName: string,
-  courseDesc: string,
-  showSnackbar: boolean,
-  createSuccessful: boolean,
+interface ICreateCourseState {
+  createFormOpen: boolean;
+  courseName: string;
+  courseDesc: string;
+  showSnackbar: boolean;
+  createSuccessful: boolean;
 }
 
-class CreateCourse extends React.Component<CreateCourseProps, CreateCourseState> {
+class CreateCourse extends React.Component<
+  ICreateCourseProps,
+  ICreateCourseState
+> {
   state = {
     createFormOpen: false,
     courseName: "",
@@ -80,16 +79,16 @@ class CreateCourse extends React.Component<CreateCourseProps, CreateCourseState>
       ...state,
       createFormOpen: false,
     }));
-  }
+  };
 
   closeSnackbar = () => {
     this.setState(state => ({
       ...state,
       showSnackbar: false,
     }));
-  }
+  };
 
-  createCourse = async (creator) => {
+  createCourse = async creator => {
     this.closeCreateForm();
     const result = await creator();
     let status = true;
@@ -104,7 +103,7 @@ class CreateCourse extends React.Component<CreateCourseProps, CreateCourseState>
       showSnackbar: true,
       createSuccessful: status,
     }));
-  }
+  };
 
   render() {
     const { classes } = this.props;
@@ -127,17 +126,30 @@ class CreateCourse extends React.Component<CreateCourseProps, CreateCourseState>
               <div className={classes.grow} />
               <Mutation
                 mutation={CREATE_COURSE}
-                variables={{ name: this.state.courseName, description: this.state.courseDesc }}
+                variables={{
+                  name: this.state.courseName,
+                  description: this.state.courseDesc,
+                }}
               >
-                {(doMutation) => {
+                {doMutation => {
                   return (
-                    <Button color="inherit" onClick={() => { this.createCourse(doMutation) }} aria-label="Close">
+                    <Button
+                      color="inherit"
+                      onClick={() => {
+                        this.createCourse(doMutation);
+                      }}
+                      aria-label="Close"
+                    >
                       Create
                     </Button>
                   );
                 }}
               </Mutation>
-              <Button color="inherit" onClick={this.closeCreateForm} aria-label="Close">
+              <Button
+                color="inherit"
+                onClick={this.closeCreateForm}
+                aria-label="Close"
+              >
                 Cancel
               </Button>
             </Toolbar>
@@ -166,18 +178,20 @@ class CreateCourse extends React.Component<CreateCourseProps, CreateCourseState>
         <Snackbar
           open={this.state.showSnackbar}
           anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'center',
+            vertical: "bottom",
+            horizontal: "center",
           }}
           ContentProps={{
-            'aria-describedby': 'message-id',
+            "aria-describedby": "message-id",
           }}
           autoHideDuration={3000}
           onClose={this.closeSnackbar}
           message={
-            this.state.createSuccessful ?
-              <span id="message-id"> Course Created</span> :
+            this.state.createSuccessful ? (
+              <span id="message-id"> Course Created</span>
+            ) : (
               <span id="message-id"> Failed to create course</span>
+            )
           }
           action={[
             <IconButton
@@ -194,6 +208,5 @@ class CreateCourse extends React.Component<CreateCourseProps, CreateCourseState>
     );
   }
 }
-
 
 export default withStyles(styles)(CreateCourse);
