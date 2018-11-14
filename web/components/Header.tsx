@@ -5,10 +5,8 @@ import IconButton from "@material-ui/core/IconButton";
 import Badge from "@material-ui/core/Badge";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
-import { fade } from "@material-ui/core/styles/colorManipulator";
 import { createStyles, withStyles } from "@material-ui/core/styles";
 import MenuIcon from "@material-ui/icons/Menu";
-import SearchIcon from "@material-ui/icons/Search";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import MailIcon from "@material-ui/icons/Mail";
 import MoreIcon from "@material-ui/icons/MoreVert";
@@ -48,30 +46,6 @@ const styles = theme =>
       marginLeft: -12,
       marginRight: 20,
     },
-    search: {
-      position: "relative",
-      borderRadius: theme.shape.borderRadius,
-      backgroundColor: fade(theme.palette.common.white, 0.15),
-      "&:hover": {
-        backgroundColor: fade(theme.palette.common.white, 0.25),
-      },
-      marginRight: theme.spacing.unit * 2,
-      marginLeft: 0,
-      width: "100%",
-      [theme.breakpoints.up("sm")]: {
-        marginLeft: theme.spacing.unit * 3,
-        width: "auto",
-      },
-    },
-    searchIcon: {
-      width: theme.spacing.unit * 9,
-      height: "100%",
-      position: "absolute",
-      pointerEvents: "none",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-    },
     mainIcon: {
       marginTop: "0.5rem",
     },
@@ -109,8 +83,6 @@ interface IProps {
     appBar: string;
     grow: string;
     menuButton: string;
-    search: string;
-    searchIcon: string;
     mainIcon: string;
     inputRoot: string;
     inputInput: string;
@@ -265,12 +237,9 @@ class PrimarySearchAppBar extends React.Component<IProps, IState> {
                 <img src="/static/synapse@2x.png" alt="Synapse" height="25px" />
               </a>
             </Link>
-            <div className={classes.search}>
-              <div className={classes.searchIcon}>
-                <SearchIcon />
-              </div>
-              <SearchBar />
-            </div>
+
+            <SearchBar />
+
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
               <Notifications />

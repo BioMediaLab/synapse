@@ -35,5 +35,5 @@ type Session {
 
 type RecentNotification {
   total: Int!
-  notes: [Notification]
+  notifications: [Notification]
 }
