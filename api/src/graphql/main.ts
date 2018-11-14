@@ -1,7 +1,12 @@
-import { google } from "googleapis";
 import { forwardTo } from "prisma-binding";
 
-import { Notification, prisma, User } from "../../generated/prisma";
+import {
+  Notification,
+  prisma,
+  User,
+  UserWhereInput,
+  CourseWhereInput,
+} from "../../generated/prisma";
 import { IntResolverContext } from "../graphqlContext";
 import { IResolvers } from "graphql-tools";
 
@@ -15,7 +20,7 @@ export const resolvers: IResolvers = {
       }
       return courses;
     },
-    course: forwardTo("bindingDb") as any,
+    course: forwardTo("bindingDb"),
     user: async (root, args) => {
       return prisma.user({ id: args.id });
     },
@@ -73,6 +78,11 @@ export const resolvers: IResolvers = {
         total,
         notes,
       };
+    },
+  },
+  Course: {
+    users: async (root, args, context) => {
+      return prisma.course({ id: root.id }).users(args);
     },
   },
   Mutation: {

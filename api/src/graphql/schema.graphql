@@ -8,7 +8,7 @@ type Query {
   googleUri(email: String!): String!
   confirmSignupGoogle(token: String!): Session!
   courses: [Course]!
-  course(where: CourseWhereUniqueInput!): Course
+  course(where: CourseWhereUniqueInput!, userFirst: Int, userLast: Int): Course
   recentNotifications(start: Int, read: Boolean): RecentNotification
 }
 

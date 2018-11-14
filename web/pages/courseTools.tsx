@@ -69,13 +69,9 @@ const CourseTools: React.SFC<PageProps> = ({ router, classes }) => {
           }
           return (
             <div>
-              <Typography variant="title">
-                {data.course.name} Administration
-              </Typography>
+              <Typography variant="title">Course Administration</Typography>
               <Paper className={classes.toolSection}>
-                <Typography variant="subtitle2">
-                  Edit Course Properties
-                </Typography>
+                <Typography variant="subtitle1">{data.course.name}</Typography>
                 <Divider />
                 <Mutation mutation={COURSE_DESC_MUTATION}>
                   {(doMutate, { loading: mutationLoading }) => {
@@ -95,7 +91,9 @@ const CourseTools: React.SFC<PageProps> = ({ router, classes }) => {
                 </Mutation>
               </Paper>
               <Paper className={classes.toolSection}>
-                <Typography variant="subtitle2">Students and users</Typography>
+                <Typography variant="subtitle2">
+                  Manage Students and Users
+                </Typography>
                 <Divider />
               </Paper>
             </div>
