@@ -49,6 +49,8 @@ cd synapse
 yarn
 ```
 
+> `yarn` is shorthand for `yarn install`
+
 ## Configuration
 
 A `.env` file will need to be created in both the `api` and `web` workspaces.
@@ -64,6 +66,8 @@ cp web/.env.example .env
 ```
 
 > Contact a Synapse Admin for any secret .env variables
+
+> `.env` files NEVER get committed to git.
 
 # Guidelines for Commits
 
