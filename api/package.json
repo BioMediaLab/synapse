@@ -41,7 +41,7 @@
     "jsonwebtoken": "^8.3.0",
     "prisma": "^1.17.1",
     "prisma-binding": "^2.1.6",
-    "prisma-client-lib": "1.21.0-test.6",
+    "prisma-client-lib": "1.20.7",
     "prisma-lib": "^0.1.44",
     "typescript": "^3.0.3"
   },
