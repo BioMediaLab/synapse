@@ -10,9 +10,11 @@ import {
   Paper,
   Divider,
 } from "@material-ui/core";
+
 import withAuth from "../lib/withAuth";
 import ErrorMessage from "../components/ErrorMessage";
 import BigTextEdit from "../components/BigTextEdit";
+import StudentAdminView from "../components/StudentAdminView";
 
 const COURSE_QUERY = gql`
   query($id: ID!) {
@@ -55,9 +57,12 @@ interface IStyles {
 type PageProps = IStyles & WithRouterProps;
 
 const CourseTools: React.SFC<PageProps> = ({ router, classes }) => {
+  const courseId =
+    typeof router.query.id === "string" ? router.query.id : router.query.id[0];
+
   return (
     <main>
-      <Query query={COURSE_QUERY} variables={{ id: router.query.id }}>
+      <Query query={COURSE_QUERY} variables={{ id: courseId }}>
         {({ loading, error, data }) => {
           if (loading) {
             return <LinearProgress className={classes.mainLoadingInd} />;
@@ -69,9 +74,11 @@ const CourseTools: React.SFC<PageProps> = ({ router, classes }) => {
           }
           return (
             <div>
-              <Typography variant="title">Course Administration</Typography>
+              <Typography variant="title">
+                {data.course.name} Class Settings
+              </Typography>
               <Paper className={classes.toolSection}>
-                <Typography variant="subtitle1">{data.course.name}</Typography>
+                <Typography variant="subtitle1">Course Properties</Typography>
                 <Divider />
                 <Mutation mutation={COURSE_DESC_MUTATION}>
                   {(doMutate, { loading: mutationLoading }) => {
@@ -80,7 +87,7 @@ const CourseTools: React.SFC<PageProps> = ({ router, classes }) => {
                         initialText={data.course.description}
                         onSaveCallback={desc => {
                           doMutate({
-                            variables: { desc, id: router.query.id },
+                            variables: { desc, id: courseId },
                           });
                         }}
                         title="Course Description"
@@ -91,10 +98,11 @@ const CourseTools: React.SFC<PageProps> = ({ router, classes }) => {
                 </Mutation>
               </Paper>
               <Paper className={classes.toolSection}>
-                <Typography variant="subtitle2">
+                <Typography variant="subtitle1">
                   Manage Students and Users
                 </Typography>
                 <Divider />
+                <StudentAdminView courseId={courseId} />
               </Paper>
             </div>
           );

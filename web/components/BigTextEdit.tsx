@@ -1,13 +1,31 @@
 import React, { ChangeEvent } from "react";
-import TextField from "@material-ui/core/TextField";
-import { createStyles, withStyles, Button, Grid } from "@material-ui/core";
+import EditIcon from "@material-ui/icons/Edit";
+import {
+  createStyles,
+  withStyles,
+  Button,
+  Grid,
+  Typography,
+  IconButton,
+  TextField,
+  Tooltip,
+} from "@material-ui/core";
 
 const styles = theme =>
   createStyles({
-    main: {
+    editMain: {
       paddingTop: theme.spacing.unit * 2,
       paddingBottom: theme.spacing.unit * 2,
       width: "90%",
+    },
+    mainMain: {
+      padding: theme.spacing.unit,
+      paddingLeft: theme.spacing.unit * 2,
+      width: "90%",
+    },
+    notEditingBodyText: {
+      paddingLeft: theme.spacing.unit,
+      paddingTop: theme.spacing.unit,
     },
     field: {
       width: "100%",
@@ -16,8 +34,10 @@ const styles = theme =>
 
 interface IStyles {
   classes: {
-    main: string;
+    editMain: string;
+    mainMain: string;
     field: string;
+    notEditingBodyText: string;
   };
 }
 
@@ -28,28 +48,25 @@ interface ITextEditProps {
   disabled?: boolean;
 }
 
-interface ITextEditState {
+interface IState {
   textFieldValue: string;
   edited: boolean;
+  doingEdits: boolean;
 }
 
-class BigTextFieldEdit extends React.Component<
-  ITextEditProps & IStyles,
-  ITextEditState
-> {
+type Props = ITextEditProps & IStyles;
+
+class BigTextFieldEdit extends React.Component<Props, IState> {
   static defaultProps = {
     disabled: false,
     title: "",
   };
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      textFieldValue: props.initialText,
-      edited: false,
-    };
-  }
+  state = {
+    textFieldValue: this.props.initialText,
+    edited: false,
+    doingEdits: false,
+  };
 
   componentWillReceiveProps(props: ITextEditProps) {
     if (props.initialText !== this.props.initialText) {
@@ -76,6 +93,7 @@ class BigTextFieldEdit extends React.Component<
       this.setState(state => ({
         ...state,
         edited: false,
+        doingEdits: false,
       }));
     }
   };
@@ -85,35 +103,60 @@ class BigTextFieldEdit extends React.Component<
       ...state,
       edited: false,
       textFieldValue: this.props.initialText,
+      doingEdits: false,
+    }));
+  };
+
+  startEditing = () => {
+    this.setState(state => ({
+      ...state,
+      doingEdits: true,
     }));
   };
 
   render() {
-    return (
-      <div className={this.props.classes.main}>
-        <TextField
-          variant="outlined"
-          label={`${this.props.title}${this.state.edited ? "*" : ""}`}
-          onChange={this.handleChange}
-          value={this.state.textFieldValue}
-          multiline
-          className={this.props.classes.field}
-          disabled={this.props.disabled}
-        />
-        <Grid container justify="flex-end" alignItems="flex-start">
-          <Grid item>
+    if (this.state.doingEdits) {
+      return (
+        <div className={this.props.classes.editMain}>
+          <TextField
+            variant="outlined"
+            label={`${this.props.title}${this.state.edited ? "*" : ""}`}
+            onChange={this.handleChange}
+            value={this.state.textFieldValue}
+            multiline
+            className={this.props.classes.field}
+            disabled={this.props.disabled}
+          />
+          <Grid container justify="flex-end" alignItems="flex-start">
+            <Button onClick={this.onCancel} disabled={this.props.disabled}>
+              Cancel
+            </Button>
             <Button
               onClick={this.onSave}
               disabled={!this.state.edited || this.props.disabled}
+              color="primary"
             >
               Save
             </Button>
           </Grid>
-          <Grid item>
-            <Button onClick={this.onCancel} disabled={this.props.disabled}>
-              Cancel
-            </Button>
-          </Grid>
+        </div>
+      );
+    }
+    return (
+      <div className={this.props.classes.mainMain}>
+        <Typography variant="caption">{this.props.title}</Typography>
+        <div className={this.props.classes.notEditingBodyText}>
+          <Typography variant="body2">{this.state.textFieldValue}</Typography>
+        </div>
+        <Grid container justify="flex-end">
+          <IconButton
+            onClick={this.startEditing}
+            disabled={this.props.disabled}
+          >
+            <Tooltip title="edit">
+              <EditIcon />
+            </Tooltip>
+          </IconButton>
         </Grid>
       </div>
     );

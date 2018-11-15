@@ -1,12 +1,6 @@
 import { forwardTo } from "prisma-binding";
 
-import {
-  Notification,
-  prisma,
-  User,
-  UserWhereInput,
-  CourseWhereInput,
-} from "../../generated/prisma";
+import { Notification, prisma, User } from "../../generated/prisma";
 import { IntResolverContext } from "../graphqlContext";
 import { IResolvers } from "graphql-tools";
 

@@ -6,11 +6,11 @@ import AsyncSelect from "react-select/lib/Async";
 import TextField from "@material-ui/core/TextField";
 import Chip from "@material-ui/core/Chip";
 import CancelIcon from "@material-ui/icons/Cancel";
-import Avatar from "@material-ui/core/Avatar";
 // No server side render component
 import NoSsr from "@material-ui/core/NoSsr";
 import Tooltip from "@material-ui/core/Tooltip";
-import { createStyles, withStyles } from "@material-ui/core/styles";
+import { createStyles, withStyles, Theme } from "@material-ui/core/styles";
+import ProfilePic from "./ProfilePic";
 
 const SEARCH = gql`
   query UserSearch($searchString: String!) {
@@ -74,7 +74,7 @@ interface IUserSearchProps {
     main: string;
     chip: string;
   };
-  theme: any;
+  theme: Theme;
   courseId?: string | null;
   onValueChange?(users: IUser[]): void;
 }
@@ -158,7 +158,9 @@ class UserSearch extends React.Component<
         <Chip
           className={this.props.classes.chip}
           avatar={
-            <Avatar alt={chipProps.data.name} src={chipProps.data.photo} />
+            <ProfilePic
+              user={{ name: chipProps.data.name, photo: chipProps.data.photo }}
+            />
           }
           tabIndex={-1}
           label={chipProps.children}
