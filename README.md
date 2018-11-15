@@ -25,6 +25,7 @@ This new version of Synapse has been under full-time development since September
 
 - [Installation](#installation)
   - [Configuration](#configuration)
+- [Development](#development)
 - [Guidelines for Commits](#guidelines-for-commits)
 - [Naming Conventions](#naming-conventions)
 - [Contributions](#contributions)
@@ -68,6 +69,14 @@ cp web/.env.example .env
 > Contact a Synapse Admin for any secret .env variables
 
 > `.env` files NEVER get committed to git.
+
+# Development
+
+```sh
+yarn dev
+```
+
+> This will also run `predev` which runs `yarn` to install new packages and `prisma generate` in the api workspace to handle any database schema changes.
 
 # Guidelines for Commits
 
