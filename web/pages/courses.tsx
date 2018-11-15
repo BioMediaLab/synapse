@@ -14,7 +14,7 @@ import Typography from "@material-ui/core/Typography";
 
 import { Link } from "../Router";
 
-import TextEditor from "../components/TextEditor";
+import TextEditor from "../components/Draft";
 
 const UserListItem = user => (
   <Link route="users" params={{ id: user.id }} key={user.id}>
@@ -64,8 +64,6 @@ class Courses extends React.Component<ICoursesProps, any> {
           return (
             <div>
               <CourseHeader course={course} />
-
-              <Typography variant="headline">📢 Announcements</Typography>
 
               <TextEditor />
 
