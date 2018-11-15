@@ -1,6 +1,4 @@
-# Test
-
-p align="center">
+<div align="center">
 <img src="./web/static/synapse-icon@2x.png" alt="synapse logo">
 
 <h3 align="center">Synapse</h3>
@@ -17,7 +15,7 @@ p align="center">
         .
         <a href="https://www.biomedialab.net/"> About us </a>
   </p>
-</p>
+</div>
 
 Synapse is a Web application developed by the BioMediaLab, part of the School of Biology at the University of Maine. It is used by multiple courses each semester to provide online resources, such as course handouts, quizzes, grades, and discussion.
 
@@ -25,8 +23,6 @@ This new version of Synapse has been under full-time development since September
 
 ## Table of contents
 
-- [Test](#test)
-  - [Table of contents](#table-of-contents)
 - [Installation](#installation)
   - [Configuration](#configuration)
 - [Guidelines for Commits](#guidelines-for-commits)
