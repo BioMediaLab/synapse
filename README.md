@@ -25,12 +25,8 @@ Thie new verion of Synapse has been under full-time development since September,
 - [Guidelines for Commits](#guidelines-for-commits)
 - [Naming Conventions](#naming-conventions)
 - [Contributions](#contributions)
-- [Technology Used](#technology-used)
-  - [Frontend](#frontend)
-  - [Backend](#backend)
+- [Techonolgy Used](#technology-used)
 - [VScode Addons](#vscode-addons)
-  - [Required](#required)
-  - [Reccomended](#reccomended)
 
 ### Installation
 
@@ -83,7 +79,7 @@ Now Synapse the web layer will be running on `localhost:3000`, with the backend 
 
 # Contributions
 
-Ron Kozlowski - Product Manager & Director <a href="https://www.linkedin.com/in/tirranna/" target="_blank"><img src="https://3uil8r2z7mmf1j7qlc2us9x1121h-wpengine.netdna-ssl.com/wp-content/plugins/team-members-pro/inc/img/links/linkedin.png" height=15px width=15px></a>
+Ron Kozlowski - Product Manager & Director <a href="https://www.linkedin.com/in/tirranna/" target="_blank"><img src="https://3uil8r2z7mmf1j7qlc2us9x1121h-wpengine.netdna-ssl.com/wp-content/plugins/team-members-pro/inc/img/links/linkedin.png" height=15px width=15px></a> 
 <a href="https://github.com/frozenflat" target="_blank"><img src="https://assets-cdn.github.com/images/modules/logos_page/GitHub-Logo.png" height=10px></a>
 <br/>
 Andy Kay - Head Software Engineer <a href="https://www.linkedin.com/in/andy-kay-450474120" target="_blank"><img src="https://3uil8r2z7mmf1j7qlc2us9x1121h-wpengine.netdna-ssl.com/wp-content/plugins/team-members-pro/inc/img/links/linkedin.png" height=15px width=15px></a>
@@ -123,7 +119,8 @@ Prisma
 <a href="https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode"> Prettier </a>
 
 ## Reccomended
-
+  
 <a href="https://marketplace.visualstudio.com/items?itemName=mikestead.dotenv"> DotENV </a>
 </br>
 <a href="https://marketplace.visualstudio.com/items?itemName=mquandalle.graphql"> GraphQL </a>
+
