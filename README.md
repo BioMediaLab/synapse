@@ -2,6 +2,7 @@
 
 p align="center">
 <img src="./web/static/synapse-icon@2x.png" alt="synapse logo">
+
 <h3 align="center">Synapse</h3>
 
   <p align="center">
@@ -24,53 +25,49 @@ This new version of Synapse has been under full-time development since September
 
 ## Table of contents
 
-- [First time setup](#first-time-setup)
+- [Test](#test)
+  - [Table of contents](#table-of-contents)
+- [Installation](#installation)
+  - [Configuration](#configuration)
 - [Guidelines for Commits](#guidelines-for-commits)
 - [Naming Conventions](#naming-conventions)
 - [Contributions](#contributions)
 - [Technology Used](#technology-used)
+  - [Frontend](#frontend)
+  - [Backend](#backend)
 - [VScode Addons](#vscode-addons)
+  - [Required](#required)
+  - [Reccomended](#reccomended)
 
-# First Time Setup
-
-The first step to run Synapse locally is downloading the code by cloning the repository:
+# Installation
 
 ```sh
 git clone https://github.com/BioMediaLab/synapse.git
 ```
 
-### Installation
-
-**Install yarn**: If you're unfamiliar with Yarn [check it out here](https://yarnpkg.com/en/)  
-**Install prisma**: `yarn global add prisma`
-**Install nodemon** `yarn add nodemon -W`
-
-### Setup
-
-#### Create .env files
-
-Two .env files will need to be created.  
-Copy and paste `api/.env.example` to the same directory, and name the new file `.env`  
-Do the same thing for `web/.env.example`
-Contact a Synapse admin for what to update these files with.
-
-#### Generate files needed for backend server
-
-In the `/synapse/api` directory, run
-
 ```sh
-prisma generate
+cd synapse
 ```
 
-#### Start up the servers
-
-In the `/synapse` directory, run
-
 ```sh
-yarn dev
+yarn
 ```
 
-Now Synapse the web layer will be running on `localhost:3000`, with the backend running on `localhost:4000`
+## Configuration
+
+A `.env` file will need to be created in both the `api` and `web` workspaces.
+
+```sh
+cp api/.env.example .env
+```
+
+and
+
+```sh
+cp web/.env.example .env
+```
+
+> Contact a Synapse Admin for any secret .env variables
 
 # Guidelines for Commits
 
