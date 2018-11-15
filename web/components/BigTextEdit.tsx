@@ -149,14 +149,14 @@ class BigTextFieldEdit extends React.Component<Props, IState> {
           <Typography variant="body2">{this.state.textFieldValue}</Typography>
         </div>
         <Grid container justify="flex-end">
-          <IconButton
-            onClick={this.startEditing}
-            disabled={this.props.disabled}
-          >
-            <Tooltip title="edit">
+          <Tooltip title={`Edit ${this.props.title}`}>
+            <IconButton
+              onClick={this.startEditing}
+              disabled={this.props.disabled}
+            >
               <EditIcon />
-            </Tooltip>
-          </IconButton>
+            </IconButton>
+          </Tooltip>
         </Grid>
       </div>
     );

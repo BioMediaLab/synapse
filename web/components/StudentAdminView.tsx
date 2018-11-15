@@ -6,19 +6,15 @@ import {
   withStyles,
   List,
   LinearProgress,
-  Button,
   Grid,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
 } from "@material-ui/core";
 import { graphql, ChildDataProps } from "react-apollo";
 import gql from "graphql-tag";
 import { DocumentNode } from "graphql";
+
 import ErrorMessage from "./ErrorMessage";
 import CourseMemberListItem from "./CourseMemberListItem";
-import UserSearch from "./UserSearch";
+import AddStudentsToCourse from "./AddStudentsToCourse";
 
 const styles = theme =>
   createStyles({
@@ -30,15 +26,10 @@ const styles = theme =>
     main: {
       paddingRight: theme.spacing.unit,
     },
-    addDialog: {
-      minWidth: theme.spacing.unit * 100,
-      minHeight: theme.spacing.unit * 20,
-      zIndex: 10,
-    },
   });
 
 interface IStyles {
-  classes: { header: string; main: string; addDialog: string };
+  classes: { header: string; main: string };
 }
 
 interface IQueryVars {
@@ -72,27 +63,13 @@ interface IStudentAdminViewProps {
   courseId: string;
 }
 
-interface IState {
-  addDialogOpen: boolean;
-}
-
 type Props = ChildDataProps<
   IStudentAdminViewProps & IStyles,
   IQueryResult,
   IQueryVars
 >;
 
-class StudentAdminView extends React.Component<Props, IState> {
-  state = { addDialogOpen: false };
-
-  showAddDialog = () => {
-    this.setState(state => ({ ...state, addDialogOpen: true }));
-  };
-
-  hideAddDialog = () => {
-    this.setState(state => ({ ...state, addDialogOpen: false }));
-  };
-
+class StudentAdminView extends React.Component<Props, {}> {
   render() {
     let listView = <LinearProgress />;
     if (!this.props.data.loading && !this.props.data.error) {
@@ -102,6 +79,7 @@ class StudentAdminView extends React.Component<Props, IState> {
             <CourseMemberListItem
               key={user.id}
               user={user}
+              courseId={this.props.courseId}
               admin
               removeCallback={() => console.log}
             />
@@ -116,27 +94,11 @@ class StudentAdminView extends React.Component<Props, IState> {
       <div>
         <Paper className={this.props.classes.header}>
           <Grid container>
-            <TextField label="Search for students" />
-            <Button onClick={this.showAddDialog}>Add new members</Button>
+            <TextField label="Filter For Students" />
+            <AddStudentsToCourse curCourseId={this.props.courseId} />
           </Grid>
         </Paper>
         <div className={this.props.classes.main}>{listView}</div>
-        <Dialog
-          open={this.state.addDialogOpen}
-          onClose={this.hideAddDialog}
-          maxWidth="md"
-        >
-          <DialogTitle>Choose new members</DialogTitle>
-          <DialogContent className={this.props.classes.addDialog}>
-            <UserSearch />
-          </DialogContent>
-          <DialogActions>
-            <Button color="primary" onClick={this.hideAddDialog}>
-              Save
-            </Button>
-            <Button onClick={this.hideAddDialog}>Cancel</Button>
-          </DialogActions>
-        </Dialog>
       </div>
     );
   }

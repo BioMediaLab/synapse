@@ -3,12 +3,9 @@ import { withApollo, WithApolloClient } from "react-apollo";
 import gql from "graphql-tag";
 // see https://react-select.com/async#loading-asynchronously
 import AsyncSelect from "react-select/lib/Async";
-import TextField from "@material-ui/core/TextField";
-import Chip from "@material-ui/core/Chip";
 import CancelIcon from "@material-ui/icons/Cancel";
 // No server side render component
-import NoSsr from "@material-ui/core/NoSsr";
-import Tooltip from "@material-ui/core/Tooltip";
+import { Chip, Paper, TextField, NoSsr, Tooltip } from "@material-ui/core";
 import { createStyles, withStyles, Theme } from "@material-ui/core/styles";
 import ProfilePic from "./ProfilePic";
 
@@ -52,6 +49,10 @@ const styles = createStyles(theme => ({
   chip: {
     marginRight: theme.spacing.unit,
   },
+  menu: {
+    position: "fixed",
+    minWidth: "50%",
+  },
 }));
 
 const inputComponent = ({ inputRef, ...props }) => (
@@ -65,6 +66,7 @@ interface IUser {
   photo: string;
   nickname: string;
   email: string;
+  id: string;
 }
 
 interface IUserSearchProps {
@@ -73,6 +75,7 @@ interface IUserSearchProps {
     input: string;
     main: string;
     chip: string;
+    menu: string;
   };
   theme: Theme;
   courseId?: string | null;
@@ -141,6 +144,7 @@ class UserSearch extends React.Component<
           components={{
             Control: this.controlComponent,
             MultiValue: this.multivalue,
+            Menu: this.menu,
           }}
           options={[classes]}
         />
@@ -168,6 +172,18 @@ class UserSearch extends React.Component<
           deleteIcon={<CancelIcon {...chipProps.removeProps} />}
         />
       </Tooltip>
+    );
+  };
+
+  private menu = menuProps => {
+    return (
+      <Paper
+        className={this.props.classes.menu}
+        square
+        {...menuProps.innerProps}
+      >
+        {menuProps.children}
+      </Paper>
     );
   };
 
@@ -223,6 +239,7 @@ class UserSearch extends React.Component<
         name: user.name,
         nickname: user.nickname,
         value: user.id,
+        id: user.id,
         photo: user.photo,
         email: user.email,
       }));
