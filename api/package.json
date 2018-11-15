@@ -5,7 +5,7 @@
   "main": "src/index.ts",
   "scripts": {
     "test": "NODE_ENV=test jest",
-    "build-db": "prisma generate",
+    "generate": "prisma generate",
     "build": "prisma generate && tsc",
     "dev": "nodemon",
     "start": "ts-node src/index.ts"
@@ -39,13 +39,13 @@
     "graphql-tools": "^4.0.0",
     "graphql-yoga": "^1.16.2",
     "jsonwebtoken": "^8.3.0",
-    "prisma": "^1.17.1",
     "prisma-binding": "^2.1.6",
     "prisma-client-lib": "1.20.7",
     "prisma-lib": "^0.1.44",
     "typescript": "^3.0.3"
   },
   "devDependencies": {
+    "prisma": "1.20.7",
     "jest": "^23.6.0",
     "nodemon": "^1.18.4",
     "ts-node": "^7.0.1",

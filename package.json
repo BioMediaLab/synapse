@@ -10,6 +10,7 @@
     ]
   },
   "scripts": {
+    "predev": "yarn && wsrun -p api --stages generate",
     "dev": "wsrun dev"
   },
   "devDependencies": {
