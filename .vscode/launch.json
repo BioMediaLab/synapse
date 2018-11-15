@@ -7,16 +7,22 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Launch Program",
+      "name": "Server",
       "runtimeArgs": ["-r", "ts-node/register"],
       "args": ["${workspaceFolder}/api/index.ts"]
     },
     {
       "type": "node",
       "request": "launch",
-      "name": "Launch Program",
+      "name": "Client",
       "program": "${workspaceFolder}/web/server.js",
       "outFiles": ["${workspaceFolder}/**/*.js"]
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Server/Client",
+      "configurations": ["Server", "Client"]
     }
   ]
 }
