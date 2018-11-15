@@ -3,7 +3,7 @@
     <h3 align="center">Synapse</h3>
 
   <p align="center">
-    Classroom manamnent software
+    Classroom management software
     <br>
     <br>
     <a href="https://github.com/BioMediaLab/synapse/issues/new"> Report bug </a>
@@ -18,35 +18,34 @@
 
 Synapse is a Web application developed by the BioMediaLab, part of the School of Biology at the University of Maine. It is used by multiple courses each semester to provide online resources, such as course handouts, quizzes, grades, and discussion.
 
-Thie new verion of Synapse has been under full-time development since September, 2018.
+This new version of Synapse has been under full-time development since September, 2018.
+
+
 
 ## Table of contents
 
+- [First time setup](#first-time-setup)
 - [Guidelines for Commits](#guidelines-for-commits)
 - [Naming Conventions](#naming-conventions)
 - [Contributions](#contributions)
-- [Techonolgy Used](#technology-used)
+- [Technology Used](#technology-used)
 - [VScode Addons](#vscode-addons)
 
-### Installation
+# First Time Setup
+
+The first step to run Synapse locally is downloading the code by cloning the repository:
 
 ```sh
 git clone https://github.com/BioMediaLab/synapse.git
 ```
 
-```sh
-cd synapse
-```
+### Installation
 
-```sh
-yarn
-```
+**Install yarn**: If you're unfamiliar with Yarn [check it out here](https://yarnpkg.com/en/)  
+**Install prisma**: `yarn global add prisma`
+**Install nodemon** `yarn add nodemon -W`
 
-### Development
-
-```sh
-yarn dev
-```
+### Setup
 
 #### Create .env files
 
@@ -114,6 +113,8 @@ Prisma
 
 ## Required
 
+Code Editor: <a href="https://code.visualstudio.com/"> Visual Studio Code </a> 
+</br>
 <a href="https://marketplace.visualstudio.com/items?itemName=eg2.tslint"> TsLint </a>
 </br>
 <a href="https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode"> Prettier </a>
@@ -123,4 +124,5 @@ Prisma
 <a href="https://marketplace.visualstudio.com/items?itemName=mikestead.dotenv"> DotENV </a>
 </br>
 <a href="https://marketplace.visualstudio.com/items?itemName=mquandalle.graphql"> GraphQL </a>
-
+</br>
+<a href="https://marketplace.visualstudio.com/items?itemName=kumar-harsh.graphql-for-vscode"> GraphQL For VSCode </a>
