@@ -10,6 +10,7 @@
     ]
   },
   "scripts": {
+    "predev": "yarn && cd api && yarn generate",
     "dev": "wsrun dev"
   },
   "devDependencies": {
