@@ -27,21 +27,32 @@ export const resolvers: IResolvers = {
     },
     userSearch: async (root, args, context): Promise<any[]> => {
       const { name, email } = args;
-      if (!args.course_id) {
+      const first = 10;
+      if (!args.course_id && !args.filter_course_id) {
         return prisma.users({
           where: {
             OR: [{ name_contains: name }, { email_contains: email }],
           },
           orderBy: "name_ASC",
-          first: 10,
+          first,
         });
       }
-      return prisma.course({ id: args.course_id }).users({
+      if (args.course_id && !args.filter_course_id) {
+        return prisma.course({ id: args.course_id }).users({
+          where: {
+            OR: [{ name_contains: name }, { email_contains: email }],
+          },
+          orderBy: "name_ASC",
+          first,
+        });
+      }
+      return prisma.users({
         where: {
-          OR: [{ name_contains: name }, { email_contains: email }],
+          AND: [
+            { OR: [{ name_contains: name }, { email_contains: email }] },
+            { courses_none: args.filter_course_id },
+          ],
         },
-        orderBy: "name_ASC",
-        first: 30,
       });
     },
     recentNotifications: async (root, args, context) => {

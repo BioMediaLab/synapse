@@ -3,7 +3,12 @@
 type Query {
   users: [String]
   user(id: String!): User
-  userSearch(name: String, email: String, course_id: String): [User]!
+  userSearch(
+    name: String
+    email: String
+    course_id: String
+    filter_course_id: String
+  ): [User]!
   me: User
   googleUri(email: String!): String!
   confirmSignupGoogle(token: String!): Session!
