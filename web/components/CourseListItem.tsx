@@ -22,7 +22,6 @@ class CourseListItem extends Component<IProps, IState> {
   };
   handleClick = () => {
     this.state.open = !this.state.open;
-    console.log(this.state.open);
   };
 
   render() {

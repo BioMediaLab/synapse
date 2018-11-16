@@ -153,4 +153,6 @@ const CourseList: React.SFC<{}> = () => (
   </Query>
 );
 
+export { GET_COURSES };
+
 export default CourseList;
