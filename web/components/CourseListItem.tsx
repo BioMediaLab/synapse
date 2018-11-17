@@ -31,7 +31,6 @@ class CourseListItem extends Component<IProps, IState> {
       <>
         <Link route="courses" params={{ id: course.id }} key={course.id}>
           <ListItem button onClick={this.handleClick}>
-            <Avatar>{course.name.charAt(0).toUpperCase()}</Avatar>
             <ListItemText primary={course.name} />
             {this.state.open ? <ExpandLess /> : <ExpandMore />}
           </ListItem>

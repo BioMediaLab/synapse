@@ -5,28 +5,36 @@ import CourseHomeIcon from "@material-ui/icons/Home";
 import CourseFilesIcon from "@material-ui/icons/Folder";
 import GradebookIcon from "@material-ui/icons/Assessment";
 import CourseAdminIcon from "@material-ui/icons/Settings";
+import { createStyles, withStyles } from "@material-ui/core/styles";
+import { classNames } from "react-select/lib/utils";
 
-const CourseModListItems = course => {
+const styles = createStyles(theme => ({
+  nested: {
+    paddingLeft: theme.spacing.unit * 5,
+  },
+}));
+
+const CourseModListItems = ({ classes }) => {
   return (
     <List>
-      <ListItem button>
+      <ListItem className={classes.nested} button>
         <CourseHomeIcon />
-        <ListItemText>Home</ListItemText>
+        <ListItemText primary="Home" />
       </ListItem>
-      <ListItem button>
+      <ListItem className={classes.nested} button>
         <CourseFilesIcon />
-        <ListItemText>Files</ListItemText>
+        <ListItemText primary="Files" />
       </ListItem>
-      <ListItem button>
+      <ListItem className={classes.nested} button>
         <GradebookIcon />
-        <ListItemText>Grades</ListItemText>
+        <ListItemText primary="Grades" />
       </ListItem>
-      <ListItem button>
+      <ListItem className={classes.nested} button>
         <CourseAdminIcon />
-        <ListItemText>Admin</ListItemText>
+        <ListItemText primary="Admin" />
       </ListItem>
     </List>
   );
 };
 
-export default CourseModListItems;
+export default withStyles(styles)(CourseModListItems);
