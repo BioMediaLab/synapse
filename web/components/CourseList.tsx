@@ -12,6 +12,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Divider from "@material-ui/core/Divider";
 import Avatar from "@material-ui/core/Avatar";
 import "react-placeholder/lib/reactPlaceholder.css";
+import DashboardIcon from "@material-ui/icons/Dashboard";
 
 interface ICourse {
   id: string;
@@ -137,8 +138,8 @@ const CourseList: React.SFC<{}> = () => (
             {data.me.isAdmin ? (
               <Link href="/admin" key="admin">
                 <ListItem button>
-                  <Avatar>A</Avatar>
-                  <ListItemText primary="Admin Dashboard" />
+                  <DashboardIcon />
+                  <ListItemText primary="Dashboard" />
                 </ListItem>
               </Link>
             ) : null}
