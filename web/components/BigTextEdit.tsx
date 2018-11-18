@@ -146,7 +146,7 @@ class BigTextFieldEdit extends React.Component<Props, IState> {
       <div className={this.props.classes.mainMain}>
         <Typography variant="caption">{this.props.title}</Typography>
         <div className={this.props.classes.notEditingBodyText}>
-          <Typography variant="body2">{this.state.textFieldValue}</Typography>
+          <Typography variant="body1">{this.state.textFieldValue}</Typography>
         </div>
         <Grid container justify="flex-end">
           <Tooltip title={`Edit ${this.props.title}`}>

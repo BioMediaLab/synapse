@@ -135,7 +135,7 @@ const CourseList: React.SFC<{}> = () => (
             <Divider />
 
             {data.me.isAdmin ? (
-              <Link href="/admin" key="admin">
+              <Link route="/admin" key="admin">
                 <ListItem button>
                   <Avatar>A</Avatar>
                   <ListItemText primary="Admin Dashboard" />

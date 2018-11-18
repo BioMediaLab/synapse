@@ -9,6 +9,7 @@ import {
   Typography,
   Paper,
   Divider,
+  Theme,
 } from "@material-ui/core";
 
 import withAuth from "../lib/withAuth";
@@ -36,7 +37,7 @@ const COURSE_DESC_MUTATION = gql`
   }
 `;
 
-const styles = theme =>
+const styles = (theme: Theme) =>
   createStyles({
     mainLoadingInd: {
       marginTop: theme.spacing.unit * -3,
@@ -46,12 +47,23 @@ const styles = theme =>
     toolSection: {
       margin: theme.spacing.unit * 2,
       width: "95%",
+    },
+    toolTitle: {
+      backgroundColor: theme.palette.grey[100],
+      paddingLeft: theme.spacing.unit,
+    },
+    toolSectionMainContent: {
       paddingLeft: theme.spacing.unit,
     },
   });
 
 interface IStyles {
-  classes: { mainLoadingInd: string; toolSection: string };
+  classes: {
+    mainLoadingInd: string;
+    toolSection: string;
+    toolTitle: string;
+    toolSectionMainContent: string;
+  };
 }
 
 type PageProps = IStyles & WithRouterProps;
@@ -78,31 +90,37 @@ const CourseTools: React.SFC<PageProps> = ({ router, classes }) => {
                 {data.course.name} Class Settings
               </Typography>
               <Paper className={classes.toolSection}>
-                <Typography variant="subtitle1">Course Properties</Typography>
+                <Typography className={classes.toolTitle} variant="subtitle1">
+                  Course Properties
+                </Typography>
                 <Divider />
-                <Mutation mutation={COURSE_DESC_MUTATION}>
-                  {(doMutate, { loading: mutationLoading }) => {
-                    return (
-                      <BigTextEdit
-                        initialText={data.course.description}
-                        onSaveCallback={desc => {
-                          doMutate({
-                            variables: { desc, id: courseId },
-                          });
-                        }}
-                        title="Course Description"
-                        disabled={mutationLoading}
-                      />
-                    );
-                  }}
-                </Mutation>
+                <div className={classes.toolSectionMainContent}>
+                  <Mutation mutation={COURSE_DESC_MUTATION}>
+                    {(doMutate, { loading: mutationLoading }) => {
+                      return (
+                        <BigTextEdit
+                          initialText={data.course.description}
+                          onSaveCallback={desc => {
+                            doMutate({
+                              variables: { desc, id: courseId },
+                            });
+                          }}
+                          title="Course Description"
+                          disabled={mutationLoading}
+                        />
+                      );
+                    }}
+                  </Mutation>
+                </div>
               </Paper>
               <Paper className={classes.toolSection}>
-                <Typography variant="subtitle1">
+                <Typography className={classes.toolTitle} variant="subtitle1">
                   Manage Students and Users
                 </Typography>
                 <Divider />
-                <StudentAdminView courseId={courseId} />
+                <div className={classes.toolSectionMainContent}>
+                  <StudentAdminView courseId={courseId} />
+                </div>
               </Paper>
             </div>
           );

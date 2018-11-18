@@ -21,16 +21,21 @@ const styles = theme =>
       minWidth: theme.spacing.unit * 100,
       minHeight: theme.spacing.unit * 15,
     },
+    fullDialog: {
+      minHeight: theme.spacing.unit * 20,
+    },
   });
 
 interface IStyles {
   classes: {
     addDialog: string;
+    fullDialog: string;
   };
 }
 
 interface IProps {
   curCourseId: string;
+  userAddCallback?: (userIds: string[]) => void;
 }
 
 interface IState {
@@ -75,6 +80,9 @@ class AddStudentsToCourse extends React.Component<Props, IState> {
       });
       if (res && !res.errors) {
         this.props.enqueueSnackbar("Users added", { autoHideDuration: 1000 });
+        if (this.props.userAddCallback) {
+          this.props.userAddCallback(this.state.usersToAdd);
+        }
         return;
       }
     }
@@ -95,6 +103,7 @@ class AddStudentsToCourse extends React.Component<Props, IState> {
           open={this.state.addDialogOpen}
           onClose={this.hideAddDialog}
           maxWidth="md"
+          className={this.props.classes.fullDialog}
         >
           <DialogTitle>Choose new members</DialogTitle>
           <DialogContent className={this.props.classes.addDialog}>
@@ -114,7 +123,9 @@ class AddStudentsToCourse extends React.Component<Props, IState> {
             <Button onClick={this.hideAddDialog}>Cancel</Button>
           </DialogActions>
         </Dialog>
-        <Button onClick={this.showAddDialog}>Add new members</Button>
+        <Button color="primary" onClick={this.showAddDialog}>
+          Add new members
+        </Button>
       </React.Fragment>
     );
   }

@@ -14,7 +14,6 @@ import ProfilePic from "./ProfilePic";
 
 interface IProps {
   admin: boolean;
-  courseId: string;
   removeCallback: (id: string) => void;
   user: {
     name: string;
@@ -24,7 +23,7 @@ interface IProps {
   };
 }
 
-const CourseMemberListItem: React.SFC<IProps> = ({ user }) => {
+const CourseMemberListItem: React.SFC<IProps> = ({ user, removeCallback }) => {
   return (
     <ListItem button onClick={() => Router.pushRoute("users", { id: user.id })}>
       <ListItemAvatar>
@@ -33,7 +32,11 @@ const CourseMemberListItem: React.SFC<IProps> = ({ user }) => {
       <ListItemText primary={user.name} />
       <ListItemSecondaryAction>
         <Tooltip title={`Remove ${user.name} from the class`}>
-          <IconButton>
+          <IconButton
+            onClick={() => {
+              removeCallback(user.id);
+            }}
+          >
             <Remove />
           </IconButton>
         </Tooltip>
