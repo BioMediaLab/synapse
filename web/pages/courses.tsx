@@ -65,7 +65,7 @@ class Courses extends React.Component<ICoursesProps, any> {
             <div>
               <CourseHeader course={course} />
 
-              <Typography variant="headline">📢 Announcements</Typography>
+              <Typography variant="h5">📢 Announcements</Typography>
 
               <TextEditor />
 

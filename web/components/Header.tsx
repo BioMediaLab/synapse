@@ -38,6 +38,9 @@ const styles = theme =>
   createStyles({
     appBar: {
       zIndex: theme.zIndex.drawer + 1,
+      backgroundColor: "white",
+      boxShadow: "none",
+      borderBottom: "1px solid #EBEBEB",
     },
     grow: {
       flexGrow: 1,
@@ -65,6 +68,7 @@ const styles = theme =>
       position: "relative",
       width: drawerWidth,
       height: "100vh",
+      borderRight: "none",
     },
     toolbar: theme.mixins.toolbar,
     profilePicIconButton: {
@@ -234,7 +238,11 @@ class PrimarySearchAppBar extends React.Component<IProps, IState> {
 
             <Link href="/">
               <a className={classes.mainIcon}>
-                <img src="/static/synapse@2x.png" alt="Synapse" height="25px" />
+                <img
+                  src="/static/synapse-blue@2x.png"
+                  alt="Synapse"
+                  height="25px"
+                />
               </a>
             </Link>
 

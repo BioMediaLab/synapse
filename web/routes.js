@@ -4,7 +4,10 @@ const routes = require("next-routes");
 // you can leave out parrams if the route and page are the same as the route name
 module.exports = routes()
   .add("index", "/")
-  .add("admin")
+  .add("dashboard")
+  .add("messages")
+  .add("notifications")
+  .add("calendar")
   .add("users", "/users/:id")
   .add("courses", "/courses/:id")
   .add("login", "/login", "login")

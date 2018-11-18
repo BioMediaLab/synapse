@@ -37,7 +37,7 @@ const UserProfile: React.SFC<IUserProps> = ({ router }) => {
         return (
           <div>
             <Typography variant="display1">{user.name}</Typography>
-            <Typography variant="subheading">{user.email}</Typography>
+            <Typography variant="subtitle1">{user.email}</Typography>
           </div>
         );
       }}

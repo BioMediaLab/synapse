@@ -11,6 +11,7 @@ import { classNames } from "react-select/lib/utils";
 const styles = createStyles(theme => ({
   nested: {
     paddingLeft: theme.spacing.unit * 5,
+    color: "grey",
   },
 }));
 
@@ -18,19 +19,19 @@ const CourseModListItems = ({ classes }) => {
   return (
     <List>
       <ListItem className={classes.nested} button>
-        <CourseHomeIcon />
+        <CourseHomeIcon color="inherit" />
         <ListItemText primary="Home" />
       </ListItem>
       <ListItem className={classes.nested} button>
-        <CourseFilesIcon />
+        <CourseFilesIcon color="inherit" />
         <ListItemText primary="Files" />
       </ListItem>
       <ListItem className={classes.nested} button>
-        <GradebookIcon />
+        <GradebookIcon color="inherit" />
         <ListItemText primary="Grades" />
       </ListItem>
       <ListItem className={classes.nested} button>
-        <CourseAdminIcon />
+        <CourseAdminIcon color="inherit" />
         <ListItemText primary="Admin" />
       </ListItem>
     </List>

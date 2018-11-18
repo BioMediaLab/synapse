@@ -13,6 +13,11 @@ import Divider from "@material-ui/core/Divider";
 import Avatar from "@material-ui/core/Avatar";
 import "react-placeholder/lib/reactPlaceholder.css";
 import DashboardIcon from "@material-ui/icons/Dashboard";
+import MessagesIcon from "@material-ui/icons/Mail";
+import NotificationsIcon from "@material-ui/icons/Notifications";
+import CalendarIcon from "@material-ui/icons/CalendarToday";
+import ListSubheader from "@material-ui/core/ListSubheader";
+import Button from "@material-ui/core/Button";
 
 interface ICourse {
   id: string;
@@ -133,16 +138,39 @@ const CourseList: React.SFC<{}> = () => (
               </ListItem>
             </Link>
 
-            <Divider />
+            <ListSubheader>QUICK LINKS</ListSubheader>
 
-            {data.me.isAdmin ? (
-              <Link href="/admin" key="admin">
-                <ListItem button>
-                  <DashboardIcon />
-                  <ListItemText primary="Dashboard" />
-                </ListItem>
-              </Link>
-            ) : null}
+            <Link href="/dashboard" key="dashboard">
+              <ListItem button>
+                <DashboardIcon color="inherit" />
+                <ListItemText primary="Dashboard" />
+              </ListItem>
+            </Link>
+
+            <Link href="/messages" key="messages">
+              <ListItem button>
+                <MessagesIcon color="inherit" />
+                <ListItemText primary="Messages" />
+              </ListItem>
+            </Link>
+
+            <Link href="/notifications" key="notifications">
+              <ListItem button>
+                <NotificationsIcon color="inherit" />
+                <ListItemText primary="Notifications" />
+              </ListItem>
+            </Link>
+
+            <Link href="/calendar" key="calendar">
+              <ListItem button>
+                <CalendarIcon color="inherit" />
+                <ListItemText primary="Calendar" />
+              </ListItem>
+            </Link>
+
+            <ListSubheader>
+              MY COURSES <Button>SP 19</Button>
+            </ListSubheader>
 
             {courses.map(course => (
               <CourseListItem course={course} key={course.id} />

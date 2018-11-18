@@ -23,8 +23,8 @@ interface ICourseHeaderProps {
 
 const CourseHeader: React.SFC<ICourseHeaderProps> = ({ course, classes }) => (
   <div className={classes.root}>
-    <Typography variant="display1">{course.name}</Typography>
-    <Typography variant="subheading" gutterBottom>
+    <Typography variant="h4">{course.name}</Typography>
+    <Typography variant="subtitle1" gutterBottom>
       {course.users.length} students
     </Typography>
 
