@@ -10,12 +10,16 @@ import {
   Paper,
   Divider,
   Theme,
+  Grid,
+  Button,
 } from "@material-ui/core";
+import { KeyboardReturn as BackIcon } from "@material-ui/icons";
 
 import withAuth from "../lib/withAuth";
 import ErrorMessage from "../components/ErrorMessage";
 import BigTextEdit from "../components/BigTextEdit";
 import StudentAdminView from "../components/StudentAdminView";
+import { Link } from "../Router";
 
 const COURSE_QUERY = gql`
   query($id: ID!) {
@@ -86,9 +90,17 @@ const CourseTools: React.SFC<PageProps> = ({ router, classes }) => {
           }
           return (
             <div>
-              <Typography variant="title">
-                {data.course.name} Class Settings
-              </Typography>
+              <Grid container justify="space-between">
+                <Typography variant="display1">
+                  {data.course.name} Class Settings
+                </Typography>
+                <Link route="courses" params={{ id: router.query.id as any }}>
+                  <Button>
+                    <BackIcon />
+                    Back to course
+                  </Button>
+                </Link>
+              </Grid>
               <Paper className={classes.toolSection}>
                 <Typography className={classes.toolTitle} variant="subtitle1">
                   Course Properties

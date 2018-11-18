@@ -1,5 +1,7 @@
 import Typography from "@material-ui/core/Typography";
-import { createStyles, withStyles } from "@material-ui/core";
+import { createStyles, withStyles, Grid, Button } from "@material-ui/core";
+import { Settings as SettingsIcon } from "@material-ui/icons";
+import { Link } from "../Router";
 
 const styles = createStyles(theme => ({
   root: {
@@ -15,6 +17,7 @@ interface ICourseHeaderProps {
     name: string;
     description: string;
     users: any[];
+    id: string;
   };
   classes: {
     root: string;
@@ -23,7 +26,15 @@ interface ICourseHeaderProps {
 
 const CourseHeader: React.SFC<ICourseHeaderProps> = ({ course, classes }) => (
   <div className={classes.root}>
-    <Typography variant="display1">{course.name}</Typography>
+    <Grid container alignItems="flex-end" justify="space-between">
+      <Typography variant="display1">{course.name}</Typography>
+      <Link route="courseTools" params={{ id: course.id }}>
+        <Button>
+          <SettingsIcon />
+          Settings
+        </Button>
+      </Link>
+    </Grid>
     <Typography variant="subheading" gutterBottom>
       {course.users.length} students
     </Typography>

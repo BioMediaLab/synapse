@@ -168,6 +168,19 @@ class StudentAdminView extends React.Component<Props, IState> {
     if (this.props.data.error) {
       listView = <ErrorMessage message={this.props.data.error.message} />;
     }
+
+    const textFilterAdornmentProps = this.state.filtered
+      ? {
+          endAdornment: (
+            <InputAdornment position="end">
+              <IconButton onClick={this.stopFilter}>
+                <Backspace />
+              </IconButton>
+            </InputAdornment>
+          ),
+        }
+      : {};
+
     return (
       <div>
         <Paper className={this.props.classes.header}>
@@ -177,15 +190,7 @@ class StudentAdminView extends React.Component<Props, IState> {
               label="Filter For Students"
               onChange={event => this.updateFilter(event.target.value)}
               value={this.state.filterText}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton onClick={this.stopFilter}>
-                      <Backspace />
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
+              InputProps={textFilterAdornmentProps}
             />
             <AddStudentsToCourse
               curCourseId={this.props.courseId}

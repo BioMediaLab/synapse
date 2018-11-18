@@ -65,13 +65,8 @@ class Courses extends React.Component<ICoursesProps, any> {
           return (
             <div>
               <CourseHeader course={course} />
-              <Link route="courseTools" params={{ id: courseId as any }}>
-                <a>admin</a>
-              </Link>
               <Typography variant="headline">📢 Announcements</Typography>
-
               <TextEditor />
-
               <List>{course.users.map(UserListItem)}</List>
             </div>
           );
