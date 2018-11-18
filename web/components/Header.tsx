@@ -39,8 +39,6 @@ const styles = theme =>
     appBar: {
       zIndex: theme.zIndex.drawer + 1,
       backgroundColor: "#2948FF",
-      boxShadow: "none",
-      borderBottom: "1px solid #EBEBEB",
     },
     grow: {
       flexGrow: 1,

@@ -138,7 +138,7 @@ const CourseList: React.SFC<{}> = () => (
               </ListItem>
             </Link>
 
-            <ListSubheader>QUICK LINKS</ListSubheader>
+            <Divider />
 
             <Link href="/dashboard" key="dashboard">
               <ListItem button>
