@@ -7,7 +7,7 @@ import {
   Tooltip,
   IconButton,
 } from "@material-ui/core";
-import { Remove } from "@material-ui/icons";
+import { Clear } from "@material-ui/icons";
 
 import { Router } from "../Router";
 import ProfilePic from "./ProfilePic";
@@ -37,7 +37,7 @@ const CourseMemberListItem: React.SFC<IProps> = ({ user, removeCallback }) => {
               removeCallback(user.id);
             }}
           >
-            <Remove />
+            <Clear />
           </IconButton>
         </Tooltip>
       </ListItemSecondaryAction>

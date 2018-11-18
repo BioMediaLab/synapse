@@ -2,17 +2,21 @@ import React from "react";
 import {
   Paper,
   TextField,
+  InputAdornment,
   createStyles,
   withStyles,
   List,
   LinearProgress,
   Grid,
   Theme,
+  IconButton,
 } from "@material-ui/core";
+import { Backspace } from "@material-ui/icons";
 import { graphql, ChildDataProps, Mutation } from "react-apollo";
 import gql from "graphql-tag";
 import { DocumentNode } from "graphql";
 import { withSnackbar, InjectedNotistackProps } from "notistack";
+import Fuse from "fuse.js";
 
 import ErrorMessage from "./ErrorMessage";
 import CourseMemberListItem from "./CourseMemberListItem";
@@ -88,15 +92,50 @@ type Props = ChildDataProps<
   IQueryVars
 >;
 
-class StudentAdminView extends React.Component<Props, {}> {
+interface IState {
+  filtered: boolean;
+  filterText: string;
+}
+
+class StudentAdminView extends React.Component<Props, IState> {
+  state = {
+    filtered: false,
+    filterText: "",
+  };
+
+  stopFilter = () => {
+    this.setState(state => ({ ...state, filterText: "", filtered: false }));
+  };
+
+  updateFilter = (filterText: string) => {
+    if (filterText.length === 0) {
+      this.stopFilter();
+      return;
+    }
+    this.setState(state => ({ ...state, filtered: true, filterText }));
+  };
+
   render() {
     let listView = <LinearProgress />;
-    if (!this.props.data.loading && !this.props.data.error) {
+    if (
+      !this.props.data.loading &&
+      !this.props.data.error &&
+      this.props.data.course.users
+    ) {
+      let users = this.props.data.course.users;
+      if (this.state.filtered) {
+        const sorter = new Fuse(users, {
+          shouldSort: true,
+          keys: ["name", "email"],
+        });
+        users = sorter.search(this.state.filterText);
+      }
+
       listView = (
         <Mutation mutation={REMOVE_USER_MUTATION}>
           {mutate => (
             <List>
-              {this.props.data.course.users.map(user => (
+              {users.map(user => (
                 <CourseMemberListItem
                   key={user.id}
                   user={user}
@@ -136,6 +175,17 @@ class StudentAdminView extends React.Component<Props, {}> {
             <TextField
               className={this.props.classes.textField}
               label="Filter For Students"
+              onChange={event => this.updateFilter(event.target.value)}
+              value={this.state.filterText}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton onClick={this.stopFilter}>
+                      <Backspace />
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
             />
             <AddStudentsToCourse
               curCourseId={this.props.courseId}

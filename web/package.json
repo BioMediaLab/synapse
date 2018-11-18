@@ -38,6 +38,7 @@
     "downshift": "^3.1.2",
     "draft-js": "^0.10.5",
     "express": "^4.16.4",
+    "fuse.js": "^3.3.0",
     "graphql": "^14.0.2",
     "graphql-tag": "^2.10.0",
     "isomorphic-unfetch": "^3.0.0",
