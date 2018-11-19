@@ -10,11 +10,10 @@ import Avatar from "@material-ui/core/Avatar";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
-import Typography from "@material-ui/core/Typography";
 
 import { Link } from "../Router";
 
-import TextEditor from "../components/TextEditor";
+import TextEditor from "../components/Draft";
 
 const UserListItem = user => (
   <Link route="users" params={{ id: user.id }} key={user.id}>
@@ -64,8 +63,6 @@ class Courses extends React.Component<ICoursesProps, any> {
           return (
             <div>
               <CourseHeader course={course} />
-
-              <Typography variant="h5">📢 Announcements</Typography>
 
               <TextEditor />
 
