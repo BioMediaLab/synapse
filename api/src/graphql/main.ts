@@ -13,18 +13,10 @@ export const resolvers: IResolvers = {
       if (!courses) {
         return [];
       }
-      console.log("This is course context id: ", context.id);
       return courses;
     },
     course: forwardTo("bindingDb") as any,
     user: forwardTo("bindingDb") as any,
-    /*
-    user: async (root, args, context) => {
-      const user = await prisma.user({ id: args.id });
-      console.log("This is user args id: ", args.id);
-      console.log("This is user context id: ", context.id);
-      return user;
-    },*/
     me: async (root, args, context): Promise<User> => {
       return prisma.user({ id: context.id });
     },
