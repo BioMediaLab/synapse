@@ -39,7 +39,12 @@ class CourseListItem extends Component<IProps, IState> {
 
     return (
       <>
-        <Link route="courses" params={{ id: course.id }} key={course.id}>
+        <Link
+          prefetch
+          route="courses"
+          params={{ id: course.id }}
+          key={course.id}
+        >
           <ListItem button onClick={this.handleClick}>
             <ListItemText
               primary={course.name}

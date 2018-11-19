@@ -128,19 +128,7 @@ const CourseList: React.SFC<{}> = () => (
       return (
         <div>
           <List>
-            <Link route="users" params={{ id: data.me.id }} key={data.me.id}>
-              <ListItem button>
-                <Avatar alt={data.me.name} src={data.me.photo} />
-                <ListItemText
-                  primary={data.me.name}
-                  secondary={data.me.email}
-                />
-              </ListItem>
-            </Link>
-
-            <Divider />
-
-            <Link href="/dashboard" key="dashboard">
+            <Link prefetch href="/dashboard" key="dashboard">
               <ListItem button>
                 <DashboardIcon
                   color="inherit"
@@ -150,7 +138,7 @@ const CourseList: React.SFC<{}> = () => (
               </ListItem>
             </Link>
 
-            <Link href="/messages" key="messages">
+            <Link prefetch href="/messages" key="messages">
               <ListItem button>
                 <MessagesIcon
                   color="inherit"
@@ -160,7 +148,7 @@ const CourseList: React.SFC<{}> = () => (
               </ListItem>
             </Link>
 
-            <Link href="/notifications" key="notifications">
+            <Link prefetch href="/notifications" key="notifications">
               <ListItem button>
                 <NotificationsIcon
                   color="inherit"
@@ -170,7 +158,7 @@ const CourseList: React.SFC<{}> = () => (
               </ListItem>
             </Link>
 
-            <Link href="/calendar" key="calendar">
+            <Link prefetch href="/calendar" key="calendar">
               <ListItem button>
                 <CalendarIcon
                   color="inherit"
