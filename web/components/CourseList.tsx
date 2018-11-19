@@ -168,9 +168,7 @@ const CourseList: React.SFC<{}> = () => (
               </ListItem>
             </Link>
 
-            <ListSubheader>
-              MY COURSES <Button>SP 19</Button>
-            </ListSubheader>
+            <ListSubheader>MY COURSES</ListSubheader>
 
             {courses.map(course => (
               <CourseListItem course={course} key={course.id} />
