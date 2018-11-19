@@ -17,7 +17,7 @@ import MessagesIcon from "@material-ui/icons/Mail";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import CalendarIcon from "@material-ui/icons/CalendarToday";
 import ListSubheader from "@material-ui/core/ListSubheader";
-import Button from "@material-ui/core/Button";
+import { withRouter } from "next/router";
 
 interface ICourse {
   id: string;
@@ -142,28 +142,40 @@ const CourseList: React.SFC<{}> = () => (
 
             <Link href="/dashboard" key="dashboard">
               <ListItem button>
-                <DashboardIcon color="inherit" />
+                <DashboardIcon
+                  color="inherit"
+                  style={{ color: "rgba(0, 0, 0, 0.54)" }}
+                />
                 <ListItemText primary="Dashboard" />
               </ListItem>
             </Link>
 
             <Link href="/messages" key="messages">
               <ListItem button>
-                <MessagesIcon color="inherit" />
+                <MessagesIcon
+                  color="inherit"
+                  style={{ color: "rgba(0, 0, 0, 0.54)" }}
+                />
                 <ListItemText primary="Messages" />
               </ListItem>
             </Link>
 
             <Link href="/notifications" key="notifications">
               <ListItem button>
-                <NotificationsIcon color="inherit" />
+                <NotificationsIcon
+                  color="inherit"
+                  style={{ color: "rgba(0, 0, 0, 0.54)" }}
+                />
                 <ListItemText primary="Notifications" />
               </ListItem>
             </Link>
 
             <Link href="/calendar" key="calendar">
               <ListItem button>
-                <CalendarIcon color="inherit" />
+                <CalendarIcon
+                  color="inherit"
+                  style={{ color: "rgba(0, 0, 0, 0.54)" }}
+                />
                 <ListItemText primary="Calendar" />
               </ListItem>
             </Link>
@@ -180,4 +192,4 @@ const CourseList: React.SFC<{}> = () => (
   </Query>
 );
 
-export default CourseList;
+export default withRouter(CourseList);
