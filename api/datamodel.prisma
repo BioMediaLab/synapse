@@ -49,8 +49,10 @@ type Notification {
   updatedAt: DateTime!
 }
 
-type Announcements {
+type Message {
   id: ID! @unique
   course: Course!
   message: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }

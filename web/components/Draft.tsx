@@ -40,7 +40,6 @@ class Draft extends React.Component<{}, IEditorState> {
             minHeight: "44px",
             fontSize: "22px",
             padding: "20px",
-            fontFamily: "Roboto",
           }}
         >
           <Editor

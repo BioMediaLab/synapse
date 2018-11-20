@@ -10,6 +10,7 @@ module.exports = routes()
   .add("calendar")
   .add("users", "/users/:id")
   .add("courses", "/courses/:id")
+  .add("course-grades", "/course/:id/grades", "grades")
   .add("login", "/login", "login")
   .add("finishLogin", "/auth/:type")
   .add("settings");
