@@ -35,12 +35,6 @@ const CourseHeader: React.SFC<ICourseHeaderProps> = ({ course, classes }) => (
       <Typography variant="h4" style={{ fontWeight: 500 }}>
         {course.name} {course.term}
       </Typography>
-      <Link route="courseAdmin" params={{ id: course.id }}>
-        <Button>
-          <SettingsIcon />
-          Settings
-        </Button>
-      </Link>
     </Grid>
 
     <Typography variant="subtitle1" gutterBottom>
