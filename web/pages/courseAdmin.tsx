@@ -91,7 +91,7 @@ const CourseTools: React.SFC<PageProps> = ({ router, classes }) => {
           return (
             <div>
               <Grid container justify="space-between">
-                <Typography variant="display1">
+                <Typography variant="h4">
                   {data.course.name} Class Settings
                 </Typography>
                 <Link route="courses" params={{ id: router.query.id as any }}>
