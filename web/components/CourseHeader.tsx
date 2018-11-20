@@ -32,7 +32,9 @@ interface ICourseHeaderProps {
 const CourseHeader: React.SFC<ICourseHeaderProps> = ({ course, classes }) => (
   <div className={classes.root}>
     <Grid container alignItems="flex-end" justify="space-between">
-      <Typography variant="display1">{course.name}</Typography>
+      <Typography variant="h4" style={{ fontWeight: 500 }}>
+        {course.name} {course.term}
+      </Typography>
       <Link route="courseAdmin" params={{ id: course.id }}>
         <Button>
           <SettingsIcon />
@@ -40,18 +42,12 @@ const CourseHeader: React.SFC<ICourseHeaderProps> = ({ course, classes }) => (
         </Button>
       </Link>
     </Grid>
-    <Typography variant="subheading" gutterBottom>
-      {course.users.length} students
-    </Typography>
-    <Typography variant="h4" style={{ fontWeight: 500 }}>
-      {course.name} {course.term}
-    </Typography>
 
     <Typography variant="subtitle1" gutterBottom>
       {course.title}
     </Typography>
 
-    <Typography variant="body1" gutterBottom className={classes.description}>
+    <Typography variant="body2" gutterBottom className={classes.description}>
       {course.description}
     </Typography>
   </div>
