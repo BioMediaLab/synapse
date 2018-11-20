@@ -38,6 +38,7 @@ const styles = theme =>
   createStyles({
     appBar: {
       zIndex: theme.zIndex.drawer + 1,
+      backgroundColor: "#2948FF",
     },
     grow: {
       flexGrow: 1,
@@ -67,6 +68,7 @@ const styles = theme =>
       minHeight: "100vh",
       height: "100%",
       overflowX: "hidden",
+      backgroundColor: "#FAFAFA",
     },
     toolbar: theme.mixins.toolbar,
     profilePicIconButton: {
