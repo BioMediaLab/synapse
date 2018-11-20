@@ -41,6 +41,7 @@ const COURSE_INFO = gql`
       name
       title
       description
+      term
       users {
         id
         name
@@ -86,10 +87,14 @@ class Courses extends React.Component<ICoursesProps, any> {
                   Professors (1)
                 </Typography>
 
+                <Divider />
+
                 <Typography variant="h6" style={{ fontWeight: 500 }}>
                   Students ({course.users.length})
                 </Typography>
+
                 <Divider />
+
                 <List>{course.users.map(UserListItem)}</List>
               </Grid>
             </Grid>

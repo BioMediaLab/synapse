@@ -17,6 +17,7 @@ interface ICourseHeaderProps {
     name: string;
     title: string;
     description: string;
+    term: string;
     users: any[];
   };
   classes: {
@@ -28,7 +29,7 @@ interface ICourseHeaderProps {
 const CourseHeader: React.SFC<ICourseHeaderProps> = ({ course, classes }) => (
   <div className={classes.root}>
     <Typography variant="h4" style={{ fontWeight: 500 }}>
-      {course.name}
+      {course.name} {course.term}
     </Typography>
 
     <Typography variant="subtitle1" gutterBottom>
