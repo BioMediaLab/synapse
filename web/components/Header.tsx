@@ -38,6 +38,7 @@ const styles = theme =>
   createStyles({
     appBar: {
       zIndex: theme.zIndex.drawer + 1,
+      backgroundColor: "#2948FF",
     },
     grow: {
       flexGrow: 1,
@@ -65,6 +66,8 @@ const styles = theme =>
       position: "relative",
       width: drawerWidth,
       height: "100vh",
+      borderRight: "none",
+      backgroundColor: "#FAFAFA",
     },
     toolbar: theme.mixins.toolbar,
     profilePicIconButton: {

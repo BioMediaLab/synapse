@@ -3,32 +3,40 @@ import { createStyles, withStyles } from "@material-ui/core";
 
 const styles = createStyles(theme => ({
   root: {
-    ...theme.mixins.gutters(),
     paddingTop: theme.spacing.unit * 2,
     paddingBottom: theme.spacing.unit * 2,
     marginBottom: theme.spacing.unit * 2,
+  },
+  description: {
+    color: "#A6ADB7",
   },
 }));
 
 interface ICourseHeaderProps {
   course: {
     name: string;
+    title: string;
     description: string;
+    term: string;
     users: any[];
   };
   classes: {
     root: string;
+    description: string;
   };
 }
 
 const CourseHeader: React.SFC<ICourseHeaderProps> = ({ course, classes }) => (
   <div className={classes.root}>
-    <Typography variant="display1">{course.name}</Typography>
-    <Typography variant="subheading" gutterBottom>
-      {course.users.length} students
+    <Typography variant="h4" style={{ fontWeight: 500 }}>
+      {course.name} {course.term}
     </Typography>
 
-    <Typography variant="body1" gutterBottom>
+    <Typography variant="subtitle1" gutterBottom>
+      {course.title}
+    </Typography>
+
+    <Typography variant="body1" gutterBottom className={classes.description}>
       {course.description}
     </Typography>
   </div>

@@ -21,6 +21,7 @@ type Mutation {
   promoteUser(id: String!, admin: Boolean): User
   deleteUser(id: String!): User
   readNotification(note_id: String!): Notification
+  createCourseMessage(course_id: String!, body: String!): CourseMessage
 }
 
 type Subscription {

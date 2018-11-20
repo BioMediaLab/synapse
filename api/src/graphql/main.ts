@@ -165,6 +165,12 @@ export const resolvers: IResolvers = {
         where: { id: args.note_id },
       });
     },
+    createCourseMessage: async (root, args, context) => {
+      return prisma.createCourseMessage({
+        body: args.body,
+        course: args.course_id,
+      });
+    },
   },
   Subscription: {
     notification: {
