@@ -52,6 +52,7 @@ const styles = createStyles(theme => ({
   menu: {
     position: "fixed",
     minWidth: "50%",
+    zIndex: 2,
   },
 }));
 

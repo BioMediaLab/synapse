@@ -7,6 +7,8 @@ import {
   DialogContent,
   DialogActions,
   Typography,
+  Select,
+  MenuItem,
   createStyles,
 } from "@material-ui/core";
 import { graphql, ChildMutateProps } from "react-apollo";
@@ -24,12 +26,17 @@ const styles = theme =>
     fullDialog: {
       minHeight: theme.spacing.unit * 20,
     },
+    roleSelect: {
+      marginLeft: theme.spacing.unit,
+      marginRight: theme.spacing.unit,
+    },
   });
 
 interface IStyles {
   classes: {
     addDialog: string;
     fullDialog: string;
+    roleSelect: string;
   };
 }
 
@@ -109,7 +116,11 @@ class AddStudentsToCourse extends React.Component<Props, IState> {
           <DialogContent className={this.props.classes.addDialog}>
             <UserSearch onValueChange={this.updateSelectedUsers} />
             <Typography variant="body1">
-              Add these users as students into the class.
+              Add these users as
+              <Select className={this.props.classes.roleSelect} value="student">
+                <MenuItem value="student">students</MenuItem>
+              </Select>
+              into the class.
             </Typography>
           </DialogContent>
           <DialogActions>
