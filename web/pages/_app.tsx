@@ -3,7 +3,7 @@ import App, { Container } from "next/app";
 import { MuiThemeProvider } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import JssProvider from "react-jss/lib/JssProvider";
-import getPageContext, { PageContext } from "../lib/getPageContext";
+import getPageContext, { IPageContext } from "../lib/getPageContext";
 import withApolloClient from "../lib/withApolloClient";
 import { ApolloProvider } from "react-apollo";
 import Layout from "../components/Layout";
@@ -17,7 +17,7 @@ interface IMyAppProps {
 }
 
 interface IMyApp {
-  pageContext: PageContext;
+  pageContext: IPageContext;
   hasSession: boolean;
 }
 

@@ -843,7 +843,7 @@
   resolved "https://registry.yarnpkg.com/@heroku/linewrap/-/linewrap-1.0.0.tgz#a9d4e99f0a3e423a899b775f5f3d6747a1ff15c6"
   integrity sha512-qPeQp2DnALUwWKaL6ZXfnOw/lHp+zNg5V8whx5c/Y10HMWYjuQFqKupgoJgyuEYjnvYwoZTarW280+aOXWQLCQ==
 
-"@material-ui/core@^3.2.0":
+"@material-ui/core@^3.5.1":
   version "3.5.1"
   resolved "https://registry.yarnpkg.com/@material-ui/core/-/core-3.5.1.tgz#365d1c392d3df3b37295db0548f4cca501034e69"
   integrity sha512-yMBwYV5HQ/kZjncSmzHSx4uxJCePdbq9N58Jl0tq9D1gD5fKVJY/lItnQLRlcpCzZUkGxfDhpDutvLDq58ZAkg==
@@ -7726,10 +7726,10 @@ normalize-scroll-left@^0.1.2:
   resolved "https://registry.yarnpkg.com/normalize-scroll-left/-/normalize-scroll-left-0.1.2.tgz#6b79691ba79eb5fb107fa5edfbdc06b55caee2aa"
   integrity sha512-F9YMRls0zCF6BFIE2YnXDRpHPpfd91nOIaNdDgrx5YMoPLo8Wqj+6jNXHQsYBavJeXP4ww8HCt0xQAKc5qk2Fg==
 
-notistack@^0.3.7:
-  version "0.3.8"
-  resolved "https://registry.yarnpkg.com/notistack/-/notistack-0.3.8.tgz#e62873f91908601b3add29aabd2f152977d8e384"
-  integrity sha512-StqyZDXYtojAkBwBO9mneNaLCGipr84apWMVcW2vX/bnsb5nH8yQSaLZg8TH9CYVkp+b2yNTtBkIv/0IQEJe3Q==
+notistack@^0.3.9:
+  version "0.3.9"
+  resolved "https://registry.yarnpkg.com/notistack/-/notistack-0.3.9.tgz#622d89c0038b7cdebba2897b3018f89ada03551d"
+  integrity sha512-Xt55Jn2kq+1o34wS6y8ydj/84UpZrJhpWFfFqY5YqxZPdSiu5RgxhUcoTeq6XLQ8Mwg/TdhH+kRgn21Pxb6IlA==
 
 npm-bundled@^1.0.1:
   version "1.0.5"
