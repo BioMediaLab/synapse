@@ -25,6 +25,14 @@ type Course {
   updatedAt: DateTime!
 }
 
+# linking table
+type CourseUser {
+  id: ID! @unique
+  user_type: String!
+  course: Course! # relationship to Course
+  user: User! # relationship to User
+}
+
 type Activation {
   id: ID! @unique
   activation_code: String! @unique
@@ -51,10 +59,10 @@ type Notification {
   updatedAt: DateTime!
 }
 
-type Message {
+type CourseMessage {
   id: ID! @unique
   course: Course!
-  message: String
+  body: String!
   createdAt: DateTime!
   updatedAt: DateTime!
 }
