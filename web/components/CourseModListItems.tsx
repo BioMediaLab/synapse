@@ -6,7 +6,7 @@ import CourseFilesIcon from "@material-ui/icons/Folder";
 import GradebookIcon from "@material-ui/icons/Assessment";
 import CourseAdminIcon from "@material-ui/icons/Settings";
 import { createStyles, withStyles } from "@material-ui/core/styles";
-import { classNames } from "react-select/lib/utils";
+import { Link } from "../Router";
 
 const styles = createStyles(theme => ({
   nested: {
@@ -15,7 +15,7 @@ const styles = createStyles(theme => ({
   },
 }));
 
-const CourseModListItems = ({ classes }) => {
+const CourseModListItems = ({ course, classes }) => {
   return (
     <List>
       <ListItem className={classes.nested} button>
@@ -30,10 +30,12 @@ const CourseModListItems = ({ classes }) => {
         <GradebookIcon color="inherit" />
         <ListItemText primary="Grades" />
       </ListItem>
-      <ListItem className={classes.nested} button>
-        <CourseAdminIcon color="inherit" />
-        <ListItemText primary="Admin" />
-      </ListItem>
+      <Link route="courseAdmin" params={{ id: course.id }}>
+        <ListItem className={classes.nested} button>
+          <CourseAdminIcon color="inherit" />
+          <ListItemText primary="Admin" />
+        </ListItem>
+      </Link>
     </List>
   );
 };
