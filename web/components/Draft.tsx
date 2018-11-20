@@ -46,7 +46,7 @@ class Draft extends React.Component<{}, IEditorState> {
             ref={this.setEditor}
             editorState={this.state.editorState}
             onChange={this.handleInputChange}
-            placeholder="Send an announcement..."
+            placeholder="Send a message to entire class"
           />
         </div>
       </Paper>

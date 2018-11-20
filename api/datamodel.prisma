@@ -17,6 +17,7 @@ type Course {
   id: ID! @unique
   users: [User!]!
   name: String!
+  title: String
   description: String
   activations: [Activation!]!
   createdAt: DateTime!

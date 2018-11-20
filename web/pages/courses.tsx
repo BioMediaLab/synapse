@@ -15,8 +15,10 @@ import Divider from "@material-ui/core/Divider";
 
 import { Link } from "../Router";
 
-import TextEditor from "../components/Draft";
-import { Typography } from "@material-ui/core";
+import Draft from "../components/Draft";
+import Typography from "@material-ui/core/Typography";
+import { createStyles, withStyles } from "@material-ui/core";
+import { classNames } from "react-select/lib/utils";
 
 const UserListItem = user => (
   <Link route="users" params={{ id: user.id }} key={user.id}>
@@ -27,10 +29,17 @@ const UserListItem = user => (
   </Link>
 );
 
+const styles = createStyles(theme => ({
+  root: {
+    ...theme.mixins.gutters(),
+  },
+}));
+
 const COURSE_INFO = gql`
   query Course($courseId: ID!) {
     course(where: { id: $courseId }) {
       name
+      title
       description
       users {
         id
@@ -44,6 +53,7 @@ interface ICoursesProps {
   router: Router;
   classes: {
     courseHeading: string;
+    root: string;
   };
 }
 
@@ -64,14 +74,18 @@ class Courses extends React.Component<ICoursesProps, any> {
           const { course } = data;
 
           return (
-            <Grid container spacing={16}>
+            <Grid container spacing={16} className={this.props.classes.root}>
               <Grid item xs={9}>
                 <CourseHeader course={course} />
 
-                <TextEditor />
+                <Draft />
               </Grid>
 
               <Grid item xs={3}>
+                <Typography variant="h6" style={{ fontWeight: 500 }}>
+                  Professors (1)
+                </Typography>
+
                 <Typography variant="h6" style={{ fontWeight: 500 }}>
                   Students ({course.users.length})
                 </Typography>
@@ -86,4 +100,4 @@ class Courses extends React.Component<ICoursesProps, any> {
   }
 }
 
-export default withAuth(withRouter(Courses));
+export default withAuth(withRouter(withStyles(styles)(Courses)));

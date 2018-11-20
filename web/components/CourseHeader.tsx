@@ -3,7 +3,6 @@ import { createStyles, withStyles } from "@material-ui/core";
 
 const styles = createStyles(theme => ({
   root: {
-    ...theme.mixins.gutters(),
     paddingTop: theme.spacing.unit * 2,
     paddingBottom: theme.spacing.unit * 2,
     marginBottom: theme.spacing.unit * 2,
@@ -16,6 +15,7 @@ const styles = createStyles(theme => ({
 interface ICourseHeaderProps {
   course: {
     name: string;
+    title: string;
     description: string;
     users: any[];
   };
@@ -27,8 +27,12 @@ interface ICourseHeaderProps {
 
 const CourseHeader: React.SFC<ICourseHeaderProps> = ({ course, classes }) => (
   <div className={classes.root}>
-    <Typography variant="h4" style={{ fontWeight: 500 }} gutterBottom>
+    <Typography variant="h4" style={{ fontWeight: 500 }}>
       {course.name}
+    </Typography>
+
+    <Typography variant="subtitle1" gutterBottom>
+      {course.title}
     </Typography>
 
     <Typography variant="body1" gutterBottom className={classes.description}>
