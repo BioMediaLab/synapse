@@ -10,10 +10,13 @@ import Avatar from "@material-ui/core/Avatar";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
+import Grid from "@material-ui/core/Grid";
+import Divider from "@material-ui/core/Divider";
 
 import { Link } from "../Router";
 
 import TextEditor from "../components/Draft";
+import { Typography } from "@material-ui/core";
 
 const UserListItem = user => (
   <Link route="users" params={{ id: user.id }} key={user.id}>
@@ -61,13 +64,21 @@ class Courses extends React.Component<ICoursesProps, any> {
           const { course } = data;
 
           return (
-            <div>
-              <CourseHeader course={course} />
+            <Grid container spacing={16}>
+              <Grid item xs={9}>
+                <CourseHeader course={course} />
 
-              <TextEditor />
+                <TextEditor />
+              </Grid>
 
-              <List>{course.users.map(UserListItem)}</List>
-            </div>
+              <Grid item xs={3}>
+                <Typography variant="h6" style={{ fontWeight: 500 }}>
+                  Students ({course.users.length})
+                </Typography>
+                <Divider />
+                <List>{course.users.map(UserListItem)}</List>
+              </Grid>
+            </Grid>
           );
         }}
       </Query>

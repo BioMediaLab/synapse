@@ -8,6 +8,9 @@ const styles = createStyles(theme => ({
     paddingBottom: theme.spacing.unit * 2,
     marginBottom: theme.spacing.unit * 2,
   },
+  description: {
+    color: "#A6ADB7",
+  },
 }));
 
 interface ICourseHeaderProps {
@@ -18,17 +21,17 @@ interface ICourseHeaderProps {
   };
   classes: {
     root: string;
+    description: string;
   };
 }
 
 const CourseHeader: React.SFC<ICourseHeaderProps> = ({ course, classes }) => (
   <div className={classes.root}>
-    <Typography variant="h4">{course.name}</Typography>
-    <Typography variant="subtitle1" gutterBottom>
-      {course.users.length} students
+    <Typography variant="h4" style={{ fontWeight: 500 }} gutterBottom>
+      {course.name}
     </Typography>
 
-    <Typography variant="body1" gutterBottom>
+    <Typography variant="body1" gutterBottom className={classes.description}>
       {course.description}
     </Typography>
   </div>

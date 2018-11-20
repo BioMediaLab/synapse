@@ -67,6 +67,7 @@ const styles = theme =>
       width: drawerWidth,
       height: "100vh",
       borderRight: "none",
+      backgroundColor: "#FAFAFA",
     },
     toolbar: theme.mixins.toolbar,
     profilePicIconButton: {

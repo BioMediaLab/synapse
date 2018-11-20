@@ -37,6 +37,9 @@ const theme = createMuiTheme({
       main: pink[500],
       dark: pink[700],
     },
+    background: {
+      default: "white",
+    },
   },
   zIndex: {
     drawer: 1200,

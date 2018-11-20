@@ -66,7 +66,7 @@ const GET_COURSES = gql`
   }
 `;
 
-const CourseList: React.SFC<{}> = () => (
+const CourseList: React.SFC<{}> = ({ router, href }) => (
   <Query query={GET_COURSES}>
     {({ loading, error, data }) => {
       if (loading) {
