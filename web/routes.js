@@ -9,5 +9,5 @@ module.exports = routes()
   .add("courses", "/courses/:id")
   .add("login", "/login", "login")
   .add("finishLogin", "/auth/:type")
-  .add("courseTools", "/courses/:id/admin")
+  .add("courseAdmin", "/courses/:id/admin")
   .add("settings");

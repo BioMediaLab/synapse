@@ -28,7 +28,7 @@ const CourseHeader: React.SFC<ICourseHeaderProps> = ({ course, classes }) => (
   <div className={classes.root}>
     <Grid container alignItems="flex-end" justify="space-between">
       <Typography variant="display1">{course.name}</Typography>
-      <Link route="courseTools" params={{ id: course.id }}>
+      <Link route="courseAdmin" params={{ id: course.id }}>
         <Button>
           <SettingsIcon />
           Settings
