@@ -1,22 +1,27 @@
 import React from "react";
 import Avatar from "@material-ui/core/Avatar";
 import { createStyles, withStyles } from "@material-ui/core/styles";
-import { string } from "prop-types";
-import { any } from "async";
 
 const styles = createStyles({
   avatar: {
     height: "30px",
     width: "30px",
   },
+  initials: {
+    fontSize: "110%",
+  },
 });
 
 interface IProfilePicProps {
   classes: {
     avatar: string;
+    initials: string;
   };
   classesOverride?: string;
-  user: any;
+  user: {
+    name: string;
+    photo: string | null;
+  };
 }
 
 const ProfilePic: React.SFC<IProfilePicProps> = ({
@@ -27,12 +32,17 @@ const ProfilePic: React.SFC<IProfilePicProps> = ({
 }) => {
   return user.photo ? (
     <Avatar
+      alt={user.name}
       className={classesOverride ? classesOverride : classes.avatar}
       src={user.photo}
       {...props}
     />
   ) : (
-    <Avatar {...props}>{user.name.charAt(0).toUpperCase()}</Avatar>
+    <Avatar alt={user.name} {...props}>
+      <span className={classes.initials}>
+        {user.name.charAt(0).toUpperCase()}
+      </span>
+    </Avatar>
   );
 };
 

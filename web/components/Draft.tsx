@@ -15,13 +15,17 @@ const CREATE_COURSE_MESSAGE = gql`
 
 interface IEditorState {
   editorState: EditorState;
-  editor: Editor;
 }
 
 class Draft extends React.Component<{}, IEditorState> {
+  editor: any;
+
+  state = {
+    editorState: EditorState.createEmpty(),
+  };
+
   constructor(props) {
     super(props);
-    this.state = { editorState: EditorState.createEmpty() };
     this.editor = null;
   }
 
@@ -39,8 +43,7 @@ class Draft extends React.Component<{}, IEditorState> {
     }
   };
 
-  handleInputChange = editorState =>
-    this.setState({ editorState }) || console.log(editorState);
+  handleInputChange = editorState => this.setState({ editorState }); // || console.log(editorState);
 
   handleKeyPress = () => {
     console.log("test");

@@ -65,8 +65,9 @@ const styles = theme =>
     drawerPaper: {
       position: "relative",
       width: drawerWidth,
-      height: "100vh",
-      borderRight: "none",
+      minHeight: "100vh",
+      height: "100%",
+      overflowX: "hidden",
       backgroundColor: "#FAFAFA",
     },
     toolbar: theme.mixins.toolbar,
@@ -235,7 +236,7 @@ class PrimarySearchAppBar extends React.Component<IProps, IState> {
               <MenuIcon />
             </IconButton>
 
-            <Link href="/">
+            <Link route="/">
               <a className={classes.mainIcon}>
                 <img src="/static/synapse@2x.png" alt="Synapse" height="25px" />
               </a>

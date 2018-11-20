@@ -1,4 +1,3 @@
-import { google } from "googleapis";
 import { forwardTo } from "prisma-binding";
 
 import { Notification, prisma, User } from "../../generated/prisma";
@@ -15,7 +14,7 @@ export const resolvers: IResolvers = {
       }
       return courses;
     },
-    course: forwardTo("bindingDb") as any,
+    course: forwardTo("bindingDb"),
     user: async (root, args) => {
       return prisma.user({ id: args.id });
     },
@@ -28,21 +27,32 @@ export const resolvers: IResolvers = {
     },
     userSearch: async (root, args, context): Promise<any[]> => {
       const { name, email } = args;
-      if (!args.course_id) {
+      const first = 10;
+      if (!args.course_id && !args.filter_course_id) {
         return prisma.users({
           where: {
             OR: [{ name_contains: name }, { email_contains: email }],
           },
           orderBy: "name_ASC",
-          first: 10,
+          first,
         });
       }
-      return prisma.course({ id: args.course_id }).users({
+      if (args.course_id && !args.filter_course_id) {
+        return prisma.course({ id: args.course_id }).users({
+          where: {
+            OR: [{ name_contains: name }, { email_contains: email }],
+          },
+          orderBy: "name_ASC",
+          first,
+        });
+      }
+      return prisma.users({
         where: {
-          OR: [{ name_contains: name }, { email_contains: email }],
+          AND: [
+            { OR: [{ name_contains: name }, { email_contains: email }] },
+            { courses_none: args.filter_course_id },
+          ],
         },
-        orderBy: "name_ASC",
-        first: 30,
       });
     },
     recentNotifications: async (root, args, context) => {
@@ -73,6 +83,11 @@ export const resolvers: IResolvers = {
         total,
         notifications,
       };
+    },
+  },
+  Course: {
+    users: async (root, args, context) => {
+      return prisma.course({ id: root.id }).users(args);
     },
   },
   Mutation: {
@@ -156,6 +171,25 @@ export const resolvers: IResolvers = {
         },
         where: {
           id: args.course_id,
+        },
+      });
+    },
+    updateCourseDescription: async (root, args, context) => {
+      let newDesc = "";
+      const { description, course_id } = args;
+      if (description) {
+        newDesc = description;
+      }
+      if (!course_id) {
+        throw new Error("no course id found");
+      }
+      // TODO: check for permissions here!
+      return prisma.updateCourse({
+        data: {
+          description: newDesc,
+        },
+        where: {
+          id: course_id,
         },
       });
     },

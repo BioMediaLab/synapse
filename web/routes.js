@@ -14,4 +14,5 @@ module.exports = routes()
   .add("course-users", "/courses/:id/users", "course-users")
   .add("login", "/login", "login")
   .add("finishLogin", "/auth/:type")
+  .add("courseAdmin", "/courses/:id/admin")
   .add("settings");

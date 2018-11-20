@@ -54,7 +54,7 @@ class CourseListItem extends Component<IProps, IState> {
           </ListItem>
         </Link>
         <Collapse in={this.state.open} timeout="auto" unmountOnExit>
-          <CourseModListItems />
+          <CourseModListItems course={course} />
         </Collapse>
       </>
     );

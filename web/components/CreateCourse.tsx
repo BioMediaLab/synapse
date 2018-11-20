@@ -39,7 +39,7 @@ const styles = theme =>
 
 const Transition = props => <Slide direction="up" {...props} />;
 
-interface CreateCourseProps {
+interface ICreateCourseProps {
   classes: {
     appBar: string;
     grow: string;
@@ -47,7 +47,7 @@ interface CreateCourseProps {
   };
 }
 
-interface CreateCourseState {
+interface ICreateCourseState {
   createFormOpen: boolean;
   courseName: string;
   courseDesc: string;
@@ -56,8 +56,8 @@ interface CreateCourseState {
 }
 
 class CreateCourse extends React.Component<
-  CreateCourseProps,
-  CreateCourseState
+  ICreateCourseProps,
+  ICreateCourseState
 > {
   state = {
     createFormOpen: false,

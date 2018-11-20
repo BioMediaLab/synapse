@@ -37,6 +37,7 @@ const styles = createStyles(theme => ({
 const COURSE_INFO = gql`
   query Course($courseId: ID!) {
     course(where: { id: $courseId }) {
+      id
       name
       title
       description
