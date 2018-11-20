@@ -18,7 +18,6 @@ import { Link } from "../Router";
 import Draft from "../components/Draft";
 import Typography from "@material-ui/core/Typography";
 import { createStyles, withStyles } from "@material-ui/core";
-import { classNames } from "react-select/lib/utils";
 
 const UserListItem = user => (
   <Link route="users" params={{ id: user.id }} key={user.id}>
