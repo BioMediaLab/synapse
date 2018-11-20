@@ -273,6 +273,7 @@ class PrimarySearchAppBar extends React.Component<IProps, IState> {
                       onClick={this.handleProfileMenuOpen}
                       color="inherit"
                       className={classes.profilePicIconButton}
+                      style={{ padding: 0 }}
                     >
                       <ProfilePic user={data.me} />
                     </IconButton>
