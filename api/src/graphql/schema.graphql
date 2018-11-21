@@ -2,7 +2,7 @@
 
 type Query {
   users: [String]
-  user(id: String!): User
+  user(where: UserWhereUniqueInput!): User
   userSearch(
     name: String
     email: String
