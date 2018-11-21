@@ -3,14 +3,11 @@ import { withApollo, WithApolloClient } from "react-apollo";
 import gql from "graphql-tag";
 // see https://react-select.com/async#loading-asynchronously
 import AsyncSelect from "react-select/lib/Async";
-import TextField from "@material-ui/core/TextField";
-import Chip from "@material-ui/core/Chip";
 import CancelIcon from "@material-ui/icons/Cancel";
-import Avatar from "@material-ui/core/Avatar";
 // No server side render component
-import NoSsr from "@material-ui/core/NoSsr";
-import Tooltip from "@material-ui/core/Tooltip";
-import { createStyles, withStyles } from "@material-ui/core/styles";
+import { Chip, Paper, TextField, NoSsr, Tooltip } from "@material-ui/core";
+import { createStyles, withStyles, Theme } from "@material-ui/core/styles";
+import ProfilePic from "./ProfilePic";
 
 const SEARCH = gql`
   query UserSearch($searchString: String!) {
@@ -52,6 +49,11 @@ const styles = createStyles(theme => ({
   chip: {
     marginRight: theme.spacing.unit,
   },
+  menu: {
+    position: "fixed",
+    minWidth: "50%",
+    zIndex: 2,
+  },
 }));
 
 const inputComponent = ({ inputRef, ...props }) => (
@@ -65,6 +67,7 @@ interface IUser {
   photo: string;
   nickname: string;
   email: string;
+  id: string;
 }
 
 interface IUserSearchProps {
@@ -73,8 +76,9 @@ interface IUserSearchProps {
     input: string;
     main: string;
     chip: string;
+    menu: string;
   };
-  theme: any;
+  theme: Theme;
   courseId?: string | null;
   onValueChange?(users: IUser[]): void;
 }
@@ -141,6 +145,7 @@ class UserSearch extends React.Component<
           components={{
             Control: this.controlComponent,
             MultiValue: this.multivalue,
+            Menu: this.menu,
           }}
           options={[classes]}
         />
@@ -158,7 +163,9 @@ class UserSearch extends React.Component<
         <Chip
           className={this.props.classes.chip}
           avatar={
-            <Avatar alt={chipProps.data.name} src={chipProps.data.photo} />
+            <ProfilePic
+              user={{ name: chipProps.data.name, photo: chipProps.data.photo }}
+            />
           }
           tabIndex={-1}
           label={chipProps.children}
@@ -166,6 +173,18 @@ class UserSearch extends React.Component<
           deleteIcon={<CancelIcon {...chipProps.removeProps} />}
         />
       </Tooltip>
+    );
+  };
+
+  private menu = menuProps => {
+    return (
+      <Paper
+        className={this.props.classes.menu}
+        square
+        {...menuProps.innerProps}
+      >
+        {menuProps.children}
+      </Paper>
     );
   };
 
@@ -221,6 +240,7 @@ class UserSearch extends React.Component<
         name: user.name,
         nickname: user.nickname,
         value: user.id,
+        id: user.id,
         photo: user.photo,
         email: user.email,
       }));

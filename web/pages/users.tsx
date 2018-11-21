@@ -67,6 +67,7 @@ const UserProfile: React.SFC<IUserProps> = ({ router }) => {
               Courses
             </Typography>
             {user.courses.map(CourseListItemUserProfile)}
+
           </div>
         );
       }}

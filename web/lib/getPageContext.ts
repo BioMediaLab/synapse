@@ -7,21 +7,21 @@ import {
 import blue from "@material-ui/core/colors/blue";
 import pink from "@material-ui/core/colors/pink";
 
-interface Proc {
+interface IProc {
   browser: boolean;
 }
-declare var process: Proc;
+declare var process: IProc;
 
-export interface PageContext {
+export interface IPageContext {
   theme: Theme;
   sheetsManager: Map<any, any>;
   sheetsRegistry: SheetsRegistry;
   generateClassName: GenerateClassName;
 }
-interface Global {
-  __INIT_MATERIAL_UI__?: PageContext;
+interface IGlobal {
+  __INIT_MATERIAL_UI__?: IPageContext;
 }
-declare var global: Global;
+declare var global: IGlobal;
 
 // A theme with custom primary and secondary color.
 // It's optional.
@@ -37,13 +37,32 @@ const theme = createMuiTheme({
       main: pink[500],
       dark: pink[700],
     },
+    background: {
+      default: "#FFFFFF",
+    },
   },
   zIndex: {
     drawer: 1200,
   },
+  typography: {
+    useNextVariants: true,
+    // Use the system font instead of the default Roboto font.
+    fontFamily: [
+      "-apple-system",
+      "BlinkMacSystemFont",
+      '"Segoe UI"',
+      "Roboto",
+      '"Helvetica Neue"',
+      "Arial",
+      "sans-serif",
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"',
+    ].join(","),
+  },
 });
 
-function createPageContext(): PageContext {
+function createPageContext(): IPageContext {
   return {
     theme,
     // This is needed in order to deduplicate the injection of CSS in the page.
@@ -55,7 +74,7 @@ function createPageContext(): PageContext {
   };
 }
 
-export default function getPageContext(): PageContext {
+export default function getPageContext(): IPageContext {
   // Make sure to create a new context for every server-side request so that data
   // isn't shared between connections (which would be bad).
   if (!process.browser) {

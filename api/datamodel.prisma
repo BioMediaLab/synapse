@@ -17,10 +17,20 @@ type Course {
   id: ID! @unique
   users: [User!]!
   name: String!
+  title: String
   description: String
   activations: [Activation!]!
+  term: String
   createdAt: DateTime!
   updatedAt: DateTime!
+}
+
+# linking table
+type CourseUser {
+  id: ID! @unique
+  user_type: String!
+  course: Course! # relationship to Course
+  user: User! # relationship to User
 }
 
 type Activation {
@@ -45,6 +55,14 @@ type Notification {
   msg: String
   read: Boolean @default(value: false)
   add_data: Json
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type CourseMessage {
+  id: ID! @unique
+  course: Course!
+  body: String!
   createdAt: DateTime!
   updatedAt: DateTime!
 }
