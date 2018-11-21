@@ -4,7 +4,6 @@ import gql from "graphql-tag";
 // see https://react-select.com/async#loading-asynchronously
 import AsyncSelect from "react-select/lib/Async";
 import CancelIcon from "@material-ui/icons/Cancel";
-// No server side render component
 import { Chip, Paper, TextField, NoSsr, Tooltip } from "@material-ui/core";
 import { createStyles, withStyles, Theme } from "@material-ui/core/styles";
 import ProfilePic from "./ProfilePic";

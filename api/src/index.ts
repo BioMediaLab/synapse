@@ -1,5 +1,6 @@
-import * as dotenv from "dotenv";
-dotenv.config({ path: ".env" });
+import configCheck from "./config";
+configCheck(); // Make sure that the config we're reading from the .env is sane.
+
 import { GraphQLServer } from "graphql-yoga";
 import { json } from "body-parser";
 
