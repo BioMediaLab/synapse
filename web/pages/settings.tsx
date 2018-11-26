@@ -18,6 +18,8 @@ const getUser = gql`
       id
       name
       email
+      bio
+      iClickerID
     }
   }
 `;

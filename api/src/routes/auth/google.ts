@@ -68,6 +68,8 @@ googleAuthRouter.post("/complete", async (req, res) => {
     email: account.email,
     photo: account.photo,
     isAdmin: account.isAdmin,
+    iClickerID: account.iClickerID,
+    bio: account.bio,
   });
 
   return res.send(

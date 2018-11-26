@@ -6,6 +6,8 @@ type User {
   nickname: String
   email: String! @unique
   photo: String
+  iClickerID: String
+  bio: String
   isAdmin: Boolean @default(value: "false")
   createdAt: DateTime!
   updatedAt: DateTime!
