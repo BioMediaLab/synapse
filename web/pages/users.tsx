@@ -4,8 +4,8 @@ import gql from "graphql-tag";
 import ErrorMessage from "../components/ErrorMessage";
 import CourseListItemUserProfile from "../components/CourseListItemUserProfile";
 import Typography from "@material-ui/core/Typography";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
 import Avatar from "@material-ui/core/Avatar";
 import withAuth from "../lib/withAuth";
 import { withRouter } from "next/router";
@@ -46,28 +46,25 @@ const UserProfile: React.SFC<IUserProps> = ({ router }) => {
         }
 
         return (
-          <div>
-            <Card style={{ maxWidth: 400, height: 130, marginBottom: 50 }}>
-              <CardContent style={{ marginBottom: 30 }}>
-                <Avatar
-                  alt={user.name}
-                  src={user.photo}
-                  style={{ height: 80, width: 80, float: "left", margin: 7 }}
-                />
-                <div style={{ margin: 14, marginLeft: 30, float: "left" }}>
-                  <Typography variant="display1">{user.name}</Typography>
-                  <Typography variant="subheading">{user.email}</Typography>
-                </div>
-              </CardContent>
-            </Card>
-            <Typography
-              variant="subheading"
-              style={{ color: "grey", margin: 5 }}
-            >
-              Courses
-            </Typography>
+          <List>
+            <ListItem>
+              <Avatar
+                alt={user.name}
+                src={user.photo}
+                style={{ height: 80, width: 80, float: "left", margin: 7 }}
+              />
+              <div style={{ margin: 14 }}>
+                <Typography variant="display1">{user.name}</Typography>
+                <Typography variant="subheading">{user.email}</Typography>
+              </div>
+            </ListItem>
+            <ListItem>
+              <Typography variant="subheading" style={{ color: "grey" }}>
+                Courses
+              </Typography>
+            </ListItem>
             {user.courses.map(CourseListItemUserProfile)}
-          </div>
+          </List>
         );
       }}
     </Query>

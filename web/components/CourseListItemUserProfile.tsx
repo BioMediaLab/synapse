@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
-import CardActionArea from "@material-ui/core/CardActionArea";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
 import { Link } from "../Router";
 
 const Styles = {
@@ -16,16 +15,16 @@ const Styles = {
 
 const CourseListItemUserProfile = course => {
   return (
-    <Link route="courses" params={{ id: course.id }} key={course.id}>
-      <Card style={Styles.Card}>
-        <CardActionArea>
-          <CardContent style={Styles.CardContent}>
+    <>
+      <Link route="courses" params={{ id: course.id }} key={course.id}>
+        <ListItem button>
+          <ListItemText>
             <Typography variant="title">{course.name}</Typography>
             <Typography variant="subheading">Professor Name</Typography>
-          </CardContent>
-        </CardActionArea>
-      </Card>
-    </Link>
+          </ListItemText>
+        </ListItem>
+      </Link>
+    </>
   );
 };
 
