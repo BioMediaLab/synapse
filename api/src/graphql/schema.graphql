@@ -2,7 +2,7 @@
 
 type Query {
   users: [String]
-  user(where: UserWhereUniqueInput!): User
+  user(id: String!): User
   userSearch(
     name: String
     email: String
@@ -10,6 +10,7 @@ type Query {
     filter_course_id: String
   ): [User]!
   me: User
+  userWithCourses(where: UserWhereUniqueInput!): User
   googleUri(email: String!): String!
   confirmSignupGoogle(token: String!): Session!
   courses: [Course]!
