@@ -15,10 +15,8 @@ export const resolvers: IResolvers = {
       return courses;
     },
     course: forwardTo("bindingDb") as any,
-    userWithCourses: forwardTo("bindingDb") as any,
-    user: async (root, args) => {
-      return prisma.user({ id: args.id });
-    },
+    user: forwardTo("bindingDb") as any,
+
     me: async (root, args, context): Promise<User> => {
       return prisma.user({ id: context.id });
     },
