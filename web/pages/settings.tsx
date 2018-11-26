@@ -1,24 +1,44 @@
 import React from "react";
-
-import { createStyles, withStyles } from "@material-ui/core/styles";
+import { Query } from "react-apollo";
+import gql from "graphql-tag";
+import ErrorMessage from "../components/ErrorMessage";
+import Typography from "@material-ui/core/Typography";
 import withAuth from "../lib/withAuth";
+import { withRouter } from "next/router";
+import { Router } from "next-routes";
 
-const styles = theme =>
-  createStyles({
-    root: {
-      // marginTop: theme.spacing.unit * -3,
-      // marginLeft: theme.spacing.unit * -3,
-    },
-  });
-interface ISettingsPageProps {
-  classes: {
-    root: string;
-  };
+interface IUserProps {
+  user_id: object;
+  router: Router;
 }
-class SettingsPage extends React.Component<ISettingsPageProps> {
-  render() {
-    return <div className={this.props.classes.root}>Settings Page</div>;
+
+const getUser = gql`
+  query {
+    me @client {
+      id
+      name
+      email
+    }
   }
-}
+`;
 
-export default withAuth(withStyles(styles)(SettingsPage));
+const UserProfile: React.SFC<IUserProps> = () => {
+  return (
+    <Query query={getUser}>
+      {({ loading, error, data }) => {
+        if (loading) {
+          return <div>Loading...</div>;
+        }
+        if (error) {
+          return <ErrorMessage message={error.message} />;
+        }
+        {
+          console.log(data);
+        }
+        return <div>Completed</div>;
+      }}
+    </Query>
+  );
+};
+
+export default withAuth(withRouter(UserProfile));
