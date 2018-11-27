@@ -7,6 +7,10 @@ import Typography from "@material-ui/core/Typography";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import Avatar from "@material-ui/core/Avatar";
+import Divider from "@material-ui/core/Divider";
+import Card from "@material-ui/core/Card";
+import CardMedia from "@material-ui/core/CardMedia";
+import CardContent from "@material-ui/core/CardContent";
 import withAuth from "../lib/withAuth";
 import { withRouter } from "next/router";
 import { Router } from "next-routes";
@@ -46,25 +50,26 @@ const UserProfile: React.SFC<IUserProps> = ({ router }) => {
         }
 
         return (
-          <List>
-            <ListItem>
-              <Avatar
-                alt={user.name}
-                src={user.photo}
-                style={{ height: 80, width: 80, float: "left", margin: 7 }}
-              />
-              <div style={{ margin: 14 }}>
-                <Typography variant="display1">{user.name}</Typography>
-                <Typography variant="subheading">{user.email}</Typography>
-              </div>
-            </ListItem>
-            <ListItem>
-              <Typography variant="subheading" style={{ color: "grey" }}>
-                Courses
-              </Typography>
-            </ListItem>
-            {user.courses.map(CourseListItemUserProfile)}
-          </List>
+          <div style={{ display: "flex", justifyContent: "lex-start" }}>
+            <Card style={{ maxWidth: 345, flexGrow: 1 }}>
+              <CardMedia style={{ height: 345 }} image={user.photo} />
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="h2">
+                  {user.name}
+                </Typography>
+                <Typography component="p">{user.email}</Typography>
+              </CardContent>
+            </Card>
+            <List style={{ flexGrow: 2, marginLeft: 20 }}>
+              <ListItem>
+                <Typography variant="subheading" style={{ color: "grey" }}>
+                  Courses
+                </Typography>
+              </ListItem>
+              <Divider />
+              {user.courses.map(CourseListItemUserProfile)}
+            </List>
+          </div>
         );
       }}
     </Query>
