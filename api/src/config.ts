@@ -7,6 +7,7 @@ be sure to add it to this list.
 const envVarWhitelist = new Set([
   "PRISMA_ENDPOINT",
   "PRISMA_SECRET",
+  "PRISMA_MANAGEMENT_API_SECRET",
   "GOOGLE_APP_REDIRECT_URL",
   "GOOGLE_APP_SECRET",
   "GOOGLE_APP_CLIENT_ID",
