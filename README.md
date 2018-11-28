@@ -1,19 +1,18 @@
 # Synapse
 
-<img src="./web/static/synapse-icon@2x.png" alt="synapse logo">
-  <p align="center">
+<p style="text-align: center;">
+    <img src="./web/static/synapse-icon@2x.png" alt="synapse logo" />
     Classroom management software
-    <br>
-    <br>
+    <br />
+    <br />
     <a href="https://github.com/BioMediaLab/synapse/issues/new"> Report bug </a>
     .
-        <a href="https://github.com/BioMediaLab/synapse/issues/new"> Request Features </a>
-        .
-        <a href="mailto:synapse@maine.edu" target="_top"> Contact </a>
-        .
-        <a href="https://www.biomedialab.net/"> About us </a>
-  </p>
-</div>
+    <a href="https://github.com/BioMediaLab/synapse/issues/new"> Request Features </a>
+    .
+    <a href="mailto:synapse@maine.edu" target="_top"> Contact </a>
+    .
+    <a href="https://www.biomedialab.net/"> About us </a>
+</p>
 
 Synapse is a Web application developed by the BioMediaLab, part of the School of Biology at the University of Maine. It is used by multiple courses each semester to provide online resources, such as course handouts, quizzes, grades, and discussion.
 
@@ -100,9 +99,9 @@ Steps
 
 ### Run the app
 
-'''sh
+```sh
 yarn run dev
-'''
+```
 
 > This will also run `predev` which runs `yarn` to install new packages and `prisma generate` in the api workspace to handle any database schema changes.
 
