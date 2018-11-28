@@ -10,11 +10,14 @@ import Avatar from "@material-ui/core/Avatar";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
-import Typography from "@material-ui/core/Typography";
+import Grid from "@material-ui/core/Grid";
+import Divider from "@material-ui/core/Divider";
 
 import { Link } from "../Router";
 
-import TextEditor from "../components/TextEditor";
+import Draft from "../components/Draft";
+import Typography from "@material-ui/core/Typography";
+import { createStyles, withStyles } from "@material-ui/core";
 
 const UserListItem = user => (
   <Link route="users" params={{ id: user.id }} key={user.id}>
@@ -25,11 +28,20 @@ const UserListItem = user => (
   </Link>
 );
 
+const styles = createStyles(theme => ({
+  root: {
+    ...theme.mixins.gutters(),
+  },
+}));
+
 const COURSE_INFO = gql`
   query Course($courseId: ID!) {
     course(where: { id: $courseId }) {
+      id
       name
+      title
       description
+      term
       users {
         id
         name
@@ -42,6 +54,7 @@ interface ICoursesProps {
   router: Router;
   classes: {
     courseHeading: string;
+    root: string;
   };
 }
 
@@ -62,15 +75,29 @@ class Courses extends React.Component<ICoursesProps, any> {
           const { course } = data;
 
           return (
-            <div>
-              <CourseHeader course={course} />
+            <Grid container spacing={16} className={this.props.classes.root}>
+              <Grid item xs={9}>
+                <CourseHeader course={course} />
 
-              <Typography variant="headline">📢 Announcements</Typography>
+                <Draft />
+              </Grid>
 
-              <TextEditor />
+              <Grid item xs={3}>
+                <Typography variant="h6" style={{ fontWeight: 500 }}>
+                  Professors (1)
+                </Typography>
 
-              <List>{course.users.map(UserListItem)}</List>
-            </div>
+                <Divider />
+
+                <Typography variant="h6" style={{ fontWeight: 500 }}>
+                  Students ({course.users.length})
+                </Typography>
+
+                <Divider />
+
+                <List>{course.users.map(UserListItem)}</List>
+              </Grid>
+            </Grid>
           );
         }}
       </Query>
@@ -78,4 +105,4 @@ class Courses extends React.Component<ICoursesProps, any> {
   }
 }
 
-export default withAuth(withRouter(Courses));
+export default withAuth(withRouter(withStyles(styles)(Courses)));

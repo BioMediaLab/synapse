@@ -1,6 +1,6 @@
+import { prisma } from "../../../generated/prisma";
 import { Router } from "express";
 import { google } from "googleapis";
-import { prisma } from "../../../generated/prisma";
 import { createJWT } from "../../auth";
 
 const getGoogleApiClient = () => {

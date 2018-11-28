@@ -4,6 +4,7 @@ import Content from "./Content";
 interface ILayoutProps {
   children: ReactNode;
   hasSession?: string | boolean;
+  pageContext: any;
 }
 
 class Layout extends React.Component<ILayoutProps> {

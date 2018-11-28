@@ -44,5 +44,7 @@ build/Release
 # ignore typescript generated code
 dist
 
+.next
 */.next
+
 .DS_Store

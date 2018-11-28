@@ -1,13 +1,13 @@
-import * as dotenv from "dotenv";
-dotenv.config({ path: ".env" });
+import configCheck from "./config";
+configCheck(); // Make sure that the config we're reading from the .env is sane.
 
 import { GraphQLServer } from "graphql-yoga";
+import { json } from "body-parser";
 
 import { validateJWT } from "./auth";
 import { resolvers } from "./graphql/main";
 import { contextCreatorFactory, IntResolverContext } from "./graphqlContext";
 import googleAuthRouter from "./routes/auth/google";
-import { json } from "body-parser";
 
 const makePublic = async (
   resolve,
@@ -21,9 +21,7 @@ const makePublic = async (
 };
 
 const publicRoutesMiddleware = {
-  Query: {
-    confirmSignupGoogle: makePublic,
-  },
+  Query: {},
 };
 
 const authMiddleware = async (

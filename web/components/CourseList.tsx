@@ -10,8 +10,13 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import Divider from "@material-ui/core/Divider";
-import Avatar from "@material-ui/core/Avatar";
 import "react-placeholder/lib/reactPlaceholder.css";
+import DashboardIcon from "@material-ui/icons/Dashboard";
+import MessagesIcon from "@material-ui/icons/Mail";
+import NotificationsIcon from "@material-ui/icons/Notifications";
+import CalendarIcon from "@material-ui/icons/CalendarToday";
+import ListSubheader from "@material-ui/core/ListSubheader";
+import { withRouter } from "next/router";
 
 interface ICourse {
   id: string;
@@ -60,7 +65,7 @@ const GET_COURSES = gql`
   }
 `;
 
-const CourseList: React.SFC<{}> = () => (
+const CourseList: React.SFC<{}> = ({ router, href }) => (
   <Query query={GET_COURSES}>
     {({ loading, error, data }) => {
       if (loading) {
@@ -122,26 +127,47 @@ const CourseList: React.SFC<{}> = () => (
       return (
         <div>
           <List>
-            <Link route="users" params={{ id: data.me.id }} key={data.me.id}>
+            <Link prefetch href="/dashboard" key="dashboard">
               <ListItem button>
-                <Avatar alt={data.me.name} src={data.me.photo} />
-                <ListItemText
-                  primary={data.me.name}
-                  secondary={data.me.email}
+                <DashboardIcon
+                  color="inherit"
+                  style={{ color: "rgba(0, 0, 0, 0.54)" }}
                 />
+                <ListItemText primary="Dashboard" />
               </ListItem>
             </Link>
 
-            <Divider />
+            <Link prefetch href="/messages" key="messages">
+              <ListItem button>
+                <MessagesIcon
+                  color="inherit"
+                  style={{ color: "rgba(0, 0, 0, 0.54)" }}
+                />
+                <ListItemText primary="Messages" />
+              </ListItem>
+            </Link>
 
-            {data.me.isAdmin ? (
-              <Link href="/admin" key="admin">
-                <ListItem button>
-                  <Avatar>A</Avatar>
-                  <ListItemText primary="Admin Dashboard" />
-                </ListItem>
-              </Link>
-            ) : null}
+            <Link prefetch href="/notifications" key="notifications">
+              <ListItem button>
+                <NotificationsIcon
+                  color="inherit"
+                  style={{ color: "rgba(0, 0, 0, 0.54)" }}
+                />
+                <ListItemText primary="Notifications" />
+              </ListItem>
+            </Link>
+
+            <Link prefetch href="/calendar" key="calendar">
+              <ListItem button>
+                <CalendarIcon
+                  color="inherit"
+                  style={{ color: "rgba(0, 0, 0, 0.54)" }}
+                />
+                <ListItemText primary="Calendar" />
+              </ListItem>
+            </Link>
+
+            <ListSubheader>MY COURSES</ListSubheader>
 
             {courses.map(course => (
               <CourseListItem course={course} key={course.id} />
@@ -153,4 +179,4 @@ const CourseList: React.SFC<{}> = () => (
   </Query>
 );
 
-export default CourseList;
+export default withRouter(CourseList);

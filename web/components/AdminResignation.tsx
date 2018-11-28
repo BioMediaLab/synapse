@@ -14,7 +14,7 @@ import { destroySessionFrontend } from "../lib/handleSessions";
 const REMOVE_ADMIN = gql`
   mutation($myId: String!) {
     promoteUser(id: $myId, admin: false) {
-      isAdmin
+      id
     }
   }
 `;

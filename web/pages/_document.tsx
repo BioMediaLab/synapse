@@ -32,10 +32,6 @@ class MyDocument extends Document<IMyDocumentProps> {
             content={pageContext.theme.palette.primary.main}
           />
           <link rel="icon" type="image/png" href="/static/favicon.ico" />
-          <link
-            rel="stylesheet"
-            href="https://fonts.googleapis.com/css?family=Roboto:300,400,500"
-          />
           <style>
             {`
             html, body, #__next {
