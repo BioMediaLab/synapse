@@ -1,18 +1,21 @@
-# Synapse
+<div align="center">
+<img src="./web/static/synapse-icon@2x.png" alt="synapse logo">
 
-<p style="text-align: center;">
-    <img src="./web/static/synapse-icon@2x.png" alt="synapse logo" />
+<h3 align="center">Synapse</h3>
+
+  <p align="center">
     Classroom management software
-    <br />
-    <br />
+    <br>
+    <br>
     <a href="https://github.com/BioMediaLab/synapse/issues/new"> Report bug </a>
     .
-    <a href="https://github.com/BioMediaLab/synapse/issues/new"> Request Features </a>
-    .
-    <a href="mailto:synapse@maine.edu" target="_top"> Contact </a>
-    .
-    <a href="https://www.biomedialab.net/"> About us </a>
-</p>
+        <a href="https://github.com/BioMediaLab/synapse/issues/new"> Request Features </a>
+        .
+        <a href="mailto:synapse@maine.edu" target="_top"> Contact </a>
+        .
+        <a href="https://www.biomedialab.net/"> About us </a>
+  </p>
+</div>
 
 Synapse is a Web application developed by the BioMediaLab, part of the School of Biology at the University of Maine. It is used by multiple courses each semester to provide online resources, such as course handouts, quizzes, grades, and discussion.
 
@@ -146,16 +149,16 @@ Prisma
 
 ## Required
 
-Code Editor: <a href="https://code.visualstudio.com/"> Visual Studio Code </a>
-</br>
-<a href="https://marketplace.visualstudio.com/items?itemName=eg2.tslint"> TsLint </a>
-</br>
-<a href="https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode"> Prettier </a>
+- [Visual Studo Code](https://code.visualstudio.com/)
+
+- [tslint](https://marketplace.visualstudio.com/items?itemName=eg2.tslint)
+
+- [Prettier for VsCode](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
 
 ## Reccomended
 
-<a href="https://marketplace.visualstudio.com/items?itemName=mikestead.dotenv"> DotENV </a>
-</br>
-<a href="https://marketplace.visualstudio.com/items?itemName=mquandalle.graphql"> GraphQL </a>
-</br>
-<a href="https://marketplace.visualstudio.com/items?itemName=kumar-harsh.graphql-for-vscode"> GraphQL For VSCode </a>
+- [DotENV](https://marketplace.visualstudio.com/items?itemName=mikestead.dotenv)
+
+- [GraphQL](https://marketplace.visualstudio.com/items?itemName=mquandalle.graphql)
+
+- [Graphql For VsCode](https://marketplace.visualstudio.com/items?itemName=kumar-harsh.graphql-for-vscode)
