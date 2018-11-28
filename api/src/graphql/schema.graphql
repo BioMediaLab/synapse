@@ -20,6 +20,13 @@ type Mutation {
   deleteCourse(id: String!): Course
   promoteUser(id: String!, admin: Boolean): User
   deleteUser(id: String!): User
+  updateUser(
+    id: ID!
+    title: String
+    iClicker: String
+    name: String
+    bio: String
+  ): User
   readNotification(note_id: String!): Notification
 }
 

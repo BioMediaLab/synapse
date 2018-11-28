@@ -1,4 +1,7 @@
 import React from "react";
+import ReactDOM from "react-dom";
+import MenuItem from "@material-ui/core/MenuItem";
+import TextField from "@material-ui/core/TextField";
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
 import ErrorMessage from "../components/ErrorMessage";
@@ -24,6 +27,12 @@ const getUser = gql`
   }
 `;
 
+// const updateUser = gql`
+//   query updateUser {
+
+//   }
+// `;
+
 const UserProfile: React.SFC<IUserProps> = () => {
   return (
     <Query query={getUser}>
@@ -37,7 +46,11 @@ const UserProfile: React.SFC<IUserProps> = () => {
         {
           console.log(data);
         }
-        return <div>Completed</div>;
+        return (
+          <form onSubmit={e => this.updateUser()}>
+            <h1>Hey</h1>
+          </form>
+        );
       }}
     </Query>
   );
