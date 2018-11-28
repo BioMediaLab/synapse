@@ -1,8 +1,6 @@
-<div align="center">
+# Synapse
+
 <img src="./web/static/synapse-icon@2x.png" alt="synapse logo">
-
-<h3 align="center">Synapse</h3>
-
   <p align="center">
     Classroom management software
     <br>
@@ -72,9 +70,39 @@ cp web/.env.example .env
 
 # Development
 
-```sh
-yarn dev
+### Run a local database instance
+
+You will probably want to run a local Prisma server as a backend for the api. You can do this with the Docker and
+the `docker-compose.yml` file at the root of this repository.
+
+Steps
+
+1. Edit the `.env` file in `/api`.
+
+| Variable                       | Value                 |
+| ------------------------------ | --------------------- |
+| `PRISMA_ENDPOINT`              | http://localhost:4466 |
+| `PRISMA_MANAGEMENT_API_SECRET` | my-secret             |
+
+2. If you would like to make the data persistent, edit the `docker-compose.yml` file so that the volume `mysql` points to a real directory on your computer.
+
+3. Run the database with `docker-compose up -d`.
+
+4. Run `prisma deploy` from the `/api` directory.
+
+5. If you want to use the graphql playground with prisma, create an HTTP header in it:
+
+```json
+{
+  "Authorization": "Bearer <token from `prisma token>"
+}
 ```
+
+### Run the app
+
+'''sh
+yarn run dev
+'''
 
 > This will also run `predev` which runs `yarn` to install new packages and `prisma generate` in the api workspace to handle any database schema changes.
 
