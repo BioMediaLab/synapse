@@ -46,6 +46,8 @@ type Activation {
 enum NotificationType {
   INFORMATIVE
   NEW_COURSE
+  SYSTEM_ALERT
+  COURSE_ANNOUNCEMENT
 }
 
 type Notification {
