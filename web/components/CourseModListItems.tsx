@@ -18,10 +18,12 @@ const styles = createStyles(theme => ({
 const CourseModListItems = ({ course, classes }) => {
   return (
     <List>
-      <ListItem className={classes.nested} button>
-        <CourseHomeIcon color="inherit" />
-        <ListItemText primary="Home" />
-      </ListItem>
+      <Link route="courses" params={{ id: course.id }}>
+        <ListItem className={classes.nested} button>
+          <CourseHomeIcon color="inherit" />
+          <ListItemText primary="Home" />
+        </ListItem>
+      </Link>
       <ListItem className={classes.nested} button>
         <CourseFilesIcon color="inherit" />
         <ListItemText primary="Files" />
