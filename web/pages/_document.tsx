@@ -114,7 +114,8 @@ MyDocument.getInitialProps = async (ctx): Promise<any> => {
           "Set-Cookie",
           `session=${result.jwt}; Path=/; Expires=${expDate};`,
         );
-        doRedirect(ctx.res, "/?first=1");
+        const destination = result.firstLogin ? "/?first=1" : "/";
+        doRedirect(ctx.res, destination);
       }
     }
   }
