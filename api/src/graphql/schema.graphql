@@ -26,12 +26,12 @@ type Mutation {
   deleteCourse(id: String!): Course
   promoteUser(id: String!, admin: Boolean): User
   deleteUser(id: String!): User
-  readNotification(note_id: String!): Notification
+  readNotification(note_read_id: String!): Notification
   createCourseMessage(course_id: String!, body: String!): CourseMessage
 }
 
 type Subscription {
-  notification: Notification
+  notification: UserNotificaiton
 }
 
 type Session {
@@ -39,7 +39,13 @@ type Session {
   jwt: String!
 }
 
+type UserNotificaiton {
+  notification: Notification!
+  readRecordId: String!
+  read: Boolean!
+}
+
 type RecentNotification {
   total: Int!
-  notifications: [Notification]
+  notificationRecords: [UserNotificaiton!]!
 }

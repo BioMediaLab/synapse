@@ -13,20 +13,9 @@ import NotificationItem, { INotification } from "./NotificationItem";
 const NOTIFICATION_SUBSCRIPTION = gql`
   subscription {
     notification {
-      id
-      msg
-      add_data
-      notify_type
-      createdAt
-    }
-  }
-`;
-
-const GET_RECENT_NOTIFICATIONS = gql`
-  query {
-    recentNotifications {
-      total
-      notifications {
+      readRecordId
+      read
+      notification {
         id
         msg
         add_data
@@ -37,11 +26,33 @@ const GET_RECENT_NOTIFICATIONS = gql`
   }
 `;
 
+const GET_RECENT_NOTIFICATIONS = gql`
+  query {
+    recentNotifications {
+      total
+      notificationRecords {
+        readRecordId
+        read
+        notification {
+          id
+          msg
+          add_data
+          notify_type
+          createdAt
+        }
+      }
+    }
+  }
+`;
+
 interface IRecentNotifications {
   recentNotifications: {
     __typename: string;
     total: number;
-    notifications: INotification[];
+    notificationRecords: Array<{
+      readRecordId: string;
+      notification: INotification;
+    }>;
   };
 }
 
@@ -95,7 +106,9 @@ class Notifications extends React.Component<ITNPropsFull, ITNState> {
 
     const notes = (this.props.data.loading || this.props.data.error
       ? []
-      : this.props.data.recentNotifications.notifications
+      : this.props.data.recentNotifications.notificationRecords.map(
+          record => record.notification,
+        )
     ).sort((note1, note2) =>
       compareDesc(new Date(note1.createdAt), new Date(note2.createdAt)),
     );
@@ -146,32 +159,40 @@ export default withSnackbar(
           data.subscribeToMore({
             document: NOTIFICATION_SUBSCRIPTION, // the graphql query to run
             updateQuery: (
-              // a callback to fire when data is recieved
+              // a callback to fire when data is recieved via the subscription websocket
               prevData: DataValue<IRecentNotifications, {}>,
-              { subscriptionData },
+              { subscriptionData: { data: subData } },
             ) => {
-              if (!subscriptionData.data.notification) {
+              if (!subData.notification) {
                 return prevData;
               }
-
               const newNotification: INotification =
-                subscriptionData.data.notification;
+                subData.notification.notification;
+
+              // callback supplied by component
               updateCb(newNotification);
+
+              /*
+                Besides the data records, there are also _typename fields on this data
+                so we spread the data objects to correctly populate those fields.
+              */
               return {
                 ...prevData,
                 recentNotifications: {
                   ...prevData.recentNotifications,
                   total: prevData.recentNotifications.total + 1,
-                  notes: [
-                    ...prevData.recentNotifications.notifications,
-                    newNotification,
+                  notificationRecords: [
+                    ...prevData.recentNotifications.notificationRecords,
+                    {
+                      ...subData.notification,
+                    },
                   ],
                 },
               };
             },
           });
         },
-        ...ownProps,
+        ...ownProps, // props supplied to the component from a higher level
       }),
     },
   )(Notifications),
