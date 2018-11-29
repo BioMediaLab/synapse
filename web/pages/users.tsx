@@ -7,6 +7,7 @@ import Typography from "@material-ui/core/Typography";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import Avatar from "@material-ui/core/Avatar";
+import Divider from "@material-ui/core/Divider";
 import withAuth from "../lib/withAuth";
 import { withRouter } from "next/router";
 import { Router } from "next-routes";
@@ -58,6 +59,7 @@ const UserProfile: React.SFC<IUserProps> = ({ router }) => {
                 <Typography variant="subheading">{user.email}</Typography>
               </div>
             </ListItem>
+            <Divider />
             <ListItem>
               <Typography variant="subheading" style={{ color: "grey" }}>
                 Courses
