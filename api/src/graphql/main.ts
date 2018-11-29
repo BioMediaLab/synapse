@@ -120,7 +120,7 @@ export const resolvers: IResolvers = {
         data: {
           name: args.name,
           bio: args.bio,
-          iClickerID: args.iClickerID,
+          iClickerID: args.iClicker,
           email: args.email,
         },
         where: {

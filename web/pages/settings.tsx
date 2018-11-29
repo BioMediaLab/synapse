@@ -1,10 +1,8 @@
 import React, { Component } from "react";
-import ReactDOM from "react-dom";
 import TextField from "@material-ui/core/TextField";
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
 import ErrorMessage from "../components/ErrorMessage";
-import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import withAuth from "../lib/withAuth";
 import { withRouter } from "next/router";
@@ -30,49 +28,78 @@ const getUser = gql`
 const updateUserMutation = gql`
   mutation updateUserMutation(
     $id: ID!
-    $title: String
-    $description: String
-    $price: Int
+    $name: String
+    $bio: String
+    $iClickerID: String
   ) {
-    updateItem(
+    updateUser(
       id: $id
-      title: $title
+      name: $name
       description: $description
-      price: $price
-    ) {
-      id
-      title
-      description
-      price
-    }
+      iClickerID: $iClickerID
+    )
   }
 `;
 
 // const UserProfile: React.SFC<IUserProps> = () => {
 class UserProfile extends Component {
-  updateItem = async (e, updateUserMutation) => {
+  state = {
+    name: "",
+    email: "",
+    bio: "",
+    iClicker: "",
+    id: "",
+  };
+
+  updateUser = async (e, updateUserMutation) => {
     e.preventDefault();
-    console.log("Updating Item!!");
-    // console.log(this.state);
+    console.log("updating user");
     const res = await updateUserMutation({
       variables: {
         id: this.props.id,
-        ...this.state,
       },
     });
-    console.log("Updated!!");
+    console.log("fully updated!!");
   };
 
-  handleChange = e => {
-    // const {name, type, value } = e.target;
-    console.log(e.target.value);
+  handleChangeName = e => {
+    const name = e.target.value;
+    //console.log({ name, placeholder, value });
+    // const val = type === "number" ? parseFloat(value) : value;
     this.setState({
-      name: e.target.value,
+      name,
+    });
+  };
+  handleChangeEmail = e => {
+    const email = e.target.value;
+    //console.log({ name, placeholder, value });
+    // const val = type === "number" ? parseFloat(value) : value;
+    this.setState({
+      email,
+    });
+  };
+
+  handleChangeBio = e => {
+    const bio = e.target.value;
+    //console.log({ name, placeholder, value });
+    // const val = type === "number" ? parseFloat(value) : value;
+    this.setState({
+      bio,
+    });
+  };
+
+  handleChangeIClicker = e => {
+    const iClicker = e.target.value;
+    //console.log({ name, placeholder, value });
+    // const val = type === "number" ? parseFloat(value) : value;
+    this.setState({
+      iClicker,
     });
   };
 
   render() {
     return (
+      //should have a mutation here?
       <Query query={getUser}>
         {({ loading, error, data }) => {
           if (loading) {
@@ -86,38 +113,48 @@ class UserProfile extends Component {
           }
 
           return (
-            <form onSubmit={e => this.updateItem(e, updateItem)}>
+            <form
+              onSubmit={e => {
+                e.preventDefault();
+                console.log(this.state);
+              }}
+            >
               <TextField
-                id="Name"
+                name="Name"
                 label={data.me.name}
-                placeholder="update name"
+                placeholder="New name"
                 helperText="Update Name"
+                value={this.state.name}
+                onChange={this.handleChangeName}
               />
               <br />
               <br />
               <TextField
                 id="Email"
                 label={data.me.email}
-                placeholder="update email"
+                placeholder="New email"
                 helperText="Update Email"
+                onChange={this.handleChangeEmail}
               />
               <br />
               <br />
               <TextField
                 id="iClicker"
                 label={data.me.iClickerID}
-                placeholder="iClicker ID"
+                placeholder="New iClicker ID"
                 helperText="Update Iclicker ID"
+                onChange={this.handleChangeIClicker}
               />
               <br />
               <br />
               <TextField
                 id="Bio"
                 label={data.me.bio}
-                placeholder="Bio"
+                placeholder="New Bio"
                 helperText="Update Bio"
                 fullWidth
                 multiline
+                onChange={this.handleChangeBio}
               />
               <br />
               <br />
@@ -125,6 +162,7 @@ class UserProfile extends Component {
                 variant="contained"
                 color="primary"
                 className="submit-button"
+                type="submit"
               >
                 Sav{loading ? "ing" : "e"}
               </Button>
