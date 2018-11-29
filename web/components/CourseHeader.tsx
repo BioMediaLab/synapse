@@ -1,7 +1,5 @@
 import Typography from "@material-ui/core/Typography";
-import { createStyles, withStyles, Grid, Button } from "@material-ui/core";
-import { Settings as SettingsIcon } from "@material-ui/icons";
-import { Link } from "../Router";
+import { createStyles, withStyles, Grid } from "@material-ui/core";
 
 const styles = createStyles(theme => ({
   root: {

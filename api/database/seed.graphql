@@ -1,0 +1,38 @@
+mutation {
+  createCourse(
+    data: {
+      name: "Grocking and Kicking"
+      description: "A test course"
+      users: {
+        create: [
+          {
+            name: "Andy Kay"
+            email: "andrew.kay@maine.edu"
+            photo: "https://pics.me.me/noodleman-21621517.png"
+            isAdmin: true
+          }
+          {
+            name: "Enoch Lin"
+            email: "wei.lin@maine.edu"
+            photo: "https://pics.me.me/noodleman-21621517.png"
+            isAdmin: true
+          }
+          {
+            name: "Matt Loewen"
+            email: "mathew.loewen@maine.edu"
+            photo: "https://pics.me.me/noodleman-21621517.png"
+            isAdmin: true
+          }
+          {
+            name: "Nick Dieff"
+            email: "nicholas.dieffenbacherkrall@maine.edu"
+            photo: "https://pics.me.me/noodleman-21621517.png"
+            isAdmin: true
+          }
+        ]
+      }
+    }
+  ) {
+    id
+  }
+}
