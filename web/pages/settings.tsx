@@ -1,11 +1,11 @@
-import React from "react";
+import React, { Component } from "react";
 import ReactDOM from "react-dom";
-import MenuItem from "@material-ui/core/MenuItem";
 import TextField from "@material-ui/core/TextField";
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
 import ErrorMessage from "../components/ErrorMessage";
 import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
 import withAuth from "../lib/withAuth";
 import { withRouter } from "next/router";
 import { Router } from "next-routes";
@@ -27,33 +27,113 @@ const getUser = gql`
   }
 `;
 
-// const updateUser = gql`
-//   query updateUser {
+const updateUserMutation = gql`
+  mutation updateUserMutation(
+    $id: ID!
+    $title: String
+    $description: String
+    $price: Int
+  ) {
+    updateItem(
+      id: $id
+      title: $title
+      description: $description
+      price: $price
+    ) {
+      id
+      title
+      description
+      price
+    }
+  }
+`;
 
-//   }
-// `;
+// const UserProfile: React.SFC<IUserProps> = () => {
+class UserProfile extends Component {
+  updateItem = async (e, updateUserMutation) => {
+    e.preventDefault();
+    console.log("Updating Item!!");
+    // console.log(this.state);
+    const res = await updateUserMutation({
+      variables: {
+        id: this.props.id,
+        ...this.state,
+      },
+    });
+    console.log("Updated!!");
+  };
 
-const UserProfile: React.SFC<IUserProps> = () => {
-  return (
-    <Query query={getUser}>
-      {({ loading, error, data }) => {
-        if (loading) {
-          return <div>Loading...</div>;
-        }
-        if (error) {
-          return <ErrorMessage message={error.message} />;
-        }
-        {
-          console.log(data);
-        }
-        return (
-          <form onSubmit={e => this.updateUser()}>
-            <h1>Hey</h1>
-          </form>
-        );
-      }}
-    </Query>
-  );
-};
+  handleChange = e => {
+    // const {name, type, value } = e.target;
+    console.log(e.target.value);
+    this.setState({
+      name: e.target.value,
+    });
+  };
+
+  render() {
+    return (
+      <Query query={getUser}>
+        {({ loading, error, data }) => {
+          if (loading) {
+            return <div>Loading...</div>;
+          }
+          if (error) {
+            return <ErrorMessage message={error.message} />;
+          }
+          if (data) {
+            console.log(data);
+          }
+
+          return (
+            <form onSubmit={e => this.updateItem(e, updateItem)}>
+              <TextField
+                id="Name"
+                label={data.me.name}
+                placeholder="update name"
+                helperText="Update Name"
+              />
+              <br />
+              <br />
+              <TextField
+                id="Email"
+                label={data.me.email}
+                placeholder="update email"
+                helperText="Update Email"
+              />
+              <br />
+              <br />
+              <TextField
+                id="iClicker"
+                label={data.me.iClickerID}
+                placeholder="iClicker ID"
+                helperText="Update Iclicker ID"
+              />
+              <br />
+              <br />
+              <TextField
+                id="Bio"
+                label={data.me.bio}
+                placeholder="Bio"
+                helperText="Update Bio"
+                fullWidth
+                multiline
+              />
+              <br />
+              <br />
+              <Button
+                variant="contained"
+                color="primary"
+                className="submit-button"
+              >
+                Sav{loading ? "ing" : "e"}
+              </Button>
+            </form>
+          );
+        }}
+      </Query>
+    );
+  }
+}
 
 export default withAuth(withRouter(UserProfile));

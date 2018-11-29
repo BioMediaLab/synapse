@@ -3,6 +3,7 @@ import { forwardTo } from "prisma-binding";
 import { Notification, prisma, User } from "../../generated/prisma";
 import { IntResolverContext } from "../graphqlContext";
 import { IResolvers } from "graphql-tools";
+import { COPYFILE_EXCL } from "constants";
 
 // A map of functions which return data for the schema.
 export const resolvers: IResolvers = {
@@ -111,6 +112,21 @@ export const resolvers: IResolvers = {
         throw new Error("not authorized to create courses");
       }
       return prisma.deleteUser({ id: args.id });
+    },
+    updateUser: async (root, args, context) => {
+      // const updates = { ...args };
+      // delete updates.id;
+      return prisma.updateUser({
+        data: {
+          name: args.name,
+          bio: args.bio,
+          iClickerID: args.iClickerID,
+          email: args.email,
+        },
+        where: {
+          id: args.id,
+        },
+      });
     },
     createCourse: async (root, args, context) => {
       const me = await prisma.user({ id: context.id });
