@@ -72,8 +72,38 @@ cp web/.env.example .env
 
 # Development
 
+### Run a local database instance
+
+You will probably want to run a local Prisma server as a backend for the api. You can do this with the Docker and
+the `docker-compose.yml` file at the root of this repository.
+
+Steps
+
+1. Edit the `.env` file in `/api`.
+
+| Variable                       | Value                 |
+| ------------------------------ | --------------------- |
+| `PRISMA_ENDPOINT`              | http://localhost:4466 |
+| `PRISMA_MANAGEMENT_API_SECRET` | my-secret             |
+
+2. If you would like to make the data persistent, edit the `docker-compose.yml` file so that the volume `mysql` points to a real directory on your computer.
+
+3. Run the database with `docker-compose up -d`.
+
+4. Run `prisma deploy` from the `/api` directory.
+
+5. If you want to use the graphql playground with prisma, create an HTTP header in it:
+
+```json
+{
+  "Authorization": "Bearer <token from `prisma token>"
+}
+```
+
+### Run the app
+
 ```sh
-yarn dev
+yarn run dev
 ```
 
 > This will also run `predev` which runs `yarn` to install new packages and `prisma generate` in the api workspace to handle any database schema changes.
@@ -119,16 +149,16 @@ Prisma
 
 ## Required
 
-Code Editor: <a href="https://code.visualstudio.com/"> Visual Studio Code </a>
-</br>
-<a href="https://marketplace.visualstudio.com/items?itemName=eg2.tslint"> TsLint </a>
-</br>
-<a href="https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode"> Prettier </a>
+- [Visual Studo Code](https://code.visualstudio.com/)
+
+- [tslint](https://marketplace.visualstudio.com/items?itemName=eg2.tslint)
+
+- [Prettier for VsCode](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
 
 ## Reccomended
 
-<a href="https://marketplace.visualstudio.com/items?itemName=mikestead.dotenv"> DotENV </a>
-</br>
-<a href="https://marketplace.visualstudio.com/items?itemName=mquandalle.graphql"> GraphQL </a>
-</br>
-<a href="https://marketplace.visualstudio.com/items?itemName=kumar-harsh.graphql-for-vscode"> GraphQL For VSCode </a>
+- [DotENV](https://marketplace.visualstudio.com/items?itemName=mikestead.dotenv)
+
+- [GraphQL](https://marketplace.visualstudio.com/items?itemName=mquandalle.graphql)
+
+- [Graphql For VsCode](https://marketplace.visualstudio.com/items?itemName=kumar-harsh.graphql-for-vscode)
