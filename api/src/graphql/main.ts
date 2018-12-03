@@ -102,6 +102,23 @@ export const resolvers: IResolvers = {
         notificationRecords,
       };
     },
+    reminders: async (root, args, context) => {
+      return prisma.reminders({
+        where: {
+          AND: [
+            {
+              target: {
+                users_some: {
+                  id: context.id,
+                },
+              },
+            },
+            { triggerTime_lt: new Date() },
+          ],
+        },
+        orderBy: "triggerTime_ASC",
+      });
+    },
   },
   Course: {
     users: async (root, args, context) => {
@@ -222,11 +239,40 @@ export const resolvers: IResolvers = {
         where: { id: args.note_read_id },
       });
     },
+    readAllNotifications: async (root, args, context) => {
+      return prisma.updateManyMessageReads({
+        where: { user: { id: context.id } },
+        data: { read: true },
+      });
+    },
     createCourseMessage: async (root, args, context) => {
       return prisma.createCourseMessage({
         body: args.body,
         course: args.course_id,
       });
+    },
+    // TODO: add support for sending reminders to entire courses
+    createReminder: async (root, args, context) => {
+      const { msg, triggerTime } = args;
+      const triggerTimeAsDate = new Date(triggerTime);
+      return prisma.createReminder({
+        msg,
+        triggerTime: triggerTimeAsDate,
+        target: {
+          create: {
+            type: "USER",
+            users: {
+              connect: {
+                id: context.id,
+              },
+            },
+          },
+        },
+      });
+    },
+    deleteReminder: async (root, args, context) => {
+      const { id } = args;
+      return prisma.deleteReminder({ id });
     },
   },
   Subscription: {

@@ -106,9 +106,10 @@ class Notifications extends React.Component<ITNPropsFull, ITNState> {
 
     const notes = (this.props.data.loading || this.props.data.error
       ? []
-      : this.props.data.recentNotifications.notificationRecords.map(
-          record => record.notification,
-        )
+      : this.props.data.recentNotifications.notificationRecords.map(record => ({
+          ...record.notification,
+          read_id: record.readRecordId,
+        }))
     ).sort((note1, note2) =>
       compareDesc(new Date(note1.createdAt), new Date(note2.createdAt)),
     );
