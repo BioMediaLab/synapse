@@ -221,7 +221,7 @@ class Reminders extends React.Component<IProps, IState> {
             return (
               <div>
                 {data.reminders.map(rem => (
-                  <div>{rem.msg}</div>
+                  <div key={rem.id}>{rem.msg}</div>
                 ))}
               </div>
             );

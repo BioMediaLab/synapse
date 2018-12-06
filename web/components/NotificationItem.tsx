@@ -8,32 +8,16 @@ import {
   Tooltip,
 } from "@material-ui/core";
 import { Done } from "@material-ui/icons";
-import gql from "graphql-tag";
 import { Mutation } from "react-apollo";
 
-const NOTE_DISMISSED_QUERY = gql`
-  mutation($read_id: String!) {
-    readNotification(note_read_id: $read_id) {
-      id
-    }
-  }
-`;
-
 import { Router } from "../Router";
-
-export enum NoteType {
-  INFORMATIVE = "INFORMATIVE",
-  NEW_COURSE = "NEW_COURSE",
-}
-
-export interface INotification {
-  id: string;
-  msg: string;
-  add_data: any;
-  createdAt: string;
-  note_type: NoteType;
-  __typename?: string;
-}
+import {
+  READ_NOTIFICATION_MUTATION,
+  RECENT_NOTIFICATIONS_QUERY,
+  IRecentNotificationsResult,
+  NoteType,
+  INotification,
+} from "../queries/notificationQueries";
 
 interface INotificationItemProps {
   onClick?: () => void;
@@ -68,8 +52,58 @@ const NotificationItem: React.SFC<Props> = ({
   }
 
   return (
-    <Mutation mutation={NOTE_DISMISSED_QUERY} variables={{ read_id }}>
-      {(markAsRead, { data, loading, error }) => {
+    <Mutation
+      mutation={READ_NOTIFICATION_MUTATION}
+      variables={{ read_id }}
+      update={apolloClientCache => {
+        const cachedUnreadNotes: IRecentNotificationsResult = apolloClientCache.readQuery(
+          {
+            query: RECENT_NOTIFICATIONS_QUERY,
+            variables: { read: false },
+          },
+        );
+        const updatedNewCache: IRecentNotificationsResult = {
+          ...cachedUnreadNotes,
+          recentNotifications: {
+            ...cachedUnreadNotes.recentNotifications,
+            total: cachedUnreadNotes.recentNotifications.total - 1,
+            notificationRecords: cachedUnreadNotes.recentNotifications.notificationRecords.filter(
+              record => record.readRecordId !== read_id,
+            ),
+          },
+        };
+        apolloClientCache.writeQuery({
+          query: RECENT_NOTIFICATIONS_QUERY,
+          variables: { read: false },
+          data: updatedNewCache,
+        });
+
+        const cachedOldNotes: IRecentNotificationsResult = apolloClientCache.readQuery(
+          {
+            query: RECENT_NOTIFICATIONS_QUERY,
+            variables: { read: true },
+          },
+        );
+        const updatedOldCache = {
+          ...cachedOldNotes,
+          recentNotifications: {
+            ...cachedOldNotes.recentNotifications,
+            notificationRecords: [
+              ...cachedOldNotes.recentNotifications.notificationRecords,
+              ...cachedUnreadNotes.recentNotifications.notificationRecords.filter(
+                record => record.readRecordId === read_id,
+              ),
+            ],
+          },
+        };
+        apolloClientCache.writeQuery({
+          query: RECENT_NOTIFICATIONS_QUERY,
+          variables: { read: true },
+          data: updatedOldCache,
+        });
+      }}
+    >
+      {markAsRead => {
         return (
           <MenuItem
             onClick={() => {
@@ -81,7 +115,7 @@ const NotificationItem: React.SFC<Props> = ({
           >
             <ListItemText
               primary={msg}
-              secondary={distanceInWordsToNow(new Date(createdAt))}
+              secondary={`${distanceInWordsToNow(new Date(createdAt))} ago`}
             />
             {displayBig && !hasBeenRead ? (
               <ListItemSecondaryAction>

@@ -240,10 +240,11 @@ export const resolvers: IResolvers = {
       });
     },
     readAllNotifications: async (root, args, context) => {
-      return prisma.updateManyMessageReads({
+      const res = await prisma.updateManyMessageReads({
         where: { user: { id: context.id } },
         data: { read: true },
       });
+      return { count: res.count };
     },
     createCourseMessage: async (root, args, context) => {
       return prisma.createCourseMessage({
