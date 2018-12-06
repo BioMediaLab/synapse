@@ -1,41 +1,31 @@
 import React, { Component } from "react";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
-import ExpandLess from "@material-ui/icons/ExpandLess";
-import ExpandMore from "@material-ui/icons/ExpandMore";
 import Collapse from "@material-ui/core/Collapse";
 import CourseModListItems from "./CourseModListItems";
 import { Link } from "../Router";
 import { createStyles, withStyles } from "@material-ui/core";
+import { withRouter } from "next/router";
 
 interface IProps {
   course: any;
   classes: {
     primary: string;
   };
+  router: any;
 }
 
-interface IState {
-  open: boolean;
-}
-
-const styles = createStyles(theme => ({
+const styles = createStyles(() => ({
   primary: {
     fontWeight: 500,
     color: "#036ADB",
   },
 }));
 
-class CourseListItem extends Component<IProps, IState> {
-  state = {
-    open: false,
-  };
-  handleClick = () => {
-    this.state.open = !this.state.open;
-  };
-
+class CourseListItem extends Component<IProps> {
   render() {
     const course = this.props.course;
+    const activeLink = this.props.router.query.id === course.id;
 
     return (
       <>
@@ -45,15 +35,14 @@ class CourseListItem extends Component<IProps, IState> {
           params={{ id: course.id }}
           key={course.id}
         >
-          <ListItem button onClick={this.handleClick}>
+          <ListItem button>
             <ListItemText
               primary={course.name}
               className={this.props.classes.primary}
             />
-            {this.state.open ? <ExpandLess /> : <ExpandMore />}
           </ListItem>
         </Link>
-        <Collapse in={this.state.open} timeout="auto" unmountOnExit>
+        <Collapse in={activeLink} timeout="auto" unmountOnExit>
           <CourseModListItems course={course} />
         </Collapse>
       </>
@@ -61,4 +50,4 @@ class CourseListItem extends Component<IProps, IState> {
   }
 }
 
-export default withStyles(styles)(CourseListItem);
+export default withStyles(styles)(withRouter(CourseListItem));
