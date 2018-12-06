@@ -75,7 +75,7 @@ class Notifications extends React.Component<ITNPropsFull, ITNState> {
     );
 
     return (
-      <React.Fragment>
+      <>
         <IconButton
           id="notification_menu_icon_button"
           color="inherit"
@@ -109,7 +109,7 @@ class Notifications extends React.Component<ITNPropsFull, ITNState> {
             </Link>
           </MenuItem>
         </Menu>
-      </React.Fragment>
+      </>
     );
   }
 }

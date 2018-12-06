@@ -140,7 +140,7 @@ MyDocument.getInitialProps = async (ctx): Promise<any> => {
     pageContext,
     // Styles fragment is rendered after the app and page rendering finish.
     styles: (
-      <React.Fragment>
+      <>
         <style
           id="jss-server-side"
           dangerouslySetInnerHTML={{
@@ -148,7 +148,7 @@ MyDocument.getInitialProps = async (ctx): Promise<any> => {
           }}
         />
         {flush() || null}
-      </React.Fragment>
+      </>
     ),
   };
 };

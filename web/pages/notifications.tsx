@@ -3,18 +3,18 @@ import withAuth from "../lib/withAuth";
 import {
   Typography,
   Grid,
-  Paper,
   LinearProgress,
   Button,
   withStyles,
   createStyles,
   List,
   Divider,
+  Tab,
+  Tabs,
 } from "@material-ui/core";
 import { Mutation } from "react-apollo";
 
 import ErrorMessage from "../components/ErrorMessage";
-import Reminders from "../components/Reminders";
 import NotificationItem from "../components/NotificationItem";
 import {
   RECENT_NOTIFICATIONS_QUERY,
@@ -23,12 +23,173 @@ import {
   IRecentNotificationsResult,
 } from "../queries/notificationQueries";
 
-const styles = theme => createStyles({});
+const styles = theme =>
+  createStyles({
+    notificationsList: {
+      maxWidth: "80%",
+    },
+    tabBox: {
+      paddingBottom: theme.spacing.unit * 2,
+    },
+  });
 
-const Notifications = () => (
-  <div>
-    <Grid container justify="space-between" spacing={8}>
-      <Grid item xs={6}>
+interface IProps {
+  classes: {
+    notificationsList: string;
+    tabBox: string;
+  };
+}
+
+interface IState {
+  curTab: number;
+}
+
+class Notifications extends React.Component<IProps, IState> {
+  state = {
+    curTab: 0,
+  };
+  handleTabChange = (event, value) => {
+    this.setState(state => ({ ...state, curTab: value }));
+  };
+
+  render() {
+    const newNotesTab = (
+      <>
+        <RecentNotesQueryComp
+          query={RECENT_NOTIFICATIONS_QUERY}
+          variables={{ read: false }}
+        >
+          {({ data, error, loading }) => {
+            if (loading) {
+              return <LinearProgress />;
+            }
+            if (error) {
+              return <ErrorMessage message={error.message} />;
+            }
+            const totalNotes =
+              data.recentNotifications.notificationRecords.length;
+            return (
+              <>
+                {totalNotes === 0 ? (
+                  <Typography variant="body2">
+                    You have no unread notifications at this time...
+                  </Typography>
+                ) : (
+                  <Typography variant="caption">
+                    Unread Notifications
+                  </Typography>
+                )}
+                <List className={this.props.classes.notificationsList}>
+                  {data.recentNotifications.notificationRecords.map(
+                    ({ notification, readRecordId }) => (
+                      <NotificationItem
+                        key={notification.id}
+                        createdAt={notification.createdAt}
+                        msg={notification.msg}
+                        note_type={notification.note_type}
+                        id={notification.id}
+                        add_data={notification.add_data}
+                        read_id={readRecordId}
+                        big
+                      />
+                    ),
+                  )}
+                </List>
+              </>
+            );
+          }}
+        </RecentNotesQueryComp>
+      </>
+    );
+    const allNotesTab = (
+      <>
+        <RecentNotesQueryComp
+          query={RECENT_NOTIFICATIONS_QUERY}
+          variables={{ read: false }}
+        >
+          {({ data, error, loading }) => {
+            if (loading) {
+              return <LinearProgress />;
+            }
+            if (error) {
+              return <ErrorMessage message={error.message} />;
+            }
+            const totalNotes =
+              data.recentNotifications.notificationRecords.length;
+            return (
+              <>
+                {totalNotes === 0 ? (
+                  <Typography variant="body2">
+                    You have no unread notifications at this time...
+                  </Typography>
+                ) : (
+                  <Typography variant="caption">
+                    Unread Notifications
+                  </Typography>
+                )}
+                <List className={this.props.classes.notificationsList}>
+                  {data.recentNotifications.notificationRecords.map(
+                    ({ notification, readRecordId }) => (
+                      <NotificationItem
+                        key={notification.id}
+                        createdAt={notification.createdAt}
+                        msg={notification.msg}
+                        note_type={notification.note_type}
+                        id={notification.id}
+                        add_data={notification.add_data}
+                        read_id={readRecordId}
+                        big
+                      />
+                    ),
+                  )}
+                </List>
+              </>
+            );
+          }}
+        </RecentNotesQueryComp>
+        <Divider />
+        <RecentNotesQueryComp
+          query={RECENT_NOTIFICATIONS_QUERY}
+          variables={{ read: true }}
+        >
+          {({ data, error, loading }) => {
+            if (loading) {
+              return <div />;
+            }
+            if (error) {
+              return (
+                <ErrorMessage message={error ? error.message : "failed"} />
+              );
+            }
+            return (
+              <>
+                <Typography variant="caption">Old Notifications</Typography>
+                <List className={this.props.classes.notificationsList}>
+                  {data.recentNotifications.notificationRecords.map(
+                    ({ notification, readRecordId }) => (
+                      <NotificationItem
+                        key={notification.id}
+                        createdAt={notification.createdAt}
+                        msg={notification.msg}
+                        note_type={notification.note_type}
+                        id={notification.id}
+                        add_data={notification.add_data}
+                        read_id={readRecordId}
+                        big
+                        read
+                      />
+                    ),
+                  )}
+                </List>
+              </>
+            );
+          }}
+        </RecentNotesQueryComp>
+      </>
+    );
+
+    return (
+      <main>
         <Grid container justify="space-between">
           <Typography variant="h4">Notifications</Typography>
           <Mutation
@@ -92,97 +253,19 @@ const Notifications = () => (
             }}
           </Mutation>
         </Grid>
-        <RecentNotesQueryComp
-          query={RECENT_NOTIFICATIONS_QUERY}
-          variables={{ read: false }}
+        <Tabs
+          className={this.props.classes.tabBox}
+          value={this.state.curTab}
+          onChange={this.handleTabChange}
         >
-          {({ data, error, loading }) => {
-            if (loading) {
-              return <LinearProgress />;
-            }
-            if (error) {
-              return <ErrorMessage message={error.message} />;
-            }
-            const totalNotes =
-              data.recentNotifications.notificationRecords.length;
-            return (
-              <>
-                {totalNotes === 0 ? (
-                  <Typography variant="body2">
-                    You have no unread notifications at this time...
-                  </Typography>
-                ) : (
-                  <Typography variant="caption">
-                    Unread Notifications
-                  </Typography>
-                )}
-                <List>
-                  {data.recentNotifications.notificationRecords.map(
-                    ({ notification, readRecordId }) => (
-                      <NotificationItem
-                        key={notification.id}
-                        createdAt={notification.createdAt}
-                        msg={notification.msg}
-                        note_type={notification.note_type}
-                        id={notification.id}
-                        add_data={notification.add_data}
-                        read_id={readRecordId}
-                        big
-                      />
-                    ),
-                  )}
-                </List>
-              </>
-            );
-          }}
-        </RecentNotesQueryComp>
-        <Divider />
-        <RecentNotesQueryComp
-          query={RECENT_NOTIFICATIONS_QUERY}
-          variables={{ read: true }}
-        >
-          {({ data, error, loading }) => {
-            if (loading) {
-              return <div />;
-            }
-            if (error) {
-              return (
-                <ErrorMessage message={error ? error.message : "failed"} />
-              );
-            }
-            return (
-              <>
-                <Typography variant="caption">Old Notifications</Typography>
-                <List>
-                  {data.recentNotifications.notificationRecords.map(
-                    ({ notification, readRecordId }) => (
-                      <NotificationItem
-                        key={notification.id}
-                        createdAt={notification.createdAt}
-                        msg={notification.msg}
-                        note_type={notification.note_type}
-                        id={notification.id}
-                        add_data={notification.add_data}
-                        read_id={readRecordId}
-                        big
-                        read
-                      />
-                    ),
-                  )}
-                </List>
-              </>
-            );
-          }}
-        </RecentNotesQueryComp>
-      </Grid>
-      <Grid item xs={6}>
-        <Paper>
-          <Typography variant="h6">Reminders</Typography>
-          <Reminders />
-        </Paper>
-      </Grid>
-    </Grid>
-  </div>
-);
+          <Tab label="New Notifications" />
+          <Tab label="All Notifications" />
+        </Tabs>
+        {this.state.curTab === 0 && newNotesTab}
+        {this.state.curTab === 1 && allNotesTab}
+      </main>
+    );
+  }
+}
 
 export default withAuth(withStyles(styles)(Notifications));

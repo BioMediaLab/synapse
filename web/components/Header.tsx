@@ -11,14 +11,15 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 import MailIcon from "@material-ui/icons/Mail";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import Drawer from "@material-ui/core/Drawer";
+import { Query } from "react-apollo";
+import gql from "graphql-tag";
+
+import ProfilePic from "../components/ProfilePic";
 import { Link, Router } from "../Router";
 import SearchBar from "../components/SearchBar";
 import CourseList from "./CourseList";
-import Notifications from "./Notifications";
+import Notifications from "./NotificationMenu";
 import { destroySessionFrontend } from "../lib/handleSessions";
-import { Query } from "react-apollo";
-import gql from "graphql-tag";
-import ProfilePic from "../components/ProfilePic";
 
 const GET_ME = gql`
   {
