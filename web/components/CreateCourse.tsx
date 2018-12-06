@@ -108,7 +108,7 @@ class CreateCourse extends React.Component<
   render() {
     const { classes } = this.props;
     return (
-      <React.Fragment>
+      <>
         <Button variant="contained" onClick={this.openCreateForm}>
           Create A New Course
         </Button>
@@ -204,7 +204,7 @@ class CreateCourse extends React.Component<
             </IconButton>,
           ]}
         />
-      </React.Fragment>
+      </>
     );
   }
 }

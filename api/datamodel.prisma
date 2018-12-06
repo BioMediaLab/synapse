@@ -45,18 +45,54 @@ type Activation {
   updatedAt: DateTime!
 }
 
+type MessageRead {
+  id: ID! @unique
+  user: User!
+  read: Boolean @default(value: "false")
+  updatedAt: DateTime!
+}
+
+enum TargetType {
+  USER
+  USERS 
+  COURSE
+  GLOBAL
+}
+
+type MessageTarget {
+  id: ID! @unique
+  type: TargetType!
+  user: User @relation(name: "MessageTargetUser")
+  users: [User!]! @relation(name: "MessageTargetManyUsers")
+  course: Course @relation(name: "MessageTargetCourse")
+  reads: [MessageRead!]!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
 enum NotificationType {
   INFORMATIVE
   NEW_COURSE
+  SYSTEM_ALERT
+  COURSE_ANNOUNCEMENT
 }
 
 type Notification {
   id: ID! @unique
-  user: User @relation(name: "UserNotifications")
   notify_type: NotificationType! @default(value: "INFORMATIVE")
+  target: MessageTarget!
   msg: String
-  read: Boolean @default(value: false)
   add_data: Json
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Reminder {
+  id: ID! @unique
+  msg: String!
+  target: MessageTarget
+  add_data: Json
+  triggerTime: DateTime!
   createdAt: DateTime!
   updatedAt: DateTime!
 }

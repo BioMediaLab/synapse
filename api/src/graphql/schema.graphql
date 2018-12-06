@@ -15,6 +15,7 @@ type Query {
   courses: [Course]!
   course(where: CourseWhereUniqueInput!, userFirst: Int, userLast: Int): Course
   recentNotifications(start: Int, read: Boolean): RecentNotification
+  reminders: [Reminder]
 }
 
 type Mutation {
@@ -26,12 +27,15 @@ type Mutation {
   deleteCourse(id: String!): Course
   promoteUser(id: String!, admin: Boolean): User
   deleteUser(id: String!): User
-  readNotification(note_id: String!): Notification
+  readNotification(note_read_id: String!): MessageRead
+  readAllNotifications: UpdateManyResult!
   createCourseMessage(course_id: String!, body: String!): CourseMessage
+  createReminder(msg: String!, triggerTime: String!): Reminder
+  deleteReminder(id: String!): Reminder
 }
 
 type Subscription {
-  notification: Notification
+  notification: UserNotificaiton
 }
 
 type Session {
@@ -39,7 +43,17 @@ type Session {
   jwt: String!
 }
 
+type UserNotificaiton {
+  notification: Notification!
+  readRecordId: String!
+  read: Boolean!
+}
+
 type RecentNotification {
   total: Int!
-  notifications: [Notification]
+  notificationRecords: [UserNotificaiton!]!
+}
+
+type UpdateManyResult {
+  count: Int!
 }

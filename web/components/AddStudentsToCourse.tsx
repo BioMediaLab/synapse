@@ -105,7 +105,7 @@ class AddStudentsToCourse extends React.Component<Props, IState> {
 
   render() {
     return (
-      <React.Fragment>
+      <>
         <Dialog
           open={this.state.addDialogOpen}
           onClose={this.hideAddDialog}
@@ -137,7 +137,7 @@ class AddStudentsToCourse extends React.Component<Props, IState> {
         <Button color="primary" onClick={this.showAddDialog}>
           Add new members
         </Button>
-      </React.Fragment>
+      </>
     );
   }
 }

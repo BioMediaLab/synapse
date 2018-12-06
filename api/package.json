@@ -36,9 +36,9 @@
     "express": "^4.16.4",
     "googleapis": "^33.0.0",
     "graphql": "^14.0.2",
-    "graphql-tools": "^4.0.0",
-    "graphql-yoga": "^1.16.2",
-    "jsonwebtoken": "^8.3.0",
+    "graphql-tools": "^4.0.3",
+    "graphql-yoga": "^1.16.7",
+    "jsonwebtoken": "^8.4.0",
     "prisma-binding": "^2.1.6",
     "prisma-client-lib": "1.20.7",
     "prisma-lib": "^0.1.44",
@@ -47,7 +47,7 @@
   "devDependencies": {
     "jest": "^23.6.0",
     "nodemon": "^1.18.4",
-    "prisma": "1.20.7",
+    "prisma": "1.21.1",
     "ts-node": "^7.0.1",
     "tslint": "^5.11.0",
     "wsrun": "^3.3.3"

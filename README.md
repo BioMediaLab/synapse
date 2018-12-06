@@ -100,6 +100,8 @@ Steps
 }
 ```
 
+6. Be sure to sign out of Synapse before changing over or refreshing the database.
+
 ### Run the app
 
 ```sh

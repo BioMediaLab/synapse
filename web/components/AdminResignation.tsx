@@ -52,7 +52,7 @@ class AdminResignation extends React.Component<{}, IAdminResignationState> {
 
   render() {
     return (
-      <React.Fragment>
+      <>
         <Button
           variant="contained"
           color="secondary"
@@ -119,7 +119,7 @@ class AdminResignation extends React.Component<{}, IAdminResignationState> {
             </Query>
           </DialogActions>
         </Dialog>
-      </React.Fragment>
+      </>
     );
   }
 }
