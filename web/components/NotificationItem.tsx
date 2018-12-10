@@ -1,25 +1,29 @@
 import React from "react";
 import { distanceInWordsToNow } from "date-fns";
-import MenuItem from "@material-ui/core/MenuItem";
-import ListItemText from "@material-ui/core/ListItemText";
+import {
+  MenuItem,
+  ListItemText,
+  ListItemSecondaryAction,
+  IconButton,
+  Tooltip,
+} from "@material-ui/core";
+import { Done } from "@material-ui/icons";
+import { Mutation } from "react-apollo";
+
 import { Router } from "../Router";
-
-export enum NoteType {
-  INFORMATIVE = "INFORMATIVE",
-  NEW_COURSE = "NEW_COURSE",
-}
-
-export interface INotification {
-  id: string;
-  msg: string;
-  add_data: any;
-  createdAt: string;
-  note_type: NoteType;
-  __typename: string;
-}
+import {
+  READ_NOTIFICATION_MUTATION,
+  RECENT_NOTIFICATIONS_QUERY,
+  IRecentNotificationsResult,
+  NoteType,
+  INotification,
+} from "../queries/notificationQueries";
 
 interface INotificationItemProps {
-  onClick: () => void;
+  onClick?: () => void;
+  big?: boolean;
+  read?: boolean;
+  read_id: string;
 }
 
 type Props = INotificationItemProps & INotification;
@@ -30,22 +34,104 @@ const NotificationItem: React.SFC<Props> = ({
   createdAt,
   note_type,
   add_data,
+  big,
+  read_id,
+  read,
 }) => {
-  let action = onClick;
+  const displayBig = big ? big : false;
+  let action = onClick ? onClick : () => null;
+  const hasBeenRead = read ? read : false;
+
   if (note_type === NoteType.NEW_COURSE) {
     action = () => {
       Router.pushRoute(`/courses/${add_data.id}`);
-      onClick();
+      if (onClick) {
+        onClick();
+      }
     };
   }
 
   return (
-    <MenuItem onClick={action}>
-      <ListItemText
-        primary={msg}
-        secondary={distanceInWordsToNow(new Date(createdAt))}
-      />
-    </MenuItem>
+    <Mutation
+      mutation={READ_NOTIFICATION_MUTATION}
+      variables={{ read_id }}
+      update={apolloClientCache => {
+        const cachedUnreadNotes: IRecentNotificationsResult = apolloClientCache.readQuery(
+          {
+            query: RECENT_NOTIFICATIONS_QUERY,
+            variables: { read: false },
+          },
+        );
+        const updatedNewCache: IRecentNotificationsResult = {
+          ...cachedUnreadNotes,
+          recentNotifications: {
+            ...cachedUnreadNotes.recentNotifications,
+            total: cachedUnreadNotes.recentNotifications.total - 1,
+            notificationRecords: cachedUnreadNotes.recentNotifications.notificationRecords.filter(
+              record => record.readRecordId !== read_id,
+            ),
+          },
+        };
+        apolloClientCache.writeQuery({
+          query: RECENT_NOTIFICATIONS_QUERY,
+          variables: { read: false },
+          data: updatedNewCache,
+        });
+
+        const cachedOldNotes: IRecentNotificationsResult = apolloClientCache.readQuery(
+          {
+            query: RECENT_NOTIFICATIONS_QUERY,
+            variables: { read: true },
+          },
+        );
+        const updatedOldCache = {
+          ...cachedOldNotes,
+          recentNotifications: {
+            ...cachedOldNotes.recentNotifications,
+            notificationRecords: [
+              ...cachedOldNotes.recentNotifications.notificationRecords,
+              ...cachedUnreadNotes.recentNotifications.notificationRecords.filter(
+                record => record.readRecordId === read_id,
+              ),
+            ],
+          },
+        };
+        apolloClientCache.writeQuery({
+          query: RECENT_NOTIFICATIONS_QUERY,
+          variables: { read: true },
+          data: updatedOldCache,
+        });
+      }}
+    >
+      {markAsRead => {
+        return (
+          <MenuItem
+            onClick={() => {
+              if (!displayBig && !hasBeenRead) {
+                markAsRead();
+              }
+              action();
+            }}
+          >
+            <ListItemText
+              primary={msg}
+              secondary={`${distanceInWordsToNow(new Date(createdAt))} ago`}
+            />
+            {displayBig && !hasBeenRead ? (
+              <ListItemSecondaryAction>
+                <Tooltip title="mark as read">
+                  <IconButton onClick={() => markAsRead()}>
+                    <Done />
+                  </IconButton>
+                </Tooltip>
+              </ListItemSecondaryAction>
+            ) : (
+              <span />
+            )}
+          </MenuItem>
+        );
+      }}
+    </Mutation>
   );
 };
 

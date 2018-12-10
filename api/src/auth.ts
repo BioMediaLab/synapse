@@ -44,7 +44,7 @@ interface IntJWTVailidate {
 }
 
 export const validateJWT = (token: string): Promise<IntJWTVailidate> =>
-  new Promise(async (resolve) => {
+  new Promise(async resolve => {
     const sec = await getSecret();
     jwt.verify(token, sec, {}, (err, payload) => {
       if (err) {

@@ -18,18 +18,27 @@ const styles = createStyles(theme => ({
 const CourseModListItems = ({ course, classes }) => {
   return (
     <List>
-      <ListItem className={classes.nested} button>
-        <CourseHomeIcon color="inherit" />
-        <ListItemText primary="Home" />
-      </ListItem>
-      <ListItem className={classes.nested} button>
-        <CourseFilesIcon color="inherit" />
-        <ListItemText primary="Files" />
-      </ListItem>
-      <ListItem className={classes.nested} button>
-        <GradebookIcon color="inherit" />
-        <ListItemText primary="Grades" />
-      </ListItem>
+      <Link route="courses" params={{ id: course.id }}>
+        <ListItem className={classes.nested} button>
+          <CourseHomeIcon color="inherit" />
+          <ListItemText primary="Home" />
+        </ListItem>
+      </Link>
+
+      <Link route="course-files" params={{ id: course.id }}>
+        <ListItem className={classes.nested} button>
+          <CourseFilesIcon color="inherit" />
+          <ListItemText primary="Files" />
+        </ListItem>
+      </Link>
+
+      <Link route="course-grades" params={{ id: course.id }}>
+        <ListItem className={classes.nested} button>
+          <GradebookIcon color="inherit" />
+          <ListItemText primary="Grades" />
+        </ListItem>
+      </Link>
+
       <Link route="courseAdmin" params={{ id: course.id }}>
         <ListItem className={classes.nested} button>
           <CourseAdminIcon color="inherit" />

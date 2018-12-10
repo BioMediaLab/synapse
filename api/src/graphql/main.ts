@@ -57,36 +57,76 @@ export const resolvers: IResolvers = {
     recentNotifications: async (root, args, context) => {
       const read = args.read ? args.read : false;
       const startAt = args.start ? args.start : 0;
+      const total = 10;
       const where = {
-        AND: [{ user: { id: context.id } }, { read }],
+        target: {
+          reads_some: {
+            AND: [{ user: { id: context.id } }, { read }],
+          },
+        },
       };
-
-      const total = await prisma
+      const { count } = await prisma
         .notificationsConnection({
           where,
         })
-        .aggregate().count;
-      const notifications = await prisma.notifications({
+        .aggregate();
+
+      const notificationNodes = await prisma.notifications({
         where,
-        orderBy: "createdAt_ASC",
-        skip: startAt,
-        last: startAt + 10,
+        orderBy: "createdAt_DESC", // order by date created, starting at the newest date
       });
-      prisma.updateManyNotifications({
-        data: { read: true },
-        where: {
-          AND: [...notifications.map(notif => ({ id: notif.id }))],
-        },
+
+      const noteFetchers = notificationNodes.map(async node => {
+        const reads = await prisma
+          .notification({ id: node.id })
+          .target()
+          .reads({
+            where: {
+              user: {
+                id: context.id,
+              },
+            },
+          });
+        const readRecordId = reads[0].id;
+        return {
+          readRecordId,
+          notification: node,
+          read,
+        };
       });
+      const notificationRecords = await Promise.all(noteFetchers);
+
       return {
-        total,
-        notifications,
+        total: count,
+        notificationRecords,
       };
+    },
+    reminders: async (root, args, context) => {
+      return prisma.reminders({
+        where: {
+          AND: [
+            {
+              target: {
+                users_some: {
+                  id: context.id,
+                },
+              },
+            },
+            { triggerTime_lt: new Date() },
+          ],
+        },
+        orderBy: "triggerTime_ASC",
+      });
     },
   },
   Course: {
     users: async (root, args, context) => {
       return prisma.course({ id: root.id }).users(args);
+    },
+  },
+  Notification: {
+    target: async (root, args) => {
+      return prisma.notification({ id: root.id }).target();
     },
   },
   Mutation: {
@@ -193,16 +233,46 @@ export const resolvers: IResolvers = {
       });
     },
     readNotification: async (root, args, context) => {
-      return prisma.updateNotification({
+      return prisma.updateMessageRead({
         data: { read: true },
-        where: { id: args.note_id },
+        where: { id: args.note_read_id },
       });
+    },
+    readAllNotifications: async (root, args, context) => {
+      const res = await prisma.updateManyMessageReads({
+        where: { user: { id: context.id } },
+        data: { read: true },
+      });
+      return { count: res.count };
     },
     createCourseMessage: async (root, args, context) => {
       return prisma.createCourseMessage({
         body: args.body,
         course: args.course_id,
       });
+    },
+    // TODO: add support for sending reminders to entire courses
+    createReminder: async (root, args, context) => {
+      const { msg, triggerTime } = args;
+      const triggerTimeAsDate = new Date(triggerTime);
+      return prisma.createReminder({
+        msg,
+        triggerTime: triggerTimeAsDate,
+        target: {
+          create: {
+            type: "USER",
+            users: {
+              connect: {
+                id: context.id,
+              },
+            },
+          },
+        },
+      });
+    },
+    deleteReminder: async (root, args, context) => {
+      const { id } = args;
+      return prisma.deleteReminder({ id });
     },
   },
   Subscription: {
@@ -216,23 +286,37 @@ export const resolvers: IResolvers = {
         const { db, id } = context;
         return db.$subscribe
           .notification({
-            where: {
-              AND: [
-                { mutation_in: ["CREATED"] }, // the notification was just created, rather than updated or deleted
-                {
-                  node: {
-                    user: {
-                      id, // filter for notifications where the user has the current id
+            AND: [
+              { mutation_in: "CREATED" },
+              {
+                node: {
+                  target: {
+                    reads_some: {
+                      user: { id },
                     },
                   },
                 },
-              ],
-            }, // typescript seems to be broken here 😠
-          } as any)
+              },
+            ],
+          })
           .node();
-      }, // for some reason we need to explicitely return the data here
-      resolve: data => {
-        return data;
+      },
+      resolve: async (data: Notification, args, context) => {
+        const readRecord = (await prisma
+          .notification({ id: data.id })
+          .target()
+          .reads({
+            where: {
+              user: {
+                id: context.id,
+              },
+            },
+          }))[0];
+        return {
+          notification: data,
+          read: false,
+          readRecordId: readRecord.id,
+        };
       },
     },
   },

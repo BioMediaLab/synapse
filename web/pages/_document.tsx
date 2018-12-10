@@ -114,7 +114,8 @@ MyDocument.getInitialProps = async (ctx): Promise<any> => {
           "Set-Cookie",
           `session=${result.jwt}; Path=/; Expires=${expDate};`,
         );
-        doRedirect(ctx.res, "/?first=1");
+        const destination = result.firstLogin ? "/?first=1" : "/";
+        doRedirect(ctx.res, destination);
       }
     }
   }
@@ -139,7 +140,7 @@ MyDocument.getInitialProps = async (ctx): Promise<any> => {
     pageContext,
     // Styles fragment is rendered after the app and page rendering finish.
     styles: (
-      <React.Fragment>
+      <>
         <style
           id="jss-server-side"
           dangerouslySetInnerHTML={{
@@ -147,7 +148,7 @@ MyDocument.getInitialProps = async (ctx): Promise<any> => {
           }}
         />
         {flush() || null}
-      </React.Fragment>
+      </>
     ),
   };
 };
