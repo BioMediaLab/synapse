@@ -1,11 +1,3 @@
-*
-!components
-!pages
-!lib
-!static
-!resolvers
-!package.json
-!yarn.lock
-!*.js 
-!now.json
-!.babelrc
+Dockerfile
+.env.example
+node_modules

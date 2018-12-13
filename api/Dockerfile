@@ -1,13 +1,11 @@
-FROM mhart/alpine-node:10 as base
+FROM node:lts-slim as builder_image
+COPY . /usr/src
 WORKDIR /usr/src
-COPY package.json package-lock.json /usr/src/
-RUN npm install
-COPY . .
-RUN npm run build && npm install --production
+RUN npm install -g yarn && yarn install && yarn run build
 
-FROM mhart/alpine-node:base-10
+FROM node:lts-alpine
 WORKDIR /usr/src
-ENV NODE_ENV="production"
-COPY --from=base /usr/src .
-EXPOSE 3000
-CMD ["node", "./node_modules/.bin/ts-node", "src/index.ts"]
+COPY --from=builder_image /usr/src .
+ENV environment=production
+
+CMD ["node", "/usr/src/dist/src/index.js"]
