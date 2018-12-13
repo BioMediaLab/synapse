@@ -8,4 +8,5 @@ RUN npm install -g yarn
 ENV environemnt=production
 WORKDIR /usr/src
 COPY --from=builder_image /usr/src .
-CMD yarn run start
+EXPOSE 3000
+CMD npm run start
