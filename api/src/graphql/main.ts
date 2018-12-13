@@ -123,6 +123,14 @@ export const resolvers: IResolvers = {
     users: async (root, args, context) => {
       return prisma.course({ id: root.id }).users(args);
     },
+    files: async (root, args, context) => {
+      return prisma.course({ id: root.id }).files();
+    },
+  },
+  ContentPiece: {
+    creator: async (root, args, context) => {
+      return prisma.contentPiece({ id: root.id }).creator();
+    },
   },
   Notification: {
     target: async (root, args) => {
@@ -273,6 +281,27 @@ export const resolvers: IResolvers = {
     deleteReminder: async (root, args, context) => {
       const { id } = args;
       return prisma.deleteReminder({ id });
+    },
+    createContent: async (root, args, context) => {
+      const { name, type, url, course_id, description } = args;
+      const cleanDescription = description ? description : "";
+      return prisma.createContentPiece({
+        name,
+        type,
+        url,
+        description: cleanDescription,
+        forUnits: true,
+        creator: {
+          connect: {
+            id: context.id,
+          },
+        },
+        course: {
+          connect: {
+            id: course_id,
+          },
+        },
+      });
     },
   },
   Subscription: {

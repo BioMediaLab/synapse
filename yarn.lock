@@ -4463,10 +4463,10 @@ filesize@^3.6.1:
   resolved "https://registry.yarnpkg.com/filesize/-/filesize-3.6.1.tgz#090bb3ee01b6f801a8a8be99d31710b3422bb317"
   integrity sha512-7KjR1vv6qnicaPMi1iiTcI85CyYwRO/PSFCu6SvqL8jN2Wjt/NIYQTFtFs7fSDCYOstUkEWIQGFUg5YZQfjlcg==
 
-filestack-js@^1.8.1:
-  version "1.8.1"
-  resolved "https://registry.yarnpkg.com/filestack-js/-/filestack-js-1.8.1.tgz#4e8420a1e8b80f81a3772aaddb9f39fee2b2df64"
-  integrity sha512-ElqM08PjZonuOmwzzUwaT7zokviHdh/UmXzD7BWqkH2jXEFGgYAWgVdqgo2FtWFp1mt4iTu8+1nO14C54GMOvQ==
+filestack-js@^1.8.3:
+  version "1.8.3"
+  resolved "https://registry.yarnpkg.com/filestack-js/-/filestack-js-1.8.3.tgz#ed11df60bd73c19bdef8880c23401ec17e5fc3de"
+  integrity sha512-hF/5qmVF39vqwJxiOPQ10PsFyhfq7ZGn2J3uOhcWOSYv+NUdX3fDACXN6kAvxwKxBpZlqP8jTTlgJwn+GbEt8Q==
   dependencies:
     abab "^1.0.4"
     ajv "^6.5.5"
