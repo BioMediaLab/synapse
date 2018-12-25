@@ -1,7 +1,6 @@
 import React from "react";
 import { withRouter, WithRouterProps } from "next/router";
 import { Query, Mutation } from "react-apollo";
-import gql from "graphql-tag";
 import {
   LinearProgress,
   withStyles,
@@ -20,26 +19,7 @@ import ErrorMessage from "../components/ErrorMessage";
 import BigTextEdit from "../components/BigTextEdit";
 import StudentAdminView from "../components/StudentAdminView";
 import { Link } from "../Router";
-
-const COURSE_QUERY = gql`
-  query($id: ID!) {
-    course(where: { id: $id }) {
-      name
-      description
-      id
-    }
-  }
-`;
-
-const COURSE_DESC_MUTATION = gql`
-  mutation($desc: String!, $id: String!) {
-    updateCourseDescription(course_id: $id, description: $desc) {
-      name
-      description
-      id
-    }
-  }
-`;
+import { COURSE_QUERY, COURSE_DESC_MUTATION } from "../queries/courseQueries";
 
 const styles = (theme: Theme) =>
   createStyles({

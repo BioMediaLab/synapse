@@ -13,36 +13,18 @@ import {
 } from "@material-ui/core";
 import { Backspace } from "@material-ui/icons";
 import { graphql, ChildDataProps, Mutation } from "react-apollo";
-import gql from "graphql-tag";
-import { DocumentNode } from "graphql";
 import { withSnackbar, InjectedNotistackProps } from "notistack";
 import Fuse from "fuse.js";
 
 import ErrorMessage from "./ErrorMessage";
 import CourseMemberListItem from "./CourseMemberListItem";
 import AddStudentsToCourse from "./AddStudentsToCourse";
-
-const REMOVE_USER_MUTATION = gql`
-  mutation($courseId: String!, $userIds: [String]!) {
-    removeUsersFromCourse(course_id: $courseId, user_ids: $userIds) {
-      id
-    }
-  }
-`;
-
-const READ_USERS: DocumentNode = gql`
-  query($courseId: ID!, $startOn: String, $numRecords: Int) {
-    course(where: { id: $courseId }) {
-      id
-      users(after: $startOn, first: $numRecords, orderBy: name_ASC) {
-        id
-        name
-        email
-        photo
-      }
-    }
-  }
-`;
+import {
+  REMOVE_USER_MUTATION,
+  READ_USERS,
+  IQueryVars,
+  IQueryResult,
+} from "../queries/userQueries";
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -66,19 +48,6 @@ interface IStyles {
     header: string;
     main: string;
     textField: string;
-  };
-}
-
-interface IQueryVars {
-  courseId: string;
-  startOn: string;
-  numRecords: number;
-}
-
-interface IQueryResult {
-  course: {
-    id: string;
-    users: Array<{ id: string; name: string; email: string; photo: string }>;
   };
 }
 
