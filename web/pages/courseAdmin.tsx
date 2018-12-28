@@ -1,6 +1,5 @@
 import React from "react";
 import { withRouter, WithRouterProps } from "next/router";
-import { Query, Mutation } from "react-apollo";
 import {
   LinearProgress,
   withStyles,
@@ -19,7 +18,12 @@ import ErrorMessage from "../components/ErrorMessage";
 import BigTextEdit from "../components/BigTextEdit";
 import StudentAdminView from "../components/StudentAdminView";
 import { Link } from "../Router";
-import { COURSE_QUERY, COURSE_DESC_MUTATION } from "../queries/courseQueries";
+import {
+  COURSE_QUERY,
+  COURSE_DESC_MUTATION,
+  CourseQueryComp,
+  CourseMutationComp,
+} from "../queries/courseQueries";
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -58,7 +62,7 @@ const CourseTools: React.SFC<PageProps> = ({ router, classes }) => {
 
   return (
     <main>
-      <Query query={COURSE_QUERY} variables={{ id: courseId }}>
+      <CourseQueryComp query={COURSE_QUERY} variables={{ id: courseId }}>
         {({ loading, error, data }) => {
           if (loading) {
             return <LinearProgress className={classes.mainLoadingInd} />;
@@ -87,7 +91,7 @@ const CourseTools: React.SFC<PageProps> = ({ router, classes }) => {
                 </Typography>
                 <Divider />
                 <div className={classes.toolSectionMainContent}>
-                  <Mutation mutation={COURSE_DESC_MUTATION}>
+                  <CourseMutationComp mutation={COURSE_DESC_MUTATION}>
                     {(doMutate, { loading: mutationLoading }) => {
                       return (
                         <BigTextEdit
@@ -102,7 +106,7 @@ const CourseTools: React.SFC<PageProps> = ({ router, classes }) => {
                         />
                       );
                     }}
-                  </Mutation>
+                  </CourseMutationComp>
                 </div>
               </Paper>
               <Paper className={classes.toolSection}>
@@ -117,7 +121,7 @@ const CourseTools: React.SFC<PageProps> = ({ router, classes }) => {
             </div>
           );
         }}
-      </Query>
+      </CourseQueryComp>
     </main>
   );
 };

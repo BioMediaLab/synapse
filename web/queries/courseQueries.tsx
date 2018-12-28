@@ -1,5 +1,5 @@
 import gql from "graphql-tag";
-import { Query } from "react-apollo";
+import { Query, Mutation } from "react-apollo";
 
 export const GET_COURSES = gql`
   {
@@ -93,3 +93,6 @@ export interface ICreateCourseProps {
     formMain: string;
   };
 }
+
+export class CourseQueryComp extends Query {}
+export class CourseMutationComp extends Mutation {}

@@ -1,5 +1,5 @@
 import gql from "graphql-tag";
-import { Query } from "react-apollo";
+import { Query, Mutation } from "react-apollo";
 import { DocumentNode } from "graphql";
 
 export const REMOVE_ADMIN = gql`
@@ -94,3 +94,6 @@ export interface IUser {
   email: string;
   id: string;
 }
+
+export class UserQueryComp extends Query {}
+export class UserMutationComp extends Mutation {}

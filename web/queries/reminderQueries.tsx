@@ -1,5 +1,5 @@
 import gql from "graphql-tag";
-import { Query } from "react-apollo";
+import { Query, Mutation } from "react-apollo";
 
 export const CREATE_REMINDER = gql`
   mutation($message: String!, $targetTime: String!) {
@@ -25,3 +25,6 @@ export const VIEW_REMINDERS = gql`
     }
   }
 `;
+
+export class ReminderMutationComp extends Mutation {}
+export class ReminderQueryComp extends Query {}

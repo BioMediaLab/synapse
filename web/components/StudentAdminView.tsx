@@ -12,7 +12,7 @@ import {
   IconButton,
 } from "@material-ui/core";
 import { Backspace } from "@material-ui/icons";
-import { graphql, ChildDataProps, Mutation } from "react-apollo";
+import { graphql, ChildDataProps } from "react-apollo";
 import { withSnackbar, InjectedNotistackProps } from "notistack";
 import Fuse from "fuse.js";
 
@@ -24,6 +24,7 @@ import {
   READ_USERS,
   IQueryVars,
   IQueryResult,
+  UserMutationComp,
 } from "../queries/userQueries";
 
 const styles = (theme: Theme) =>
@@ -101,7 +102,7 @@ class StudentAdminView extends React.Component<Props, IState> {
       }
 
       listView = (
-        <Mutation mutation={REMOVE_USER_MUTATION}>
+        <UserMutationComp mutation={REMOVE_USER_MUTATION}>
           {mutate => (
             <List>
               {users.map(user => (
@@ -131,7 +132,7 @@ class StudentAdminView extends React.Component<Props, IState> {
               ))}
             </List>
           )}
-        </Mutation>
+        </UserMutationComp>
       );
     }
     if (this.props.data.error) {
