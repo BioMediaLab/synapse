@@ -1,6 +1,13 @@
 import React from "react";
-import ReactFilestack from "filestack-react";
-import { Paper } from "@material-ui/core";
+import {
+  Paper,
+  withStyles,
+  createStyles,
+  Theme,
+  Grid,
+  TextField,
+  LinearProgress,
+} from "@material-ui/core";
 
 import {
   CREATE_COURSE_FILE,
@@ -8,82 +15,106 @@ import {
   CourseFileQuery,
   CreateCourseFileMutation,
 } from "../queries/courseContentQueries";
+import FileStackMaterial from "./FileStackMaterial";
+import FileListItem from "./FileListItem";
+import ErrorMessage from "./ErrorMessage";
 
-interface IFilestackFile {
-  filename: string;
-  handle: string;
-  mimetype: string;
-  originalPath: string;
-  size: number;
-  source: string;
-  status: string;
-  uploadId: string;
-  url: string;
-  originalFile: {
-    name: string;
-    size: number;
-    type: string;
-  };
-}
-
-interface IFilestackUpload {
-  filesFailed: IFilestackFile[];
-  filesUploaded: IFilestackFile[];
-}
+const styles = (theme: Theme) =>
+  createStyles({
+    topFilterBar: {
+      padding: theme.spacing.unit,
+      marginBottom: theme.spacing.unit * 0.5,
+    },
+    fileList: {
+      marginTop: theme.spacing.unit,
+      minHeight: theme.spacing.unit * 5,
+    },
+  });
 
 interface IFilePickerProps {
   courseId: string;
+  classes: {
+    topFilterBar: string;
+    fileList: string;
+  };
 }
 
-const FilePicker: React.SFC<IFilePickerProps> = ({ courseId }) => (
+const FilePicker: React.SFC<IFilePickerProps> = ({ courseId, classes }) => (
   <Paper>
-    <CourseFileQuery
-      query={GET_COURSE_FILES}
-      variables={{ course_id: courseId }}
-    >
-      {({ loading, error, data }) => {
-        console.log(data);
-        return <div>asdf</div>;
-      }}
-    </CourseFileQuery>
-    Files
-    <CreateCourseFileMutation mutation={CREATE_COURSE_FILE}>
-      {(doMutation, mutationResult) => {
-        return (
-          <ReactFilestack
-            apikey="AzFPnNv2wSTW4x5E7LEPVz"
-            buttonText="Click me"
-            buttonClass="classname"
-            options={{
-              fromSources: [
-                "local_file_system",
-                "url",
-                "googledrive",
-                "dropbox",
-                "box",
-                "onedrive",
-                "github",
-              ],
-            }}
-            onSuccess={(result: IFilestackUpload) => {
-              result.filesUploaded.forEach(file => {
-                doMutation({
-                  variables: {
-                    name: file.filename,
-                    course_id: courseId,
-                    url: file.url,
-                    type: file.mimetype,
-                  },
-                });
-              });
-              console.log(result);
-            }}
-            onError={console.warn}
-          />
-        );
-      }}
-    </CreateCourseFileMutation>
+    <Grid container direction="column">
+      <Grid item>
+        <Paper className={classes.topFilterBar}>
+          <Grid container spacing={16}>
+            <Grid item>
+              <CreateCourseFileMutation mutation={CREATE_COURSE_FILE}>
+                {(doMutation, mutationResult) => {
+                  return (
+                    <FileStackMaterial
+                      onUploadComplete={result => {
+                        result.filesUploaded.forEach(file => {
+                          if (file.filename && file.url && file.mimetype) {
+                            doMutation({
+                              variables: {
+                                name: file.filename,
+                                course_id: courseId,
+                                url: file.url,
+                                type: file.mimetype,
+                              },
+                            });
+                          } else {
+                            throw new Error("file property missing");
+                          }
+                        });
+                        if (
+                          result.filesFailed &&
+                          result.filesFailed.length > 0
+                        ) {
+                          console.warn(result.filesFailed);
+                          throw new Error("file failed to upload");
+                        }
+                      }}
+                      disabled={mutationResult.loading}
+                    />
+                  );
+                }}
+              </CreateCourseFileMutation>
+            </Grid>
+            <Grid item>
+              <TextField label="Filter for files" />
+            </Grid>
+          </Grid>
+        </Paper>
+      </Grid>
+      <Grid item>
+        <CourseFileQuery
+          query={GET_COURSE_FILES}
+          variables={{ course_id: courseId }}
+        >
+          {({ loading, error, data }) => {
+            if (loading) {
+              return <LinearProgress />;
+            }
+            if (error) {
+              return <ErrorMessage message={error.message} />;
+            }
+            return (
+              <div className={classes.fileList}>
+                {data.course.files.map(file => (
+                  <FileListItem
+                    name={file.name}
+                    description={file.description}
+                    creatorId={file.creator.id}
+                    type={file.type}
+                    url={file.url}
+                  />
+                ))}
+              </div>
+            );
+          }}
+        </CourseFileQuery>
+      </Grid>
+    </Grid>
   </Paper>
 );
 
-export default FilePicker;
+export default withStyles(styles)(FilePicker);
