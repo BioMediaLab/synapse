@@ -6,6 +6,7 @@
   "scripts": {
     "test": "NODE_ENV=test jest",
     "generate": "prisma generate",
+    "deploy": "prisma deploy",
     "build": "prisma generate && tsc",
     "dev": "nodemon",
     "start": "ts-node src/index.ts"
