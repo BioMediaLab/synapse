@@ -25,7 +25,7 @@ const viewers = {
   },
 
   image({ url }: { url: string }) {
-    return <img src={url} />;
+    return <img style={{ height: "100%", width: "auto" }} src={url} />;
   },
 
   text({ url }: { url: string }) {

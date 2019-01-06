@@ -99,15 +99,23 @@ const FilePicker: React.SFC<IFilePickerProps> = ({ courseId, classes }) => (
             }
             return (
               <div className={classes.fileList}>
-                {data.course.files.map(file => (
-                  <FileListItem
-                    name={file.name}
-                    description={file.description}
-                    creatorId={file.creator.id}
-                    type={file.type}
-                    url={file.url}
-                  />
-                ))}
+                {data.course.files
+                  .sort(({ name: name1 }, { name: name2 }) => {
+                    if (name1.toLocaleLowerCase() < name2.toLocaleLowerCase()) {
+                      return -1;
+                    }
+                    return 1;
+                  })
+                  .map(file => (
+                    <FileListItem
+                      name={file.name}
+                      description={file.description}
+                      creatorId={file.creator.id}
+                      type={file.type}
+                      url={file.url}
+                      key={file.id}
+                    />
+                  ))}
               </div>
             );
           }}

@@ -7,10 +7,38 @@ import {
   DialogActions,
   DialogContent,
   Button,
+  Typography,
+  Tooltip,
 } from "@material-ui/core";
-import { CallToActionSharp as ViewIcon } from "@material-ui/icons";
+import {
+  Image,
+  FeaturedVideo,
+  Audiotrack,
+  Attachment,
+  Book,
+  Archive,
+} from "@material-ui/icons";
 
 import ContentViewer from "./ContentViewer";
+
+const getIcon = (fileType: string) => {
+  switch (fileType) {
+    case "audio/mpeg":
+      return Audiotrack;
+    case "video/mp4":
+      return FeaturedVideo;
+    case "image/png":
+      return Image;
+    case "image/jpeg":
+      return Image;
+    case "application/pdf":
+      return Book;
+    case "application/zip":
+      return Archive;
+    default:
+      return Attachment;
+  }
+};
 
 interface IProps {
   name: string;
@@ -30,10 +58,10 @@ class FileListItem extends React.Component<IProps, IState> {
   };
 
   render() {
+    const Icon = getIcon(this.props.type);
     return (
       <>
-        <Grid container>
-          <Grid item>{this.props.name}</Grid>
+        <Grid container alignItems="center">
           <Grid item>
             <IconButton
               onClick={() =>
@@ -43,8 +71,13 @@ class FileListItem extends React.Component<IProps, IState> {
                 }))
               }
             >
-              <ViewIcon />
+              <Tooltip title="Preview File">
+                <Icon />
+              </Tooltip>
             </IconButton>
+          </Grid>
+          <Grid item>
+            <Typography variant="h6">{this.props.name}</Typography>
           </Grid>
         </Grid>
         <Dialog
