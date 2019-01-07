@@ -40,8 +40,9 @@
     "graphql-tools": "^4.0.3",
     "graphql-yoga": "^1.16.7",
     "jsonwebtoken": "^8.4.0",
+    "prisma": "1.23",
     "prisma-binding": "^2.1.6",
-    "prisma-client-lib": "1.20.7",
+    "prisma-client-lib": "1.23.4",
     "prisma-lib": "^0.1.44",
     "typescript": "^3.0.3"
   },
