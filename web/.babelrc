@@ -7,13 +7,7 @@
       "presets": ["next/babel", "@zeit/next-typescript/babel"]
     },
     "test": {
-      "presets": [
-        [
-          "next/babel",
-          "@zeit/next-typescript/babel",
-          { "preset-env": { "modules": "commonjs" } }
-        ]
-      ]
+      "presets": [["next/babel", { "preset-env": { "modules": "commonjs" } }]]
     }
   }
 }
