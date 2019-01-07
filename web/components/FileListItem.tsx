@@ -18,8 +18,14 @@ import {
   Book,
   Archive,
 } from "@material-ui/icons";
+import gql from "graphql-tag";
 
 import ContentViewer from "./ContentViewer";
+import BigTextEdit from "./BigTextEdit";
+import {
+  EDIT_FILE_METADATA,
+  UpdateCourseFileMetaMute,
+} from "../queries/courseContentQueries";
 
 const getIcon = (fileType: string) => {
   switch (fileType) {
@@ -41,11 +47,13 @@ const getIcon = (fileType: string) => {
 };
 
 interface IProps {
+  id: string;
   name: string;
   type: string;
   creatorId: string;
   url: string;
   description: string;
+  allow_edits?: boolean;
 }
 
 interface IState {
@@ -53,12 +61,65 @@ interface IState {
 }
 
 class FileListItem extends React.Component<IProps, IState> {
+  static defaultProps = {
+    allow_edits: false,
+  };
+
   state = {
     filePreviewOpen: false,
   };
 
   render() {
     const Icon = getIcon(this.props.type);
+    const titleComponent = this.props.allow_edits ? (
+      <UpdateCourseFileMetaMute
+        /*
+      Note: this is a good example of how to easily update single nodes in the
+      ApolloGraphQL cache after you mutate them.
+      */
+        mutation={EDIT_FILE_METADATA}
+        update={(proxy, result) => {
+          if (result.errors) {
+            console.warn(result.errors);
+            return;
+          }
+          const { id, name } = result.data.updateContentMetadata;
+          proxy.writeFragment({
+            id,
+            fragment: gql`
+              fragment FileName on ContentPiece {
+                name
+              }
+            `,
+            data: { name, __typename: "ContentPiece" },
+          });
+        }}
+      >
+        {(doMutation, { error, loading }) => {
+          let disableEdit = loading;
+          if (!disableEdit && error) {
+            disableEdit = true;
+          }
+          return (
+            <BigTextEdit
+              initialText={this.props.name}
+              onSaveCallback={newText => {
+                doMutation({
+                  variables: {
+                    content_file_id: this.props.id,
+                    name: newText,
+                  },
+                });
+              }}
+              disabled={disableEdit}
+            />
+          );
+        }}
+      </UpdateCourseFileMetaMute>
+    ) : (
+      <span>{this.props.name}</span>
+    );
+
     return (
       <>
         <Grid container alignItems="center">
@@ -92,9 +153,7 @@ class FileListItem extends React.Component<IProps, IState> {
           aria-describedby="alert-dialog-description"
           fullScreen
         >
-          <DialogTitle id="alert-dialog-title">
-            {this.props.name} (Preview)
-          </DialogTitle>
+          <DialogTitle id="alert-dialog-title">{titleComponent}</DialogTitle>
           <DialogContent>
             <ContentViewer
               name={this.props.name}

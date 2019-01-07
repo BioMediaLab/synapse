@@ -39,6 +39,12 @@ type Mutation {
     course_id: String!
     description: String
   ): ContentPiece
+  updateContentMetadata(
+    id: String!
+    name: String
+    description: String
+  ): ContentPiece
+  deleteCourseContent(id: String!): ContentPiece
   createUnit(name: String, items: [String!]!, description: String): CourseUnit
 }
 

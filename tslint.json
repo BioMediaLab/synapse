@@ -23,7 +23,7 @@
     "semicolon": [true, "always", "ignore-bound-class-methods"],
     "object-literal-key-quotes": false,
     "no-console": [true, "log"],
-    "max-classes-per-file": [true, 2, "exclude-class-expressions"],
-    "member-access": [true, "no-public"]
+    "member-access": [true, "no-public"],
+    "max-classes-per-file": [true, 5, "exclude-class-expressions"]
   }
 }

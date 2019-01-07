@@ -78,6 +78,40 @@ export const CREATE_COURSE_FILE = gql`
 `;
 
 export class CreateCourseFileMutation extends Mutation<
-  { id: string },
+  { createContent: { id: string } },
   IContentCreationVars
+> {}
+
+export const EDIT_FILE_METADATA = gql`
+  mutation($content_file_id: String!, $name: String, $description: String) {
+    updateContentMetadata(
+      name: $name
+      description: $description
+      id: $content_file_id
+    ) {
+      id
+      name
+      description
+    }
+  }
+`;
+
+export class UpdateCourseFileMetaMute extends Mutation<
+  { updateContentMetadata: { id: string; name: string; description: string } },
+  { content_file_id: string; name?: string; description?: string }
+> {}
+
+export const DELETE_COURSE_FILE = gql`
+  mutation($content_file_id: String!) {
+    deleteCourseContent(id: $content_file_id) {
+      id
+    }
+  }
+`;
+
+export class DeleteCourseFileMute extends Mutation<
+  {
+    deleteCourseFile: { id: string };
+  },
+  { content_file_id: string }
 > {}

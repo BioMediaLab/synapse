@@ -46,25 +46,19 @@ const FilePicker: React.SFC<IFilePickerProps> = ({ courseId, classes }) => (
         <Paper className={classes.topFilterBar}>
           <Grid container spacing={16}>
             <Grid item>
-              <CreateCourseFileMutation mutation={CREATE_COURSE_FILE}>
+              <CreateCourseFileMutation
+                mutation={CREATE_COURSE_FILE}
+                refetchQueries={[
+                  {
+                    query: GET_COURSE_FILES,
+                    variables: { course_id: courseId },
+                  },
+                ]}
+              >
                 {(doMutation, mutationResult) => {
                   return (
                     <FileStackMaterial
                       onUploadComplete={result => {
-                        result.filesUploaded.forEach(file => {
-                          if (file.filename && file.url && file.mimetype) {
-                            doMutation({
-                              variables: {
-                                name: file.filename,
-                                course_id: courseId,
-                                url: file.url,
-                                type: file.mimetype,
-                              },
-                            });
-                          } else {
-                            throw new Error("file property missing");
-                          }
-                        });
                         if (
                           result.filesFailed &&
                           result.filesFailed.length > 0
@@ -72,6 +66,29 @@ const FilePicker: React.SFC<IFilePickerProps> = ({ courseId, classes }) => (
                           console.warn(result.filesFailed);
                           throw new Error("file failed to upload");
                         }
+
+                        result.filesUploaded
+                          .filter(file => {
+                            if (file.filename && file.url && file.mimetype) {
+                              return true;
+                            }
+                            throw new Error("file property missing");
+                          })
+                          .forEach(async file => {
+                            const uploadResult = await doMutation({
+                              variables: {
+                                name: file.filename,
+                                course_id: courseId,
+                                url: file.url,
+                                type: file.mimetype,
+                              },
+                            });
+                            if (uploadResult && uploadResult.errors) {
+                              throw new Error(
+                                `Uploading ${file.filename} failed`,
+                              );
+                            }
+                          });
                       }}
                       disabled={mutationResult.loading}
                     />
@@ -108,12 +125,14 @@ const FilePicker: React.SFC<IFilePickerProps> = ({ courseId, classes }) => (
                   })
                   .map(file => (
                     <FileListItem
+                      id={file.id}
                       name={file.name}
                       description={file.description}
                       creatorId={file.creator.id}
                       type={file.type}
                       url={file.url}
                       key={file.id}
+                      allow_edits
                     />
                   ))}
               </div>

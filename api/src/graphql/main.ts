@@ -3,6 +3,7 @@ import { forwardTo } from "prisma-binding";
 import { Notification, prisma, User } from "../../generated/prisma";
 import { IntResolverContext } from "../graphqlContext";
 import { IResolvers } from "graphql-tools";
+import { ContentPieceUpdateInput } from "../../generated/prisma/index";
 
 // A map of functions which return data for the schema.
 export const resolvers: IResolvers = {
@@ -302,6 +303,23 @@ export const resolvers: IResolvers = {
           },
         },
       });
+    },
+    updateContentMetadata: async (root, args, content) => {
+      // TODO check for permissions...
+      const { id, name: pName, description: pDesc } = args;
+      const data: ContentPieceUpdateInput = {};
+      if (pName) {
+        data.name = pName;
+      }
+      if (pDesc) {
+        data.description = pDesc;
+      }
+      return prisma.updateContentPiece({ where: { id }, data });
+    },
+    deleteCourseContent: async (root, args, content) => {
+      // TODO check for permissions...
+      const { id } = args;
+      return prisma.deleteContentPiece({ id });
     },
   },
   Subscription: {

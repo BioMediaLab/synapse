@@ -15,7 +15,10 @@ const viewers = {
     return (
       <div>
         This type of file cannot be viewed in your browser. Please{" "}
-        <a href={url}>download it</a> instead.
+        <a target="_blank" href={url}>
+          download it
+        </a>{" "}
+        instead.
       </div>
     );
   },
@@ -57,6 +60,8 @@ const viewers = {
         return this.image;
       case "image/jpeg":
         return this.image;
+      case "image/svg+xml":
+        return this.unimpl; // TODO: create viewer for this
       case "text/rust":
         return this.text;
       case "application/sql":

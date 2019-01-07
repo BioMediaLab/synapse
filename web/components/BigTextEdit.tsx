@@ -150,12 +150,14 @@ class BigTextFieldEdit extends React.Component<Props, IState> {
         </div>
         <Grid container justify="flex-end">
           <Tooltip title={`Edit ${this.props.title}`}>
-            <IconButton
-              onClick={this.startEditing}
-              disabled={this.props.disabled}
-            >
-              <EditIcon />
-            </IconButton>
+            <div>
+              <IconButton
+                onClick={this.startEditing}
+                disabled={this.props.disabled}
+              >
+                <EditIcon />
+              </IconButton>
+            </div>
           </Tooltip>
         </Grid>
       </div>
