@@ -23,6 +23,7 @@ type Course {
   description: String
   activations: [Activation!]!
   term: String
+  files: [ContentPiece!]! @relation(name: "CourseContent")
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -101,6 +102,29 @@ type CourseMessage {
   id: ID! @unique
   course: Course!
   body: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type ContentPiece {
+  id: ID! @unique
+  creator: User!
+  course: Course! @relation(name: "CourseContent")
+  name: String!
+  description: String
+  type: String!
+  url: String!
+  forUnits: Boolean!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type CourseUnit {
+  id: ID! @unique
+  course: Course!
+  name: String!
+  description: String!
+  items: [ContentPiece!]!
   createdAt: DateTime!
   updatedAt: DateTime!
 }

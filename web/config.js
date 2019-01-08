@@ -4,7 +4,7 @@ const dotenv = require("dotenv");
 Where a new environment variable is needed
 be sure to add it to this list.
 */
-const envVarWhitelist = new Set(["API_URL", "API_URL_GOOGLE", "WEBSOCKET_URL"]);
+const envVarWhitelist = new Set(["API_URL", "API_URL_GOOGLE", "WEBSOCKET_URL", "FILESTACK_API_KEY"]);
 
 const configSanityCheck = () => {
   const config = dotenv.config({ path: ".env" });

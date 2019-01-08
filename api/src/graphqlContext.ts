@@ -34,11 +34,11 @@ export const contextCreatorFactory = (): ContextCallback => {
 
     return {
       db: prisma,
+      isPublic: false,
       req,
       jwt,
       pubsub,
       bindingDb,
-      isPublic: false,
     };
   };
   return contextCreator;

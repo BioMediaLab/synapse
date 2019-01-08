@@ -32,6 +32,20 @@ type Mutation {
   createCourseMessage(course_id: String!, body: String!): CourseMessage
   createReminder(msg: String!, triggerTime: String!): Reminder
   deleteReminder(id: String!): Reminder
+  createContent(
+    name: String!
+    type: String!
+    url: String!
+    course_id: String!
+    description: String
+  ): ContentPiece
+  updateContentMetadata(
+    id: String!
+    name: String
+    description: String
+  ): ContentPiece
+  deleteCourseContent(id: String!): ContentPiece
+  createUnit(name: String, items: [String!]!, description: String): CourseUnit
 }
 
 type Subscription {
