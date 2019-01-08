@@ -48,7 +48,11 @@ class TextFileViewer extends React.Component<IProps, IState> {
       );
     }
 
-    return <div>{this.state.content}</div>;
+    return (
+      <pre>
+        <code>{this.state.content}</code>
+      </pre>
+    );
   }
 }
 

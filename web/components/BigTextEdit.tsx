@@ -46,6 +46,7 @@ interface ITextEditProps {
   onSaveCallback: (newText: string) => void;
   title?: string;
   disabled?: boolean;
+  nonEditingTextFieldVariant?: string;
 }
 
 interface IState {
@@ -60,6 +61,7 @@ class BigTextFieldEdit extends React.Component<Props, IState> {
   static defaultProps = {
     disabled: false,
     title: "",
+    nonEditingTextFieldVariant: "body1",
   };
 
   state = {
@@ -146,7 +148,10 @@ class BigTextFieldEdit extends React.Component<Props, IState> {
       <div className={this.props.classes.mainMain}>
         <Typography variant="caption">{this.props.title}</Typography>
         <div className={this.props.classes.notEditingBodyText}>
-          <Typography variant="body1">{this.state.textFieldValue}</Typography>
+          <Typography variant={this.props.nonEditingTextFieldVariant as any}>
+            {/* TODO: fix this cast ^^^ */}
+            {this.state.textFieldValue}
+          </Typography>
         </div>
         <Grid container justify="flex-end">
           <Tooltip title={`Edit ${this.props.title}`}>

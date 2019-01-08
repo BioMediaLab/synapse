@@ -9,6 +9,8 @@ import {
   Button,
   Typography,
   Tooltip,
+  createStyles,
+  withStyles,
 } from "@material-ui/core";
 import {
   Image,
@@ -37,6 +39,10 @@ const getIcon = (fileType: string) => {
       return Image;
     case "image/jpeg":
       return Image;
+    case "image/svg":
+      return Image;
+    case "image/svg+xml":
+      return Image;
     case "application/pdf":
       return Book;
     case "application/zip":
@@ -46,6 +52,10 @@ const getIcon = (fileType: string) => {
   }
 };
 
+const styles = createStyles(theme => ({
+  outerListItem: { margin: theme.spacing.unit, overflowX: "hidden" },
+}));
+
 interface IProps {
   id: string;
   name: string;
@@ -54,6 +64,9 @@ interface IProps {
   url: string;
   description: string;
   allow_edits?: boolean;
+  classes: {
+    outerListItem: string;
+  };
 }
 
 interface IState {
@@ -73,11 +86,11 @@ class FileListItem extends React.Component<IProps, IState> {
     const Icon = getIcon(this.props.type);
     const titleComponent = this.props.allow_edits ? (
       <UpdateCourseFileMetaMute
+        mutation={EDIT_FILE_METADATA}
         /*
       Note: this is a good example of how to easily update single nodes in the
       ApolloGraphQL cache after you mutate them.
       */
-        mutation={EDIT_FILE_METADATA}
         update={(proxy, result) => {
           if (result.errors) {
             console.warn(result.errors);
@@ -91,18 +104,21 @@ class FileListItem extends React.Component<IProps, IState> {
                 name
               }
             `,
-            data: { name, __typename: "ContentPiece" },
+            data: { name, __typename: "ContentPiece" }, // The typename from `datamodel.prisma` is required here
           });
         }}
       >
         {(doMutation, { error, loading }) => {
           let disableEdit = loading;
+          // We can't let users try to edit metadata while another edit request is being sent or has failed
+          // or else edits might be lost.
           if (!disableEdit && error) {
             disableEdit = true;
           }
           return (
             <BigTextEdit
               initialText={this.props.name}
+              nonEditingTextFieldVariant="h6"
               onSaveCallback={newText => {
                 doMutation({
                   variables: {
@@ -122,7 +138,11 @@ class FileListItem extends React.Component<IProps, IState> {
 
     return (
       <>
-        <Grid container alignItems="center">
+        <Grid
+          container
+          className={this.props.classes.outerListItem}
+          alignItems="center"
+        >
           <Grid item>
             <IconButton
               onClick={() =>
@@ -176,4 +196,4 @@ class FileListItem extends React.Component<IProps, IState> {
   }
 }
 
-export default FileListItem;
+export default withStyles(styles)(FileListItem);

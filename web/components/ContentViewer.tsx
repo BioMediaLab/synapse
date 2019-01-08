@@ -60,7 +60,7 @@ const viewers = {
         return this.image;
       case "image/jpeg":
         return this.image;
-      case "image/svg+xml":
+      case "image/svg+xml": // TODO: this filetype may be blocked by filestack
         return this.unimpl; // TODO: create viewer for this
       case "text/rust":
         return this.text;
