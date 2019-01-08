@@ -47,7 +47,7 @@ class IMyApp extends App<IMyAppProps> {
   }
 
   render() {
-    const { Component, pageProps, apolloClient } = this.props;
+    const { Component, pageProps, apolloClient, hasSession } = this.props;
     return (
       <Container>
         <title>Synapse</title>
@@ -70,25 +70,11 @@ class IMyApp extends App<IMyAppProps> {
 
               <Meta />
 
-              {this.hasSession ? (
-                <Layout
-                  hasSession={this.props.hasSession}
-                  pageContext={this.pageContext}
-                >
-                  <Component
-                    hasSession={this.props.hasSession}
-                    pageContext={this.pageContext}
-                    {...pageProps}
-                  />
-                  )}
-                </Layout>
-              ) : (
-                <Component
-                  hasSession={this.props.hasSession}
-                  pageContext={this.pageContext}
-                  {...pageProps}
-                />
-              )}
+              <Component
+                hasSession={hasSession}
+                pageContext={this.pageContext}
+                {...pageProps}
+              />
             </MuiThemeProvider>
           </JssProvider>
         </ApolloProvider>
