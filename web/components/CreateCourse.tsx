@@ -12,7 +12,7 @@ import Slide from "@material-ui/core/Slide";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import Snackbar from "@material-ui/core/Snackbar";
-import { CREATE_COURSE, ICreateCourseProps } from "../queries/courseQueries";
+import { CREATE_COURSE } from "../queries/courseQueries";
 
 const styles = theme =>
   createStyles({
@@ -29,6 +29,14 @@ const styles = theme =>
   });
 
 const Transition = props => <Slide direction="up" {...props} />;
+
+interface ICreateCourseProps {
+  classes: {
+    appBar: string;
+    grow: string;
+    formMain: string;
+  };
+}
 
 interface ICreateCourseState {
   createFormOpen: boolean;

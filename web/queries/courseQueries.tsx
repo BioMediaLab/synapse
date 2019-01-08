@@ -86,13 +86,5 @@ export interface ICourse {
   name: string;
 }
 
-export interface ICreateCourseProps {
-  classes: {
-    appBar: string;
-    grow: string;
-    formMain: string;
-  };
-}
-
 export class CourseQueryComp extends Query {}
 export class CourseMutationComp extends Mutation {}
