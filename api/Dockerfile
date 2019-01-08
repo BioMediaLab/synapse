@@ -1,7 +1,7 @@
 FROM node:lts-slim as builder_image
 COPY . /usr/src
 WORKDIR /usr/src
-RUN npm install -g yarn && yarn install && yarn run build
+RUN npm install && npm run build
 
 FROM node:lts-alpine
 WORKDIR /usr/src
