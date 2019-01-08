@@ -35,6 +35,7 @@ build/Release
 
 # dotenv environment variables file
 */.env
+*/.env.production
 
 */.DS_Store
 
