@@ -32,7 +32,7 @@ const ProfilePic: React.SFC<IProfilePicProps> = ({
 }) => {
   return user.photo ? (
     <Avatar
-      alt={user.name}
+      alt={user.name.charAt(0).toUpperCase()}
       className={classesOverride ? classesOverride : classes.avatar}
       src={user.photo}
       {...props}
