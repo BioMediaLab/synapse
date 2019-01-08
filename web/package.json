@@ -7,19 +7,20 @@
     "test": "NODE_ENV=test jest",
     "dev": "node server.js",
     "build": "next build",
-    "start": "next start"
+    "start": "NODE_ENV=production node server.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@material-ui/core": "^3.7.0",
     "@material-ui/icons": "^3.0.1",
+    "@sentry/node": "4.4.2",
     "@types/cookie": "^0.3.1",
     "@types/draft-js": "^0.10.26",
     "@types/graphql": "^14.0.3",
     "@types/js-cookie": "^2.2.0",
     "@types/next": "^6.1.8",
-    "@types/node": "^10.11.0",
+    "@types/node": "^10.12.14",
     "@types/react": "^16.4.14",
     "@types/react-dom": "^16.0.7",
     "@types/react-select": "^2.0.4",
@@ -65,9 +66,12 @@
     "ws": "^6.1.0"
   },
   "devDependencies": {
+    "@types/jest": "^23.3.12",
     "babel-core": "7.0.0-bridge.0",
     "babel-jest": "^23.6.0",
     "jest": "^23.6.0",
+    "react-testing-library": "^5.4.4",
+    "ts-jest": "^23.10.5",
     "wsrun": "^3.3.3"
   }
 }
