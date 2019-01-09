@@ -19,7 +19,7 @@ import { withRouter } from "next/router";
 import {
   GET_COURSES,
   ICourse,
-  CourseQueryComp,
+  QueryGetCourses,
 } from "../queries/courseQueries";
 
 const customPlaceholderUser = (
@@ -50,7 +50,7 @@ const customPlaceholderCourse = (
 );
 
 const CourseList: React.SFC<{}> = ({ router, href }) => (
-  <CourseQueryComp query={GET_COURSES}>
+  <QueryGetCourses query={GET_COURSES}>
     {({ loading, error, data }) => {
       if (loading) {
         return (
@@ -107,7 +107,7 @@ const CourseList: React.SFC<{}> = ({ router, href }) => (
       if (error) {
         return <ErrorMessage message={error.message} />;
       }
-      const courses: ICourse[] = data.courses;
+      const courses: ICourse[] = data.myCourseRoles.map(role => role.course);
       return (
         <div>
           <List>
@@ -172,7 +172,7 @@ const CourseList: React.SFC<{}> = ({ router, href }) => (
         </div>
       );
     }}
-  </CourseQueryComp>
+  </QueryGetCourses>
 );
 
 export default withRouter(CourseList);

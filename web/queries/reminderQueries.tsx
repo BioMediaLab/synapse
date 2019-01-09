@@ -8,6 +8,7 @@ export const CREATE_REMINDER = gql`
     }
   }
 `;
+
 export const DELETE_REMINDER = gql`
   mutation($reminder: String) {
     deleteReminder(id: $reminder) {
@@ -15,6 +16,7 @@ export const DELETE_REMINDER = gql`
     }
   }
 `;
+
 export const VIEW_REMINDERS = gql`
   query {
     reminders {
@@ -26,5 +28,11 @@ export const VIEW_REMINDERS = gql`
   }
 `;
 
+export class DeleteReminderMutation extends Mutation<
+  { id: string },
+  { reminder: string }
+> {}
+
 export class ReminderMutationComp extends Mutation {}
+
 export class ReminderQueryComp extends Query {}

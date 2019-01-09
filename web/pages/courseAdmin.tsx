@@ -12,6 +12,7 @@ import {
   Button,
 } from "@material-ui/core";
 import { KeyboardReturn as BackIcon } from "@material-ui/icons";
+import { Query } from "react-apollo";
 
 import withAuth from "../lib/withAuth";
 import ErrorMessage from "../components/ErrorMessage";
@@ -21,8 +22,7 @@ import { Link } from "../Router";
 import {
   COURSE_QUERY,
   COURSE_DESC_MUTATION,
-  CourseQueryComp,
-  CourseMutationComp,
+  CourseDescMutation,
 } from "../queries/courseQueries";
 
 const styles = (theme: Theme) =>
@@ -62,7 +62,7 @@ const CourseTools: React.SFC<PageProps> = ({ router, classes }) => {
 
   return (
     <main>
-      <CourseQueryComp query={COURSE_QUERY} variables={{ id: courseId }}>
+      <Query query={COURSE_QUERY} variables={{ id: courseId }}>
         {({ loading, error, data }) => {
           if (loading) {
             return <LinearProgress className={classes.mainLoadingInd} />;
@@ -91,7 +91,7 @@ const CourseTools: React.SFC<PageProps> = ({ router, classes }) => {
                 </Typography>
                 <Divider />
                 <div className={classes.toolSectionMainContent}>
-                  <CourseMutationComp mutation={COURSE_DESC_MUTATION}>
+                  <CourseDescMutation mutation={COURSE_DESC_MUTATION}>
                     {(doMutate, { loading: mutationLoading }) => {
                       return (
                         <BigTextEdit
@@ -106,7 +106,7 @@ const CourseTools: React.SFC<PageProps> = ({ router, classes }) => {
                         />
                       );
                     }}
-                  </CourseMutationComp>
+                  </CourseDescMutation>
                 </div>
               </Paper>
               <Paper className={classes.toolSection}>
@@ -121,7 +121,7 @@ const CourseTools: React.SFC<PageProps> = ({ router, classes }) => {
             </div>
           );
         }}
-      </CourseQueryComp>
+      </Query>
     </main>
   );
 };

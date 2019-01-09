@@ -1,7 +1,6 @@
 # import * from './../../generated/schema/prisma.graphql'
 
 type Query {
-  users: [String]
   user(where: UserWhereUniqueInput!): User
   userSearch(name: String, email: String, course_id: String): [User]!
   me: User
@@ -14,7 +13,7 @@ type Query {
 type Mutation {
   createCourse(name: String!, description: String): Course
   editCourse(name: String, description: String): Course
-  addUsersToCourse(users: [CourseUserAndRole]!, course_id: String!): Course
+  addUsersToCourse(users: [CourseUserAndRole!]!, course_id: String!): Course
   removeUserFromCourse(user_id: String!, course_id: String!): Course
   changeUserRoleInCourse(user_id: String!, new_role: CourseRoleType!): Course
   updateCourseDescription(description: String, course_id: String!): Course
@@ -42,7 +41,7 @@ type Mutation {
   createUnit(name: String, items: [String!]!, description: String): CourseUnit
 }
 
-type CourseUserAndRole {
+input CourseUserAndRole {
   user_id: String!
   role: CourseRoleType!
 }

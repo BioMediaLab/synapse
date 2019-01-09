@@ -15,19 +15,12 @@ export const resolvers: IResolvers = {
   Query: {
     myCourseRoles: async (root, args, context): Promise<CourseUser[]> => {
       const roles = await prisma.user({ id: context.id }).courseRoles();
-      if (!roles) {
-        return [];
-      }
       return roles;
     },
     course: forwardTo("bindingDb") as any, // todo: perm check
     user: forwardTo("bindingDb") as any,
     me: async (root, args, context): Promise<User> => {
       return prisma.user({ id: context.id });
-    },
-    users: async (root, args, context): Promise<string[]> => {
-      const users = await prisma.users();
-      return users.map((user): string => user.name);
     },
     userSearch: async (root, args, context): Promise<User[]> => {
       const { name, email } = args;
@@ -130,6 +123,9 @@ export const resolvers: IResolvers = {
     userRoles: async (root): Promise<CourseUser> => {
       return prisma.course({ id: root.id }).userRoles();
     },
+    files: async (root, args, context) => {
+      return prisma.course({ id: root.id }).files();
+    },
   },
   CourseUser: {
     course: async ({ id }): Promise<Course> => {
@@ -142,9 +138,6 @@ export const resolvers: IResolvers = {
   User: {
     courseRoles: async ({ id }): Promise<CourseUser> => {
       return prisma.user({ id }).courseRoles();
-    },
-    files: async (root, args, context) => {
-      return prisma.course({ id: root.id }).files();
     },
   },
   ContentPiece: {

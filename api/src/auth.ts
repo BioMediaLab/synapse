@@ -1,12 +1,7 @@
 import * as jwt from "jsonwebtoken";
 
-let secret: string | boolean = false;
-
-const getSecret = async (): Promise<string> => {
-  if (!secret) {
-    secret = "test123";
-  }
-  return secret as string;
+const getSecret = (): string => {
+  return process.env.JWT_GENERATION_SECRET;
 };
 
 interface IUser {
@@ -19,7 +14,7 @@ interface IUser {
 
 export const createJWT = (user: IUser): Promise<string> =>
   new Promise(async (resolve, reject) => {
-    const sec = await getSecret();
+    const sec = getSecret();
     jwt.sign(
       user,
       sec,
@@ -45,7 +40,7 @@ interface IntJWTVailidate {
 
 export const validateJWT = (token: string): Promise<IntJWTVailidate> =>
   new Promise(async resolve => {
-    const sec = await getSecret();
+    const sec = getSecret();
     jwt.verify(token, sec, {}, (err, payload) => {
       if (err) {
         resolve({

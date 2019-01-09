@@ -1,11 +1,16 @@
 import gql from "graphql-tag";
 import { Query, Mutation } from "react-apollo";
+import { DocumentNode } from "graphql";
 
-export const GET_COURSES = gql`
+export const GET_COURSES: DocumentNode = gql`
   {
-    courses {
+    myCourseRoles {
       id
-      name
+      user_type
+      course {
+        id
+        name
+      }
     }
     me @client {
       isAdmin
@@ -16,7 +21,8 @@ export const GET_COURSES = gql`
     }
   }
 `;
-export const CREATE_COURSE = gql`
+
+export const CREATE_COURSE: DocumentNode = gql`
   mutation CreateCourse($name: String!, $description: String!) {
     createCourse(name: $name, description: $description) {
       name
@@ -24,14 +30,16 @@ export const CREATE_COURSE = gql`
     }
   }
 `;
-export const CREATE_COURSE_MESSAGE = gql`
+
+export const CREATE_COURSE_MESSAGE: DocumentNode = gql`
   mutation CreateCourseMessage($body: String!, $course_id: String!) {
     createCourseMessage(body: $body, course_id: $course_id) {
       id
     }
   }
 `;
-export const COURSE_SEARCH = gql`
+
+export const COURSE_SEARCH: DocumentNode = gql`
   query UserSearch($searchString: String!, $courseId: String!) {
     userSearch(
       name: $searchString
@@ -46,7 +54,8 @@ export const COURSE_SEARCH = gql`
     }
   }
 `;
-export const COURSE_QUERY = gql`
+
+export const COURSE_QUERY: DocumentNode = gql`
   query($id: ID!) {
     course(where: { id: $id }) {
       name
@@ -56,16 +65,15 @@ export const COURSE_QUERY = gql`
   }
 `;
 
-export const COURSE_DESC_MUTATION = gql`
+export const COURSE_DESC_MUTATION: DocumentNode = gql`
   mutation($desc: String!, $id: String!) {
     updateCourseDescription(course_id: $id, description: $desc) {
-      name
-      description
       id
     }
   }
 `;
-export const COURSE_INFO = gql`
+
+export const COURSE_INFO: DocumentNode = gql`
   query Course($courseId: ID!) {
     course(where: { id: $courseId }) {
       id
@@ -73,9 +81,13 @@ export const COURSE_INFO = gql`
       title
       description
       term
-      users {
+      userRoles {
         id
-        name
+        user_type
+        user {
+          id
+          name
+        }
       }
     }
   }
@@ -86,5 +98,24 @@ export interface ICourse {
   name: string;
 }
 
-export class CourseQueryComp extends Query {}
-export class CourseMutationComp extends Mutation {}
+interface ICourseQueryResult {
+  myCourseRoles: Array<{
+    id: string;
+    user_type: string;
+    course: ICourse;
+  }>;
+  me: {
+    isAdmin: boolean;
+    id: string;
+    name: string;
+    email: string;
+    photo: string;
+  };
+}
+
+export class QueryGetCourses extends Query<ICourseQueryResult, {}> {}
+
+export class CourseDescMutation extends Mutation<
+  { id: string },
+  { desc: string; id: string }
+> {}

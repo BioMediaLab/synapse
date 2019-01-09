@@ -1,16 +1,20 @@
 import React from "react";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import IconButton from "@material-ui/core/IconButton";
-import Badge from "@material-ui/core/Badge";
-import MenuItem from "@material-ui/core/MenuItem";
-import Menu from "@material-ui/core/Menu";
-import { createStyles, withStyles } from "@material-ui/core/styles";
+import {
+  AppBar,
+  Toolbar,
+  IconButton,
+  Badge,
+  Menu,
+  MenuItem,
+  Drawer,
+  createStyles,
+  withStyles,
+} from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import MailIcon from "@material-ui/icons/Mail";
 import MoreIcon from "@material-ui/icons/MoreVert";
-import Drawer from "@material-ui/core/Drawer";
+import { Query } from "react-apollo";
 
 import ProfilePic from "../components/ProfilePic";
 import { Link, Router } from "../Router";
@@ -18,7 +22,7 @@ import SearchBar from "../components/SearchBar";
 import CourseList from "./CourseList";
 import Notifications from "./NotificationMenu";
 import { destroySessionFrontend } from "../lib/handleSessions";
-import { GET_ME, UserQueryComp } from "../queries/userQueries";
+import { GET_ME } from "../queries/userQueries";
 
 const drawerWidth = 300;
 
@@ -159,7 +163,7 @@ class PrimarySearchAppBar extends React.Component<IProps, IState> {
         open={isMobileMenuOpen}
         onClose={this.handleMobileMenuClose}
       >
-        <UserQueryComp query={GET_ME}>
+        <Query query={GET_ME}>
           {({ loading, error, data }) => {
             if (loading || error) {
               return (
@@ -194,7 +198,7 @@ class PrimarySearchAppBar extends React.Component<IProps, IState> {
               </Link>
             );
           }}
-        </UserQueryComp>
+        </Query>
 
         <MenuItem>
           <IconButton color="inherit">
@@ -240,7 +244,7 @@ class PrimarySearchAppBar extends React.Component<IProps, IState> {
                   <MailIcon />
                 </Badge>
               </IconButton>
-              <UserQueryComp query={GET_ME}>
+              <Query query={GET_ME}>
                 {({ loading, error, data }) => {
                   if (loading || error) {
                     return (
@@ -268,7 +272,7 @@ class PrimarySearchAppBar extends React.Component<IProps, IState> {
                     </IconButton>
                   );
                 }}
-              </UserQueryComp>
+              </Query>
             </div>
             <div className={classes.sectionMobile}>
               <IconButton

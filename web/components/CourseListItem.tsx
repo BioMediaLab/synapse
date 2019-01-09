@@ -5,14 +5,13 @@ import Collapse from "@material-ui/core/Collapse";
 import CourseModListItems from "./CourseModListItems";
 import { Link } from "../Router";
 import { createStyles, withStyles } from "@material-ui/core";
-import { withRouter } from "next/router";
+import { withRouter, WithRouterProps } from "next/router";
 
 interface IProps {
   course: any;
   classes: {
     primary: string;
   };
-  router: any;
 }
 
 const styles = createStyles(() => ({
@@ -22,7 +21,7 @@ const styles = createStyles(() => ({
   },
 }));
 
-class CourseListItem extends Component<IProps> {
+class CourseListItem extends Component<IProps & WithRouterProps> {
   render() {
     const course = this.props.course;
     const activeLink = this.props.router.query.id === course.id;

@@ -21,9 +21,9 @@ import CourseMemberListItem from "./CourseMemberListItem";
 import AddStudentsToCourse from "./AddStudentsToCourse";
 import {
   REMOVE_USER_MUTATION,
-  READ_USERS,
-  IQueryVars,
-  IQueryResult,
+  READ_COURSE_USERS,
+  IReadCourseUsersQueryVars,
+  IRreadCourseResult,
   UserMutationComp,
 } from "../queries/userQueries";
 
@@ -58,8 +58,8 @@ interface IStudentAdminViewProps {
 
 type Props = ChildDataProps<
   IStudentAdminViewProps & IStyles & InjectedNotistackProps,
-  IQueryResult,
-  IQueryVars
+  IRreadCourseResult,
+  IReadCourseUsersQueryVars
 >;
 
 interface IState {
@@ -90,9 +90,9 @@ class StudentAdminView extends React.Component<Props, IState> {
     if (
       !this.props.data.loading &&
       !this.props.data.error &&
-      this.props.data.course.users
+      this.props.data.course.userRoles
     ) {
-      let users = this.props.data.course.users;
+      let users = this.props.data.course.userRoles.map(role => role.user);
       if (this.state.filtered) {
         const sorter = new Fuse(users, {
           shouldSort: true,
@@ -114,7 +114,7 @@ class StudentAdminView extends React.Component<Props, IState> {
                     mutate({
                       variables: {
                         courseId: this.props.courseId,
-                        userIds: [id],
+                        userId: id,
                       },
                     }).then(res => {
                       if (!res || !res.data || res.data.error) {
@@ -176,6 +176,8 @@ class StudentAdminView extends React.Component<Props, IState> {
   }
 }
 
-export default graphql<IStudentAdminViewProps, IQueryResult, IQueryVars>(
-  READ_USERS,
-)(withSnackbar(withStyles(styles)(StudentAdminView)));
+export default graphql<
+  IStudentAdminViewProps,
+  IRreadCourseResult,
+  IReadCourseUsersQueryVars
+>(READ_COURSE_USERS)(withSnackbar(withStyles(styles)(StudentAdminView)));

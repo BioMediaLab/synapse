@@ -1,17 +1,17 @@
 import React from "react";
-import ErrorMessage from "../components/ErrorMessage";
-import CourseListItemUserProfile from "../components/CourseListItemUserProfile";
 import Typography from "@material-ui/core/Typography";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
-import Avatar from "@material-ui/core/Avatar";
 import Divider from "@material-ui/core/Divider";
 import Card from "@material-ui/core/Card";
 import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
-import withAuth from "../lib/withAuth";
 import { withRouter } from "next/router";
 import { Router } from "next-routes";
+
+import withAuth from "../lib/withAuth";
+import ErrorMessage from "../components/ErrorMessage";
+import CourseListItemUserProfile from "../components/CourseListItemUserProfile";
 import { GET_USER, UserQueryComp } from "../queries/userQueries";
 
 interface IUserProps {
@@ -20,11 +20,11 @@ interface IUserProps {
 }
 
 const UserProfile: React.SFC<IUserProps> = ({ router }) => {
-  const userID = {
-    id: router.query.id,
-  };
+  const queryId = router.query.id;
+  const userId: string = typeof queryId !== "string" ? queryId[0] : queryId;
+
   return (
-    <UserQueryComp query={GET_USER} variables={{ userID }}>
+    <UserQueryComp query={GET_USER} variables={{ userID: userId }}>
       {({ loading, error, data: { user } }) => {
         if (loading) {
           return <div>Loading...</div>;
