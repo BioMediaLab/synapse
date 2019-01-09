@@ -1,6 +1,5 @@
 import React from "react";
 import { Mutation, Query } from "react-apollo";
-import gql from "graphql-tag";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -10,22 +9,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 
 import { Router } from "../Router";
 import { destroySessionFrontend } from "../lib/handleSessions";
-
-const REMOVE_ADMIN = gql`
-  mutation($myId: String!) {
-    promoteUser(id: $myId, admin: false) {
-      id
-    }
-  }
-`;
-
-const MY_ID = gql`
-  {
-    me @client {
-      id
-    }
-  }
-`;
+import { REMOVE_ADMIN, MY_ID } from "../queries/userQueries";
 
 interface IAdminResignationState {
   showDialog: boolean;

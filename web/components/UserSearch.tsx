@@ -1,40 +1,13 @@
 import React from "react";
 import { withApollo, WithApolloClient } from "react-apollo";
-import gql from "graphql-tag";
 // see https://react-select.com/async#loading-asynchronously
 import AsyncSelect from "react-select/lib/Async";
 import CancelIcon from "@material-ui/icons/Cancel";
 import { Chip, Paper, TextField, NoSsr, Tooltip } from "@material-ui/core";
 import { createStyles, withStyles, Theme } from "@material-ui/core/styles";
 import ProfilePic from "./ProfilePic";
-
-const SEARCH = gql`
-  query UserSearch($searchString: String!) {
-    userSearch(name: $searchString, email: $searchString) {
-      name
-      id
-      photo
-      nickname
-      email
-    }
-  }
-`;
-
-const COURSE_SEARCH = gql`
-  query UserSearch($searchString: String!, $courseId: String!) {
-    userSearch(
-      name: $searchString
-      email: $searchString
-      course_id: $courseId
-    ) {
-      name
-      id
-      photo
-      nickname
-      email
-    }
-  }
-`;
+import { SEARCH, IUser } from "../queries/userQueries";
+import { COURSE_SEARCH } from "../queries/courseQueries";
 
 const styles = createStyles(theme => ({
   input: {
@@ -58,16 +31,6 @@ const styles = createStyles(theme => ({
 const inputComponent = ({ inputRef, ...props }) => (
   <div ref={inputRef} {...props} />
 );
-
-interface IUser {
-  value: string;
-  label: string;
-  name: string;
-  photo: string;
-  nickname: string;
-  email: string;
-  id: string;
-}
 
 interface IUserSearchProps {
   disabled?: boolean;
