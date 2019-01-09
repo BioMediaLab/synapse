@@ -47,7 +47,7 @@ class AdminPage extends React.Component<IAdminPageProps, IAdminPageState> {
     const { curOpenPanel } = this.state;
     return (
       <main>
-        <Typography variant="title">Admin Dashboard</Typography>
+        <Typography variant="h6">Admin Dashboard</Typography>
         <div className={classes.mainContent}>
           <ExpansionPanel
             expanded={curOpenPanel === "course"}

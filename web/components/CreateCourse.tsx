@@ -12,6 +12,7 @@ import Slide from "@material-ui/core/Slide";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import Snackbar from "@material-ui/core/Snackbar";
+
 import { CREATE_COURSE } from "../queries/courseQueries";
 
 const styles = theme =>
@@ -68,6 +69,8 @@ class CreateCourse extends React.Component<
   closeCreateForm = () => {
     this.setState(state => ({
       ...state,
+      courseName: "",
+      courseDesc: "",
       createFormOpen: false,
     }));
   };
@@ -82,11 +85,10 @@ class CreateCourse extends React.Component<
   createCourse = async creator => {
     this.closeCreateForm();
     const result = await creator();
+
+    // If there was an error, we will sniff it out and then display a message to the user
     let status = true;
-    if (result.error) {
-      status = false;
-    }
-    if (!result.createCourse) {
+    if (result.error || !result.data.createCourse.id) {
       status = false;
     }
     this.setState(state => ({
@@ -111,7 +113,7 @@ class CreateCourse extends React.Component<
         >
           <AppBar className={classes.appBar}>
             <Toolbar>
-              <Typography variant="title" color="inherit">
+              <Typography variant="h6" color="inherit">
                 Create A New Course
               </Typography>
               <div className={classes.grow} />

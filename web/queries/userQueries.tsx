@@ -75,6 +75,7 @@ export const READ_COURSE_USERS: DocumentNode = gql`
       userRoles(after: $startOn, first: $numRecords) {
         id
         user {
+          id
           name
           email
           photo

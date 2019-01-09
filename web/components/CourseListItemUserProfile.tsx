@@ -19,7 +19,7 @@ const CourseListItemUserProfile = course => {
       <Link route="courses" params={{ id: course.id }} key={course.id}>
         <ListItem button>
           <ListItemText>
-            <Typography variant="title">{course.name}</Typography>
+            <Typography variant="h6">{course.name}</Typography>
             <Typography variant="subheading">Professor Name</Typography>
           </ListItemText>
         </ListItem>
