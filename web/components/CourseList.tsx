@@ -1,6 +1,4 @@
 import React from "react";
-import { Query } from "react-apollo";
-import gql from "graphql-tag";
 import ReactPlaceholder from "react-placeholder";
 import { TextBlock, RoundShape } from "react-placeholder/lib/placeholders";
 import ErrorMessage from "../components/ErrorMessage";
@@ -18,11 +16,11 @@ import NotificationsIcon from "@material-ui/icons/Notifications";
 import CalendarIcon from "@material-ui/icons/CalendarToday";
 import ListSubheader from "@material-ui/core/ListSubheader";
 import { withRouter } from "next/router";
-
-interface ICourse {
-  id: string;
-  name: string;
-}
+import {
+  GET_COURSES,
+  ICourse,
+  CourseQueryComp,
+} from "../queries/courseQueries";
 
 const customPlaceholderUser = (
   <div className="customPlaceHolder">
@@ -50,24 +48,9 @@ const customPlaceholderCourse = (
     />
   </div>
 );
-const GET_COURSES = gql`
-  {
-    courses {
-      id
-      name
-    }
-    me @client {
-      isAdmin
-      id
-      name
-      email
-      photo
-    }
-  }
-`;
 
 const CourseList: React.SFC<{}> = ({ router, href }) => (
-  <Query query={GET_COURSES}>
+  <CourseQueryComp query={GET_COURSES}>
     {({ loading, error, data }) => {
       if (loading) {
         return (
@@ -189,7 +172,7 @@ const CourseList: React.SFC<{}> = ({ router, href }) => (
         </div>
       );
     }}
-  </Query>
+  </CourseQueryComp>
 );
 
 export default withRouter(CourseList);

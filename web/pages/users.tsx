@@ -1,6 +1,4 @@
 import React from "react";
-import { Query } from "react-apollo";
-import gql from "graphql-tag";
 import ErrorMessage from "../components/ErrorMessage";
 import CourseListItemUserProfile from "../components/CourseListItemUserProfile";
 import Typography from "@material-ui/core/Typography";
@@ -14,33 +12,19 @@ import CardContent from "@material-ui/core/CardContent";
 import withAuth from "../lib/withAuth";
 import { withRouter } from "next/router";
 import { Router } from "next-routes";
+import { GET_USER, UserQueryComp } from "../queries/userQueries";
 
 interface IUserProps {
   user_id: object;
   router: Router;
 }
 
-const GET_USER = gql`
-  query user($userID: UserWhereUniqueInput!) {
-    user(where: $userID) {
-      id
-      courses {
-        id
-        name
-      }
-      name
-      email
-      photo
-    }
-  }
-`;
-
 const UserProfile: React.SFC<IUserProps> = ({ router }) => {
   const userID = {
     id: router.query.id,
   };
   return (
-    <Query query={GET_USER} variables={{ userID }}>
+    <UserQueryComp query={GET_USER} variables={{ userID }}>
       {({ loading, error, data: { user } }) => {
         if (loading) {
           return <div>Loading...</div>;
@@ -72,7 +56,7 @@ const UserProfile: React.SFC<IUserProps> = ({ router }) => {
           </div>
         );
       }}
-    </Query>
+    </UserQueryComp>
   );
 };
 
