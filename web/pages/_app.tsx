@@ -6,7 +6,6 @@ import JssProvider from "react-jss/lib/JssProvider";
 import getPageContext, { IPageContext } from "../lib/getPageContext";
 import withApolloClient from "../lib/withApolloClient";
 import { ApolloProvider } from "react-apollo";
-import Layout from "../components/Layout";
 import Meta from "../components/Meta";
 
 interface IMyAppProps {
