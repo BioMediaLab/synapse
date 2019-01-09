@@ -4,7 +4,21 @@ import { NextAppContext } from "next/app";
 export const parseCookie = (
   cookieString: string,
 ): { [key: string]: string } => {
-  const splitsCookieParts = cookieString.split("=");
+  const splitsCookieParts = [];
+  let acc = [];
+  Array.from(cookieString).forEach(char => {
+    if (char === " ") {
+      return;
+    }
+    if (char === "=" || char === ";") {
+      splitsCookieParts.push(acc.join(""));
+      acc = [];
+      return;
+    }
+    acc.push(char);
+  });
+  splitsCookieParts.push(acc.join(""));
+
   if (splitsCookieParts.length === 0 || splitsCookieParts.length % 2 !== 0) {
     return {};
   }

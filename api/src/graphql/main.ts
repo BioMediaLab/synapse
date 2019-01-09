@@ -3,7 +3,12 @@ import { forwardTo } from "prisma-binding";
 import { Notification, prisma } from "../../generated/prisma";
 import { IntResolverContext } from "../graphqlContext";
 import { IResolvers } from "graphql-tools";
-import { Course, CourseUser, User } from "../../generated/prisma/index";
+import {
+  Course,
+  CourseUser,
+  User,
+  ContentPieceUpdateInput,
+} from "../../generated/prisma/index";
 
 // A map of functions which return data for the schema.
 export const resolvers: IResolvers = {
@@ -137,6 +142,14 @@ export const resolvers: IResolvers = {
   User: {
     courseRoles: async ({ id }): Promise<CourseUser> => {
       return prisma.user({ id }).courseRoles();
+    },
+    files: async (root, args, context) => {
+      return prisma.course({ id: root.id }).files();
+    },
+  },
+  ContentPiece: {
+    creator: async (root, args, context) => {
+      return prisma.contentPiece({ id: root.id }).creator();
     },
   },
   Notification: {
@@ -291,6 +304,44 @@ export const resolvers: IResolvers = {
     deleteReminder: async (root, args, context) => {
       const { id } = args;
       return prisma.deleteReminder({ id });
+    },
+    createContent: async (root, args, context) => {
+      const { name, type, url, course_id, description } = args;
+      const cleanDescription = description ? description : "";
+      return prisma.createContentPiece({
+        name,
+        type,
+        url,
+        description: cleanDescription,
+        forUnits: true,
+        creator: {
+          connect: {
+            id: context.id,
+          },
+        },
+        course: {
+          connect: {
+            id: course_id,
+          },
+        },
+      });
+    },
+    updateContentMetadata: async (root, args, content) => {
+      // TODO check for permissions...
+      const { id, name: pName, description: pDesc } = args;
+      const data: ContentPieceUpdateInput = {};
+      if (pName) {
+        data.name = pName;
+      }
+      if (pDesc) {
+        data.description = pDesc;
+      }
+      return prisma.updateContentPiece({ where: { id }, data });
+    },
+    deleteCourseContent: async (root, args, content) => {
+      // TODO check for permissions...
+      const { id } = args;
+      return prisma.deleteContentPiece({ id });
     },
   },
   Subscription: {
