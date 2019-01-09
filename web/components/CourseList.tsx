@@ -6,6 +6,7 @@ import { TextBlock, RoundShape } from "react-placeholder/lib/placeholders";
 import ErrorMessage from "../components/ErrorMessage";
 import CourseListItem from "./CourseListItem";
 import { Link } from "../Router";
+import Avatar from "@material-ui/core/Avatar";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
@@ -127,6 +128,18 @@ const CourseList: React.SFC<{}> = ({ router, href }) => (
       return (
         <div>
           <List>
+            <Link route="users" params={{ id: data.me.id }} key={data.me.id}>
+              <ListItem button>
+                <Avatar alt={data.me.name} src={data.me.photo} />
+                <ListItemText
+                  primary={data.me.name}
+                  secondary={data.me.email}
+                />
+              </ListItem>
+            </Link>
+
+            <Divider />
+
             <Link prefetch href="/dashboard" key="dashboard">
               <ListItem button>
                 <DashboardIcon
