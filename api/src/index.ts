@@ -6,6 +6,7 @@ import { json } from "body-parser";
 
 import { validateJWT } from "./auth";
 import { resolvers } from "./graphql/main";
+import { permissionLayer } from "./graphql/shield";
 import { contextCreatorFactory, IntResolverContext } from "./graphqlContext";
 import googleAuthRouter from "./routes/auth/google";
 
@@ -49,7 +50,7 @@ const contextGetter = contextCreatorFactory();
 
 const server = new GraphQLServer({
   context: contextGetter,
-  middlewares: [publicRoutesMiddleware, authMiddleware],
+  middlewares: [publicRoutesMiddleware, authMiddleware, permissionLayer],
   typeDefs: "./src/graphql/schema.graphql",
   resolvers,
 });

@@ -1,14 +1,15 @@
 import { forwardTo } from "prisma-binding";
 
-import { Notification, prisma } from "../../generated/prisma";
 import { IntResolverContext } from "../graphqlContext";
 import { IResolvers } from "graphql-tools";
 import {
+  prisma,
   Course,
   CourseUser,
   User,
   ContentPieceUpdateInput,
-} from "../../generated/prisma/index";
+  Notification,
+} from "../../generated/prisma";
 
 // A map of functions which return data for the schema.
 export const resolvers: IResolvers = {
@@ -17,7 +18,7 @@ export const resolvers: IResolvers = {
       const roles = await prisma.user({ id: context.id }).courseRoles();
       return roles;
     },
-    course: forwardTo("bindingDb") as any, // todo: perm check
+    course: forwardTo("bindingDb") as any,
     user: forwardTo("bindingDb") as any,
     me: async (root, args, context): Promise<User> => {
       return prisma.user({ id: context.id });
@@ -25,6 +26,7 @@ export const resolvers: IResolvers = {
     userSearch: async (root, args, context): Promise<User[]> => {
       const { name, email } = args;
       const first = 10;
+
       // Only search for users from a certain course
       if (args.course_id) {
         return prisma.users({
@@ -153,7 +155,6 @@ export const resolvers: IResolvers = {
   Mutation: {
     // turns a regular user into a system admin
     promoteUser: async (root, args, context: IntResolverContext) => {
-      // TODO: permissions check
       return prisma.updateUser({
         data: {
           isAdmin: args.admin,
@@ -164,11 +165,9 @@ export const resolvers: IResolvers = {
       });
     },
     deleteUser: async (root, args, context) => {
-      // TODO: permissions check
       return prisma.deleteUser({ id: args.id });
     },
     createCourse: async (root, args, context) => {
-      // todo: permissions check
       const { name } = args;
       return prisma.createCourse({
         name,
