@@ -1,22 +1,22 @@
 import { forwardTo } from "prisma-binding";
 
-import { Notification, prisma, User } from "../../generated/prisma";
+import { Notification, prisma } from "../../generated/prisma";
 import { IntResolverContext } from "../graphqlContext";
 import { IResolvers } from "graphql-tools";
+import { Course, CourseUser, User } from "../../generated/prisma/index";
 
 // A map of functions which return data for the schema.
 export const resolvers: IResolvers = {
   Query: {
-    courses: async (root, args, context): Promise<any[]> => {
-      const courses = await prisma.user({ id: context.id }).courses();
-      if (!courses) {
+    myCourseRoles: async (root, args, context): Promise<CourseUser[]> => {
+      const roles = await prisma.user({ id: context.id }).courseRoles();
+      if (!roles) {
         return [];
       }
-      return courses;
+      return roles;
     },
-    course: forwardTo("bindingDb") as any,
+    course: forwardTo("bindingDb") as any, // todo: perm check
     user: forwardTo("bindingDb") as any,
-
     me: async (root, args, context): Promise<User> => {
       return prisma.user({ id: context.id });
     },
@@ -24,34 +24,36 @@ export const resolvers: IResolvers = {
       const users = await prisma.users();
       return users.map((user): string => user.name);
     },
-    userSearch: async (root, args, context): Promise<any[]> => {
+    userSearch: async (root, args, context): Promise<User[]> => {
       const { name, email } = args;
       const first = 10;
-      if (!args.course_id && !args.filter_course_id) {
+      // Only search for users from a certain course
+      if (args.course_id) {
         return prisma.users({
           where: {
-            OR: [{ name_contains: name }, { email_contains: email }],
+            AND: [
+              { OR: [{ name_contains: name }, { email_contains: email }] },
+              {
+                courseRoles_some: {
+                  course: {
+                    id: args.course_id,
+                  },
+                },
+              },
+            ],
           },
           orderBy: "name_ASC",
           first,
         });
       }
-      if (args.course_id && !args.filter_course_id) {
-        return prisma.course({ id: args.course_id }).users({
-          where: {
-            OR: [{ name_contains: name }, { email_contains: email }],
-          },
-          orderBy: "name_ASC",
-          first,
-        });
-      }
+
+      // we don't need to worry what course they're in
       return prisma.users({
         where: {
-          AND: [
-            { OR: [{ name_contains: name }, { email_contains: email }] },
-            { courses_none: args.filter_course_id },
-          ],
+          OR: [{ name_contains: name }, { email_contains: email }],
         },
+        orderBy: "name_ASC",
+        first,
       });
     },
     recentNotifications: async (root, args, context) => {
@@ -120,8 +122,21 @@ export const resolvers: IResolvers = {
     },
   },
   Course: {
-    users: async (root, args, context) => {
-      return prisma.course({ id: root.id }).users(args);
+    userRoles: async (root): Promise<CourseUser> => {
+      return prisma.course({ id: root.id }).userRoles();
+    },
+  },
+  CourseUser: {
+    course: async ({ id }): Promise<Course> => {
+      return prisma.courseUser({ id }).course();
+    },
+    user: async ({ id }): Promise<User> => {
+      return prisma.courseUser({ id }).user();
+    },
+  },
+  User: {
+    courseRoles: async ({ id }): Promise<CourseUser> => {
+      return prisma.user({ id }).courseRoles();
     },
   },
   Notification: {
@@ -130,11 +145,9 @@ export const resolvers: IResolvers = {
     },
   },
   Mutation: {
+    // turns a regular user into a system admin
     promoteUser: async (root, args, context: IntResolverContext) => {
-      const me = await prisma.user({ id: context.id });
-      if (!me.isAdmin) {
-        throw new Error("not authorized to change user's admin status");
-      }
+      // TODO: permissions check
       return prisma.updateUser({
         data: {
           isAdmin: args.admin,
@@ -145,17 +158,11 @@ export const resolvers: IResolvers = {
       });
     },
     deleteUser: async (root, args, context) => {
-      const me = await prisma.user({ id: context.id });
-      if (!me.isAdmin) {
-        throw new Error("not authorized to create courses");
-      }
+      // TODO: permissions check
       return prisma.deleteUser({ id: args.id });
     },
     createCourse: async (root, args, context) => {
-      const me = await prisma.user({ id: context.id });
-      if (!me.isAdmin) {
-        throw new Error("not authorized to create courses");
-      }
+      // todo: permissions check
       const { name } = args;
       return prisma.createCourse({
         name,
@@ -163,33 +170,31 @@ export const resolvers: IResolvers = {
       });
     },
     editCourse: async (root, args, context) => {
-      const me = await prisma.user({ id: context.id });
-      if (!me.isAdmin) {
-        throw new Error("not authorized to update courses");
-      }
+      // todo: permissions stuff here
       return prisma.updateCourse({
         data: { name: args.name, description: args.description },
         where: { id: args.id },
       });
     },
     deleteCourse: async (root, args, context) => {
-      const me = await prisma.user({ id: context.id });
-      if (!me.isAdmin) {
-        throw new Error("not authorized to delete courses");
-      }
+      // TODO: move this to permissions layer
       return prisma.deleteCourse({ id: args.id });
     },
     addUsersToCourse: async (root, args, context) => {
-      const me = await prisma.user({ id: context.id });
-      if (!me.isAdmin) {
-        throw new Error("not authorized to update courses");
-      }
+      // TODO: permissions here
       const { course_id: courseId } = args;
-      const newUsers = args.user_ids ? args.user_ids : [];
+      const newUsers = args.users ? args.users : [];
       return prisma.updateCourse({
         data: {
-          users: {
-            connect: [...newUsers.map(id => ({ id }))],
+          userRoles: {
+            create: newUsers.map(({ user_id, role }) => ({
+              user_type: role,
+              user: {
+                connect: {
+                  id: user_id,
+                },
+              },
+            })),
           },
         },
         where: {
@@ -197,15 +202,28 @@ export const resolvers: IResolvers = {
         },
       });
     },
-    removeUsersFromCourse: async (root, args, context) => {
-      const me = await prisma.user({ id: context.id });
-      if (!me.isAdmin) {
-        throw new Error("not authorized to update courses");
+    removeUserFromCourse: async (root, args, context): Promise<Course> => {
+      // TODO permissions check
+      const roles = await prisma.user({ id: args.user_id }).courseRoles({
+        where: {
+          course: {
+            id: args.course_id,
+          },
+        },
+      });
+
+      if (roles.length === 0) {
+        throw new Error(
+          `Attempted to remove user ${args.user_id} from course ${
+            args.course_id
+          } but they were not in the course to begin with.`,
+        );
       }
+
       return prisma.updateCourse({
         data: {
-          users: {
-            disconnect: [...args.user_ids.map(id => ({ id }))],
+          userRoles: {
+            deleteMany: roles.map(role => ({ id: role.id })),
           },
         },
         where: {
