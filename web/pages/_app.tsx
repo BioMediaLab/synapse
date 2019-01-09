@@ -7,6 +7,7 @@ import getPageContext, { IPageContext } from "../lib/getPageContext";
 import withApolloClient from "../lib/withApolloClient";
 import { ApolloProvider } from "react-apollo";
 import Meta from "../components/Meta";
+import * as Sentry from "@sentry/browser";
 
 interface IMyAppProps {
   Component: any;
@@ -19,6 +20,9 @@ interface IMyApp {
   pageContext: IPageContext;
   hasSession: boolean;
 }
+
+const SENTRY_PUBLIC_DSN =
+  "https://9eb4db071ace493ebbdf6a2d15ec4008@sentry.io/1365460";
 
 class IMyApp extends App<IMyAppProps> {
   static async getInitialProps(context) {
@@ -34,7 +38,22 @@ class IMyApp extends App<IMyAppProps> {
 
   constructor(props) {
     super(props);
+
+    Sentry.init({ dsn: SENTRY_PUBLIC_DSN });
+
     this.pageContext = getPageContext();
+  }
+
+  componentDidCatch(error, errorInfo) {
+    Sentry.configureScope(scope => {
+      Object.keys(errorInfo).forEach(key => {
+        scope.setExtra(key, errorInfo[key]);
+      });
+    });
+    Sentry.captureException(error);
+
+    // This is needed to render errors correctly in development / production
+    super.componentDidCatch(error, errorInfo);
   }
 
   componentDidMount() {
