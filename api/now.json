@@ -4,7 +4,7 @@
   "alias": "api.synapse.courses",
   "dotenv": ".env.production",
   "scale": {
-    "all": {
+    "sfo1": {
       "min": 1,
       "max": "auto"
     }
