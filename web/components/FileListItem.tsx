@@ -161,6 +161,7 @@ class FileListItem extends React.Component<IProps, IState> {
             <Typography variant="h6">{this.props.name}</Typography>
           </Grid>
         </Grid>
+
         <Dialog
           open={this.state.filePreviewOpen}
           onClose={() => {
