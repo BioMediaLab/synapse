@@ -1,6 +1,6 @@
 type User {
   id: ID! @unique
-  courses: [Course!]!
+  courseRoles: [CourseUser!]! @relation(name: "UserCourseRoles")
   student_id: Int
   name: String!
   nickname: String
@@ -17,7 +17,7 @@ type User {
 
 type Course {
   id: ID! @unique
-  users: [User!]!
+  userRoles: [CourseUser!]! @relation(name: "CourseMembers")
   name: String!
   title: String
   description: String
@@ -28,19 +28,29 @@ type Course {
   updatedAt: DateTime!
 }
 
+enum CourseRoleType {
+  STUDENT 
+  PROFESSOR 
+  ASSISTANT 
+  ADMIN 
+  AUDITOR 
+}
+
 # linking table
 type CourseUser {
   id: ID! @unique
-  user_type: String!
-  course: Course! # relationship to Course
-  user: User! # relationship to User
+  user_type: CourseRoleType!
+  course: Course! @relation(name: "CourseMembers")
+  user: User! @relation(name: "UserCourseRoles")
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 type Activation {
   id: ID! @unique
   activation_code: String! @unique
   course: Course!
-  user: User
+  user: CourseUser
   activatedAt: DateTime!
   createdAt: DateTime!
   updatedAt: DateTime!

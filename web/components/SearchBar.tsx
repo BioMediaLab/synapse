@@ -11,7 +11,9 @@ import ProfilePic from "../components/ProfilePic";
 import { fade } from "@material-ui/core/styles/colorManipulator";
 import SearchIcon from "@material-ui/icons/Search";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import { SEARCH, UserQueryComp } from "../queries/userQueries";
+import { Query } from "react-apollo";
+
+import { SEARCH } from "../queries/userQueries";
 
 const styles = theme =>
   createStyles({
@@ -89,11 +91,11 @@ class SearchBar extends Component<ISearchBarProps> {
     const { classes } = this.props;
 
     return (
-      <UserQueryComp
-        query={SEARCH}
-        variables={{ searchString: this.state.inputValue }}
-      >
+      <Query query={SEARCH} variables={{ searchString: this.state.inputValue }}>
         {({ loading, error, data }) => {
+          if (error) {
+            console.warn(error);
+          }
           const searchIcon = loading ? (
             <CircularProgress size={24} />
           ) : (
@@ -166,7 +168,7 @@ class SearchBar extends Component<ISearchBarProps> {
             </div>
           );
         }}
-      </UserQueryComp>
+      </Query>
     );
   }
 }

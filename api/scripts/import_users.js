@@ -3,6 +3,7 @@ const fs = require("fs");
 const users_file = process.argv[2];
 
 const users_data = JSON.parse(fs.readFileSync(users_file)).RECORDS;
+
 users_data.forEach(async ({ ssn, firstname, lastname, email, clicker_id }) => {
   const newUser = await prisma.updatedOrCreatedUser({
     where: {

@@ -52,7 +52,7 @@ interface IState {
 
 interface IVars {
   courseId: string;
-  users: string[];
+  users: Array<{ user_id: string; role: string }>;
 }
 
 type Props = ChildMutateProps<
@@ -80,9 +80,13 @@ class AddStudentsToCourse extends React.Component<Props, IState> {
     this.hideAddDialog();
     if (this.props.curCourseId && this.state.usersToAdd.length > 0) {
       const res = await this.props.mutate({
+        // TODO: support adding users of different types
         variables: {
           courseId: this.props.curCourseId,
-          users: this.state.usersToAdd.map(user => user.id),
+          users: this.state.usersToAdd.map(user => ({
+            user_id: user.id,
+            role: "STUDENT",
+          })),
         },
       });
       if (res && !res.errors) {
@@ -143,14 +147,16 @@ class AddStudentsToCourse extends React.Component<Props, IState> {
 }
 
 export default graphql<IProps, {}, IVars>(gql`
-  mutation($courseId: String!, $users: [String]!) {
-    addUsersToCourse(course_id: $courseId, user_ids: $users) {
+  mutation($courseId: String!, $users: [CourseUserAndRole!]!) {
+    addUsersToCourse(course_id: $courseId, users: $users) {
       id
-      users {
-        name
+      userRoles {
         id
-        email
-        photo
+        user_type
+        user {
+          id
+          name
+        }
       }
     }
   }

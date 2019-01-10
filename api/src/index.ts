@@ -5,9 +5,9 @@ import { GraphQLServer } from "graphql-yoga";
 import { json } from "body-parser";
 
 import { validateJWT } from "./auth";
-import { resolvers } from "./graphql/main";
 import { contextCreatorFactory, IntResolverContext } from "./graphqlContext";
 import googleAuthRouter from "./routes/auth/google";
+import { getShield, getResolvers } from "./graphql/index";
 
 const makePublic = async (
   resolve,
@@ -49,9 +49,9 @@ const contextGetter = contextCreatorFactory();
 
 const server = new GraphQLServer({
   context: contextGetter,
-  middlewares: [publicRoutesMiddleware, authMiddleware],
+  middlewares: [publicRoutesMiddleware, authMiddleware, getShield()],
   typeDefs: "./src/graphql/schema.graphql",
-  resolvers,
+  resolvers: getResolvers(),
 });
 server.express.use(json());
 server.express.use("/auth/google/", googleAuthRouter);
