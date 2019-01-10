@@ -48,7 +48,7 @@ class Notifications extends React.Component<IProps, IState> {
   state = {
     curTab: 0,
   };
-  handleTabChange = (event, value) => {
+  handleTabChange = (_event, value) => {
     this.setState(state => ({ ...state, curTab: value }));
   };
 

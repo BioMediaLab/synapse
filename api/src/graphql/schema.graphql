@@ -1,18 +1,10 @@
 # import * from './../../generated/schema/prisma.graphql'
 
 type Query {
-  users: [String]
   user(where: UserWhereUniqueInput!): User
-  userSearch(
-    name: String
-    email: String
-    course_id: String
-    filter_course_id: String
-  ): [User]!
+  userSearch(name: String, email: String, course_id: String): [User]!
   me: User
-  googleUri(email: String!): String!
-  confirmSignupGoogle(token: String!): Session!
-  courses: [Course]!
+  myCourseRoles: [CourseUser!]!
   course(where: CourseWhereUniqueInput!, userFirst: Int, userLast: Int): Course
   recentNotifications(start: Int, read: Boolean): RecentNotification
   reminders: [Reminder]
@@ -20,11 +12,16 @@ type Query {
 
 type Mutation {
   createCourse(name: String!, description: String): Course
-  editCourse(name: String, description: String): Course
-  addUsersToCourse(user_ids: [String]!, course_id: String!): Course
-  removeUsersFromCourse(user_ids: [String]!, course_id: String!): Course
+  editCourse(course_id: String!, name: String, description: String): Course
+  addUsersToCourse(users: [CourseUserAndRole!]!, course_id: String!): Course
+  removeUserFromCourse(user_id: String!, course_id: String!): Course
+  changeUserRoleInCourse(
+    user_id: String!
+    course_id: String!
+    new_role: CourseRoleType!
+  ): CourseUser
   updateCourseDescription(description: String, course_id: String!): Course
-  deleteCourse(id: String!): Course
+  deleteCourse(course_id: String!): Course
   promoteUser(id: String!, admin: Boolean): User
   deleteUser(id: String!): User
   readNotification(note_read_id: String!): MessageRead
@@ -48,13 +45,13 @@ type Mutation {
   createUnit(name: String, items: [String!]!, description: String): CourseUnit
 }
 
-type Subscription {
-  notification: UserNotificaiton
+input CourseUserAndRole {
+  user_id: String!
+  role: CourseRoleType!
 }
 
-type Session {
-  firstLogin: Boolean
-  jwt: String!
+type Subscription {
+  notification: UserNotificaiton
 }
 
 type UserNotificaiton {

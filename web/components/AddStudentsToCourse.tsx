@@ -45,14 +45,17 @@ interface IProps {
   userAddCallback?: (userIds: string[]) => void;
 }
 
+type CourseRole = "PROFESSOR" | "STUDENT" | "ASSISTANT" | "AUDITOR" | "ADMIN";
+
 interface IState {
   addDialogOpen: boolean;
   usersToAdd: any[];
+  userType: CourseRole;
 }
 
 interface IVars {
   courseId: string;
-  users: string[];
+  users: Array<{ user_id: string; role: string }>;
 }
 
 type Props = ChildMutateProps<
@@ -62,7 +65,11 @@ type Props = ChildMutateProps<
 >;
 
 class AddStudentsToCourse extends React.Component<Props, IState> {
-  state = { addDialogOpen: false, usersToAdd: [] };
+  state = {
+    addDialogOpen: false,
+    usersToAdd: [],
+    userType: "PROFESSOR" as CourseRole,
+  };
 
   showAddDialog = () => {
     this.setState(state => ({ ...state, addDialogOpen: true }));
@@ -80,9 +87,13 @@ class AddStudentsToCourse extends React.Component<Props, IState> {
     this.hideAddDialog();
     if (this.props.curCourseId && this.state.usersToAdd.length > 0) {
       const res = await this.props.mutate({
+        // TODO: support adding users of different types
         variables: {
           courseId: this.props.curCourseId,
-          users: this.state.usersToAdd.map(user => user.id),
+          users: this.state.usersToAdd.map(user => ({
+            user_id: user.id,
+            role: this.state.userType,
+          })),
         },
       });
       if (res && !res.errors) {
@@ -103,6 +114,10 @@ class AddStudentsToCourse extends React.Component<Props, IState> {
     this.setState(state => ({ ...state, usersToAdd: users }));
   };
 
+  updateSelectUserType = event => {
+    this.setState(state => ({ ...state, userType: event.target.value }));
+  };
+
   render() {
     return (
       <>
@@ -115,12 +130,26 @@ class AddStudentsToCourse extends React.Component<Props, IState> {
           <DialogTitle>Choose new members</DialogTitle>
           <DialogContent className={this.props.classes.addDialog}>
             <UserSearch onValueChange={this.updateSelectedUsers} />
-            <Typography variant="body1">
-              Add these users as
-              <Select className={this.props.classes.roleSelect} value="student">
-                <MenuItem value="student">students</MenuItem>
+            <Typography
+              variant="body1"
+              style={{
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <span>Add these users as</span>
+              <Select
+                className={this.props.classes.roleSelect}
+                value={this.state.userType}
+                onChange={this.updateSelectUserType}
+              >
+                <MenuItem value="PROFESSOR">professors</MenuItem>
+                <MenuItem value="ADMIN">administrators</MenuItem>
+                <MenuItem value="STUDENT">students</MenuItem>
+                <MenuItem value="ASSISTANT">teaching assistants</MenuItem>
+                <MenuItem value="AUDITOR">auditors</MenuItem>
               </Select>
-              into the class.
+              <span>into the class.</span>
             </Typography>
           </DialogContent>
           <DialogActions>
@@ -143,14 +172,16 @@ class AddStudentsToCourse extends React.Component<Props, IState> {
 }
 
 export default graphql<IProps, {}, IVars>(gql`
-  mutation($courseId: String!, $users: [String]!) {
-    addUsersToCourse(course_id: $courseId, user_ids: $users) {
+  mutation($courseId: String!, $users: [CourseUserAndRole!]!) {
+    addUsersToCourse(course_id: $courseId, users: $users) {
       id
-      users {
-        name
+      userRoles {
         id
-        email
-        photo
+        user_type
+        user {
+          id
+          name
+        }
       }
     }
   }

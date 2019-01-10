@@ -11,6 +11,7 @@ const envVarWhitelist = new Set([
   "GOOGLE_APP_REDIRECT_URL",
   "GOOGLE_APP_SECRET",
   "GOOGLE_APP_CLIENT_ID",
+  "JWT_GENERATION_SECRET",
 ]);
 
 const configSanityCheck = () => {

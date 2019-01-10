@@ -1,11 +1,10 @@
 import React from "react";
-import { Query } from "react-apollo";
-import gql from "graphql-tag";
 import ReactPlaceholder from "react-placeholder";
 import { TextBlock, RoundShape } from "react-placeholder/lib/placeholders";
 import ErrorMessage from "../components/ErrorMessage";
 import CourseListItem from "./CourseListItem";
 import { Link } from "../Router";
+import Avatar from "@material-ui/core/Avatar";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
@@ -17,11 +16,11 @@ import NotificationsIcon from "@material-ui/icons/Notifications";
 import CalendarIcon from "@material-ui/icons/CalendarToday";
 import ListSubheader from "@material-ui/core/ListSubheader";
 import { withRouter } from "next/router";
-
-interface ICourse {
-  id: string;
-  name: string;
-}
+import {
+  GET_COURSES,
+  ICourse,
+  QueryGetCourses,
+} from "../queries/courseQueries";
 
 const customPlaceholderUser = (
   <div className="customPlaceHolder">
@@ -49,24 +48,9 @@ const customPlaceholderCourse = (
     />
   </div>
 );
-const GET_COURSES = gql`
-  {
-    courses {
-      id
-      name
-    }
-    me @client {
-      isAdmin
-      id
-      name
-      email
-      photo
-    }
-  }
-`;
 
 const CourseList: React.SFC<{}> = ({ router, href }) => (
-  <Query query={GET_COURSES}>
+  <QueryGetCourses query={GET_COURSES}>
     {({ loading, error, data }) => {
       if (loading) {
         return (
@@ -123,10 +107,22 @@ const CourseList: React.SFC<{}> = ({ router, href }) => (
       if (error) {
         return <ErrorMessage message={error.message} />;
       }
-      const courses: ICourse[] = data.courses;
+      const courses: ICourse[] = data.myCourseRoles.map(role => role.course);
       return (
         <div>
           <List>
+            <Link route="users" params={{ id: data.me.id }} key={data.me.id}>
+              <ListItem button>
+                <Avatar alt={data.me.name} src={data.me.photo} />
+                <ListItemText
+                  primary={data.me.name}
+                  secondary={data.me.email}
+                />
+              </ListItem>
+            </Link>
+
+            <Divider />
+
             <Link prefetch href="/dashboard" key="dashboard">
               <ListItem button>
                 <DashboardIcon
@@ -176,7 +172,7 @@ const CourseList: React.SFC<{}> = ({ router, href }) => (
         </div>
       );
     }}
-  </Query>
+  </QueryGetCourses>
 );
 
 export default withRouter(CourseList);
