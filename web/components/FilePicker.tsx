@@ -1,13 +1,13 @@
 import React from "react";
 import {
-  Paper,
   withStyles,
   createStyles,
   Theme,
-  Grid,
   TextField,
   LinearProgress,
+  Typography,
 } from "@material-ui/core";
+import { Search } from "@material-ui/icons";
 import Fuse from "fuse.js";
 
 import {
@@ -22,20 +22,50 @@ import ErrorMessage from "./ErrorMessage";
 
 const styles = (theme: Theme) =>
   createStyles({
-    topFilterBar: {
-      padding: theme.spacing.unit,
+    header: {
+      margin: theme.spacing.unit * 0.2,
       marginBottom: theme.spacing.unit * 0.5,
+      display: "flex",
+      justifyContent: "space-between",
+    },
+    topFilterBar: {
+      position: "relative",
+      display: "inline-block",
     },
     fileList: {
       marginTop: theme.spacing.unit,
+      minHeight: theme.spacing.unit * 5,
+      display: "flex",
+      flexWrap: "wrap",
+      justifyContent: "space-around",
+      overflow: "hidden",
+    },
+    pageTitle: {
+      marginBottom: theme.spacing.unit,
+    },
+    uploadButton: {
+      margin: theme.spacing.unit,
+    },
+    searchIcon: {
+      position: "absolute",
+      left: 0,
+      top: 20,
+    },
+    filterInput: {
+      paddingLeft: 30,
     },
   });
 
 interface IFilePickerProps {
   courseId: string;
   classes: {
+    header: string;
     topFilterBar: string;
     fileList: string;
+    pageTitle: string;
+    uploadButton: string;
+    searchIcon: string;
+    filterInput: string;
   };
 }
 
@@ -67,61 +97,71 @@ class FilePicker extends React.Component<IFilePickerProps, IFilePickerState> {
     const { classes, courseId } = this.props;
 
     return (
-      <div className={classes.topFilterBar}>
-        <div>
-          <CreateCourseFileMutation
-            mutation={CREATE_COURSE_FILE}
-            refetchQueries={[
-              {
-                query: GET_COURSE_FILES,
-                variables: { course_id: courseId },
-              },
-            ]}
-          >
-            {(doMutation, mutationResult) => {
-              return (
-                <FileStackMaterial
-                  onUploadComplete={result => {
-                    if (result.filesFailed && result.filesFailed.length > 0) {
-                      console.warn(result.filesFailed);
-                      throw new Error("file failed to upload");
-                    }
+      <>
+        <Typography variant="h5" className={classes.pageTitle}>
+          Files
+        </Typography>
 
-                    result.filesUploaded
-                      .filter(file => {
-                        if (file.filename && file.url && file.mimetype) {
-                          return true;
-                        }
-                        throw new Error("file property missing");
-                      })
-                      .forEach(async file => {
-                        const uploadResult = await doMutation({
-                          variables: {
-                            name: file.filename,
-                            course_id: courseId,
-                            url: file.url,
-                            type: file.mimetype,
-                          },
+        <div className={classes.header}>
+          <div className={classes.topFilterBar}>
+            <Search className={classes.searchIcon} />
+            <TextField
+              label="Filter for files"
+              value={this.state.curFileFilterText}
+              onChange={this.onFilterFieldChange}
+              style={{ textIndent: 30 }}
+              InputProps={{ className: classes.filterInput }}
+            />
+          </div>
+
+          <div className={classes.uploadButton}>
+            <CreateCourseFileMutation
+              mutation={CREATE_COURSE_FILE}
+              refetchQueries={[
+                {
+                  query: GET_COURSE_FILES,
+                  variables: { course_id: courseId },
+                },
+              ]}
+            >
+              {(doMutation, mutationResult) => {
+                return (
+                  <FileStackMaterial
+                    onUploadComplete={result => {
+                      if (result.filesFailed && result.filesFailed.length > 0) {
+                        console.warn(result.filesFailed);
+                        throw new Error("file failed to upload");
+                      }
+
+                      result.filesUploaded
+                        .filter(file => {
+                          if (file.filename && file.url && file.mimetype) {
+                            return true;
+                          }
+                          throw new Error("file property missing");
+                        })
+                        .forEach(async file => {
+                          const uploadResult = await doMutation({
+                            variables: {
+                              name: file.filename,
+                              course_id: courseId,
+                              url: file.url,
+                              type: file.mimetype,
+                            },
+                          });
+                          if (uploadResult && uploadResult.errors) {
+                            throw new Error(
+                              `Uploading ${file.filename} failed`,
+                            );
+                          }
                         });
-                        if (uploadResult && uploadResult.errors) {
-                          throw new Error(`Uploading ${file.filename} failed`);
-                        }
-                      });
-                  }}
-                  disabled={mutationResult.loading}
-                />
-              );
-            }}
-          </CreateCourseFileMutation>
-        </div>
-
-        <div style={{ textAlign: "center", marginTop: "40px" }}>
-          <TextField
-            label="Filter for files"
-            value={this.state.curFileFilterText}
-            onChange={this.onFilterFieldChange}
-            variant="outlined"
-          />
+                    }}
+                    disabled={mutationResult.loading}
+                  />
+                );
+              }}
+            </CreateCourseFileMutation>
+          </div>
         </div>
 
         <CourseFileQuery
@@ -169,7 +209,7 @@ class FilePicker extends React.Component<IFilePickerProps, IFilePickerState> {
             );
           }}
         </CourseFileQuery>
-      </div>
+      </>
     );
   }
 }

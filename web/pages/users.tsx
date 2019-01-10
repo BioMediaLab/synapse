@@ -48,7 +48,7 @@ const UserProfile: React.SFC<IUserProps> = ({ router }) => {
             </Card>
             <List style={{ flexGrow: 2, marginLeft: 20 }}>
               <ListItem>
-                <Typography variant="subheading" style={{ color: "grey" }}>
+                <Typography variant="subtitle1" style={{ color: "grey" }}>
                   Courses
                 </Typography>
               </ListItem>
