@@ -24,8 +24,8 @@ const UserProfile: React.SFC<IUserProps> = ({ router }) => {
   const userId: string = typeof queryId !== "string" ? queryId[0] : queryId;
 
   return (
-    <UserQueryComp query={GET_USER} variables={{ userID: userId }}>
-      {({ loading, error, data: { user } }) => {
+    <UserQueryComp query={GET_USER} variables={{ user: { id: userId } }}>
+      {({ loading, error, data }) => {
         if (loading) {
           return <div>Loading...</div>;
         }
@@ -33,6 +33,8 @@ const UserProfile: React.SFC<IUserProps> = ({ router }) => {
           return <ErrorMessage message={error.message} />;
         }
 
+        const { user } = data;
+        const courses = user.courseRoles.map(role => role.course);
         return (
           <div style={{ display: "flex", justifyContent: "lex-start" }}>
             <Card style={{ maxWidth: 345, flexGrow: 1 }}>
@@ -51,7 +53,7 @@ const UserProfile: React.SFC<IUserProps> = ({ router }) => {
                 </Typography>
               </ListItem>
               <Divider />
-              {user.courses.map(CourseListItemUserProfile)}
+              {courses.map(CourseListItemUserProfile)}
             </List>
           </div>
         );

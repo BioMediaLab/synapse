@@ -79,7 +79,7 @@ class Courses extends React.Component<ICoursesProps & WithRouterProps, any> {
 
                 <List>
                   {professors.map(role => (
-                    <UserListItem user={role.user} />
+                    <UserListItem key={role.id} user={role.user} />
                   ))}
                 </List>
               </>
@@ -98,7 +98,7 @@ class Courses extends React.Component<ICoursesProps & WithRouterProps, any> {
 
                 <List>
                   {students.map(role => (
-                    <UserListItem user={role.user} />
+                    <UserListItem key={role.id} user={role.user} />
                   ))}
                 </List>
               </>

@@ -94,12 +94,13 @@ export const MY_ID = gql`
 `;
 
 export const GET_USER = gql`
-  query user($userID: UserWhereUniqueInput!) {
-    user(where: $userID) {
+  query user($user: UserWhereUniqueInput!) {
+    user(where: $user) {
       id
       courseRoles {
         id
         course {
+          id
           name
         }
       }
@@ -111,7 +112,9 @@ export const GET_USER = gql`
 `;
 
 interface IUserQueryVars {
-  userID: string;
+  user: {
+    id: string;
+  };
 }
 
 // only use with GET_USERS
