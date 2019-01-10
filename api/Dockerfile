@@ -8,4 +8,5 @@ WORKDIR /usr/src
 COPY --from=builder_image /usr/src .
 ENV NODE_ENV=production
 
+EXPOSE 4000
 CMD ["node", "/usr/src/dist/src/index.js"]
