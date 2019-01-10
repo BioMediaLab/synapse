@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  Paper,
   Grid,
   IconButton,
   Dialog,
@@ -53,7 +54,8 @@ const getIcon = (fileType: string) => {
 };
 
 const styles = createStyles(theme => ({
-  outerListItem: { margin: theme.spacing.unit, overflowX: "hidden" },
+  ListItem: { margin: theme.spacing.unit * 0.5, width: "99%" },
+  outerListItem: { margin: theme.spacing.unit * 0.5, overflowX: "hidden" },
 }));
 
 interface IProps {
@@ -65,6 +67,7 @@ interface IProps {
   description: string;
   allow_edits?: boolean;
   classes: {
+    ListItem: string;
     outerListItem: string;
   };
 }
@@ -137,7 +140,7 @@ class FileListItem extends React.Component<IProps, IState> {
     );
 
     return (
-      <>
+      <Paper className={this.props.classes.ListItem}>
         <Grid
           container
           className={this.props.classes.outerListItem}
@@ -191,7 +194,7 @@ class FileListItem extends React.Component<IProps, IState> {
             </Button>
           </DialogActions>
         </Dialog>
-      </>
+      </Paper>
     );
   }
 }

@@ -1,14 +1,13 @@
 import React from "react";
 import {
-  Paper,
   withStyles,
   createStyles,
   Theme,
-  Grid,
   TextField,
   LinearProgress,
   Typography,
 } from "@material-ui/core";
+import { Search } from "@material-ui/icons";
 import Fuse from "fuse.js";
 
 import {
@@ -23,11 +22,15 @@ import ErrorMessage from "./ErrorMessage";
 
 const styles = (theme: Theme) =>
   createStyles({
-    topFilterBar: {
+    header: {
       margin: theme.spacing.unit * 0.2,
       marginBottom: theme.spacing.unit * 0.5,
       display: "flex",
       justifyContent: "space-between",
+    },
+    topFilterBar: {
+      position: "relative",
+      display: "inline-block",
     },
     fileList: {
       marginTop: theme.spacing.unit,
@@ -43,15 +46,26 @@ const styles = (theme: Theme) =>
     uploadButton: {
       margin: theme.spacing.unit,
     },
+    searchIcon: {
+      position: "absolute",
+      left: 0,
+      top: 20,
+    },
+    filterInput: {
+      paddingLeft: 30,
+    },
   });
 
 interface IFilePickerProps {
   courseId: string;
   classes: {
+    header: string;
     topFilterBar: string;
     fileList: string;
     pageTitle: string;
     uploadButton: string;
+    searchIcon: string;
+    filterInput: string;
   };
 }
 
@@ -88,13 +102,18 @@ class FilePicker extends React.Component<IFilePickerProps, IFilePickerState> {
           Files
         </Typography>
 
-        <div className={classes.topFilterBar}>
-          <TextField
-            label="Filter for files"
-            value={this.state.curFileFilterText}
-            onChange={this.onFilterFieldChange}
-            className={classes.topFilterBar}
-          />
+        <div className={classes.header}>
+          <div className={classes.topFilterBar}>
+            <Search className={classes.searchIcon} />
+            <TextField
+              label="Filter for files"
+              value={this.state.curFileFilterText}
+              onChange={this.onFilterFieldChange}
+              style={{ textIndent: 30 }}
+              InputProps={{ className: classes.filterInput }}
+            />
+          </div>
+
           <div className={classes.uploadButton}>
             <CreateCourseFileMutation
               mutation={CREATE_COURSE_FILE}
@@ -144,60 +163,52 @@ class FilePicker extends React.Component<IFilePickerProps, IFilePickerState> {
             </CreateCourseFileMutation>
           </div>
         </div>
-        <Paper>
-          <Grid container direction="column">
-            <Grid item>
-              <CourseFileQuery
-                query={GET_COURSE_FILES}
-                variables={{ course_id: courseId }}
-              >
-                {({ loading, error, data }) => {
-                  if (loading) {
-                    return <LinearProgress />;
-                  }
-                  if (error) {
-                    return <ErrorMessage message={error.message} />;
-                  }
 
-                  let files = data.course.files;
-                  if (this.state.filteringFiles) {
-                    const sorter = new Fuse(files, {
-                      keys: ["name", "description"],
-                    });
-                    files = sorter.search(this.state.curFileFilterText);
-                  }
+        <CourseFileQuery
+          query={GET_COURSE_FILES}
+          variables={{ course_id: courseId }}
+        >
+          {({ loading, error, data }) => {
+            if (loading) {
+              return <LinearProgress />;
+            }
+            if (error) {
+              return <ErrorMessage message={error.message} />;
+            }
 
-                  return (
-                    <div className={classes.fileList}>
-                      {files
-                        .sort(({ name: name1 }, { name: name2 }) => {
-                          if (
-                            name1.toLocaleLowerCase() <
-                            name2.toLocaleLowerCase()
-                          ) {
-                            return -1;
-                          }
-                          return 1;
-                        })
-                        .map(file => (
-                          <FileListItem
-                            id={file.id}
-                            name={file.name}
-                            description={file.description}
-                            creatorId={file.creator.id}
-                            type={file.type}
-                            url={file.url}
-                            key={file.id}
-                            allow_edits
-                          />
-                        ))}
-                    </div>
-                  );
-                }}
-              </CourseFileQuery>
-            </Grid>
-          </Grid>
-        </Paper>
+            let files = data.course.files;
+            if (this.state.filteringFiles) {
+              const sorter = new Fuse(files, {
+                keys: ["name", "description"],
+              });
+              files = sorter.search(this.state.curFileFilterText);
+            }
+
+            return (
+              <div className={classes.fileList}>
+                {files
+                  .sort(({ name: name1 }, { name: name2 }) => {
+                    if (name1.toLocaleLowerCase() < name2.toLocaleLowerCase()) {
+                      return -1;
+                    }
+                    return 1;
+                  })
+                  .map(file => (
+                    <FileListItem
+                      id={file.id}
+                      name={file.name}
+                      description={file.description}
+                      creatorId={file.creator.id}
+                      type={file.type}
+                      url={file.url}
+                      key={file.id}
+                      allow_edits
+                    />
+                  ))}
+              </div>
+            );
+          }}
+        </CourseFileQuery>
       </>
     );
   }
