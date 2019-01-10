@@ -1,6 +1,5 @@
 import React from "react";
 import { Mutation } from "react-apollo";
-import gql from "graphql-tag";
 import { createStyles, withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
@@ -13,15 +12,7 @@ import Slide from "@material-ui/core/Slide";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import Snackbar from "@material-ui/core/Snackbar";
-
-const CREATE_COURSE = gql`
-  mutation CreateCourse($name: String!, $description: String!) {
-    createCourse(name: $name, description: $description) {
-      name
-      id
-    }
-  }
-`;
+import { CREATE_COURSE } from "../queries/courseQueries";
 
 const styles = theme =>
   createStyles({

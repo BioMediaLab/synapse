@@ -11,8 +11,6 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 import MailIcon from "@material-ui/icons/Mail";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import Drawer from "@material-ui/core/Drawer";
-import { Query } from "react-apollo";
-import gql from "graphql-tag";
 
 import ProfilePic from "../components/ProfilePic";
 import { Link, Router } from "../Router";
@@ -20,18 +18,7 @@ import SearchBar from "../components/SearchBar";
 import CourseList from "./CourseList";
 import Notifications from "./NotificationMenu";
 import { destroySessionFrontend } from "../lib/handleSessions";
-
-const GET_ME = gql`
-  {
-    me @client {
-      isAdmin
-      id
-      name
-      email
-      photo
-    }
-  }
-`;
+import { GET_ME, UserQueryComp } from "../queries/userQueries";
 
 const drawerWidth = 300;
 
@@ -172,7 +159,7 @@ class PrimarySearchAppBar extends React.Component<IProps, IState> {
         open={isMobileMenuOpen}
         onClose={this.handleMobileMenuClose}
       >
-        <Query query={GET_ME}>
+        <UserQueryComp query={GET_ME}>
           {({ loading, error, data }) => {
             if (loading || error) {
               return (
@@ -207,7 +194,7 @@ class PrimarySearchAppBar extends React.Component<IProps, IState> {
               </Link>
             );
           }}
-        </Query>
+        </UserQueryComp>
 
         <MenuItem>
           <IconButton color="inherit">
@@ -253,7 +240,7 @@ class PrimarySearchAppBar extends React.Component<IProps, IState> {
                   <MailIcon />
                 </Badge>
               </IconButton>
-              <Query query={GET_ME}>
+              <UserQueryComp query={GET_ME}>
                 {({ loading, error, data }) => {
                   if (loading || error) {
                     return (
@@ -281,7 +268,7 @@ class PrimarySearchAppBar extends React.Component<IProps, IState> {
                     </IconButton>
                   );
                 }}
-              </Query>
+              </UserQueryComp>
             </div>
             <div className={classes.sectionMobile}>
               <IconButton

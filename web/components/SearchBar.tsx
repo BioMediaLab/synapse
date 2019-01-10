@@ -6,25 +6,12 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import Paper from "@material-ui/core/Paper";
-import gql from "graphql-tag";
-import { Query } from "react-apollo";
 import { Link } from "../Router";
 import ProfilePic from "../components/ProfilePic";
 import { fade } from "@material-ui/core/styles/colorManipulator";
 import SearchIcon from "@material-ui/icons/Search";
 import CircularProgress from "@material-ui/core/CircularProgress";
-
-const SEARCH = gql`
-  query UserSearch($searchString: String!) {
-    userSearch(name: $searchString, email: $searchString) {
-      id
-      email
-      name
-      photo
-      nickname
-    }
-  }
-`;
+import { SEARCH, UserQueryComp } from "../queries/userQueries";
 
 const styles = theme =>
   createStyles({
@@ -102,7 +89,10 @@ class SearchBar extends Component<ISearchBarProps> {
     const { classes } = this.props;
 
     return (
-      <Query query={SEARCH} variables={{ searchString: this.state.inputValue }}>
+      <UserQueryComp
+        query={SEARCH}
+        variables={{ searchString: this.state.inputValue }}
+      >
         {({ loading, error, data }) => {
           const searchIcon = loading ? (
             <CircularProgress size={24} />
@@ -176,7 +166,7 @@ class SearchBar extends Component<ISearchBarProps> {
             </div>
           );
         }}
-      </Query>
+      </UserQueryComp>
     );
   }
 }

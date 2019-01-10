@@ -2,8 +2,6 @@ import React from "react";
 import withAuth from "../lib/withAuth";
 import { withRouter } from "next/router";
 import { Router } from "next-routes";
-import { Query } from "react-apollo";
-import gql from "graphql-tag";
 import ErrorMessage from "../components/ErrorMessage";
 import CourseHeader from "../components/CourseHeader";
 import Avatar from "@material-ui/core/Avatar";
@@ -18,6 +16,7 @@ import { Link } from "../Router";
 import Draft from "../components/Draft";
 import Typography from "@material-ui/core/Typography";
 import { createStyles, withStyles } from "@material-ui/core";
+import { COURSE_INFO, CourseQueryComp } from "../queries/courseQueries";
 
 const UserListItem = user => (
   <Link route="users" params={{ id: user.id }} key={user.id}>
@@ -34,22 +33,6 @@ const styles = createStyles(theme => ({
   },
 }));
 
-const COURSE_INFO = gql`
-  query Course($courseId: ID!) {
-    course(where: { id: $courseId }) {
-      id
-      name
-      title
-      description
-      term
-      users {
-        id
-        name
-      }
-    }
-  }
-`;
-
 interface ICoursesProps {
   router: Router;
   classes: {
@@ -63,7 +46,7 @@ class Courses extends React.Component<ICoursesProps, any> {
     const courseId = this.props.router.query.id;
 
     return (
-      <Query query={COURSE_INFO} variables={{ courseId }}>
+      <CourseQueryComp query={COURSE_INFO} variables={{ courseId }}>
         {({ loading, error, data }) => {
           if (loading) {
             return <div>Loading...</div>;
@@ -100,7 +83,7 @@ class Courses extends React.Component<ICoursesProps, any> {
             </Grid>
           );
         }}
-      </Query>
+      </CourseQueryComp>
     );
   }
 }
