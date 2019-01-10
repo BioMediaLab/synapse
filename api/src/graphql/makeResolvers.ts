@@ -1,5 +1,5 @@
 import { IntResolverContext } from "../graphqlContext";
-import { Rule } from "graphql-shield/dist/rules";
+import { Rule, RuleOr, RuleAnd } from "graphql-shield/dist/rules";
 
 interface IResolverDouble {
   resolver: (
@@ -8,7 +8,7 @@ interface IResolverDouble {
     context: IntResolverContext,
     info: any,
   ) => Promise<any>;
-  shield?: Rule;
+  shield?: Rule | RuleOr | RuleAnd;
 }
 
 interface IResolverMap {
