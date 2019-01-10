@@ -162,7 +162,7 @@ enum QuestionType {
 }
 
 type Question {
-  id: ID!
+  id: ID! @unique
   questionText: String!
   type: QuestionType!
   answerChoices: [QuestionChoice]
@@ -171,7 +171,7 @@ type Question {
 }
 
 type QuestionChoice {
-  id: ID @unique
+  id: ID! @unique
   position: Int!
   correct: Boolean
   text: String!
@@ -179,7 +179,7 @@ type QuestionChoice {
 }
 
 type StudentAnswer {
-  id: ID
+  id: ID! @unique
   student: User!
   question: Question!
   choice: [QuestionChoice]
