@@ -102,6 +102,46 @@ mutation {
           }
         ]
       }
+      announcements: {
+        create: [
+          {
+            type: COURSE
+            users: { connect: [] }
+            reads: {
+              create: [
+                {
+                  user: { connect: { email: "wei.lin@maine.edu" } }
+                  read: false
+                }
+                {
+                  user: { connect: { email: "mathew.loewen@maine.edu" } }
+                  read: false
+                }
+                {
+                  user: { connect: { email: "styler@maine.edu" } }
+                  read: false
+                }
+                {
+                  user: {
+                    connect: { email: "nicholas.dieffenbacherkrall@maine.edu" }
+                  }
+                  read: false
+                }
+                {
+                  user: { connect: { email: "joestudent@maine.edu" } }
+                  read: true
+                }
+              ]
+            }
+            message: {
+              create: {
+                body: "Hello world"
+                creator: { connect: { email: "andrew.kay@maine.edu" } }
+              }
+            }
+          }
+        ]
+      }
     }
   ) {
     id

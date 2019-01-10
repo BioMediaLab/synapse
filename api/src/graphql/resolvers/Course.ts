@@ -11,4 +11,9 @@ export const Course = {
       return prisma.course({ id: root.id }).files();
     },
   },
+  announcements: {
+    resolver: async (root, args, context) => {
+      return prisma.course({ id: root.id }).announcements();
+    },
+  },
 };

@@ -18,12 +18,13 @@ type User {
 type Course {
   id: ID! @unique
   userRoles: [CourseUser!]! @relation(name: "CourseMembers")
-  name: String!
+  name: String! @unique
   title: String
   description: String
   activations: [Activation!]!
   term: String
   files: [ContentPiece!]! @relation(name: "CourseContent")
+  announcements: [MessageTarget!]! @relation(name: "MessageTargetCourse")
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -60,6 +61,7 @@ type MessageRead {
   id: ID! @unique
   user: User!
   read: Boolean @default(value: "false")
+  target: MessageTarget!
   updatedAt: DateTime!
 }
 
@@ -76,6 +78,9 @@ type MessageTarget {
   user: User @relation(name: "MessageTargetUser")
   users: [User!]! @relation(name: "MessageTargetManyUsers")
   course: Course @relation(name: "MessageTargetCourse")
+  message: Message
+  notification: Notification
+  reminder: Reminder
   reads: [MessageRead!]!
   createdAt: DateTime!
   updatedAt: DateTime!
@@ -108,10 +113,14 @@ type Reminder {
   updatedAt: DateTime!
 }
 
-type CourseMessage {
+type Message {
   id: ID! @unique
-  course: Course!
+  target: MessageTarget!
   body: String!
+  creator: User!
+  attachments: [ContentPiece!]!
+  emailedOut: Boolean @default(value: false)
+  otherPrefs: Json
   createdAt: DateTime!
   updatedAt: DateTime!
 }

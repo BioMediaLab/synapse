@@ -1,5 +1,31 @@
 # import * from './../../generated/schema/prisma.graphql'
 
+input CourseUserAndRole {
+  user_id: String!
+  role: CourseRoleType!
+}
+
+type UserNotificaiton {
+  notification: Notification!
+  readRecordId: String!
+  read: Boolean!
+}
+
+type RecentNotification {
+  total: Int!
+  notificationRecords: [UserNotificaiton!]!
+}
+
+type UpdateManyResult {
+  count: Int!
+}
+
+type MessageStats {
+  numberRead: Int
+  totalRecipients: Int
+  message: Message!
+}
+
 type Query {
   user(where: UserWhereUniqueInput!): User
   userSearch(name: String, email: String, course_id: String): [User]!
@@ -8,6 +34,8 @@ type Query {
   course(where: CourseWhereUniqueInput!, userFirst: Int, userLast: Int): Course
   recentNotifications(start: Int, read: Boolean): RecentNotification
   reminders: [Reminder]
+  authoredMessage(msg_id: String!): MessageStats
+  myRoleInCourse(course_id: String!): CourseUser
 }
 
 type Mutation {
@@ -26,7 +54,7 @@ type Mutation {
   deleteUser(id: String!): User
   readNotification(note_read_id: String!): MessageRead
   readAllNotifications: UpdateManyResult!
-  createCourseMessage(course_id: String!, body: String!): CourseMessage
+  createCourseMessage(course_id: String!, body: String!): Message
   createReminder(msg: String!, triggerTime: String!): Reminder
   deleteReminder(id: String!): Reminder
   createContent(
@@ -45,26 +73,6 @@ type Mutation {
   createUnit(name: String, items: [String!]!, description: String): CourseUnit
 }
 
-input CourseUserAndRole {
-  user_id: String!
-  role: CourseRoleType!
-}
-
 type Subscription {
   notification: UserNotificaiton
-}
-
-type UserNotificaiton {
-  notification: Notification!
-  readRecordId: String!
-  read: Boolean!
-}
-
-type RecentNotification {
-  total: Int!
-  notificationRecords: [UserNotificaiton!]!
-}
-
-type UpdateManyResult {
-  count: Int!
 }
