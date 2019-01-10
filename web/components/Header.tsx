@@ -10,10 +10,13 @@ import {
   createStyles,
   withStyles,
 } from "@material-ui/core";
-import MenuIcon from "@material-ui/icons/Menu";
-import AccountCircle from "@material-ui/icons/AccountCircle";
-import MailIcon from "@material-ui/icons/Mail";
-import MoreIcon from "@material-ui/icons/MoreVert";
+import {
+  Menu as MenuIcon,
+  AccountCircle,
+  Mail as MailIcon,
+  MoreVert as MoreIcon,
+  Settings as AdminIcon,
+} from "@material-ui/icons";
 import { Query } from "react-apollo";
 
 import ProfilePic from "../components/ProfilePic";
@@ -132,6 +135,10 @@ class PrimarySearchAppBar extends React.Component<IProps, IState> {
     Router.pushRoute("/settings");
   };
 
+  goToAdmin = () => {
+    Router.pushRoute("/admin");
+  };
+
   handleMenuClick = () => {
     this.setState({ open: !this.state.open });
   };
@@ -238,38 +245,55 @@ class PrimarySearchAppBar extends React.Component<IProps, IState> {
 
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
-              <Notifications />
-              <IconButton color="inherit">
-                <Badge badgeContent={4} color="secondary">
-                  <MailIcon />
-                </Badge>
-              </IconButton>
               <Query query={GET_ME}>
                 {({ loading, error, data }) => {
                   if (loading || error) {
                     return (
+                      <>
+                        <Notifications />
+                        <IconButton color="inherit">
+                          <Badge badgeContent={4} color="secondary">
+                            <MailIcon />
+                          </Badge>
+                        </IconButton>
+                        <IconButton
+                          aria-owns={isMenuOpen ? "material-appbar" : null}
+                          aria-haspopup="true"
+                          onClick={this.handleProfileMenuOpen}
+                          color="inherit"
+                        >
+                          <AccountCircle />
+                        </IconButton>
+                      </>
+                    );
+                  }
+
+                  return (
+                    <>
+                      {data.me.isAdmin ? (
+                        <IconButton color="inherit" onClick={this.goToAdmin}>
+                          <AdminIcon />
+                        </IconButton>
+                      ) : (
+                        <span />
+                      )}
+                      <Notifications />
+                      <IconButton color="inherit">
+                        <Badge badgeContent={4} color="secondary">
+                          <MailIcon />
+                        </Badge>
+                      </IconButton>
                       <IconButton
                         aria-owns={isMenuOpen ? "material-appbar" : null}
                         aria-haspopup="true"
                         onClick={this.handleProfileMenuOpen}
                         color="inherit"
+                        className={classes.profilePicIconButton}
+                        style={{ padding: 0 }}
                       >
-                        <AccountCircle />
+                        <ProfilePic user={data.me} />
                       </IconButton>
-                    );
-                  }
-
-                  return (
-                    <IconButton
-                      aria-owns={isMenuOpen ? "material-appbar" : null}
-                      aria-haspopup="true"
-                      onClick={this.handleProfileMenuOpen}
-                      color="inherit"
-                      className={classes.profilePicIconButton}
-                      style={{ padding: 0 }}
-                    >
-                      <ProfilePic user={data.me} />
-                    </IconButton>
+                    </>
                   );
                 }}
               </Query>
