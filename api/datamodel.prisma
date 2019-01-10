@@ -104,3 +104,67 @@ type CourseMessage {
   createdAt: DateTime!
   updatedAt: DateTime!
 }
+
+# Quiz-specific
+type Blocks {
+  id: ID! @unique
+  block: String!
+  blockType: Int!
+  courseId: String!
+  testId: String
+  instructions: String
+  tag: String
+  ord: Int
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type QuesLinks {
+  id: ID! @unique
+  blockId: Int!
+  questionId: Int!
+  pos: Int
+  points: Int
+}
+
+type Questions {
+  id: ID! @unique
+  question: String!
+  typeId: Int!
+  mediaId: String
+  difficulty: Int
+  feedbackId: Int
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type QuestionTypes {
+  id: ID! @unique
+  type: String!
+  code: Int!
+}
+
+type Answers {
+  id: ID! @unique
+  questionId: Int!
+  answer: String!
+  correct: Int
+  mediaId: String
+  feedbackId: Int
+  pos: Int
+  points: Int
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type AnswerTexts {
+  id: ID! @unique
+  studentId: Int!
+  blockId: Int!
+  questionId: Int!
+  answerText: String
+  pts: Int
+  tag: Int
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
