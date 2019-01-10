@@ -1,7 +1,7 @@
 {
   "type": "docker",
   "version": 1,
-  "alias": "synapse-beta",
+  "alias": "synapse.courses",
   "dotenv": ".env.production",
   "scale": {
     "all": {
