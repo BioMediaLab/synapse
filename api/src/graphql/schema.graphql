@@ -54,7 +54,11 @@ type Mutation {
   deleteUser(id: String!): User
   readNotification(note_read_id: String!): MessageRead
   readAllNotifications: UpdateManyResult!
-  createCourseMessage(course_id: String!, body: String!): Message
+  createCourseMessage(
+    course_id: String!
+    body: String!
+    subject: String!
+  ): Message
   createReminder(msg: String!, triggerTime: String!): Reminder
   deleteReminder(id: String!): Reminder
   createContent(

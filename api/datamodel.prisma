@@ -117,6 +117,7 @@ type Message {
   id: ID! @unique
   target: MessageTarget!
   body: String!
+  subject: String
   creator: User!
   attachments: [ContentPiece!]!
   emailedOut: Boolean @default(value: false)

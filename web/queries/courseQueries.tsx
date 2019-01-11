@@ -87,6 +87,22 @@ export const COURSE_INFO: DocumentNode = gql`
         user {
           id
           name
+          photo
+        }
+      }
+      announcements {
+        id
+        message {
+          id
+          body
+          subject
+          creator {
+            id
+            name
+            photo
+          }
+          updatedAt
+          createdAt
         }
       }
     }
@@ -116,7 +132,7 @@ export interface ICourse {
   name: string;
 }
 
-interface ICourseQueryResult {
+interface ICoursesListQueryResult {
   myCourseRoles: Array<{
     id: string;
     user_type: string;
@@ -131,7 +147,7 @@ interface ICourseQueryResult {
   };
 }
 
-export class QueryGetCourses extends Query<ICourseQueryResult, {}> {}
+export class QueryGetCourses extends Query<ICoursesListQueryResult, {}> {}
 
 export class CourseDescMutation extends Mutation<
   { id: string },

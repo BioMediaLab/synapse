@@ -241,10 +241,11 @@ export const Mutation = {
   },
   createCourseMessage: {
     resolver: async (root, args, context) => {
-      return prisma.createCourseMessage({
+      // TODO: implement this.
+      /*return prisma.createCourseMessage({
         body: args.body,
         course: args.course_id,
-      });
+      });*/
     },
     shield: or(
       isCourseAdminFromId,

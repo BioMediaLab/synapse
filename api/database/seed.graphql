@@ -137,6 +137,7 @@ mutation {
               create: {
                 body: "Hello world"
                 creator: { connect: { email: "andrew.kay@maine.edu" } }
+                subject: "Test Message"
               }
             }
           }

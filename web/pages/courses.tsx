@@ -18,12 +18,14 @@ import Draft from "../components/Draft";
 import { COURSE_INFO } from "../queries/courseQueries";
 import ErrorMessage from "../components/ErrorMessage";
 import CourseHeader from "../components/CourseHeader";
+import MessageView from "../components/MessageView";
+import ProfilePic from "../components/ProfilePic";
 import withAuth from "../lib/withAuth";
 
 const UserListItem = ({ user }) => (
   <Link route="users" params={{ id: user.id }} key={user.id}>
     <ListItem key={user.id} button>
-      <Avatar>{user.name.charAt(0).toUpperCase()}</Avatar>
+      <ProfilePic user={{ name: user.name, photo: user.photo }} />
       <ListItemText primary={user.name} />
     </ListItem>
   </Link>
@@ -125,12 +127,31 @@ class Courses extends React.Component<ICoursesProps & WithRouterProps, any> {
               <span />
             );
 
+          let announcements = <span />;
+          if (course.announcements && course.announcements.length > 0) {
+            announcements = (
+              <>
+                <Typography variant="h5">Announcements</Typography>
+                {course.announcements.map(ann => (
+                  <MessageView
+                    key={ann.id}
+                    body={ann.message.body}
+                    title={ann.message.subject}
+                    createdAt={ann.message.createdAt}
+                    updatedAt={ann.message.updatedAt}
+                    creator={ann.message.creator}
+                  />
+                ))}
+              </>
+            );
+          }
+
           return (
             <Grid container spacing={16} className={this.props.classes.root}>
               <Grid item xs={9}>
                 <CourseHeader course={course} />
-
-                <Draft />
+                <Divider />
+                {announcements}
               </Grid>
 
               <Grid item xs={3}>
