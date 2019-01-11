@@ -19,11 +19,20 @@ import { COURSE_INFO } from "../queries/courseQueries";
 import ErrorMessage from "../components/ErrorMessage";
 import CourseHeader from "../components/CourseHeader";
 import withAuth from "../lib/withAuth";
+import ProfilePic from "../components/ProfilePic";
 
 const UserListItem = ({ user }) => (
   <Link route="users" params={{ id: user.id }} key={user.id}>
     <ListItem key={user.id} button>
-      <Avatar>{user.name.charAt(0).toUpperCase()}</Avatar>
+      <ProfilePic
+        user={user}
+        classesOverride={{
+          avatar: {
+            height: "40px",
+            width: "40px",
+          },
+        }}
+      />
       <ListItemText primary={user.name} />
     </ListItem>
   </Link>
@@ -135,9 +144,9 @@ class Courses extends React.Component<ICoursesProps & WithRouterProps, any> {
 
               <Grid item xs={3}>
                 {profDisplay}
-                <Divider />
+
                 {studentDisplay}
-                <Divider />
+
                 {adminDisplay}
               </Grid>
             </Grid>
