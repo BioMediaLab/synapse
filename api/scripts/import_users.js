@@ -20,7 +20,7 @@ users_data.forEach(async ({ ssn, firstname, lastname, email, clicker_id }) => {
             user_type: "STUDENT",
             course: {
               connect: {
-                id: "cjqqrnl8g011l0a06hqrli4k2",
+                id: "cjqpkr242004a08578c1zg5ih",
               },
             },
           },
@@ -38,7 +38,7 @@ users_data.forEach(async ({ ssn, firstname, lastname, email, clicker_id }) => {
             user_type: "STUDENT",
             course: {
               connect: {
-                id: "cjqqrnl8g011l0a06hqrli4k2",
+                id: "cjqpkr242004a08578c1zg5ih",
               },
             },
           },
