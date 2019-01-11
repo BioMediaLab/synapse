@@ -165,7 +165,7 @@ type Question {
   id: ID! @unique
   questionText: String!
   type: QuestionType!
-  answerChoices: [QuestionChoice]
+  answerChoices: [QuestionChoice!]!
   links: [QuestionLinks!]!
   course: Course!
 }
@@ -182,6 +182,6 @@ type StudentAnswer {
   id: ID! @unique
   student: User!
   question: Question!
-  choice: [QuestionChoice]
+  choice: [QuestionChoice!]!
   textResponse: String
 }
