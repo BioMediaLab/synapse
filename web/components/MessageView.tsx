@@ -25,6 +25,7 @@ const styles = createStyles((theme: Theme) => {
       padding: theme.spacing.unit,
       borderRadius: theme.spacing.unit * 3,
       width: "90%",
+      marginTop: theme.spacing.unit * 2,
     },
     userChip: {
       marginRight: theme.spacing.unit,

@@ -14,13 +14,13 @@ import {
 } from "@material-ui/core";
 
 import { Link } from "../Router";
-import Draft from "../components/Draft";
 import { COURSE_INFO } from "../queries/courseQueries";
 import ErrorMessage from "../components/ErrorMessage";
 import CourseHeader from "../components/CourseHeader";
 import MessageView from "../components/MessageView";
 import ProfilePic from "../components/ProfilePic";
 import withAuth from "../lib/withAuth";
+import WriteMessage from "../components/WriteMessage";
 
 const UserListItem = ({ user }) => (
   <Link route="users" params={{ id: user.id }} key={user.id}>
@@ -152,6 +152,7 @@ class Courses extends React.Component<ICoursesProps & WithRouterProps, any> {
                 <CourseHeader course={course} />
                 <Divider />
                 {announcements}
+                <WriteMessage />
               </Grid>
 
               <Grid item xs={3}>
