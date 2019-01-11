@@ -87,6 +87,7 @@ export const COURSE_INFO: DocumentNode = gql`
         user {
           id
           name
+          photo
         }
       }
     }
