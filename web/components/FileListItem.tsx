@@ -54,7 +54,10 @@ const getIcon = (fileType: string) => {
 };
 
 const styles = createStyles(theme => ({
-  ListItem: { margin: theme.spacing.unit * 0.5, width: "99%" },
+  ListItem: {
+    margin: theme.spacing.unit * 0.5,
+    width: "100%",
+  },
   outerListItem: { margin: theme.spacing.unit * 0.5, overflowX: "hidden" },
 }));
 

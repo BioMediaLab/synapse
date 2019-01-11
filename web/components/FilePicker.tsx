@@ -24,6 +24,7 @@ const styles = (theme: Theme) =>
   createStyles({
     header: {
       margin: theme.spacing.unit * 0.2,
+      marginLeft: theme.spacing.unit * 0.5,
       marginBottom: theme.spacing.unit * 0.5,
       display: "flex",
       justifyContent: "space-between",
@@ -101,7 +102,6 @@ class FilePicker extends React.Component<IFilePickerProps, IFilePickerState> {
         <Typography variant="h5" className={classes.pageTitle}>
           Files
         </Typography>
-
         <div className={classes.header}>
           <div className={classes.topFilterBar}>
             <Search className={classes.searchIcon} />
@@ -163,7 +163,6 @@ class FilePicker extends React.Component<IFilePickerProps, IFilePickerState> {
             </CreateCourseFileMutation>
           </div>
         </div>
-
         <CourseFileQuery
           query={GET_COURSE_FILES}
           variables={{ course_id: courseId }}
