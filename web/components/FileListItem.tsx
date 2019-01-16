@@ -54,8 +54,8 @@ const getIcon = (fileType: string) => {
 };
 
 const styles = createStyles(theme => ({
-  ListItem: { margin: theme.spacing.unit * 0.5, width: "99%" },
-  outerListItem: { margin: theme.spacing.unit * 0.5, overflowX: "hidden" },
+  ListItem: { marginBottom: theme.spacing.unit, width: "100%" },
+  outerListItem: { margin: theme.spacing.unit * 0.5 },
 }));
 
 interface IProps {

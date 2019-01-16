@@ -38,13 +38,9 @@ const styles = (theme: Theme) =>
       display: "flex",
       flexWrap: "wrap",
       justifyContent: "space-around",
-      overflow: "hidden",
     },
     pageTitle: {
       marginBottom: theme.spacing.unit,
-    },
-    uploadButton: {
-      margin: theme.spacing.unit,
     },
     searchIcon: {
       position: "absolute",
@@ -63,7 +59,6 @@ interface IFilePickerProps {
     topFilterBar: string;
     fileList: string;
     pageTitle: string;
-    uploadButton: string;
     searchIcon: string;
     filterInput: string;
   };
@@ -114,7 +109,7 @@ class FilePicker extends React.Component<IFilePickerProps, IFilePickerState> {
             />
           </div>
 
-          <div className={classes.uploadButton}>
+          <div>
             <CreateCourseFileMutation
               mutation={CREATE_COURSE_FILE}
               refetchQueries={[
