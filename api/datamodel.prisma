@@ -116,7 +116,7 @@ type Reminder {
 type Message {
   id: ID! @unique
   target: MessageTarget!
-  body: String!
+  body: Json!
   subject: String
   creator: User!
   attachments: [ContentPiece!]!

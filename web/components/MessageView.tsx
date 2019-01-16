@@ -13,6 +13,7 @@ import { distanceInWordsToNow } from "date-fns";
 
 import { Router } from "../Router";
 import ProfilePic from "./ProfilePic";
+import RenderMessage from "./RenderMessage";
 
 const styles = createStyles((theme: Theme) => {
   const bg =
@@ -88,7 +89,7 @@ const MessageView: React.SFC<IMessageViewProps> = props => {
       </Grid>
       <Grid item>
         <Typography variant="body2" className={props.classes.bodyText}>
-          {props.body}
+          <RenderMessage editorStateJson={props.body} />
         </Typography>
       </Grid>
     </Grid>

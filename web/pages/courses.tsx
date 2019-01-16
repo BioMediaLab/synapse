@@ -2,7 +2,6 @@ import React from "react";
 import { withRouter, WithRouterProps } from "next/router";
 import { Query } from "react-apollo";
 import {
-  Avatar,
   List,
   ListItem,
   ListItemText,
@@ -12,9 +11,10 @@ import {
   createStyles,
   withStyles,
 } from "@material-ui/core";
+import { Mutation } from "react-apollo";
 
 import { Link } from "../Router";
-import { COURSE_INFO } from "../queries/courseQueries";
+import { COURSE_INFO, CREATE_COURSE_MESSAGE } from "../queries/courseQueries";
 import ErrorMessage from "../components/ErrorMessage";
 import CourseHeader from "../components/CourseHeader";
 import MessageView from "../components/MessageView";
@@ -44,7 +44,18 @@ interface ICoursesProps {
   };
 }
 
-class Courses extends React.Component<ICoursesProps & WithRouterProps, any> {
+interface ICoursesState {
+  creatingMessage: boolean;
+}
+
+class Courses extends React.Component<
+  ICoursesProps & WithRouterProps,
+  ICoursesState
+> {
+  state = {
+    creatingMessage: false,
+  };
+
   render() {
     const courseId = this.props.router.query.id;
 
@@ -152,7 +163,23 @@ class Courses extends React.Component<ICoursesProps & WithRouterProps, any> {
                 <CourseHeader course={course} />
                 <Divider />
                 {announcements}
-                <WriteMessage />
+                <Mutation mutation={CREATE_COURSE_MESSAGE}>
+                  {(doMutation, { loading, error }) => {
+                    return (
+                      <WriteMessage
+                        onSaveCallback={(title, body) => {
+                          doMutation({
+                            variables: {
+                              course_id: courseId,
+                              subject: title,
+                              body,
+                            },
+                          });
+                        }}
+                      />
+                    );
+                  }}
+                </Mutation>
               </Grid>
 
               <Grid item xs={3}>

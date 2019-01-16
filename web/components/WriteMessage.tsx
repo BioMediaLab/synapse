@@ -1,5 +1,5 @@
 import React from "react";
-import { Editor, EditorState, RichUtils } from "draft-js";
+import { Editor, EditorState, RichUtils, convertToRaw } from "draft-js";
 import "draft-js/dist/Draft.css";
 import {
   withStyles,
@@ -18,7 +18,13 @@ class StyleControl extends React.Component<{
   variant: string;
   icon: any;
   selected: boolean;
+  disabled?: boolean;
 }> {
+  static defaultProps = {
+    disabled: false,
+  };
+
+  // Have to use onMouseDown instead of onClick or the editor will lose focus
   handleMouseDown = event => {
     event.preventDefault();
     this.props.onSelect(this.props.variant);
@@ -29,6 +35,7 @@ class StyleControl extends React.Component<{
       <IconButton
         color={this.props.selected ? "secondary" : "default"}
         onMouseDown={this.handleMouseDown}
+        disabled={this.props.disabled}
       >
         {this.props.icon}
       </IconButton>
@@ -64,7 +71,7 @@ const styles = createStyles((theme: Theme) => ({
 }));
 
 interface IProps {
-  onSaveCallback: (state: any) => void;
+  onSaveCallback: (title: string, body: string) => void;
   saveButtonText?: string;
   classes: {
     editorMain: string;
@@ -81,6 +88,7 @@ interface IState {
   bold: boolean;
   italic: boolean;
   underlined: boolean;
+  hasFocus: boolean;
 }
 
 class WriteMessage extends React.Component<IProps, IState> {
@@ -94,11 +102,8 @@ class WriteMessage extends React.Component<IProps, IState> {
     bold: false,
     italic: false,
     underlined: false,
+    hasFocus: false,
   };
-
-  componentDidMount() {
-    this.focus();
-  }
 
   focus = () => {
     (this.refs.editor as any).focus();
@@ -157,35 +162,59 @@ class WriteMessage extends React.Component<IProps, IState> {
   };
 
   onSave = () => {
-    console.log("save", this.state.editorState.toJS());
+    const curContent = this.state.editorState.getCurrentContent();
+    this.props.onSaveCallback(
+      this.state.title,
+      JSON.stringify(convertToRaw(curContent)),
+    );
   };
 
   render() {
     return (
       <Grid container direction="column" className={this.props.classes.root}>
         <Grid item>
-          <Grid container className={this.props.classes.controls}>
-            <StyleControl
-              variant="BOLD"
-              icon={<FormatBold />}
-              onSelect={this.onInlineStyleClick}
-              selected={this.state.bold}
-            />
-            <StyleControl
-              variant="ITALIC"
-              icon={<FormatItalic />}
-              onSelect={this.onInlineStyleClick}
-              selected={this.state.italic}
-            />
-            <StyleControl
-              variant="UNDERLINE"
-              icon={<FormatUnderlined />}
-              onSelect={this.onInlineStyleClick}
-              selected={this.state.underlined}
-            />
-            <Button variant="contained" onClick={this.onSave}>
-              {this.props.saveButtonText}
-            </Button>
+          <Grid
+            container
+            className={this.props.classes.controls}
+            justify="space-between"
+          >
+            <Grid item>
+              <Grid container>
+                <StyleControl
+                  variant="BOLD"
+                  icon={<FormatBold />}
+                  onSelect={this.onInlineStyleClick}
+                  selected={this.state.bold}
+                  disabled={!this.state.hasFocus}
+                />
+                <StyleControl
+                  variant="ITALIC"
+                  icon={<FormatItalic />}
+                  onSelect={this.onInlineStyleClick}
+                  selected={this.state.italic}
+                  disabled={!this.state.hasFocus}
+                />
+                <StyleControl
+                  variant="UNDERLINE"
+                  icon={<FormatUnderlined />}
+                  onSelect={this.onInlineStyleClick}
+                  selected={this.state.underlined}
+                  disabled={!this.state.hasFocus}
+                />
+              </Grid>
+            </Grid>
+            <Grid item>
+              <Grid container>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={this.onSave}
+                  disabled={this.state.title.length <= 1}
+                >
+                  {this.props.saveButtonText}
+                </Button>
+              </Grid>
+            </Grid>
           </Grid>
         </Grid>
         <Grid item className={this.props.classes.editorSection}>
@@ -197,6 +226,7 @@ class WriteMessage extends React.Component<IProps, IState> {
               label="Title"
               fullWidth
               onClick={e => e.stopPropagation()}
+              required
             />
             <Editor
               editorState={this.state.editorState}
@@ -206,6 +236,12 @@ class WriteMessage extends React.Component<IProps, IState> {
               ref="editor"
               spellCheck
               placeholder="Type your message..."
+              onFocus={() =>
+                this.setState(state => ({ ...state, hasFocus: true }))
+              }
+              onBlur={() =>
+                this.setState(state => ({ ...state, hasFocus: false }))
+              }
             />
           </Paper>
         </Grid>
