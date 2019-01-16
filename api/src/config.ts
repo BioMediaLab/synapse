@@ -12,6 +12,7 @@ const envVarWhitelist = new Set([
   "GOOGLE_APP_SECRET",
   "GOOGLE_APP_CLIENT_ID",
   "JWT_GENERATION_SECRET",
+  "ENGINE_API_KEY",
 ]);
 
 const configSanityCheck = () => {
