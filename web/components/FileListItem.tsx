@@ -30,6 +30,8 @@ import {
   UpdateCourseFileMetaMute,
 } from "../queries/courseContentQueries";
 
+import { Draggable } from "react-beautiful-dnd";
+
 const getIcon = (fileType: string) => {
   switch (fileType) {
     case "audio/mpeg":
@@ -66,6 +68,7 @@ interface IProps {
   url: string;
   description: string;
   allow_edits?: boolean;
+  index: number;
   classes: {
     ListItem: string;
     outerListItem: string;
@@ -140,62 +143,68 @@ class FileListItem extends React.Component<IProps, IState> {
     );
 
     return (
-      <Paper className={this.props.classes.ListItem}>
-        <Grid
-          container
-          className={this.props.classes.outerListItem}
-          alignItems="center"
-        >
-          <Grid item>
-            <IconButton
-              onClick={() =>
-                this.setState(state => ({
-                  ...state,
-                  filePreviewOpen: !state.filePreviewOpen,
-                }))
-              }
-            >
-              <Tooltip title="Preview File">
-                <Icon />
-              </Tooltip>
-            </IconButton>
-          </Grid>
-          <Grid item>
-            <Typography variant="h6">{this.props.name}</Typography>
-          </Grid>
-        </Grid>
+      <Draggable draggableId={this.props.id} index={this.props.index}>
+        {provided => (
+          <div
+            {...provided.draggableProps}
+            {...provided.dragHandleProps}
+            ref={provided.innerRef}
+          >
+            <Paper className={this.props.classes.ListItem}>
+              <IconButton
+                onClick={() =>
+                  this.setState(state => ({
+                    ...state,
+                    filePreviewOpen: !state.filePreviewOpen,
+                  }))
+                }
+              >
+                <Tooltip title="Preview File">
+                  <Icon />
+                </Tooltip>
+              </IconButton>
 
-        <Dialog
-          open={this.state.filePreviewOpen}
-          onClose={() => {
-            this.setState(state => ({
-              ...state,
-              filePreviewOpen: !state.filePreviewOpen,
-            }));
-          }}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-          fullScreen
-        >
-          <DialogTitle id="alert-dialog-title">{titleComponent}</DialogTitle>
-          <DialogContent>
-            <ContentViewer
-              name={this.props.name}
-              type={this.props.type}
-              url={this.props.url}
-            />
-          </DialogContent>
-          <DialogActions>
-            <Button
-              onClick={() =>
-                this.setState(state => ({ ...state, filePreviewOpen: false }))
-              }
-            >
-              Close
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </Paper>
+              <Typography variant="h6">{this.props.name}</Typography>
+
+              <Dialog
+                open={this.state.filePreviewOpen}
+                onClose={() => {
+                  this.setState(state => ({
+                    ...state,
+                    filePreviewOpen: !state.filePreviewOpen,
+                  }));
+                }}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+                fullScreen
+              >
+                <DialogTitle id="alert-dialog-title">
+                  {titleComponent}
+                </DialogTitle>
+                <DialogContent>
+                  <ContentViewer
+                    name={this.props.name}
+                    type={this.props.type}
+                    url={this.props.url}
+                  />
+                </DialogContent>
+                <DialogActions>
+                  <Button
+                    onClick={() =>
+                      this.setState(state => ({
+                        ...state,
+                        filePreviewOpen: false,
+                      }))
+                    }
+                  >
+                    Close
+                  </Button>
+                </DialogActions>
+              </Dialog>
+            </Paper>
+          </div>
+        )}
+      </Draggable>
     );
   }
 }

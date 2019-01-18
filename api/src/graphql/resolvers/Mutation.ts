@@ -379,4 +379,22 @@ export const Mutation = {
       isSystemAdmin,
     ),
   },
+  addCourseUnit: {
+    resolver: async (root, args) => {
+      const { course_id, name, description, visible } = args;
+
+      return prisma.createCourseUnit({
+        course: {
+          connect: {
+            id: course_id,
+          },
+        },
+        name,
+        description,
+        visible,
+      });
+    },
+
+    shield: or(isSystemAdmin, isCourseProfessorFromId, isCourseAdminFromId),
+  },
 };

@@ -43,6 +43,12 @@ type Mutation {
   ): ContentPiece
   deleteCourseContent(id: String!): ContentPiece
   createUnit(name: String, items: [String!]!, description: String): CourseUnit
+  addCourseUnit(
+    course_id: ID!
+    name: String!
+    description: String
+    visible: Boolean
+  ): CourseUnit
 }
 
 input CourseUserAndRole {

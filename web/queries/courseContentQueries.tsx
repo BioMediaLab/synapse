@@ -24,20 +24,31 @@ interface IGetCourseFilesResult {
   };
 }
 
+export const CREATE_COURSE_UNIT = gql`
+  mutation CreateCourseUnit($name: String!, $description: String!) {
+    createCourseUnit(name: $name, description: $description) {
+      name
+      id
+    }
+  }
+`;
+
 export const GET_COURSE_FILES = gql`
   query($course_id: ID!) {
     course(where: { id: $course_id }) {
       id
-      files {
-        id
-        name
-        description
-        url
-        type
-        updatedAt
-        creator {
+      units {
+        items {
           id
           name
+          description
+          url
+          type
+          updatedAt
+          creator {
+            id
+            name
+          }
         }
       }
     }

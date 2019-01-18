@@ -37,14 +37,10 @@ const customPlaceholderUser = (
 );
 const customPlaceholderCourse = (
   <div className="customPlaceHolder">
-    <RoundShape
-      color="silver"
-      style={{ height: 40, width: 40, float: "left", marginLeft: 4 }}
-    />
     <TextBlock
       color="silver"
       rows={1}
-      style={{ height: 40, maxWidth: 75, paddingTop: 10, marginLeft: 60 }}
+      style={{ height: 40, paddingTop: 10, borderRadius: "15px" }}
     />
   </div>
 );

@@ -54,6 +54,7 @@
     "random-gradient": "^0.0.2",
     "react": "^16.5.1",
     "react-apollo": "^2.1.11",
+    "react-beautiful-dnd": "^10.0.3",
     "react-big-calendar": "^0.20.2",
     "react-dom": "^16.5.1",
     "react-jss": "^8.6.1",
@@ -68,6 +69,7 @@
   },
   "devDependencies": {
     "@types/jest": "^23.3.12",
+    "@types/react-beautiful-dnd": "^10.0.1",
     "babel-core": "7.0.0-bridge.0",
     "babel-jest": "^23.6.0",
     "jest": "^23.6.0",

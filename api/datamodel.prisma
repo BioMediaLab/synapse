@@ -23,6 +23,7 @@ type Course {
   description: String
   activations: [Activation!]!
   term: String
+  units: [CourseUnit!]!
   files: [ContentPiece!]! @relation(name: "CourseContent")
   createdAt: DateTime!
   updatedAt: DateTime!
@@ -135,53 +136,84 @@ type CourseUnit {
   name: String!
   description: String!
   items: [ContentPiece!]!
+  visible: Boolean @default(value: false)
   createdAt: DateTime!
   updatedAt: DateTime!
 }
 
-type Quiz {
+type QuestionBlock {
   id: ID! @unique
-  qustionLinks: [QuestionLinks!]!
+  blockName: String!
+  blockType: blockType!
+  questions: [QuestionLink!]!
   course: Course!
+  instructions: String
+  testId: String # Assignment! once that is set up (for when quiz is graded)
   tag: String
+  order: Int
   createdAt: DateTime!
   updatedAt: DateTime!
 }
 
-type QuestionLinks {
+enum blockType {
+  OFFLINE
+  ONLINE # also = CARLA
+  PRACTICE
+  CORRECTION
+  MAKEUP
+  SURVEY
+  EVENTS
+}
+
+# linking table
+type QuestionLink {
   id: ID! @unique
-  quiz: Quiz!
-  question: Question!
+  block: QuestionBlock! # relationship to block
+  question: Question! # relationship to question
   points: Int
   position: Int
-}
-
-enum QuestionType {
-  MULTIPLE_CHOICE
-  SHORT_ANSWER
 }
 
 type Question {
   id: ID! @unique
   questionText: String!
   type: QuestionType!
-  answerChoices: [QuestionChoice!]!
-  links: [QuestionLinks!]!
-  course: Course!
+  answerChoices: [QuestionChoice!]! # [QuestionChoice]! no work
+  link: [QuestionLink!]!
+  mediaFile: ContentPiece
+  bloomLevel: String
+  feedback: String
+}
+
+enum QuestionType {
+  MULTIPLE_CHOICE
+  SHORT_ANSWER
+  ESSAY_QUESTION
+  STUDY_QUESTION
+  MULTI_CHECK
 }
 
 type QuestionChoice {
   id: ID! @unique
-  position: Int!
-  correct: Boolean
-  text: String!
+  answerText: String!
   question: Question!
+  mediaFile: ContentPiece
+  position: Int
+  points: Int
+  correct: Boolean
+  feedback: String
 }
 
-type StudentAnswer {
+type StudentAnswer { # ori test_errors
   id: ID! @unique
   student: User!
+  block: QuestionBlock!
   question: Question!
-  choice: [QuestionChoice!]!
+  choice: QuestionChoice
   textResponse: String
+  points: Int
+  tag: Int
+  feedback: String
+  createdAt: DateTime! # to track when quiz and answers started
+  updatedAt: DateTime!
 }

@@ -19,6 +19,7 @@ import {
 import FileStackMaterial from "./FileStackMaterial";
 import FileListItem from "./FileListItem";
 import ErrorMessage from "./ErrorMessage";
+import { DragDropContext, Droppable } from "react-beautiful-dnd";
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -73,6 +74,11 @@ class FilePicker extends React.Component<IFilePickerProps, IFilePickerState> {
   state = {
     curFileFilterText: "",
     filteringFiles: false,
+    units: {
+      1: {
+        contentIds: ["cjqqp8gbp00yg0a06b9wg1fsf", "cjr15tn0q00jq0906segh8zli"],
+      },
+    },
   };
 
   onFilterFieldChange = event => {
@@ -88,8 +94,48 @@ class FilePicker extends React.Component<IFilePickerProps, IFilePickerState> {
     }));
   };
 
+  onDragEnd = result => {
+    const { destination, source, draggableId } = result;
+
+    if (!destination) {
+      return;
+    }
+
+    // check to see if location changed. if not return
+    if (
+      destination.droppableId === source.droppableId &&
+      destination.index === source.index
+    ) {
+      return;
+    }
+
+    const unit = this.state.units[source.droppableId];
+    const newContentIds = Array.from(unit.contentIds);
+    // remove
+    newContentIds.splice(source.index, 1);
+    // insert
+    newContentIds.splice(destination.index, 0, draggableId);
+
+    const newUnit = {
+      ...unit,
+      contentIds: newContentIds,
+    };
+
+    const newState = {
+      ...this.state,
+      units: {
+        ...this.state.units,
+        [newUnit.id]: newUnit,
+      },
+    };
+
+    this.setState(newState);
+  };
+
   render() {
     const { classes, courseId } = this.props;
+
+    console.log(this.state);
 
     return (
       <>
@@ -171,36 +217,42 @@ class FilePicker extends React.Component<IFilePickerProps, IFilePickerState> {
               return <ErrorMessage message={error.message} />;
             }
 
-            let files = data.course.files;
+            console.log("data", data);
+
+            let items = data.course.files;
             if (this.state.filteringFiles) {
-              const sorter = new Fuse(files, {
+              const sorter = new Fuse(items, {
                 keys: ["name", "description"],
               });
-              files = sorter.search(this.state.curFileFilterText);
+              items = sorter.search(this.state.curFileFilterText);
             }
 
             return (
-              <div className={classes.fileList}>
-                {files
-                  .sort(({ name: name1 }, { name: name2 }) => {
-                    if (name1.toLocaleLowerCase() < name2.toLocaleLowerCase()) {
-                      return -1;
-                    }
-                    return 1;
-                  })
-                  .map(file => (
-                    <FileListItem
-                      id={file.id}
-                      name={file.name}
-                      description={file.description}
-                      creatorId={file.creator.id}
-                      type={file.type}
-                      url={file.url}
-                      key={file.id}
-                      allow_edits
-                    />
-                  ))}
-              </div>
+              <DragDropContext onDragEnd={this.onDragEnd}>
+                <div className={classes.fileList}>
+                  <Droppable droppableId="1">
+                    {provided => (
+                      <div {...provided.droppableProps} ref={provided.innerRef}>
+                        {items.map((file, index) => (
+                          <FileListItem
+                            id={file.id}
+                            name={file.name}
+                            description={file.description}
+                            creatorId={file.creator.id}
+                            type={file.type}
+                            url={file.url}
+                            key={file.id}
+                            allow_edits
+                            index={index}
+                          />
+                        ))}
+
+                        {provided.placeholder}
+                      </div>
+                    )}
+                  </Droppable>
+                </div>
+              </DragDropContext>
             );
           }}
         </CourseFileQuery>

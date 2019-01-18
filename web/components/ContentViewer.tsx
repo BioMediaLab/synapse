@@ -24,7 +24,7 @@ const viewers = {
   },
 
   pdf({ url }: { url: string }) {
-    return <PDFViewer pdf_url={url} />;
+    return <a href={url} alt="pdf" />;
   },
 
   image({ url }: { url: string }) {

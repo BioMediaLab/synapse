@@ -1,8 +1,9 @@
 import React, { Component } from "react";
-import { withRouter, WithRouterProps } from "next/router";
+import { withRouter } from "next/router";
 
 import withAuth from "../lib/withAuth";
-import FilePicker from "../components/FilePicker";
+import AddCourseUnitButton from "../components/AddCourseUnitButton";
+import CourseUnitList from "../components/CourseUnitList";
 
 class Files extends Component<WithRouterProps> {
   render() {
@@ -11,9 +12,11 @@ class Files extends Component<WithRouterProps> {
         ? this.props.router.query.id
         : this.props.router.query.id[0];
     return (
-      <main>
-        <FilePicker courseId={courseId} />
-      </main>
+      <div>
+        <AddCourseUnitButton courseId={courseId} />
+
+        <CourseUnitList courseId={courseId} />
+      </div>
     );
   }
 }
