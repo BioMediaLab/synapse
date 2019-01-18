@@ -2,6 +2,7 @@ import { prisma } from "../../../generated/prisma";
 import { Router } from "express";
 import { google } from "googleapis";
 import { createJWT } from "../../auth";
+import { sendWelcomingEmail } from "../../utils/welcomeEmail";
 
 const getGoogleApiClient = () => {
   const oClient = new google.auth.OAuth2(
@@ -58,6 +59,7 @@ googleAuthRouter.post("/complete", async (req, res) => {
       photo: picture,
     });
     firstLogin = true;
+    sendWelcomingEmail(name, email);
   }
 
   // create the JWT that will be sent to the front end for future authentication

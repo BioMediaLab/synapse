@@ -12,6 +12,9 @@ const envVarWhitelist = new Set([
   "GOOGLE_APP_SECRET",
   "GOOGLE_APP_CLIENT_ID",
   "JWT_GENERATION_SECRET",
+  "SEND_EMAIL",
+  "MAILGUN_API_KEY",
+  "MAILGUN_DOMAIN",
 ]);
 
 const configSanityCheck = () => {
