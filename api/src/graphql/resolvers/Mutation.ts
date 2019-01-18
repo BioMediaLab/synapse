@@ -5,6 +5,7 @@ import {
   Course,
   CourseUser,
   ContentPieceUpdateInput,
+  TargetType,
 } from "../../../generated/prisma";
 import { IntResolverContext } from "../../graphqlContext";
 import {
@@ -14,6 +15,7 @@ import {
   isCourseAssistantFromId,
   hasCourseFromId,
 } from "../rules";
+import { create } from "jss";
 
 export const Mutation = {
   // turns a regular user into a system admin
@@ -241,11 +243,50 @@ export const Mutation = {
   },
   createCourseMessage: {
     resolver: async (root, args, context) => {
-      // TODO: implement this.
-      /*return prisma.createCourseMessage({
-        body: args.body,
-        course: args.course_id,
-      });*/
+      const { course_id: courseId, body, subject } = args;
+      if (!courseId || !body || !subject) {
+        throw new Error("missing args");
+      }
+
+      const courseUsers = await prisma.course({ id: courseId }).userRoles();
+      const ids = await Promise.all(
+        courseUsers.map(courseUser =>
+          prisma
+            .courseUser({ id: courseUser.id })
+            .user()
+            .id(),
+        ),
+      );
+      const readCreates = ids.map(id => ({
+        user: {
+          connect: {
+            id,
+          },
+        },
+      }));
+
+      return prisma.createMessage({
+        body,
+        subject,
+        creator: {
+          connect: {
+            id: context.id,
+          },
+        },
+        target: {
+          create: {
+            type: "COURSE",
+            course: {
+              connect: {
+                id: courseId,
+              },
+            },
+            reads: {
+              create: readCreates,
+            },
+          },
+        },
+      });
     },
     shield: or(
       isCourseAdminFromId,

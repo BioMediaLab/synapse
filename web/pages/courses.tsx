@@ -170,8 +170,8 @@ class Courses extends React.Component<
                         onSaveCallback={(title, body) => {
                           doMutation({
                             variables: {
-                              course_id: courseId,
                               subject: title,
+                              courseId,
                               body,
                             },
                           });

@@ -15,11 +15,11 @@ class RenderMessage extends React.Component<
   IViewMessageProps,
   IViewMessageState
 > {
-  constructor(props) {
+  constructor(props: IViewMessageProps) {
     super(props);
 
     try {
-      const rawContent = JSON.parse(props.editorState);
+      const rawContent = JSON.parse(props.editorStateJson);
       this.state = {
         editorState: EditorState.createWithContent(convertFromRaw(rawContent)),
         error: false,
@@ -27,8 +27,8 @@ class RenderMessage extends React.Component<
     } catch (err) {
       console.warn(err);
       this.state = {
-        error: true,
         editorState: EditorState.createEmpty(),
+        error: true,
       };
     }
   }

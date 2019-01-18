@@ -32,8 +32,12 @@ export const CREATE_COURSE: DocumentNode = gql`
 `;
 
 export const CREATE_COURSE_MESSAGE: DocumentNode = gql`
-  mutation CreateCourseMessage($body: String!, $courseId: String!) {
-    createCourseMessage(body: $body, course_id: $courseId) {
+  mutation CreateCourseMessage(
+    $body: String!
+    $courseId: String!
+    $subject: String!
+  ) {
+    createCourseMessage(body: $body, course_id: $courseId, subject: $subject) {
       id
     }
   }
