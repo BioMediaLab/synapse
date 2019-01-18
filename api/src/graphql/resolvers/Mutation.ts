@@ -263,6 +263,7 @@ export const Mutation = {
             id,
           },
         },
+        read: id === context.id,
       }));
 
       return prisma.createMessage({

@@ -72,6 +72,7 @@ const styles = createStyles((theme: Theme) => ({
 
 interface IProps {
   onSaveCallback: (title: string, body: string) => void;
+  onCancelCallback: () => void;
   saveButtonText?: string;
   classes: {
     editorMain: string;
@@ -161,12 +162,29 @@ class WriteMessage extends React.Component<IProps, IState> {
     }
   };
 
+  resetState = () => {
+    this.setState(state => ({
+      ...state,
+      editorState: EditorState.createEmpty(),
+      title: "",
+      bold: false,
+      italic: false,
+      underlined: false,
+    }));
+  };
+
   onSave = () => {
     const curContent = this.state.editorState.getCurrentContent();
     this.props.onSaveCallback(
       this.state.title,
       JSON.stringify(convertToRaw(curContent)),
     );
+    this.resetState();
+  };
+
+  onCancel = () => {
+    this.props.onCancelCallback();
+    this.resetState();
   };
 
   render() {
@@ -212,6 +230,13 @@ class WriteMessage extends React.Component<IProps, IState> {
                   disabled={this.state.title.length <= 1}
                 >
                   {this.props.saveButtonText}
+                </Button>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  onClick={this.onCancel}
+                >
+                  Cancel
                 </Button>
               </Grid>
             </Grid>

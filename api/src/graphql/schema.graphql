@@ -35,7 +35,7 @@ type Query {
   recentNotifications(start: Int, read: Boolean): RecentNotification
   reminders: [Reminder]
   authoredMessage(msg_id: String!): MessageStats
-  myRoleInCourse(course_id: String!): CourseUser
+  myRoleInCourse(course_id: ID!): CourseUser
 }
 
 type Mutation {

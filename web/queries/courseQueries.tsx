@@ -159,7 +159,7 @@ export class CourseDescMutation extends Mutation<
 > {}
 
 export const MY_ROLE_IN_A_COURSE = gql`
-  query($courseId: String!) {
+  query($courseId: ID!) {
     myRoleInCourse(course_id: $courseId) {
       id
       user_type
