@@ -13,6 +13,7 @@ type User {
   updatedAt: DateTime!
   activations: [Activation!]!
   notifications: [Notification!]! @relation(name: "UserNotifications")
+  acceptsEmails: Boolean @default(value: "true")
 }
 
 type Course {
