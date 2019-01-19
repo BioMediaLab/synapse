@@ -3,10 +3,17 @@ import * as filestack from "filestack-js";
 import { Client } from "filestack-js/build/main/lib/client";
 import { Button } from "@material-ui/core";
 import getConfig from "next/config";
-
 import { CloudUpload } from "@material-ui/icons";
+import { withStyles, createStyles } from "@material-ui/core/styles";
 
 const appConfig = getConfig();
+
+const styles = theme =>
+  createStyles({
+    uploadIcon: {
+      marginRight: theme.spacing.unit,
+    },
+  });
 
 import {
   PickerInstance,
@@ -16,11 +23,12 @@ import {
 interface IFileStackMaterialProps {
   onUploadComplete: (result: PickerResponse) => void;
   disabled?: boolean;
+  classes: {
+    uploadIcon: string;
+  };
 }
 
-export default class FileStackMaterial extends React.Component<
-  IFileStackMaterialProps
-> {
+class FileStackMaterial extends React.Component<IFileStackMaterialProps> {
   static defaultProps = {
     disabled: false,
   };
@@ -58,9 +66,11 @@ export default class FileStackMaterial extends React.Component<
     };
     return (
       <Button variant="contained" onClick={onClick}>
-        <CloudUpload />
-        <span>Upload Files</span>
+        <CloudUpload className={this.props.classes.uploadIcon} />
+        Upload Files
       </Button>
     );
   }
 }
+
+export default withStyles(styles)(FileStackMaterial);

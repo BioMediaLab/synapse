@@ -15,6 +15,7 @@ const envVarWhitelist = new Set([
   "SEND_EMAIL",
   "MAILGUN_API_KEY",
   "MAILGUN_DOMAIN",
+  "ENGINE_API_KEY",
 ]);
 
 const configSanityCheck = () => {

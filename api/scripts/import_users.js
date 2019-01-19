@@ -5,7 +5,7 @@ const users_file = process.argv[2];
 const users_data = JSON.parse(fs.readFileSync(users_file)).RECORDS;
 
 users_data.forEach(async ({ ssn, firstname, lastname, email, clicker_id }) => {
-  const newUser = await prisma.updatedOrCreatedUser({
+  const newUser = await prisma.upsertUser({
     where: {
       email,
     },
@@ -14,10 +14,15 @@ users_data.forEach(async ({ ssn, firstname, lastname, email, clicker_id }) => {
       name: `${firstname} ${lastname}`,
       student_id: Number(ssn),
       iClickerID: clicker_id,
-      courses: {
-        connect: [
+      courseRoles: {
+        create: [
           {
-            id: "cjqpmveha00760a06r83sgk9h",
+            user_type: "STUDENT",
+            course: {
+              connect: {
+                id: "cjqpkr242004a08578c1zg5ih",
+              },
+            },
           },
         ],
       },
@@ -27,10 +32,15 @@ users_data.forEach(async ({ ssn, firstname, lastname, email, clicker_id }) => {
       name: `${firstname} ${lastname}`,
       student_id: Number(ssn),
       iClickerID: clicker_id,
-      courses: {
-        connect: [
+      courseRoles: {
+        create: [
           {
-            id: "cjqpmveha00760a06r83sgk9h",
+            user_type: "STUDENT",
+            course: {
+              connect: {
+                id: "cjqpkr242004a08578c1zg5ih",
+              },
+            },
           },
         ],
       },

@@ -31,11 +31,11 @@ type Course {
 }
 
 enum CourseRoleType {
-  STUDENT 
-  PROFESSOR 
-  ASSISTANT 
-  ADMIN 
-  AUDITOR 
+  STUDENT
+  PROFESSOR
+  ASSISTANT
+  ADMIN
+  AUDITOR
 }
 
 # linking table
@@ -68,7 +68,7 @@ type MessageRead {
 
 enum TargetType {
   USER
-  USERS 
+  USERS
   COURSE
   GLOBAL
 }
@@ -148,4 +148,51 @@ type CourseUnit {
   items: [ContentPiece!]!
   createdAt: DateTime!
   updatedAt: DateTime!
+}
+
+type Quiz {
+  id: ID! @unique
+  qustionLinks: [QuestionLinks!]!
+  course: Course!
+  tag: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type QuestionLinks {
+  id: ID! @unique
+  quiz: Quiz!
+  question: Question!
+  points: Int
+  position: Int
+}
+
+enum QuestionType {
+  MULTIPLE_CHOICE
+  SHORT_ANSWER
+}
+
+type Question {
+  id: ID! @unique
+  questionText: String!
+  type: QuestionType!
+  answerChoices: [QuestionChoice!]!
+  links: [QuestionLinks!]!
+  course: Course!
+}
+
+type QuestionChoice {
+  id: ID! @unique
+  position: Int!
+  correct: Boolean
+  text: String!
+  question: Question!
+}
+
+type StudentAnswer {
+  id: ID! @unique
+  student: User!
+  question: Question!
+  choice: [QuestionChoice!]!
+  textResponse: String
 }

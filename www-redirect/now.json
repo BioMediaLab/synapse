@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "alias": ["www.synapse.courses"],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "status": 301,
+      "headers": { "Location": "https://synapse.courses/$1" }
+    }
+  ]
+}

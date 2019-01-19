@@ -215,28 +215,32 @@ class Notifications extends React.Component<IProps, IState> {
                 variables: { read: false },
                 data: updatedUnreadCache,
               });
-
-              const cacheForOldNotes: IRecentNotificationsResult = apolloCache.readQuery(
-                {
+              try {
+                const cacheForOldNotes: IRecentNotificationsResult = apolloCache.readQuery(
+                  {
+                    query: RECENT_NOTIFICATIONS_QUERY,
+                    variables: { read: true },
+                  },
+                );
+                const updatedCacheForOldNotes: IRecentNotificationsResult = {
+                  ...cacheForOldNotes,
+                  recentNotifications: {
+                    ...cacheForOldNotes.recentNotifications,
+                    notificationRecords: [
+                      ...cacheForOldNotes.recentNotifications
+                        .notificationRecords,
+                      ...notes,
+                    ],
+                  },
+                };
+                apolloCache.writeQuery({
                   query: RECENT_NOTIFICATIONS_QUERY,
                   variables: { read: true },
-                },
-              );
-              const updatedCacheForOldNotes: IRecentNotificationsResult = {
-                ...cacheForOldNotes,
-                recentNotifications: {
-                  ...cacheForOldNotes.recentNotifications,
-                  notificationRecords: [
-                    ...cacheForOldNotes.recentNotifications.notificationRecords,
-                    ...notes,
-                  ],
-                },
-              };
-              apolloCache.writeQuery({
-                query: RECENT_NOTIFICATIONS_QUERY,
-                variables: { read: true },
-                data: updatedCacheForOldNotes,
-              });
+                  data: updatedCacheForOldNotes,
+                });
+              } catch (err) {
+                console.warn(err);
+              }
             }}
           >
             {mutate => {

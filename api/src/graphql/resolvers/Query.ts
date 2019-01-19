@@ -84,7 +84,7 @@ export const Query = {
       // we don't need to worry what course they're in
       return prisma.users({
         where: {
-          OR: [{ name_contains: name }, { email_contains: email }],
+          OR: [{ name_contains: `${name}` }, { email_contains: email }],
         },
         orderBy: "name_ASC",
         first,

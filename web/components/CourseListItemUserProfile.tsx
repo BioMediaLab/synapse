@@ -20,7 +20,7 @@ const CourseListItemUserProfile = course => {
         <ListItem button>
           <ListItemText>
             <Typography variant="h6">{course.name}</Typography>
-            <Typography variant="subheading">Professor Name</Typography>
+            <Typography variant="subtitle1">Professor Name</Typography>
           </ListItemText>
         </ListItem>
       </Link>
