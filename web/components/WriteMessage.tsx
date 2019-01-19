@@ -71,7 +71,7 @@ const styles = createStyles((theme: Theme) => ({
 }));
 
 interface IProps {
-  onSaveCallback: (title: string, body: string) => void;
+  onSaveCallback: (title: string, body: any) => void;
   onCancelCallback: () => void;
   saveButtonText?: string;
   classes: {
@@ -175,10 +175,7 @@ class WriteMessage extends React.Component<IProps, IState> {
 
   onSave = () => {
     const curContent = this.state.editorState.getCurrentContent();
-    this.props.onSaveCallback(
-      this.state.title,
-      JSON.stringify(convertToRaw(curContent)),
-    );
+    this.props.onSaveCallback(this.state.title, convertToRaw(curContent));
     this.resetState();
   };
 

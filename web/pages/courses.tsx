@@ -182,7 +182,7 @@ class Courses extends React.Component<
                                     variables: {
                                       subject: title,
                                       courseId,
-                                      body,
+                                      body: JSON.stringify(body),
                                     },
                                   });
                                 }}

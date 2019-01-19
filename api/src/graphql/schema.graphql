@@ -1,5 +1,10 @@
 # import * from './../../generated/schema/prisma.graphql'
 
+input UserUpdateSettings {
+  acceptsEmails: Boolean
+  bio: String
+}
+
 input CourseUserAndRole {
   user_id: String!
   role: CourseRoleType!
@@ -39,6 +44,7 @@ type Query {
 }
 
 type Mutation {
+  updateUserSettings(user_id: ID, fields: UserUpdateSettings): User
   createCourse(name: String!, description: String): Course
   editCourse(course_id: String!, name: String, description: String): Course
   addUsersToCourse(users: [CourseUserAndRole!]!, course_id: String!): Course

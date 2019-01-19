@@ -3,7 +3,7 @@ import { Editor, convertFromRaw, EditorState } from "draft-js";
 import ErrorMessage from "./ErrorMessage";
 
 interface IViewMessageProps {
-  editorStateJson: string;
+  editorStateJson: any;
 }
 
 interface IViewMessageState {
@@ -17,11 +17,11 @@ class RenderMessage extends React.Component<
 > {
   constructor(props: IViewMessageProps) {
     super(props);
-
     try {
-      const rawContent = JSON.parse(props.editorStateJson);
       this.state = {
-        editorState: EditorState.createWithContent(convertFromRaw(rawContent)),
+        editorState: EditorState.createWithContent(
+          convertFromRaw(props.editorStateJson),
+        ),
         error: false,
       };
     } catch (err) {

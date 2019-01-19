@@ -4,8 +4,9 @@ import {
   prisma,
   Course,
   CourseUser,
+  User,
   ContentPieceUpdateInput,
-  TargetType,
+  UserUpdateDataInput,
 } from "../../../generated/prisma";
 import { IntResolverContext } from "../../graphqlContext";
 import {
@@ -15,7 +16,6 @@ import {
   isCourseAssistantFromId,
   hasCourseFromId,
 } from "../rules";
-import { create } from "jss";
 
 export const Mutation = {
   // turns a regular user into a system admin
@@ -267,7 +267,7 @@ export const Mutation = {
       }));
 
       return prisma.createMessage({
-        body,
+        body: JSON.parse(body),
         subject,
         creator: {
           connect: {
@@ -348,7 +348,6 @@ export const Mutation = {
   },
   updateContentMetadata: {
     resolver: async (root, args, content) => {
-      // TODO check for permissions...
       const { id, name: pName, description: pDesc } = args;
       const data: ContentPieceUpdateInput = {};
       if (pName) {
@@ -395,7 +394,6 @@ export const Mutation = {
   },
   deleteCourseContent: {
     resolver: async (root, args, content) => {
-      // TODO check for permissions...
       const { id } = args;
       return prisma.deleteContentPiece({ id });
     },
@@ -421,5 +419,37 @@ export const Mutation = {
       }),
       isSystemAdmin,
     ),
+  },
+  updateUserSettings: {
+    resolver: async (root, args, context): Promise<User> => {
+      const id = args.user_id ? args.user_id : context.id;
+      const { fields } = args;
+
+      // we should throw an error if this function is called with no args
+      // because that is probably a mistake coming in from the front end
+      let foundUpdates = false;
+      const update: UserUpdateDataInput = {};
+      if ("acceptsEmails" in fields) {
+        update.acceptsEmails = fields.acceptsEmails;
+        foundUpdates = true;
+      }
+      if ("bio" in fields) {
+        update.bio = fields.bio;
+        foundUpdates = true;
+      }
+      if (!foundUpdates) {
+        throw new Error("no updateable fields found");
+      }
+
+      return prisma.updateUser({ data: update, where: { id } });
+    },
+    // you can update another user's settings/profile if you are an admin
+    shield: async (root, args, context) => {
+      if (args.user_id) {
+        const curUser = await prisma.user({ id: context.id });
+        return curUser.isAdmin;
+      }
+      return true;
+    },
   },
 };

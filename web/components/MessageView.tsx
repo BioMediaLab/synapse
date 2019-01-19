@@ -1,6 +1,4 @@
 import React from "react";
-import { Query } from "react-apollo";
-import gql from "graphql-tag";
 import {
   Grid,
   Typography,
@@ -88,7 +86,14 @@ const MessageView: React.SFC<IMessageViewProps> = props => {
         </Grid>
       </Grid>
       <Grid item>
-        <Typography variant="body2" className={props.classes.bodyText}>
+        {/* Typography variant needs to be a span
+          https://stackoverflow.com/questions/41928567/div-cannot-appear-as-a-descendant-of-p
+        */}
+        <Typography
+          variant="body2"
+          component="span"
+          className={props.classes.bodyText}
+        >
           <RenderMessage editorStateJson={props.body} />
         </Typography>
       </Grid>
