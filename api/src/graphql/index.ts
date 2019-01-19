@@ -46,7 +46,7 @@ const Subscription = {
         .node();
     },
     resolve: async (data: Notification, args, context) => {
-      const readRecord = (await prisma
+      const readRecords = await prisma
         .notification({ id: data.id })
         .target()
         .reads({
@@ -55,11 +55,15 @@ const Subscription = {
               id: context.id,
             },
           },
-        }))[0];
+        });
+
+      if (readRecords.length !== 1) {
+        throw new Error("could not find correct records");
+      }
       return {
         notification: data,
         read: false,
-        readRecordId: readRecord.id,
+        readRecordId: readRecords[0].id,
       };
     },
   },
