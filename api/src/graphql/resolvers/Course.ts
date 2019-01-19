@@ -13,7 +13,9 @@ export const Course = {
   },
   announcements: {
     resolver: async (root, args, context) => {
-      return prisma.course({ id: root.id }).announcements();
+      return prisma.course({ id: root.id }).announcements({
+        orderBy: "createdAt_DESC",
+      });
     },
   },
 };

@@ -86,7 +86,7 @@ class Notifications extends React.Component<IProps, IState> {
                         key={notification.id}
                         createdAt={notification.createdAt}
                         msg={notification.msg}
-                        note_type={notification.note_type}
+                        notify_type={notification.notify_type}
                         id={notification.id}
                         add_data={notification.add_data}
                         read_id={readRecordId}
@@ -134,7 +134,7 @@ class Notifications extends React.Component<IProps, IState> {
                         key={notification.id}
                         createdAt={notification.createdAt}
                         msg={notification.msg}
-                        note_type={notification.note_type}
+                        notify_type={notification.notify_type}
                         id={notification.id}
                         add_data={notification.add_data}
                         read_id={readRecordId}
@@ -171,7 +171,7 @@ class Notifications extends React.Component<IProps, IState> {
                         key={notification.id}
                         createdAt={notification.createdAt}
                         msg={notification.msg}
-                        note_type={notification.note_type}
+                        notify_type={notification.notify_type}
                         id={notification.id}
                         add_data={notification.add_data}
                         read_id={readRecordId}

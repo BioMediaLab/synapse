@@ -9,6 +9,11 @@ import {
   UserUpdateDataInput,
 } from "../../../generated/prisma";
 import { IntResolverContext } from "../../graphqlContext";
+import { sendCourseMessageEmail } from "../../utils/emailCourse";
+import {
+  notifyNewCourse,
+  notifyCourseAnnouncement,
+} from "../../utils/notifications";
 import {
   isSystemAdmin,
   isCourseAdminFromId,
@@ -81,7 +86,7 @@ export const Mutation = {
       // TODO: permissions here
       const { course_id: courseId } = args;
       const newUsers = args.users ? args.users : [];
-      return prisma.updateCourse({
+      const newCourse = await prisma.updateCourse({
         data: {
           userRoles: {
             create: newUsers.map(({ user_id, role }) => ({
@@ -98,6 +103,12 @@ export const Mutation = {
           id: courseId,
         },
       });
+
+      // send the user an internal notification that they have been added to a new course
+      newUsers.forEach(({ user_id }) =>
+        notifyNewCourse(courseId, newCourse.name, user_id),
+      );
+      return newCourse;
     },
     // you can add a user to a course if you are a system admin
     // or an admin or professor in that course
@@ -266,7 +277,7 @@ export const Mutation = {
         read: id === context.id,
       }));
 
-      return prisma.createMessage({
+      const newMessage = await prisma.createMessage({
         body: JSON.parse(body),
         subject,
         creator: {
@@ -288,6 +299,14 @@ export const Mutation = {
           },
         },
       });
+
+      // async - can run in background
+      sendCourseMessageEmail(courseId, newMessage.id, context.id);
+      const course = await prisma.course({ id: courseId });
+      // async - can run in background
+      notifyCourseAnnouncement(courseId, course.name, subject, context.id);
+
+      return newMessage;
     },
     shield: or(
       isCourseAdminFromId,
@@ -444,12 +463,12 @@ export const Mutation = {
       return prisma.updateUser({ data: update, where: { id } });
     },
     // you can update another user's settings/profile if you are an admin
-    shield: async (root, args, context) => {
+    shield: rule()(async (root, args, context) => {
       if (args.user_id) {
         const curUser = await prisma.user({ id: context.id });
         return curUser.isAdmin;
       }
       return true;
-    },
+    }),
   },
 };

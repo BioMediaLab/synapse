@@ -1,5 +1,6 @@
 import * as mg from "mailgun-js";
 import * as pug from "pug";
+import { User } from "../../generated/prisma";
 
 interface IMailgunHelper {
   _hasClient: boolean;
@@ -47,6 +48,49 @@ export const sendSingleEmail = (
       {
         from: fullFrom,
         to,
+        subject,
+        html: body,
+      },
+      (err, resp) => {
+        if (err) {
+          resolve({
+            success: false,
+            message: err.message,
+          });
+        }
+        resolve({
+          success: true,
+          message: resp.message,
+        });
+      },
+    );
+  });
+
+export const sendManyEmails = (
+  to: User[],
+  from: {
+    name: string;
+    email: string;
+  },
+  subject: string,
+  body: string,
+): EmailSingleSendResult =>
+  new Promise((resolve, reject) => {
+    if (to.length > 999) {
+      throw new Error(
+        "cannot send more than 1000 messages at a time via mailgun",
+      );
+    }
+
+    if (!mailgunHelper.sendEmail) {
+      throw new Error("cannot send email");
+    }
+
+    const fullFrom = `${from.name} <${from.email}@mg.synapse.courses>`;
+    mailgunHelper.mg.messages().send(
+      {
+        from: fullFrom,
+        to: to.map(user => user.email),
         subject,
         html: body,
       },

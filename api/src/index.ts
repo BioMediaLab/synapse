@@ -8,9 +8,6 @@ import { validateJWT } from "./auth";
 import { contextCreatorFactory, IntResolverContext } from "./graphqlContext";
 import googleAuthRouter from "./routes/auth/google";
 import { getShield, getResolvers } from "./graphql/index";
-import { sendWelcomingEmail } from "./utils/welcomeEmail";
-
-sendWelcomingEmail("Nick", "nick.dieff@gmail.com");
 
 const makePublic = async (
   resolve,

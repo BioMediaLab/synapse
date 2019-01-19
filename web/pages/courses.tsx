@@ -145,16 +145,18 @@ class Courses extends React.Component<
               announcements = (
                 <>
                   <Typography variant="h5">Announcements</Typography>
-                  {course.announcements.map(ann => (
-                    <MessageView
-                      key={ann.id}
-                      body={ann.message.body}
-                      title={ann.message.subject}
-                      createdAt={ann.message.createdAt}
-                      updatedAt={ann.message.updatedAt}
-                      creator={ann.message.creator}
-                    />
-                  ))}
+                  {course.announcements
+                    .filter(ann => ann.message && ann.message.body)
+                    .map(ann => (
+                      <MessageView
+                        key={ann.id}
+                        body={ann.message.body}
+                        title={ann.message.subject}
+                        createdAt={ann.message.createdAt}
+                        updatedAt={ann.message.updatedAt}
+                        creator={ann.message.creator}
+                      />
+                    ))}
                 </>
               );
             }
