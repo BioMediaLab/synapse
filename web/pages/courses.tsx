@@ -1,6 +1,6 @@
 import React from "react";
 import { withRouter, WithRouterProps } from "next/router";
-import { Query, Mutation, graphql } from "react-apollo";
+import { Query, Mutation } from "react-apollo";
 import gql from "graphql-tag";
 import {
   List,
@@ -172,8 +172,25 @@ class Courses extends React.Component<
                   <CourseHeader course={course} />
                   <Divider />
                   {canICreateMessages ? (
-                    <Mutation mutation={CREATE_COURSE_MESSAGE}>
-                      {(doMutation, { loading: mutationLoading, error }) => {
+                    <Mutation
+                      mutation={CREATE_COURSE_MESSAGE}
+                      refetchQueries={[
+                        // TODO: this is wasteful. Let's not
+                        {
+                          query: COURSE_INFO,
+                          variables: { courseId },
+                        },
+                      ]}
+                    >
+                      {(
+                        doMutation,
+                        { loading: mutationLoading, error: mutationError },
+                      ) => {
+                        if (mutationError) {
+                          return (
+                            <ErrorMessage message={mutationError.message} />
+                          );
+                        }
                         return (
                           <div>
                             {this.state.creatingMessage ? (

@@ -1,13 +1,15 @@
 import { prisma } from "../../generated/prisma";
 import * as draftToHtml from "draftjs-to-html";
-import { getEmailTempate, sendSingleEmail, sendManyEmails } from "./emailOut";
-import { writeFileSync } from "fs";
+import { getEmailTempate, canSendEmail, sendManyEmails } from "./emailOut";
 
 export const sendCourseMessageEmail = async (
   courseId: string,
   messageId: string,
   creatorId: string,
 ) => {
+  if (!canSendEmail) {
+    return;
+  }
   const message = await prisma.message({ id: messageId });
   const creator = await prisma.message({ id: messageId }).creator();
   const html = draftToHtml(message.body);
