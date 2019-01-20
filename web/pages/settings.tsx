@@ -6,6 +6,7 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 
 import withAuth from "../lib/withAuth";
+import AccountSettings from "../components/AccountSettings";
 
 const styles = theme =>
   createStyles({
@@ -58,10 +59,9 @@ class SettingsPage extends React.Component<
             onChange={this.handleTabChange}
             indicatorColor="primary"
             textColor="primary"
-            fullWidth
+            variant="fullWidth"
           >
             <Tab label="Account Settings" />
-            <Tab label="About Me" />
             <Tab label="3rd Party Integrations" />
           </Tabs>
         </AppBar>
@@ -69,8 +69,9 @@ class SettingsPage extends React.Component<
           index={this.state.tab}
           onChangeIndex={this.handleTabChange}
         >
-          <div className={classes.tab}>Add an activation code:</div>
-          <div className={classes.tab}>Nickname Profile pic</div>
+          <div className={classes.tab}>
+            <AccountSettings />
+          </div>
           <div className={classes.tab}>Google</div>
         </SwipeableViews>
       </main>

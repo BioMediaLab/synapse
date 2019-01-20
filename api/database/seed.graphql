@@ -102,6 +102,47 @@ mutation {
           }
         ]
       }
+      announcements: {
+        create: [
+          {
+            type: COURSE
+            users: { connect: [] }
+            reads: {
+              create: [
+                {
+                  user: { connect: { email: "wei.lin@maine.edu" } }
+                  read: false
+                }
+                {
+                  user: { connect: { email: "mathew.loewen@maine.edu" } }
+                  read: false
+                }
+                {
+                  user: { connect: { email: "styler@maine.edu" } }
+                  read: false
+                }
+                {
+                  user: {
+                    connect: { email: "nicholas.dieffenbacherkrall@maine.edu" }
+                  }
+                  read: false
+                }
+                {
+                  user: { connect: { email: "joestudent@maine.edu" } }
+                  read: true
+                }
+              ]
+            }
+            message: {
+              create: {
+                body: "{\"blocks\":[{\"key\":\"587ed\",\"text\":\"Hello World.\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}},{\"key\":\"8i7oh\",\"text\":\"Hello World.\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[{\"offset\":0,\"length\":12,\"style\":\"BOLD\"}],\"entityRanges\":[],\"data\":{}},{\"key\":\"5ua4k\",\"text\":\"Hello World.\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[{\"offset\":0,\"length\":12,\"style\":\"ITALIC\"},{\"offset\":0,\"length\":12,\"style\":\"UNDERLINE\"}],\"entityRanges\":[],\"data\":{}},{\"key\":\"49l12\",\"text\":\"\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}},{\"key\":\"bvmfb\",\"text\":\"https://www.google.com\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}},{\"key\":\"7i8vq\",\"text\":\"\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],\"entityMap\":{}}"
+                creator: { connect: { email: "andrew.kay@maine.edu" } }
+                subject: "Test Message"
+              }
+            }
+          }
+        ]
+      }
     }
   ) {
     id
