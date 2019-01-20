@@ -233,25 +233,25 @@ class Courses extends React.Component<
                     role="PROFESSOR"
                     rolePretty="Professors"
                   />
-                  <Divider />
+
                   <UserRoleDisplay
                     users={course.userRoles}
                     role="ASSISTANT"
                     rolePretty="Teaching Assistants"
                   />
-                  <Divider />
+
                   <UserRoleDisplay
                     users={course.userRoles}
                     role="STUDENT"
                     rolePretty="Students"
                   />
-                  <Divider />
+
                   <UserRoleDisplay
                     users={course.userRoles}
                     role="ADMIN"
                     rolePretty="Administrators"
                   />
-                  <Divider />
+
                   <UserRoleDisplay
                     users={course.userRoles}
                     role="AUDITOR"
