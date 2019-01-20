@@ -4,9 +4,16 @@ import {
   prisma,
   Course,
   CourseUser,
+  User,
   ContentPieceUpdateInput,
+  UserUpdateDataInput,
 } from "../../../generated/prisma";
 import { IntResolverContext } from "../../graphqlContext";
+import { sendCourseMessageEmail } from "../../utils/emailCourse";
+import {
+  notifyNewCourse,
+  notifyCourseAnnouncement,
+} from "../../utils/notifications";
 import {
   isSystemAdmin,
   isCourseAdminFromId,
@@ -79,7 +86,7 @@ export const Mutation = {
       // TODO: permissions here
       const { course_id: courseId } = args;
       const newUsers = args.users ? args.users : [];
-      return prisma.updateCourse({
+      const newCourse = await prisma.updateCourse({
         data: {
           userRoles: {
             create: newUsers.map(({ user_id, role }) => ({
@@ -96,6 +103,12 @@ export const Mutation = {
           id: courseId,
         },
       });
+
+      // send the user an internal notification that they have been added to a new course
+      newUsers.forEach(({ user_id }) =>
+        notifyNewCourse(courseId, newCourse.name, user_id),
+      );
+      return newCourse;
     },
     // you can add a user to a course if you are a system admin
     // or an admin or professor in that course
@@ -241,10 +254,59 @@ export const Mutation = {
   },
   createCourseMessage: {
     resolver: async (root, args, context) => {
-      return prisma.createCourseMessage({
-        body: args.body,
-        course: args.course_id,
+      const { course_id: courseId, body, subject } = args;
+      if (!courseId || !body || !subject) {
+        throw new Error("missing args");
+      }
+
+      const courseUsers = await prisma.course({ id: courseId }).userRoles();
+      const ids = await Promise.all(
+        courseUsers.map(courseUser =>
+          prisma
+            .courseUser({ id: courseUser.id })
+            .user()
+            .id(),
+        ),
+      );
+      const readCreates = ids.map(id => ({
+        user: {
+          connect: {
+            id,
+          },
+        },
+        read: id === context.id,
+      }));
+
+      const newMessage = await prisma.createMessage({
+        body: JSON.parse(body),
+        subject,
+        creator: {
+          connect: {
+            id: context.id,
+          },
+        },
+        target: {
+          create: {
+            type: "COURSE",
+            course: {
+              connect: {
+                id: courseId,
+              },
+            },
+            reads: {
+              create: readCreates,
+            },
+          },
+        },
       });
+
+      // async - can run in background
+      sendCourseMessageEmail(courseId, newMessage.id, context.id);
+      const course = await prisma.course({ id: courseId });
+      // async - can run in background
+      notifyCourseAnnouncement(courseId, course.name, subject, context.id);
+
+      return newMessage;
     },
     shield: or(
       isCourseAdminFromId,
@@ -305,7 +367,6 @@ export const Mutation = {
   },
   updateContentMetadata: {
     resolver: async (root, args, content) => {
-      // TODO check for permissions...
       const { id, name: pName, description: pDesc } = args;
       const data: ContentPieceUpdateInput = {};
       if (pName) {
@@ -352,7 +413,6 @@ export const Mutation = {
   },
   deleteCourseContent: {
     resolver: async (root, args, content) => {
-      // TODO check for permissions...
       const { id } = args;
       return prisma.deleteContentPiece({ id });
     },
@@ -378,5 +438,37 @@ export const Mutation = {
       }),
       isSystemAdmin,
     ),
+  },
+  updateUserSettings: {
+    resolver: async (root, args, context): Promise<User> => {
+      const id = args.user_id ? args.user_id : context.id;
+      const { fields } = args;
+
+      // we should throw an error if this function is called with no args
+      // because that is probably a mistake coming in from the front end
+      let foundUpdates = false;
+      const update: UserUpdateDataInput = {};
+      if ("acceptsEmails" in fields) {
+        update.acceptsEmails = fields.acceptsEmails;
+        foundUpdates = true;
+      }
+      if ("bio" in fields) {
+        update.bio = fields.bio;
+        foundUpdates = true;
+      }
+      if (!foundUpdates) {
+        throw new Error("no updateable fields found");
+      }
+
+      return prisma.updateUser({ data: update, where: { id } });
+    },
+    // you can update another user's settings/profile if you are an admin
+    shield: rule()(async (root, args, context) => {
+      if (args.user_id) {
+        const curUser = await prisma.user({ id: context.id });
+        return curUser.isAdmin;
+      }
+      return true;
+    }),
   },
 };

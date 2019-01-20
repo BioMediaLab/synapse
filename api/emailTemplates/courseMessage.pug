@@ -1,0 +1,14 @@
+include includes/header.pug
+
+body
+  h1 #{profName} has posted an update in #{courseName}
+  br
+  h3 #{subject}
+  | !{body}
+
+  p.
+  | See more on 
+  a(href=moreUrl) Synapse
+  | .
+
+  include includes/footer.pug

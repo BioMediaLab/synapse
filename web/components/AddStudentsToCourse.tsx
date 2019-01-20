@@ -16,6 +16,7 @@ import gql from "graphql-tag";
 import { withSnackbar, InjectedNotistackProps } from "notistack";
 
 import UserSearch from "./UserSearch";
+import { CourseRoleType } from "../queries/courseQueries";
 
 const styles = theme =>
   createStyles({
@@ -45,12 +46,10 @@ interface IProps {
   userAddCallback?: (userIds: string[]) => void;
 }
 
-type CourseRole = "PROFESSOR" | "STUDENT" | "ASSISTANT" | "AUDITOR" | "ADMIN";
-
 interface IState {
   addDialogOpen: boolean;
   usersToAdd: any[];
-  userType: CourseRole;
+  userType: CourseRoleType;
 }
 
 interface IVars {
@@ -68,7 +67,7 @@ class AddStudentsToCourse extends React.Component<Props, IState> {
   state = {
     addDialogOpen: false,
     usersToAdd: [],
-    userType: "PROFESSOR" as CourseRole,
+    userType: "PROFESSOR" as CourseRoleType,
   };
 
   showAddDialog = () => {

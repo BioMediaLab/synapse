@@ -32,8 +32,12 @@ export const CREATE_COURSE: DocumentNode = gql`
 `;
 
 export const CREATE_COURSE_MESSAGE: DocumentNode = gql`
-  mutation CreateCourseMessage($body: String!, $course_id: String!) {
-    createCourseMessage(body: $body, course_id: $course_id) {
+  mutation CreateCourseMessage(
+    $body: String!
+    $courseId: String!
+    $subject: String!
+  ) {
+    createCourseMessage(body: $body, course_id: $courseId, subject: $subject) {
       id
     }
   }
@@ -90,16 +94,49 @@ export const COURSE_INFO: DocumentNode = gql`
           photo
         }
       }
+      announcements {
+        id
+        message {
+          id
+          body
+          subject
+          creator {
+            id
+            name
+            photo
+          }
+          updatedAt
+          createdAt
+        }
+      }
     }
   }
 `;
+
+interface ICourseSelectVars {
+  courseId: string;
+}
+
+export type CourseRoleType =
+  | "ADMIN"
+  | "PROFESSOR"
+  | "ASSISTANT"
+  | "STUDENT"
+  | "AUDITOR";
+
+interface ICourseMyRoleResult {
+  myRoleInCourse: {
+    user_type: CourseRoleType;
+    id: string;
+  };
+}
 
 export interface ICourse {
   id: string;
   name: string;
 }
 
-interface ICourseQueryResult {
+interface ICoursesListQueryResult {
   myCourseRoles: Array<{
     id: string;
     user_type: string;
@@ -114,9 +151,23 @@ interface ICourseQueryResult {
   };
 }
 
-export class QueryGetCourses extends Query<ICourseQueryResult, {}> {}
+export class QueryGetCourses extends Query<ICoursesListQueryResult, {}> {}
 
 export class CourseDescMutation extends Mutation<
   { id: string },
   { desc: string; id: string }
+> {}
+
+export const MY_ROLE_IN_A_COURSE = gql`
+  query($courseId: ID!) {
+    myRoleInCourse(course_id: $courseId) {
+      id
+      user_type
+    }
+  }
+`;
+
+export class MyRoleInCourseQuery extends Query<
+  ICourseMyRoleResult,
+  ICourseSelectVars
 > {}

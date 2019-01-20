@@ -1,5 +1,6 @@
 import gql from "graphql-tag";
 import { Query } from "react-apollo";
+import { NoteType } from "../lib/notifications";
 
 /*
 Get's a user's notifications, read or unread.
@@ -64,17 +65,12 @@ export const READ_ALL_NOTIFICATIONS_MUTE = gql`
   }
 `;
 
-export enum NoteType {
-  INFORMATIVE = "INFORMATIVE",
-  NEW_COURSE = "NEW_COURSE",
-}
-
 export interface INotification {
   id: string;
   msg: string;
   add_data: any;
   createdAt: string;
-  note_type: NoteType;
+  notify_type: NoteType;
   __typename?: string;
 }
 

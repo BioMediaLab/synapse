@@ -16,6 +16,8 @@ import { CourseUser } from "./resolvers/CourseUser";
 import { User } from "./resolvers/User";
 import { Notification as NotitificationResolvers } from "./resolvers/Notification";
 import { Course } from "./resolvers/Course";
+import { MessageTarget } from "./resolvers/MessageTarget";
+import { Message } from "./resolvers/Message";
 
 const Subscription = {
   notification: {
@@ -44,7 +46,7 @@ const Subscription = {
         .node();
     },
     resolve: async (data: Notification, args, context) => {
-      const readRecord = (await prisma
+      const readRecords = await prisma
         .notification({ id: data.id })
         .target()
         .reads({
@@ -53,11 +55,15 @@ const Subscription = {
               id: context.id,
             },
           },
-        }))[0];
+        });
+
+      if (readRecords.length !== 1) {
+        throw new Error("could not find correct records");
+      }
       return {
         notification: data,
         read: false,
-        readRecordId: readRecord.id,
+        readRecordId: readRecords[0].id,
       };
     },
   },
@@ -70,6 +76,8 @@ createTopLevelResolver("CourseUser", CourseUser);
 createTopLevelResolver("User", User);
 createTopLevelResolver("Notification", NotitificationResolvers);
 createTopLevelResolver("Course", Course);
+createTopLevelResolver("MessageTarget", MessageTarget);
+createTopLevelResolver("Message", Message);
 
 export const getShield = () => shield(shieldBuilder);
 export const getResolvers = (): IResolvers => {

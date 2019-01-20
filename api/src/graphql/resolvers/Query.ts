@@ -2,6 +2,7 @@ import { forwardTo } from "prisma-binding";
 import { rule } from "graphql-shield";
 
 import { prisma, CourseUser, User } from "../../../generated/prisma";
+import { hasCourseFromId } from "../rules";
 
 const userHasCourseWhere = rule()(async (parent, args, context, info) => {
   const courseId: string = args.where.id;
@@ -37,6 +38,23 @@ export const Query = {
     resolver: async (root, args, context): Promise<User> => {
       return prisma.user({ id: context.id });
     },
+  },
+  myRoleInCourse: {
+    resolver: async (root, args, context): Promise<CourseUser> => {
+      const roles = await prisma.course({ id: args.course_id }).userRoles({
+        where: {
+          user: {
+            id: context.id,
+          },
+        },
+      });
+      // This should never happen
+      if (roles.length !== 1) {
+        throw new Error(`User has no roles in course ${args.course_id}`);
+      }
+      return roles[0];
+    },
+    shield: hasCourseFromId,
   },
   userSearch: {
     resolver: async (root, args, context): Promise<User[]> => {
@@ -140,5 +158,41 @@ export const Query = {
         orderBy: "triggerTime_ASC",
       });
     },
+  },
+  authoredMessage: {
+    resolver: async (root, args, context) => {
+      const id = args.msg_id;
+      const message = await prisma.message({ id });
+      const target = await prisma.message({ id }).target();
+      const totalRecipients = await prisma
+        .messageReadsConnection({
+          where: {
+            target: {
+              id: target.id,
+            },
+          },
+        })
+        .aggregate().count;
+      const numberRead = await prisma
+        .messageReadsConnection({
+          where: {
+            target: {
+              id: target.id,
+            },
+            read: true,
+          },
+        })
+        .aggregate().count;
+      return {
+        numberRead,
+        totalRecipients,
+        message,
+      };
+    },
+    shield: rule()(async (root, args, context) => {
+      const id = args.msg_id;
+      const creator = await prisma.message({ id }).creator();
+      return creator.id === context.id;
+    }),
   },
 };
