@@ -36,7 +36,10 @@ type Query {
   userSearch(name: String, email: String, course_id: String): [User]!
   me: User
   myCourseRoles: [CourseUser!]!
-  course(where: CourseWhereUniqueInput!, userFirst: Int, userLast: Int): Course
+  course(id: ID!): Course
+  courses: [Course]
+  units: [CourseUnit]
+  contentPieces: [ContentPiece!]!
   recentNotifications(start: Int, read: Boolean): RecentNotification
   reminders: [Reminder]
   authoredMessage(msg_id: String!): MessageStats
@@ -72,6 +75,7 @@ type Mutation {
     type: String!
     url: String!
     course_id: String!
+    unit_id: String!
     description: String
   ): ContentPiece
   updateContentMetadata(

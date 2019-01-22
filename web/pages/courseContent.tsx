@@ -13,7 +13,9 @@ class Files extends Component<WithRouterProps> {
         : this.props.router.query.id[0];
     return (
       <div>
-        <AddCourseUnitButton courseId={courseId} />
+        <div style={{ marginBottom: "20px" }}>
+          <AddCourseUnitButton courseId={courseId} />
+        </div>
 
         <CourseUnitList courseId={courseId} />
       </div>

@@ -5,6 +5,15 @@ import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import AddFileToUnitButton from "./AddFileToUnitButton";
+import List from "@material-ui/core/List";
+import { unstable_Box as Box } from "@material-ui/core/Box";
+
+// dynamic import with no SSR because of window object
+import dynamic from "next/dynamic";
+const FileViewerDialog = dynamic(() => import("./FileViewerDialog"), {
+  ssr: false,
+});
 
 const styles = theme =>
   createStyles({
@@ -14,18 +23,35 @@ const styles = theme =>
     },
     heading: {
       fontSize: theme.typography.pxToRem(15),
-      flexBasis: "33.33%",
+      fontWeight: "bold",
       flexShrink: 0,
+      marginRight: theme.spacing.unit,
     },
     secondaryHeading: {
       fontSize: theme.typography.pxToRem(15),
       color: theme.palette.text.secondary,
+    },
+    expansionPanelDetails: {
+      padding: 0,
+    },
+    customActionPanel: {
+      paddingTop: theme.spacing.unit,
+      paddingBottom: theme.spacing.unit,
+      paddingLeft: theme.spacing.unit * 2,
+      paddingRight: theme.spacing.unit * 2,
+    },
+    list: {
+      width: "100%",
+    },
+    itemCount: {
+      fontWeight: "bold",
     },
   });
 
 class CourseUnitListItem extends Component {
   state = {
     expanded: null,
+    checked: [0],
   };
 
   handleChange = panel => (event, expanded) => {
@@ -35,7 +61,7 @@ class CourseUnitListItem extends Component {
   };
 
   render() {
-    const { classes, unit } = this.props;
+    const { classes, courseId, unit } = this.props;
     const { expanded } = this.state;
 
     return (
@@ -45,16 +71,20 @@ class CourseUnitListItem extends Component {
           onChange={this.handleChange("panel1")}
         >
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography className={classes.heading}>{unit.name}</Typography>
+            <Typography className={classes.heading}>{unit.name} </Typography>
             <Typography className={classes.secondaryHeading}>
               {unit.description}
             </Typography>
           </ExpansionPanelSummary>
-          <ExpansionPanelDetails>
-            <Typography>
-              Nulla facilisi. Phasellus sollicitudin nulla et quam mattis
-              feugiat. Aliquam eget maximus est, id dignissim quam.
-            </Typography>
+          <div className={classes.customActionPanel}>
+            <AddFileToUnitButton courseId={courseId} unitId={unit.id} />
+          </div>
+          <ExpansionPanelDetails className={classes.expansionPanelDetails}>
+            <List className={classes.list}>
+              {unit.contentPieces.map(contentPiece => {
+                return <FileViewerDialog contentPiece={contentPiece} />;
+              })}
+            </List>
           </ExpansionPanelDetails>
         </ExpansionPanel>
       </div>

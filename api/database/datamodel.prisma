@@ -132,6 +132,7 @@ type ContentPiece {
   id: ID! @unique
   creator: User!
   course: Course! @relation(name: "CourseContent")
+  units: [CourseUnit!]!
   name: String!
   description: String
   type: String!
@@ -146,7 +147,7 @@ type CourseUnit {
   course: Course!
   name: String!
   description: String!
-  items: [ContentPiece!]!
+  contentPieces: [ContentPiece!]!
   visible: Boolean @default(value: false)
   createdAt: DateTime!
   updatedAt: DateTime!

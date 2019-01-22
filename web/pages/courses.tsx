@@ -57,7 +57,7 @@ const COURSE_INFO = gql`
       id
       user_type
     }
-    course(where: { id: $courseId }) {
+    course(id: $courseId) {
       id
       name
       title

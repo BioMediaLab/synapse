@@ -69,8 +69,6 @@ class AddCourseUnitButton extends Component {
   handleAddUnitToCourse = () => {};
 
   render() {
-    console.log("state", this.state);
-
     return (
       <Mutation mutation={ADD_COURSE_UNIT}>
         {(addCourseUnit, { data }) => (

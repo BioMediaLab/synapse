@@ -343,7 +343,7 @@ export const Mutation = {
   },
   createContent: {
     resolver: async (root, args, context) => {
-      const { name, type, url, course_id, description } = args;
+      const { name, type, url, course_id, unit_id, description } = args;
       const cleanDescription = description ? description : "";
       return prisma.createContentPiece({
         name,
@@ -359,6 +359,11 @@ export const Mutation = {
         course: {
           connect: {
             id: course_id,
+          },
+        },
+        units: {
+          connect: {
+            id: unit_id,
           },
         },
       });

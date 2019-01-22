@@ -61,7 +61,7 @@ export const COURSE_SEARCH: DocumentNode = gql`
 
 export const COURSE_QUERY: DocumentNode = gql`
   query($id: ID!) {
-    course(where: { id: $id }) {
+    course(id: $id) {
       name
       description
       id
@@ -79,7 +79,7 @@ export const COURSE_DESC_MUTATION: DocumentNode = gql`
 
 export const COURSE_INFO: DocumentNode = gql`
   query Course($courseId: ID!) {
-    course(where: { id: $courseId }) {
+    course(id: $courseId) {
       id
       name
       title

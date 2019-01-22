@@ -1,9 +1,9 @@
 import { prisma } from "../../../generated/prisma";
 
 export const CourseUnit = {
-  items: {
+  contentPieces: {
     resolver: async (root, args, context) => {
-      return prisma.courseUnit({ id: root.id }).items();
+      return prisma.courseUnit({ id: root.id }).contentPieces();
     },
   },
 };

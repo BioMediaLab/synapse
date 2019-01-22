@@ -1,7 +1,14 @@
 import { forwardTo } from "prisma-binding";
 import { rule } from "graphql-shield";
 
-import { prisma, CourseUser, User } from "../../../generated/prisma";
+import {
+  prisma,
+  CourseUser,
+  User,
+  Course,
+  CourseUnit,
+  ContentPiece,
+} from "../../../generated/prisma";
 import { hasCourseFromId } from "../rules";
 
 const userHasCourseWhere = rule()(async (parent, args, context, info) => {
@@ -30,8 +37,25 @@ export const Query = {
     },
   },
   course: {
-    resolver: forwardTo("bindingDb") as any,
+    resolver: async (root, args, context): Promise<Course> => {
+      return prisma.course({ id: args.id });
+    },
     shield: userHasCourseWhere,
+  },
+  courses: {
+    resolver: async (root, args, context): Promise<Course[]> => {
+      return prisma.courses();
+    },
+  },
+  units: {
+    resolver: async (root, args, context): Promise<CourseUnit[]> => {
+      return prisma.courseUnits();
+    },
+  },
+  contentPieces: {
+    resolver: async (root, args, context): Promise<ContentPiece[]> => {
+      return prisma.contentPieces();
+    },
   },
   user: { resolver: forwardTo("bindingDb") as any },
   me: {

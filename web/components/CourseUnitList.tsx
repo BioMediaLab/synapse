@@ -6,13 +6,13 @@ import CourseUnitListItem from "./CourseUnitListItem";
 
 const GET_COURSE_UNITS = gql`
   query($course_id: ID!) {
-    course(where: { id: $course_id }) {
+    course(id: $course_id) {
       id
       units {
         id
         name
         description
-        items {
+        contentPieces {
           id
           name
           description
@@ -51,7 +51,10 @@ class CourseUnits extends Component {
           return (
             <div>
               {data.course.units.map(unit => (
-                <CourseUnitListItem unit={unit} />
+                <CourseUnitListItem
+                  courseId={this.props.courseId}
+                  unit={unit}
+                />
               ))}
             </div>
           );

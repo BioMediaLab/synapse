@@ -35,7 +35,7 @@ export const CREATE_COURSE_UNIT = gql`
 
 export const GET_COURSE_FILES = gql`
   query($course_id: ID!) {
-    course(where: { id: $course_id }) {
+    course(id: $course_id) {
       id
       units {
         items {
