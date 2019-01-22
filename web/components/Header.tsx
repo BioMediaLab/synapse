@@ -26,6 +26,7 @@ import CourseList from "./CourseList";
 import Notifications from "./NotificationMenu";
 import { destroySessionFrontend } from "../lib/handleSessions";
 import { GET_ME } from "../queries/userQueries";
+import WelcomeToSynapse from "./WelcomeToSynapse";
 
 const drawerWidth = 300;
 
@@ -323,6 +324,7 @@ class PrimarySearchAppBar extends React.Component<IProps, IState> {
             <CourseList />
           </Drawer>
         ) : null}
+        <WelcomeToSynapse />
       </>
     );
   }
