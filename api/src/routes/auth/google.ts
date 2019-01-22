@@ -49,7 +49,6 @@ googleAuthRouter.post("/complete", async (req, res) => {
 
   // does the user already have an account?
   let account = await prisma.user({ email });
-  let firstLogin = false;
 
   if (!account) {
     // create a new account
@@ -58,7 +57,6 @@ googleAuthRouter.post("/complete", async (req, res) => {
       name,
       photo: picture,
     });
-    firstLogin = true;
     sendWelcomingEmail(name, email);
   }
 
@@ -74,7 +72,6 @@ googleAuthRouter.post("/complete", async (req, res) => {
   return res.send(
     JSON.stringify({
       jwt,
-      firstLogin,
     }),
   );
 });

@@ -9,6 +9,7 @@ type User {
   iClickerID: String
   bio: String
   isAdmin: Boolean @default(value: "false")
+  hasVisited: Boolean @default(value: "false")
   createdAt: DateTime!
   updatedAt: DateTime!
   activations: [Activation!]!
