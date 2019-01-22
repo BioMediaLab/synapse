@@ -1,12 +1,22 @@
 import React from "react";
 import withAuth from "../lib/withAuth";
-import Typogrophy from "@material-ui/core/Typography";
-import Reminders from "../components/Reminders";
+import BigCalendar from "react-big-calendar";
+import "react-big-calendar/lib/css/react-big-calendar.css";
+import moment from "moment";
+
+const localizer = BigCalendar.momentLocalizer(moment);
+
+const events = [];
 
 const Calendar = () => (
   <div>
-    <Typogrophy variant="h5">Calendar</Typogrophy>
-    <Reminders />
+    <BigCalendar
+      localizer={localizer}
+      events={events}
+      startAccessor="start"
+      endAccessor="end"
+      style={{ height: "100vh" }}
+    />
   </div>
 );
 
