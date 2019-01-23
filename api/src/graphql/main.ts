@@ -102,7 +102,7 @@ export const resolvers: IResolvers = {
           isAdmin: args.admin,
         },
         where: {
-          id: args.id,
+          id: context.id,
         },
       });
     },
@@ -124,7 +124,7 @@ export const resolvers: IResolvers = {
           email: args.email,
         },
         where: {
-          id: args.id,
+          id: context.id,
         },
       });
     },

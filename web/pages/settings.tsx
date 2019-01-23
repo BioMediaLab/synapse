@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import TextField from "@material-ui/core/TextField";
-import { Query } from "react-apollo";
+import { Mutation, Query } from "react-apollo";
 import gql from "graphql-tag";
 import ErrorMessage from "../components/ErrorMessage";
 import Button from "@material-ui/core/Button";
@@ -26,18 +26,10 @@ const getUser = gql`
 `;
 
 const updateUserMutation = gql`
-  mutation updateUserMutation(
-    $id: ID!
-    $name: String
-    $bio: String
-    $iClickerID: String
-  ) {
-    updateUser(
-      id: $id
-      name: $name
-      description: $description
-      iClickerID: $iClickerID
-    )
+  mutation($name: String, $bio: String, $iClicker: String, $email: String) {
+    updateUser(name: $name, bio: $bio, iClicker: $iClicker, email: $email) {
+      id
+    }
   }
 `;
 
@@ -56,7 +48,10 @@ class UserProfile extends Component {
     console.log("updating user");
     const res = await updateUserMutation({
       variables: {
-        id: this.props.id,
+        name: this.state.name,
+        email: this.state.email,
+        iClicker: this.state.iClicker,
+        email: this.state.email,
       },
     });
     console.log("fully updated!!");
@@ -97,9 +92,20 @@ class UserProfile extends Component {
     });
   };
 
+  updateItem = async (e, updateUserMutation) => {
+    e.preventDefault();
+    console.log("updating user!");
+    console.log(this.state);
+    const res = await updateUserMutation({
+      variables: {
+        ...this.state,
+      },
+    });
+    console.log("completed");
+  };
+
   render() {
     return (
-      //should have a mutation here?
       <Query query={getUser}>
         {({ loading, error, data }) => {
           if (loading) {
@@ -113,60 +119,59 @@ class UserProfile extends Component {
           }
 
           return (
-            <form
-              onSubmit={e => {
-                e.preventDefault();
-                console.log(this.state);
-              }}
-            >
-              <TextField
-                name="Name"
-                label={data.me.name}
-                placeholder="New name"
-                helperText="Update Name"
-                value={this.state.name}
-                onChange={this.handleChangeName}
-              />
-              <br />
-              <br />
-              <TextField
-                id="Email"
-                label={data.me.email}
-                placeholder="New email"
-                helperText="Update Email"
-                onChange={this.handleChangeEmail}
-              />
-              <br />
-              <br />
-              <TextField
-                id="iClicker"
-                label={data.me.iClickerID}
-                placeholder="New iClicker ID"
-                helperText="Update Iclicker ID"
-                onChange={this.handleChangeIClicker}
-              />
-              <br />
-              <br />
-              <TextField
-                id="Bio"
-                label={data.me.bio}
-                placeholder="New Bio"
-                helperText="Update Bio"
-                fullWidth
-                multiline
-                onChange={this.handleChangeBio}
-              />
-              <br />
-              <br />
-              <Button
-                variant="contained"
-                color="primary"
-                className="submit-button"
-                type="submit"
-              >
-                Sav{loading ? "ing" : "e"}
-              </Button>
-            </form>
+            <Mutation mutation={updateUserMutation} variables={this.state}>
+              {(updateItem, { loading, error }) => (
+                <form onSubmit={e => this.updateItem(e, updateItem)}>
+                  <TextField
+                    name="Name"
+                    label={data.me.name}
+                    placeholder="New name"
+                    helperText="Update Name"
+                    value={this.state.name}
+                    onChange={this.handleChangeName}
+                  />
+                  <br />
+                  <br />
+                  <TextField
+                    id="Email"
+                    label={data.me.email}
+                    placeholder="New email"
+                    helperText="Update Email"
+                    onChange={this.handleChangeEmail}
+                  />
+                  <br />
+                  <br />
+                  <TextField
+                    id="iClicker"
+                    label={data.me.iClickerID}
+                    placeholder="New iClicker ID"
+                    helperText="Update Iclicker ID"
+                    onChange={this.handleChangeIClicker}
+                  />
+                  <br />
+                  <br />
+                  <TextField
+                    id="Bio"
+                    label={data.me.bio}
+                    placeholder="New Bio"
+                    helperText="Update Bio"
+                    fullWidth
+                    multiline
+                    onChange={this.handleChangeBio}
+                  />
+                  <br />
+                  <br />
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    className="submit-button"
+                    type="submit"
+                  >
+                    Sav{loading ? "ing" : "e"}
+                  </Button>
+                </form>
+              )}
+            </Mutation>
           );
         }}
       </Query>
