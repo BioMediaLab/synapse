@@ -1,50 +1,30 @@
-const prisma = require("../generated/js-prisma-client/index").prisma;
+const prisma = require("../dist/generated/prisma").prisma;
 const fs = require("fs");
-const users_file = process.argv[2];
+const quiz_file = process.argv[2];
 
-const users_data = JSON.parse(fs.readFileSync(users_file)).RECORDS;
-
-users_data.forEach(async ({ ssn, firstname, lastname, email, clicker_id }) => {
-  const newUser = await prisma.upsertUser({
-    where: {
-      email,
-    },
-    update: {
-      email,
-      name: `${firstname} ${lastname}`,
-      student_id: Number(ssn),
-      iClickerID: clicker_id,
-      courseRoles: {
-        create: [
-          {
-            user_type: "STUDENT",
-            course: {
-              connect: {
-                id: "cjqpkr242004a08578c1zg5ih",
-              },
-            },
-          },
-        ],
-      },
-    },
-    create: {
-      email,
-      name: `${firstname} ${lastname}`,
-      student_id: Number(ssn),
-      iClickerID: clicker_id,
-      courseRoles: {
-        create: [
-          {
-            user_type: "STUDENT",
-            course: {
-              connect: {
-                id: "cjqpkr242004a08578c1zg5ih",
-              },
-            },
-          },
-        ],
-      },
-    },
-  });
-  console.log(newUser.id);
-});
+const quiz_data = JSON.parse(fs.readFileSync(quiz_file)).RECORDS;
+quiz_data.forEach(
+  async ({ questionBlock, blockType, instructions, questions }) => {
+    const createQuestionBlock = await prisma.createQuestionBlock({
+      blockName: blockName,
+      blockType: enum(blockType),
+	  instructions: instructions
+	  async ({ questionText, type, answerChoices }) => {
+		quiz_data.questions.forEach(
+			const createQuestionLink = await prisma.createQuestionLink({
+			  questionText: questionText,
+			  type: enum(type),
+			  answerChoices.forEach(
+			  	const createQuestionChoice await prisma.createQuestionChoice({
+				   answerText: answerText,
+				   position: position,
+				   correct: correct
+				});
+				);
+			});
+			);
+		};
+    });
+    console.log(createQuestionBlock.id);
+  }
+);
