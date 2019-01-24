@@ -49,7 +49,7 @@ class FileViewerDialog extends Component {
     return (
       <div>
         <ListItem button key={contentPiece.id}>
-          <Checkbox checked={0} tabIndex={-1} disableRipple />
+          <Checkbox checked={false} tabIndex={-1} disableRipple />
 
           <ListItemText
             primary={contentPiece.name}
