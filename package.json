@@ -6,8 +6,7 @@
       "web"
     ],
     "nohoist": [
-      "**/graphql/**",
-      "**/react-file-viewer/**"
+      "**/graphql/**"
     ]
   },
   "scripts": {
