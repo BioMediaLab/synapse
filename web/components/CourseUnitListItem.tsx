@@ -76,13 +76,23 @@ class CourseUnitListItem extends Component {
               {unit.description}
             </Typography>
           </ExpansionPanelSummary>
-          <div className={classes.customActionPanel}>
+
+          <Box
+            flexDirection="row-reverse"
+            className={classes.customActionPanel}
+          >
             <AddFileToUnitButton courseId={courseId} unitId={unit.id} />
-          </div>
+          </Box>
+
           <ExpansionPanelDetails className={classes.expansionPanelDetails}>
             <List className={classes.list}>
               {unit.contentPieces.map(contentPiece => {
-                return <FileViewerDialog contentPiece={contentPiece} />;
+                return (
+                  <FileViewerDialog
+                    key={contentPiece.id}
+                    contentPiece={contentPiece}
+                  />
+                );
               })}
             </List>
           </ExpansionPanelDetails>

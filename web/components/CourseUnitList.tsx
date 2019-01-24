@@ -52,6 +52,7 @@ class CourseUnits extends Component {
             <div>
               {data.course.units.map(unit => (
                 <CourseUnitListItem
+                  key={unit.id}
                   courseId={this.props.courseId}
                   unit={unit}
                 />
