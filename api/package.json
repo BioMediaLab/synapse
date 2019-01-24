@@ -25,7 +25,7 @@
     "@sentry/node": "^4.5.0",
     "@types/algoliasearch": "^3.27.7",
     "@types/body-parser": "^1.17.0",
-    "@types/dotenv": "^4.0.3",
+    "@types/dotenv": "^6.1.0",
     "@types/express": "^4.16.0",
     "@types/graphql": "^14.0.3",
     "@types/jsonwebtoken": "^8.3.0",
@@ -40,16 +40,16 @@
     "draftjs-to-html": "^0.8.4",
     "express": "^4.16.4",
     "googleapis": "^36.0.0",
-    "graphql": "^14.0.2",
+    "graphql": "^14.1.1",
     "graphql-middleware": "^3.0.0",
     "graphql-shield": "^5.1.0",
     "graphql-tools": "^4.0.3",
-    "graphql-yoga": "1.17.0",
+    "graphql-yoga": "^1.17.0",
     "jsonwebtoken": "^8.4.0",
     "mailgun-js": "^0.22.0",
-    "prisma": "1.23.4",
+    "prisma": "1.25.3",
     "prisma-binding": "^2.2.14",
-    "prisma-client-lib": "1.24.0",
+    "prisma-client-lib": "1.25.3",
     "prisma-lib": "^0.1.44",
     "pug": "^2.0.3",
     "typescript": "^3.0.3"
@@ -57,7 +57,7 @@
   "devDependencies": {
     "jest": "^23.6.0",
     "nodemon": "^1.18.9",
-    "ts-node": "^7.0.1",
+    "ts-node": "^8.0.1",
     "tslint": "^5.12.0",
     "wsrun": "^3.6.2"
   }
