@@ -87,6 +87,7 @@ type Mutation {
     description: String
     visible: Boolean
   ): CourseUnit
+  addActivationCode(activation_code: String!, course_id: String!): Activation
 }
 
 type Subscription {

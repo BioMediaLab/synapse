@@ -7,6 +7,7 @@ import {
   User,
   ContentPieceUpdateInput,
   UserUpdateDataInput,
+  ActivationCreateInput,
 } from "../../../generated/prisma";
 import { IntResolverContext } from "../../graphqlContext";
 import { sendCourseMessageEmail } from "../../utils/emailCourse";
@@ -488,5 +489,22 @@ export const Mutation = {
       }
       return true;
     }),
+  },
+  addActivationCode: {
+    resolver: async (root, args) => {
+      const { activation_code, course_id } = args;
+
+      const activation = await prisma.createActivation({
+        activation_code,
+        course: {
+          connect: {
+            id: course_id,
+          },
+        },
+        activatedAt: new Date(),
+      });
+
+      return activation;
+    },
   },
 };
