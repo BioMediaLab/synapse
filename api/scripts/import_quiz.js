@@ -11,7 +11,7 @@ async function main() {
     instructions: quiz.instructions,
     course: {
       connect: {
-        id: "cjqsfvetc009t0850forqw857",
+        id: "cjqpkr242004a08578c1zg5ih",
       },
     },
   });
