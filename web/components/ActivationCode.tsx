@@ -22,6 +22,7 @@ const styles = (theme: Theme) =>
   });
 
 interface IActivationCodeProps {
+  isAdmin: boolean;
   classes: {
     textField: string;
     button: string;
@@ -68,56 +69,56 @@ class ActivationCode extends Component<
             fullWidth
             onChange={this.onSubmitChange}
           />
-          <Button
-            variant="contained"
-            className={classes.button}
-            onClick={this.onSubmitClick}
-          >
+          <Button variant="contained" className={classes.button}>
             Submit
           </Button>
         </div>
-        <div>
-          <ActivationCodeCreateMutation
-            mutation={ACTIVATION_CODE_CREATE_MUTATION}
-          >
-            {(doMutation, mutationResult) => {
-              return (
-                <>
-                  <TextField
-                    label="Create Activation Code"
-                    placeholder="****-****-****-****"
-                    className={classes.textField}
-                    fullWidth
-                    onChange={this.onCreateChange}
-                    value={this.state.newActivationCode}
-                  />
+        {this.props.isAdmin ? (
+          <div>
+            <ActivationCodeCreateMutation
+              mutation={ACTIVATION_CODE_CREATE_MUTATION}
+            >
+              {(doMutation, mutationResult) => {
+                return (
+                  <>
+                    <TextField
+                      label="Create Activation Code"
+                      placeholder="****-****-****-****"
+                      className={classes.textField}
+                      fullWidth
+                      onChange={this.onCreateChange}
+                      value={this.state.newActivationCode}
+                    />
 
-                  <Button
-                    variant="contained"
-                    className={classes.button}
-                    onClick={event => {
-                      doMutation({
-                        variables: {
-                          activation_code: this.state.newActivationCode,
-                        },
-                      });
-                      if (mutationResult) {
-                        console.log(
-                          "Activation code",
-                          this.state.newActivationCode,
-                          "added to database!",
-                        );
-                        this.setState({ newActivationCode: "" });
-                      }
-                    }}
-                  >
-                    Create
-                  </Button>
-                </>
-              );
-            }}
-          </ActivationCodeCreateMutation>
-        </div>
+                    <Button
+                      variant="contained"
+                      className={classes.button}
+                      onClick={event => {
+                        doMutation({
+                          variables: {
+                            activation_code: this.state.newActivationCode,
+                          },
+                        });
+                        if (mutationResult) {
+                          console.log(
+                            "Activation code",
+                            this.state.newActivationCode,
+                            "added to database!",
+                          );
+                          this.setState({ newActivationCode: "" });
+                        }
+                      }}
+                    >
+                      Create
+                    </Button>
+                  </>
+                );
+              }}
+            </ActivationCodeCreateMutation>
+          </div>
+        ) : (
+          <div />
+        )}
       </>
     );
   }

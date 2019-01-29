@@ -101,7 +101,7 @@ class AccountSettings extends React.Component<{}, IState> {
                     );
                   }}
                 </Mutation>
-                <ActivationCode />
+                <ActivationCode isAdmin={data.me.isAdmin} />
               </div>
             );
           }}
