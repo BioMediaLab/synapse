@@ -41,6 +41,7 @@ type Query {
   reminders: [Reminder]
   authoredMessage(msg_id: String!): MessageStats
   myRoleInCourse(course_id: ID!): CourseUser
+  getQuestionBlock(block_id: ID!): QuestionBlock
 }
 
 type Mutation {

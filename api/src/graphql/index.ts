@@ -14,10 +14,13 @@ import { Mutation } from "./resolvers/Mutation";
 import { ContentPiece } from "./resolvers/ContentPiece";
 import { CourseUser } from "./resolvers/CourseUser";
 import { User } from "./resolvers/User";
-import { Notification as NotitificationResolvers } from "./resolvers/Notification";
+import { Notification as NotificationResolvers } from "./resolvers/Notification";
 import { Course } from "./resolvers/Course";
 import { MessageTarget } from "./resolvers/MessageTarget";
 import { Message } from "./resolvers/Message";
+import { QuestionBlock } from "./resolvers/QuestionBlock";
+import { QuestionLink } from "./resolvers/QuestionLink";
+import { Question } from "./resolvers/Question";
 
 const Subscription = {
   notification: {
@@ -74,10 +77,13 @@ createTopLevelResolver("Mutation", Mutation);
 createTopLevelResolver("ContentPiece", ContentPiece);
 createTopLevelResolver("CourseUser", CourseUser);
 createTopLevelResolver("User", User);
-createTopLevelResolver("Notification", NotitificationResolvers);
+createTopLevelResolver("Notification", NotificationResolvers);
 createTopLevelResolver("Course", Course);
 createTopLevelResolver("MessageTarget", MessageTarget);
 createTopLevelResolver("Message", Message);
+createTopLevelResolver("QuestionBlock", QuestionBlock);
+createTopLevelResolver("QuestionLink", QuestionLink);
+createTopLevelResolver("Question", Question);
 
 export const getShield = () => shield(shieldBuilder);
 export const getResolvers = (): IResolvers => {

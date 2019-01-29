@@ -27,6 +27,7 @@ type Course {
   units: [CourseUnit!]!
   files: [ContentPiece!]! @relation(name: "CourseContent")
   announcements: [MessageTarget!]! @relation(name: "MessageTargetCourse")
+  questionBlocks: [QuestionBlock!]!
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -162,6 +163,7 @@ type QuestionBlock {
   testId: String # Assignment! once that is set up (for when quiz is graded)
   tag: String
   order: Int
+#  questionsShown: Int
   createdAt: DateTime!
   updatedAt: DateTime!
 }

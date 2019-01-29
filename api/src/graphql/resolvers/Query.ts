@@ -195,4 +195,29 @@ export const Query = {
       return creator.id === context.id;
     }),
   },
+  getQuestionBlock: {
+    resolver: async (root, args, context) => {
+      return prisma.questionBlock({ id: args.block_id });
+    },
+    shield: rule()(async (root, args, context) => {
+      const roles = await prisma
+        .questionBlock({ id: args.id })
+        .course()
+        .userRoles({
+          where: {
+            id: context.id,
+          },
+        });
+
+      if (roles.length !== 1) {
+        return false;
+      }
+      const [role] = roles;
+      return (
+        role.user_type === "ADMIN" ||
+        role.user_type === "PROFESSOR" ||
+        role.user_type === "ASSISTANT"
+      );
+    }),
+  },
 };

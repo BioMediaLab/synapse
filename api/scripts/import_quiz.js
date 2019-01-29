@@ -11,24 +11,28 @@ async function main() {
     instructions: quiz.instructions,
     course: {
       connect: {
-        id: "cjqpkr242004a08578c1zg5ih",
+        id: "cjri289bd001i0713xlaapkc0",
       },
     },
   });
 
   quiz.questions.map(async question => {
-    const questionLink = await prisma.createQuestionLink({
+    /*const questionLink = await prisma.createQuestionLink({
       block: {
         connect: {
           id: block.id,
         },
       },
-    });
+    });*/
 
     const questionRow = await prisma.createQuestion({
       link: {
-        connect: {
-          id: questionLink.id,
+        create: {
+          block: {
+            connect: {
+              id: block.id,
+            },
+          },
         },
       },
       questionText: question.questionText,
