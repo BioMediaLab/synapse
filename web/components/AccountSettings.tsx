@@ -12,6 +12,7 @@ const ALL_ABOUT_ME = gql`
       id
       name
       acceptsEmails
+      isAdmin
     }
   }
 `;
@@ -100,11 +101,11 @@ class AccountSettings extends React.Component<{}, IState> {
                     );
                   }}
                 </Mutation>
+                <ActivationCode />
               </div>
             );
           }}
         </Query>
-        <ActivationCode />
       </>
     );
   }

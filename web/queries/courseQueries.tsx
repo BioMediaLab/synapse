@@ -77,6 +77,14 @@ export const COURSE_DESC_MUTATION: DocumentNode = gql`
   }
 `;
 
+export const ACTIVATION_CODE_CREATE_MUTATION: DocumentNode = gql`
+  mutation($activation_code: String!) {
+    addActivationCode(activation_code: $activation_code) {
+      id
+    }
+  }
+`;
+
 export const COURSE_INFO: DocumentNode = gql`
   query Course($courseId: ID!) {
     course(where: { id: $courseId }) {
@@ -152,6 +160,11 @@ interface ICoursesListQueryResult {
 }
 
 export class QueryGetCourses extends Query<ICoursesListQueryResult, {}> {}
+
+export class ActivationCodeCreateMutation extends Mutation<
+  { id: string },
+  { activation_code: string }
+> {}
 
 export class CourseDescMutation extends Mutation<
   { id: string },

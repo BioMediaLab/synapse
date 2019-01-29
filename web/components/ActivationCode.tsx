@@ -6,6 +6,10 @@ import {
   TextField,
   Button,
 } from "@material-ui/core";
+import {
+  ACTIVATION_CODE_CREATE_MUTATION,
+  ActivationCodeCreateMutation,
+} from "../queries/courseQueries";
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -26,6 +30,7 @@ interface IActivationCodeProps {
 
 interface IActivationCodeState {
   activationCode: string;
+  newActivationCode: string;
 }
 
 class ActivationCode extends Component<
@@ -34,34 +39,86 @@ class ActivationCode extends Component<
 > {
   state = {
     activationCode: "",
+    newActivationCode: "",
   };
 
-  onSubmitClick = event => {
+  onSubmitChange = event => {
     const value: string = event.target.value;
-
     this.setState({
       activationCode: value,
+    });
+  };
+
+  onCreateChange = event => {
+    const value: string = event.target.value;
+    this.setState({
+      newActivationCode: value,
     });
   };
 
   render() {
     const classes = this.props.classes;
     return (
-      <div>
-        <TextField
-          label="Activation Code"
-          placeholder="****-****-****-****"
-          className={classes.textField}
-          fullWidth
-        />
-        <Button
-          variant="contained"
-          className={classes.button}
-          onClick={this.onSubmitClick}
-        >
-          Submit
-        </Button>
-      </div>
+      <>
+        <div>
+          <TextField
+            label="Activation Code"
+            placeholder="****-****-****-****"
+            className={classes.textField}
+            fullWidth
+            onChange={this.onSubmitChange}
+          />
+          <Button
+            variant="contained"
+            className={classes.button}
+            onClick={this.onSubmitClick}
+          >
+            Submit
+          </Button>
+        </div>
+        <div>
+          <ActivationCodeCreateMutation
+            mutation={ACTIVATION_CODE_CREATE_MUTATION}
+          >
+            {(doMutation, mutationResult) => {
+              return (
+                <>
+                  <TextField
+                    label="Create Activation Code"
+                    placeholder="****-****-****-****"
+                    className={classes.textField}
+                    fullWidth
+                    onChange={this.onCreateChange}
+                    value={this.state.newActivationCode}
+                  />
+
+                  <Button
+                    variant="contained"
+                    className={classes.button}
+                    onClick={event => {
+                      doMutation({
+                        variables: {
+                          activation_code: this.state.newActivationCode,
+                        },
+                      });
+                      if (mutationResult) {
+                        console.log(
+                          "Activation code",
+                          this.state.newActivationCode,
+                          "added to database!",
+                        );
+                        this.setState({ newActivationCode: "" });
+                      }
+                    }}
+                  >
+                    Create
+                  </Button>
+                </>
+              );
+            }}
+          </ActivationCodeCreateMutation>
+        </div>
+      </>
     );
   }
 }

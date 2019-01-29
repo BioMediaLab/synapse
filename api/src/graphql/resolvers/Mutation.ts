@@ -492,16 +492,10 @@ export const Mutation = {
   },
   addActivationCode: {
     resolver: async (root, args) => {
-      const { activation_code, course_id } = args;
+      const { activation_code } = args;
 
       const activation = await prisma.createActivation({
         activation_code,
-        course: {
-          connect: {
-            id: course_id,
-          },
-        },
-        activatedAt: new Date(),
       });
 
       return activation;
