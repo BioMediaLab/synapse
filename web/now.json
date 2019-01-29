@@ -1,8 +1,12 @@
 {
   "type": "docker",
-  "features": {
-    "cloud": "v2"
-  },
-  "alias": "synapse-beta",
-  "dotenv": ".env.production"
+  "version": 1,
+  "alias": "synapse.courses",
+  "dotenv": ".env.production",
+  "scale": {
+    "sfo1": {
+      "min": 1,
+      "max": "auto"
+    }
+  }
 }

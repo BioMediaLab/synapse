@@ -48,7 +48,7 @@ class Notifications extends React.Component<IProps, IState> {
   state = {
     curTab: 0,
   };
-  handleTabChange = (event, value) => {
+  handleTabChange = (_event, value) => {
     this.setState(state => ({ ...state, curTab: value }));
   };
 
@@ -86,7 +86,7 @@ class Notifications extends React.Component<IProps, IState> {
                         key={notification.id}
                         createdAt={notification.createdAt}
                         msg={notification.msg}
-                        note_type={notification.note_type}
+                        notify_type={notification.notify_type}
                         id={notification.id}
                         add_data={notification.add_data}
                         read_id={readRecordId}
@@ -134,7 +134,7 @@ class Notifications extends React.Component<IProps, IState> {
                         key={notification.id}
                         createdAt={notification.createdAt}
                         msg={notification.msg}
-                        note_type={notification.note_type}
+                        notify_type={notification.notify_type}
                         id={notification.id}
                         add_data={notification.add_data}
                         read_id={readRecordId}
@@ -171,7 +171,7 @@ class Notifications extends React.Component<IProps, IState> {
                         key={notification.id}
                         createdAt={notification.createdAt}
                         msg={notification.msg}
-                        note_type={notification.note_type}
+                        notify_type={notification.notify_type}
                         id={notification.id}
                         add_data={notification.add_data}
                         read_id={readRecordId}
@@ -215,28 +215,32 @@ class Notifications extends React.Component<IProps, IState> {
                 variables: { read: false },
                 data: updatedUnreadCache,
               });
-
-              const cacheForOldNotes: IRecentNotificationsResult = apolloCache.readQuery(
-                {
+              try {
+                const cacheForOldNotes: IRecentNotificationsResult = apolloCache.readQuery(
+                  {
+                    query: RECENT_NOTIFICATIONS_QUERY,
+                    variables: { read: true },
+                  },
+                );
+                const updatedCacheForOldNotes: IRecentNotificationsResult = {
+                  ...cacheForOldNotes,
+                  recentNotifications: {
+                    ...cacheForOldNotes.recentNotifications,
+                    notificationRecords: [
+                      ...cacheForOldNotes.recentNotifications
+                        .notificationRecords,
+                      ...notes,
+                    ],
+                  },
+                };
+                apolloCache.writeQuery({
                   query: RECENT_NOTIFICATIONS_QUERY,
                   variables: { read: true },
-                },
-              );
-              const updatedCacheForOldNotes: IRecentNotificationsResult = {
-                ...cacheForOldNotes,
-                recentNotifications: {
-                  ...cacheForOldNotes.recentNotifications,
-                  notificationRecords: [
-                    ...cacheForOldNotes.recentNotifications.notificationRecords,
-                    ...notes,
-                  ],
-                },
-              };
-              apolloCache.writeQuery({
-                query: RECENT_NOTIFICATIONS_QUERY,
-                variables: { read: true },
-                data: updatedCacheForOldNotes,
-              });
+                  data: updatedCacheForOldNotes,
+                });
+              } catch (err) {
+                console.warn(err);
+              }
             }}
           >
             {mutate => {

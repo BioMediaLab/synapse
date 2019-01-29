@@ -2,6 +2,7 @@ import { prisma } from "../../../generated/prisma";
 import { Router } from "express";
 import { google } from "googleapis";
 import { createJWT } from "../../auth";
+import { sendWelcomingEmail } from "../../utils/welcomeEmail";
 
 const getGoogleApiClient = () => {
   const oClient = new google.auth.OAuth2(
@@ -44,24 +45,24 @@ googleAuthRouter.post("/complete", async (req, res) => {
     })
     .userinfo.get();
 
-  const email: string = data.email;
-  const name: string = data.name;
-  const photo = data.picture;
+  const { email, name, picture } = data;
 
   // does the user already have an account?
   let account = await prisma.user({ email });
-
   let firstLogin = false;
+
   if (!account) {
     // create a new account
     account = await prisma.createUser({
       email,
       name,
-      photo,
+      photo: picture,
     });
     firstLogin = true;
+    sendWelcomingEmail(name, email);
   }
 
+  // create the JWT that will be sent to the front end for future authentication
   const jwt = await createJWT({
     id: account.id,
     name: account.name,

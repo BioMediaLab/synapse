@@ -2,16 +2,8 @@ import React from "react";
 import { Editor, EditorState } from "draft-js";
 import "draft-js/dist/Draft.css";
 import Paper from "@material-ui/core/Paper";
-import gql from "graphql-tag";
 import { Mutation } from "react-apollo";
-
-const CREATE_COURSE_MESSAGE = gql`
-  mutation CreateCourseMessage($body: String!, $course_id: String!) {
-    createCourseMessage(body: $body, course_id: $course_id) {
-      id
-    }
-  }
-`;
+import { CREATE_COURSE_MESSAGE } from "../queries/courseQueries";
 
 interface IEditorState {
   editorState: EditorState;

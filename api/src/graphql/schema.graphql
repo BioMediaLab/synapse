@@ -1,46 +1,13 @@
 # import * from './../../generated/schema/prisma.graphql'
 
-type Query {
-  users: [String]
-  user(where: UserWhereUniqueInput!): User
-  userSearch(
-    name: String
-    email: String
-    course_id: String
-    filter_course_id: String
-  ): [User]!
-  me: User
-  googleUri(email: String!): String!
-  confirmSignupGoogle(token: String!): Session!
-  courses: [Course]!
-  course(where: CourseWhereUniqueInput!, userFirst: Int, userLast: Int): Course
-  recentNotifications(start: Int, read: Boolean): RecentNotification
-  reminders: [Reminder]
+input UserUpdateSettings {
+  acceptsEmails: Boolean
+  bio: String
 }
 
-type Mutation {
-  createCourse(name: String!, description: String): Course
-  editCourse(name: String, description: String): Course
-  addUsersToCourse(user_ids: [String]!, course_id: String!): Course
-  removeUsersFromCourse(user_ids: [String]!, course_id: String!): Course
-  updateCourseDescription(description: String, course_id: String!): Course
-  deleteCourse(id: String!): Course
-  promoteUser(id: String!, admin: Boolean): User
-  deleteUser(id: String!): User
-  readNotification(note_read_id: String!): MessageRead
-  readAllNotifications: UpdateManyResult!
-  createCourseMessage(course_id: String!, body: String!): CourseMessage
-  createReminder(msg: String!, triggerTime: String!): Reminder
-  deleteReminder(id: String!): Reminder
-}
-
-type Subscription {
-  notification: UserNotificaiton
-}
-
-type Session {
-  firstLogin: Boolean
-  jwt: String!
+input CourseUserAndRole {
+  user_id: String!
+  role: CourseRoleType!
 }
 
 type UserNotificaiton {
@@ -56,4 +23,72 @@ type RecentNotification {
 
 type UpdateManyResult {
   count: Int!
+}
+
+type MessageStats {
+  numberRead: Int
+  totalRecipients: Int
+  message: Message!
+}
+
+type Query {
+  user(where: UserWhereUniqueInput!): User
+  userSearch(name: String, email: String, course_id: String): [User]!
+  me: User
+  myCourseRoles: [CourseUser!]!
+  course(where: CourseWhereUniqueInput!, userFirst: Int, userLast: Int): Course
+  recentNotifications(start: Int, read: Boolean): RecentNotification
+  reminders: [Reminder]
+  authoredMessage(msg_id: String!): MessageStats
+  myRoleInCourse(course_id: ID!): CourseUser
+}
+
+type Mutation {
+  updateUserSettings(user_id: ID, fields: UserUpdateSettings): User
+  createCourse(name: String!, description: String): Course
+  editCourse(course_id: String!, name: String, description: String): Course
+  addUsersToCourse(users: [CourseUserAndRole!]!, course_id: String!): Course
+  removeUserFromCourse(user_id: String!, course_id: String!): Course
+  changeUserRoleInCourse(
+    user_id: String!
+    course_id: String!
+    new_role: CourseRoleType!
+  ): CourseUser
+  updateCourseDescription(description: String, course_id: String!): Course
+  deleteCourse(course_id: String!): Course
+  promoteUser(id: String!, admin: Boolean): User
+  deleteUser(id: String!): User
+  readNotification(note_read_id: String!): MessageRead
+  readAllNotifications: UpdateManyResult!
+  createCourseMessage(
+    course_id: String!
+    body: String!
+    subject: String!
+  ): Message
+  createReminder(msg: String!, triggerTime: String!): Reminder
+  deleteReminder(id: String!): Reminder
+  createContent(
+    name: String!
+    type: String!
+    url: String!
+    course_id: String!
+    description: String
+  ): ContentPiece
+  updateContentMetadata(
+    id: String!
+    name: String
+    description: String
+  ): ContentPiece
+  deleteCourseContent(id: String!): ContentPiece
+  createUnit(name: String, items: [String!]!, description: String): CourseUnit
+  addCourseUnit(
+    course_id: ID!
+    name: String!
+    description: String
+    visible: Boolean
+  ): CourseUnit
+}
+
+type Subscription {
+  notification: UserNotificaiton
 }

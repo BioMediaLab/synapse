@@ -1,47 +1,31 @@
 import React from "react";
-import { Query } from "react-apollo";
-import gql from "graphql-tag";
-import ErrorMessage from "../components/ErrorMessage";
-import CourseListItemUserProfile from "../components/CourseListItemUserProfile";
 import Typography from "@material-ui/core/Typography";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
-import Avatar from "@material-ui/core/Avatar";
 import Divider from "@material-ui/core/Divider";
 import Card from "@material-ui/core/Card";
 import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
-import withAuth from "../lib/withAuth";
 import { withRouter } from "next/router";
 import { Router } from "next-routes";
+
+import withAuth from "../lib/withAuth";
+import ErrorMessage from "../components/ErrorMessage";
+import CourseListItemUserProfile from "../components/CourseListItemUserProfile";
+import { GET_USER, UserQueryComp } from "../queries/userQueries";
 
 interface IUserProps {
   user_id: object;
   router: Router;
 }
 
-const GET_USER = gql`
-  query user($userID: UserWhereUniqueInput!) {
-    user(where: $userID) {
-      id
-      courses {
-        id
-        name
-      }
-      name
-      email
-      photo
-    }
-  }
-`;
-
 const UserProfile: React.SFC<IUserProps> = ({ router }) => {
-  const userID = {
-    id: router.query.id,
-  };
+  const queryId = router.query.id;
+  const userId: string = typeof queryId !== "string" ? queryId[0] : queryId;
+
   return (
-    <Query query={GET_USER} variables={{ userID }}>
-      {({ loading, error, data: { user } }) => {
+    <UserQueryComp query={GET_USER} variables={{ user: { id: userId } }}>
+      {({ loading, error, data }) => {
         if (loading) {
           return <div>Loading...</div>;
         }
@@ -49,6 +33,8 @@ const UserProfile: React.SFC<IUserProps> = ({ router }) => {
           return <ErrorMessage message={error.message} />;
         }
 
+        const { user } = data;
+        const courses = user.courseRoles.map(role => role.course);
         return (
           <div style={{ display: "flex", justifyContent: "lex-start" }}>
             <Card style={{ maxWidth: 345, flexGrow: 1 }}>
@@ -62,17 +48,17 @@ const UserProfile: React.SFC<IUserProps> = ({ router }) => {
             </Card>
             <List style={{ flexGrow: 2, marginLeft: 20 }}>
               <ListItem>
-                <Typography variant="subheading" style={{ color: "grey" }}>
+                <Typography variant="subtitle1" style={{ color: "grey" }}>
                   Courses
                 </Typography>
               </ListItem>
               <Divider />
-              {user.courses.map(CourseListItemUserProfile)}
+              {courses.map(CourseListItemUserProfile)}
             </List>
           </div>
         );
       }}
-    </Query>
+    </UserQueryComp>
   );
 };
 

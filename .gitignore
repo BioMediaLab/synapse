@@ -35,6 +35,9 @@ build/Release
 
 # dotenv environment variables file
 */.env
+*/.env.production
+# If you're switching around branches use this to back up the main env files
+*/.env-backup
 
 */.DS_Store
 

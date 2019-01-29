@@ -13,36 +13,14 @@ import {
 } from "@material-ui/core";
 import { AddAlertRounded } from "@material-ui/icons";
 import { format, setHours, setMinutes, addHours } from "date-fns";
-import gql from "graphql-tag";
-import { Query, Mutation } from "react-apollo";
 import ErrorMessage from "./ErrorMessage";
-
-const CREATE_REMINDER = gql`
-  mutation($message: String!, $targetTime: String!) {
-    createReminder(msg: $message, triggerTime: $targetTime) {
-      id
-    }
-  }
-`;
-
-const DELETE_REMINDER = gql`
-  mutation($reminder: String) {
-    deleteReminder(id: $reminder) {
-      id
-    }
-  }
-`;
-
-const VIEW_REMINDERS = gql`
-  query {
-    reminders {
-      id
-      msg
-      add_data
-      triggerTime
-    }
-  }
-`;
+import {
+  CREATE_REMINDER,
+  DELETE_REMINDER,
+  VIEW_REMINDERS,
+  ReminderMutationComp,
+  ReminderQueryComp,
+} from "../queries/reminderQueries";
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -119,7 +97,7 @@ class Reminders extends React.Component<IProps, IState> {
     const { classes } = this.props;
     return (
       <div className={classes.root}>
-        <Mutation
+        <ReminderMutationComp
           mutation={CREATE_REMINDER}
           refetchQueries={[{ query: VIEW_REMINDERS }]}
         >
@@ -207,10 +185,10 @@ class Reminders extends React.Component<IProps, IState> {
               </Grid>
             );
           }}
-        </Mutation>
+        </ReminderMutationComp>
         <Divider />
         <Typography variant="subtitle1">Upcoming Reminders</Typography>
-        <Query query={VIEW_REMINDERS}>
+        <ReminderQueryComp query={VIEW_REMINDERS}>
           {({ loading, error, data }) => {
             if (loading) {
               return <div>Loading...</div>;
@@ -226,7 +204,7 @@ class Reminders extends React.Component<IProps, IState> {
               </div>
             );
           }}
-        </Query>
+        </ReminderQueryComp>
       </div>
     );
   }

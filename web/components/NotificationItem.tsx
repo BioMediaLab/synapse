@@ -15,9 +15,9 @@ import {
   READ_NOTIFICATION_MUTATION,
   RECENT_NOTIFICATIONS_QUERY,
   IRecentNotificationsResult,
-  NoteType,
   INotification,
 } from "../queries/notificationQueries";
+import { NoteType } from "../lib/notifications";
 
 interface INotificationItemProps {
   onClick?: () => void;
@@ -32,7 +32,7 @@ const NotificationItem: React.SFC<Props> = ({
   onClick,
   msg,
   createdAt,
-  note_type,
+  notify_type,
   add_data,
   big,
   read_id,
@@ -42,9 +42,17 @@ const NotificationItem: React.SFC<Props> = ({
   let action = onClick ? onClick : () => null;
   const hasBeenRead = read ? read : false;
 
-  if (note_type === NoteType.NEW_COURSE) {
+  if (notify_type === NoteType.NEW_COURSE) {
     action = () => {
       Router.pushRoute(`/courses/${add_data.id}`);
+      if (onClick) {
+        onClick();
+      }
+    };
+  }
+  if (notify_type === NoteType.COURSE_MESSAGE) {
+    action = () => {
+      Router.pushRoute(`/courses/${add_data.course_id}`);
       if (onClick) {
         onClick();
       }
@@ -78,29 +86,37 @@ const NotificationItem: React.SFC<Props> = ({
           data: updatedNewCache,
         });
 
-        const cachedOldNotes: IRecentNotificationsResult = apolloClientCache.readQuery(
-          {
+        // TODO: this may be buggy
+        try {
+          const cachedOldNotes: IRecentNotificationsResult = apolloClientCache.readQuery(
+            {
+              query: RECENT_NOTIFICATIONS_QUERY,
+              variables: { read: true },
+            },
+          );
+          const updatedOldCache = {
+            ...cachedOldNotes,
+            recentNotifications: {
+              ...cachedOldNotes.recentNotifications,
+              notificationRecords: [
+                ...cachedOldNotes.recentNotifications.notificationRecords,
+                ...cachedUnreadNotes.recentNotifications.notificationRecords.filter(
+                  record => record.readRecordId === read_id,
+                ),
+              ],
+            },
+          };
+
+          apolloClientCache.writeQuery({
             query: RECENT_NOTIFICATIONS_QUERY,
             variables: { read: true },
-          },
-        );
-        const updatedOldCache = {
-          ...cachedOldNotes,
-          recentNotifications: {
-            ...cachedOldNotes.recentNotifications,
-            notificationRecords: [
-              ...cachedOldNotes.recentNotifications.notificationRecords,
-              ...cachedUnreadNotes.recentNotifications.notificationRecords.filter(
-                record => record.readRecordId === read_id,
-              ),
-            ],
-          },
-        };
-        apolloClientCache.writeQuery({
-          query: RECENT_NOTIFICATIONS_QUERY,
-          variables: { read: true },
-          data: updatedOldCache,
-        });
+            data: updatedOldCache,
+          });
+        } catch (err) {
+          // probably the query was not found
+          console.warn(err);
+          return;
+        }
       }}
     >
       {markAsRead => {

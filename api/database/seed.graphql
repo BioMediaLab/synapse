@@ -1,33 +1,145 @@
 mutation {
+  randomUser: createUser(
+    data: {
+      name: "Joe Student"
+      email: "joestudent@maine.edu"
+      photo: "https://m.media-amazon.com/images/M/MV5BMTQ4MjU2NDE1OV5BMl5BanBnXkFtZTgwMTk2ODMxMDE@._V1_UX214_CR0,0,214,317_AL_.jpg"
+    }
+  ) {
+    id
+  }
+  andysAccount: createUser(
+    data: {
+      name: "Andy Kay"
+      email: "andrew.kay@maine.edu"
+      photo: "https://www.gravatar.com/avatar/ac8a691f681031656c84b739ff3f90bc?s=2048&d=mm"
+      isAdmin: true
+    }
+  ) {
+    id
+  }
+  enochsAccount: createUser(
+    data: {
+      name: "Enoch Lin"
+      email: "wei.lin@maine.edu"
+      photo: "https://lh3.google.com/u/0/d/10aKy5Rn4ytZKEG-eW3BYDbJHRMTtwdJy=w1158-h733-iv1"
+      isAdmin: true
+    }
+  ) {
+    id
+  }
+  nicksAccount: createUser(
+    data: {
+      name: "Nick Dieff"
+      email: "nicholas.dieffenbacherkrall@maine.edu"
+      photo: "https://scontent.fzty2-1.fna.fbcdn.net/v/t1.0-9/12801424_844728808969037_6877749790531078253_n.jpg?_nc_cat=111&_nc_ht=scontent.fzty2-1.fna&oh=9c47dbbf66509d1892d78105f764e007&oe=5C68511C"
+      isAdmin: true
+    }
+  ) {
+    id
+  }
+  mattsAccount: createUser(
+    data: {
+      name: "Matt Loewen"
+      email: "mathew.loewen@maine.edu"
+      photo: "https://media.licdn.com/dms/image/C4D03AQG6mFlB2ruBpA/profile-displayphoto-shrink_200_200/0?e=1550102400&v=beta&t=U3ZshofocGI47-7oXp7gir4EgmP5A6853AkQlU9YQZA"
+      isAdmin: true
+    }
+  ) {
+    id
+  }
+  sethsAccount: createUser(
+    data: {
+      name: "Seth Tyler"
+      email: "styler@maine.edu"
+      photo: "https://sbe.umaine.edu/wp-content/uploads/sites/92/2012/10/seth_tyler1-150x150.jpeg"
+      isAdmin: true
+    }
+  ) {
+    id
+  }
+
   testCourse: createCourse(
     data: {
       name: "Grocking and Kicking"
       description: "A test course"
-      users: {
+      userRoles: {
         create: [
           {
-            name: "Andy Kay"
-            email: "andrew.kay@maine.edu"
-            photo: "https://www.gravatar.com/avatar/ac8a691f681031656c84b739ff3f90bc?s=2048&d=mm"
-            isAdmin: true
+            user: { connect: { email: "andrew.kay@maine.edu" } }
+            user_type: ADMIN
           }
           {
-            name: "Enoch Lin"
-            email: "wei.lin@maine.edu"
-            photo: "https://lh3.google.com/u/0/d/10aKy5Rn4ytZKEG-eW3BYDbJHRMTtwdJy=w1158-h733-iv1"
-            isAdmin: true
+            user: { connect: { email: "wei.lin@maine.edu" } }
+            user_type: ADMIN
           }
           {
-            name: "Matt Loewen"
-            email: "mathew.loewen@maine.edu"
-            photo: "https://media.licdn.com/dms/image/C4D03AQG6mFlB2ruBpA/profile-displayphoto-shrink_200_200/0?e=1550102400&v=beta&t=U3ZshofocGI47-7oXp7gir4EgmP5A6853AkQlU9YQZA"
-            isAdmin: true
+            user: { connect: { email: "mathew.loewen@maine.edu" } }
+            user_type: ADMIN
           }
           {
-            name: "Nick Dieff"
-            email: "nicholas.dieffenbacherkrall@maine.edu"
-            photo: "https://scontent.fzty2-1.fna.fbcdn.net/v/t1.0-9/12801424_844728808969037_6877749790531078253_n.jpg?_nc_cat=111&_nc_ht=scontent.fzty2-1.fna&oh=9c47dbbf66509d1892d78105f764e007&oe=5C68511C"
-            isAdmin: true
+            user: {
+              connect: { email: "nicholas.dieffenbacherkrall@maine.edu" }
+            }
+            user_type: ADMIN
+          }
+          { user: { connect: { email: "styler@maine.edu" } }, user_type: ADMIN }
+          {
+            user: { connect: { email: "joestudent@maine.edu" } }
+            user_type: STUDENT
+          }
+        ]
+      }
+      files: {
+        create: [
+          {
+            url: "https://ihatetomatoes.net/wp-content/uploads/2017/01/react-cheat-sheet.pdf"
+            creator: { connect: { email: "wei.lin@maine.edu" } }
+            name: "ReactJS cheatsheet"
+            type: "application/pdf"
+            forUnits: true
+            description: "A cheatsheet for React developers."
+          }
+        ]
+      }
+      announcements: {
+        create: [
+          {
+            type: COURSE
+            users: { connect: [] }
+            reads: {
+              create: [
+                {
+                  user: { connect: { email: "wei.lin@maine.edu" } }
+                  read: false
+                }
+                {
+                  user: { connect: { email: "mathew.loewen@maine.edu" } }
+                  read: false
+                }
+                {
+                  user: { connect: { email: "styler@maine.edu" } }
+                  read: false
+                }
+                {
+                  user: {
+                    connect: { email: "nicholas.dieffenbacherkrall@maine.edu" }
+                  }
+                  read: false
+                }
+                {
+                  user: { connect: { email: "joestudent@maine.edu" } }
+                  read: true
+                }
+              ]
+            }
+            message: {
+              create: {
+                body: "{\"blocks\":[{\"key\":\"587ed\",\"text\":\"Hello World.\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}},{\"key\":\"8i7oh\",\"text\":\"Hello World.\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[{\"offset\":0,\"length\":12,\"style\":\"BOLD\"}],\"entityRanges\":[],\"data\":{}},{\"key\":\"5ua4k\",\"text\":\"Hello World.\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[{\"offset\":0,\"length\":12,\"style\":\"ITALIC\"},{\"offset\":0,\"length\":12,\"style\":\"UNDERLINE\"}],\"entityRanges\":[],\"data\":{}},{\"key\":\"49l12\",\"text\":\"\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}},{\"key\":\"bvmfb\",\"text\":\"https://www.google.com\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}},{\"key\":\"7i8vq\",\"text\":\"\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],\"entityMap\":{}}"
+                creator: { connect: { email: "andrew.kay@maine.edu" } }
+                subject: "Test Message"
+              }
+            }
           }
         ]
       }
@@ -35,28 +147,51 @@ mutation {
   ) {
     id
   }
+
   bio100: createCourse(
     data: {
       name: "BIO 100"
       description: "An introduction to the following fundamental topics in biology: the structure and function of cells, the molecular basis and mechanisms of genetic inheritance, concepts in evolution, mechanisms of metabolism, and ecology. Open to students in all colleges, but limited to students in programs requiring this course or intending to take additional biology courses. Lec 3 Lab 2 Students in online lecture sections have an onsite laboratory and an onsite recitation. Lec 3, Lab 2, Rec 1"
-      users: {
+      userRoles: {
         create: [
           {
-            name: "Farahad Dastoor"
-            email: "farahad.dastoor@maine.edu"
-            photo: "https://sbe.umaine.edu/wp-content/uploads/sites/92/2018/07/farahad.png"
+            user: {
+              create: {
+                name: "Farahad Dastoor"
+                email: "farahad.dastoor@maine.edu"
+                photo: "https://sbe.umaine.edu/wp-content/uploads/sites/92/2018/07/farahad.png"
+              }
+            }
+            user_type: PROFESSOR
           }
           {
-            name: "Julia McGuire"
-            email: "julia.mcguire@maine.edu"
-            photo: "https://sbe.umaine.edu/wp-content/uploads/sites/92/2017/08/McGuire_SBE_website_large-296x300.jpg"
+            user: {
+              create: {
+                name: "Julia McGuire"
+                email: "julia.mcguire@maine.edu"
+                photo: "https://sbe.umaine.edu/wp-content/uploads/sites/92/2017/08/McGuire_SBE_website_large-296x300.jpg"
+              }
+            }
+            user_type: PROFESSOR
           }
-        ]
-        connect: [
-          { email: "andrew.kay@maine.edu" }
-          { email: "wei.lin@maine.edu" }
-          { email: "mathew.loewen@maine.edu" }
-          { email: "nicholas.dieffenbacherkrall@maine.edu" }
+          {
+            user: { connect: { email: "andrew.kay@maine.edu" } }
+            user_type: ADMIN
+          }
+          {
+            user: { connect: { email: "wei.lin@maine.edu" } }
+            user_type: STUDENT
+          }
+          {
+            user: { connect: { email: "styler@maine.edu" } }
+            user_type: AUDITOR
+          }
+          {
+            user: {
+              connect: { email: "nicholas.dieffenbacherkrall@maine.edu" }
+            }
+            user_type: STUDENT
+          }
         ]
       }
     }
@@ -67,19 +202,34 @@ mutation {
     data: {
       name: "Synapse Demo"
       description: "Synapse is a Web application developed by the BioMediaLab, part of the School of Biology at the University of Maine. It is used by multiple courses each semester to provide online resources, such as course handouts, quizzes, grades, and discussion."
-      users: {
+      userRoles: {
         create: [
           {
-            name: "Seth Tyler"
-            email: "styler@maine.edu"
-            photo: "https://sbe.umaine.edu/wp-content/uploads/sites/92/2012/10/seth_tyler1-150x150.jpeg"
+            user: { connect: { email: "andrew.kay@maine.edu" } }
+            user_type: ADMIN
           }
-        ]
-        connect: [
-          { email: "andrew.kay@maine.edu" }
-          { email: "wei.lin@maine.edu" }
-          { email: "mathew.loewen@maine.edu" }
-          { email: "nicholas.dieffenbacherkrall@maine.edu" }
+          {
+            user: { connect: { email: "wei.lin@maine.edu" } }
+            user_type: STUDENT
+          }
+          {
+            user: { connect: { email: "mathew.loewen@maine.edu" } }
+            user_type: ASSISTANT
+          }
+          {
+            user: {
+              connect: { email: "nicholas.dieffenbacherkrall@maine.edu" }
+            }
+            user_type: AUDITOR
+          }
+          {
+            user: { connect: { email: "styler@maine.edu" } }
+            user_type: PROFESSOR
+          }
+          {
+            user: { connect: { email: "joestudent@maine.edu" } }
+            user_type: STUDENT
+          }
         ]
       }
     }

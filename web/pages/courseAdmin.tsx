@@ -1,7 +1,5 @@
 import React from "react";
 import { withRouter, WithRouterProps } from "next/router";
-import { Query, Mutation } from "react-apollo";
-import gql from "graphql-tag";
 import {
   LinearProgress,
   withStyles,
@@ -14,32 +12,18 @@ import {
   Button,
 } from "@material-ui/core";
 import { KeyboardReturn as BackIcon } from "@material-ui/icons";
+import { Query } from "react-apollo";
 
 import withAuth from "../lib/withAuth";
 import ErrorMessage from "../components/ErrorMessage";
 import BigTextEdit from "../components/BigTextEdit";
 import StudentAdminView from "../components/StudentAdminView";
 import { Link } from "../Router";
-
-const COURSE_QUERY = gql`
-  query($id: ID!) {
-    course(where: { id: $id }) {
-      name
-      description
-      id
-    }
-  }
-`;
-
-const COURSE_DESC_MUTATION = gql`
-  mutation($desc: String!, $id: String!) {
-    updateCourseDescription(course_id: $id, description: $desc) {
-      name
-      description
-      id
-    }
-  }
-`;
+import {
+  COURSE_QUERY,
+  COURSE_DESC_MUTATION,
+  CourseDescMutation,
+} from "../queries/courseQueries";
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -107,7 +91,7 @@ const CourseTools: React.SFC<PageProps> = ({ router, classes }) => {
                 </Typography>
                 <Divider />
                 <div className={classes.toolSectionMainContent}>
-                  <Mutation mutation={COURSE_DESC_MUTATION}>
+                  <CourseDescMutation mutation={COURSE_DESC_MUTATION}>
                     {(doMutate, { loading: mutationLoading }) => {
                       return (
                         <BigTextEdit
@@ -122,7 +106,7 @@ const CourseTools: React.SFC<PageProps> = ({ router, classes }) => {
                         />
                       );
                     }}
-                  </Mutation>
+                  </CourseDescMutation>
                 </div>
               </Paper>
               <Paper className={classes.toolSection}>

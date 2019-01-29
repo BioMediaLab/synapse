@@ -1,5 +1,10 @@
 require("./config").config();
 
+const Sentry = require("@sentry/node");
+Sentry.init({
+  dsn: "https://b9f7feb6bbc045bb9dce100a1208ad84@sentry.io/1366990",
+});
+
 const express = require("express");
 const next = require("next");
 const routes = require("./routes");

@@ -5,6 +5,7 @@ import Layout from "../components/Layout";
 
 interface IWithAuthProps {
   hasSession: string | boolean;
+  pageContext: any;
 }
 
 function withAuth(BaseComponent) {
@@ -19,7 +20,10 @@ function withAuth(BaseComponent) {
           maxSnack={3}
           anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
         >
-          <Layout>
+          <Layout
+            hasSession={this.props.hasSession}
+            pageContext={this.props.pageContext}
+          >
             <BaseComponent {...this.props} />
           </Layout>
         </SnackbarProvider>

@@ -1,6 +1,5 @@
 import React from "react";
-import Button from "@material-ui/core/Button";
-import SvgIcon from "@material-ui/core/SvgIcon";
+import { Fab, SvgIcon } from "@material-ui/core";
 import { withStyles, createStyles } from "@material-ui/core/styles";
 
 const styles = theme =>
@@ -32,9 +31,9 @@ const SignInWithGoogleButton: React.SFC<ISignInWithGoogleButtonProps> = ({
   onClick,
   classes,
 }) => (
-  <Button
+  <Fab
     type="submit"
-    variant="extendedFab"
+    variant="extended"
     color="primary"
     className={classes.button}
     onClick={onClick}
@@ -71,7 +70,7 @@ const SignInWithGoogleButton: React.SFC<ISignInWithGoogleButtonProps> = ({
       {" "}
     </SvgIcon>
     Sign In With Google
-  </Button>
+  </Fab>
 );
 
 export default withStyles(styles)(SignInWithGoogleButton);

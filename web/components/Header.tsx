@@ -1,18 +1,23 @@
 import React from "react";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import IconButton from "@material-ui/core/IconButton";
-import Badge from "@material-ui/core/Badge";
-import MenuItem from "@material-ui/core/MenuItem";
-import Menu from "@material-ui/core/Menu";
-import { createStyles, withStyles } from "@material-ui/core/styles";
-import MenuIcon from "@material-ui/icons/Menu";
-import AccountCircle from "@material-ui/icons/AccountCircle";
-import MailIcon from "@material-ui/icons/Mail";
-import MoreIcon from "@material-ui/icons/MoreVert";
-import Drawer from "@material-ui/core/Drawer";
+import {
+  AppBar,
+  Toolbar,
+  IconButton,
+  Badge,
+  Menu,
+  MenuItem,
+  Drawer,
+  createStyles,
+  withStyles,
+} from "@material-ui/core";
+import {
+  Menu as MenuIcon,
+  AccountCircle,
+  Mail as MailIcon,
+  MoreVert as MoreIcon,
+  Settings as AdminIcon,
+} from "@material-ui/icons";
 import { Query } from "react-apollo";
-import gql from "graphql-tag";
 
 import ProfilePic from "../components/ProfilePic";
 import { Link, Router } from "../Router";
@@ -20,18 +25,7 @@ import SearchBar from "../components/SearchBar";
 import CourseList from "./CourseList";
 import Notifications from "./NotificationMenu";
 import { destroySessionFrontend } from "../lib/handleSessions";
-
-const GET_ME = gql`
-  {
-    me @client {
-      isAdmin
-      id
-      name
-      email
-      photo
-    }
-  }
-`;
+import { GET_ME } from "../queries/userQueries";
 
 const drawerWidth = 300;
 
@@ -141,6 +135,10 @@ class PrimarySearchAppBar extends React.Component<IProps, IState> {
     Router.pushRoute("/settings");
   };
 
+  goToAdmin = () => {
+    Router.pushRoute("/admin");
+  };
+
   handleMenuClick = () => {
     this.setState({ open: !this.state.open });
   };
@@ -247,38 +245,55 @@ class PrimarySearchAppBar extends React.Component<IProps, IState> {
 
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
-              <Notifications />
-              <IconButton color="inherit">
-                <Badge badgeContent={4} color="secondary">
-                  <MailIcon />
-                </Badge>
-              </IconButton>
               <Query query={GET_ME}>
                 {({ loading, error, data }) => {
                   if (loading || error) {
                     return (
+                      <>
+                        <Notifications />
+                        <IconButton color="inherit">
+                          <Badge badgeContent={4} color="secondary">
+                            <MailIcon />
+                          </Badge>
+                        </IconButton>
+                        <IconButton
+                          aria-owns={isMenuOpen ? "material-appbar" : null}
+                          aria-haspopup="true"
+                          onClick={this.handleProfileMenuOpen}
+                          color="inherit"
+                        >
+                          <AccountCircle />
+                        </IconButton>
+                      </>
+                    );
+                  }
+
+                  return (
+                    <>
+                      {data.me.isAdmin ? (
+                        <IconButton color="inherit" onClick={this.goToAdmin}>
+                          <AdminIcon />
+                        </IconButton>
+                      ) : (
+                        <span />
+                      )}
+                      <Notifications />
+                      <IconButton color="inherit">
+                        <Badge badgeContent={4} color="secondary">
+                          <MailIcon />
+                        </Badge>
+                      </IconButton>
                       <IconButton
                         aria-owns={isMenuOpen ? "material-appbar" : null}
                         aria-haspopup="true"
                         onClick={this.handleProfileMenuOpen}
                         color="inherit"
+                        className={classes.profilePicIconButton}
+                        style={{ padding: 0 }}
                       >
-                        <AccountCircle />
+                        <ProfilePic user={data.me} />
                       </IconButton>
-                    );
-                  }
-
-                  return (
-                    <IconButton
-                      aria-owns={isMenuOpen ? "material-appbar" : null}
-                      aria-haspopup="true"
-                      onClick={this.handleProfileMenuOpen}
-                      color="inherit"
-                      className={classes.profilePicIconButton}
-                      style={{ padding: 0 }}
-                    >
-                      <ProfilePic user={data.me} />
-                    </IconButton>
+                    </>
                   );
                 }}
               </Query>
