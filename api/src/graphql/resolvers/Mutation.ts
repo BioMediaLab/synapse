@@ -7,6 +7,7 @@ import {
   User,
   ContentPieceUpdateInput,
   UserUpdateDataInput,
+  CourseCreateInput,
 } from "../../../generated/prisma";
 import { IntResolverContext } from "../../graphqlContext";
 import { sendCourseMessageEmail } from "../../utils/emailCourse";
@@ -46,10 +47,18 @@ export const Mutation = {
   createCourse: {
     resolver: async (root, args, context) => {
       const { name } = args;
-      return prisma.createCourse({
+      const data: CourseCreateInput = {
         name,
-        description: args.description,
-      });
+      };
+      if (args.description) {
+        data.description = args.description;
+      }
+      if (args.parent_id) {
+        data.parent = {
+          connect: args.parent_id,
+        };
+      }
+      return prisma.createCourse(data);
     },
     shield: isSystemAdmin,
   },

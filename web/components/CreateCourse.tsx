@@ -13,6 +13,7 @@ import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import Snackbar from "@material-ui/core/Snackbar";
 
+import CourseSearch from "./CourseSearch";
 import { CREATE_COURSE } from "../queries/courseQueries";
 
 const styles = theme =>
@@ -43,6 +44,7 @@ interface ICreateCourseState {
   createFormOpen: boolean;
   courseName: string;
   courseDesc: string;
+  selectedParent: string;
   showSnackbar: boolean;
   createSuccessful: boolean;
 }
@@ -55,6 +57,7 @@ class CreateCourse extends React.Component<
     createFormOpen: false,
     courseName: "",
     courseDesc: "",
+    selectedParent: "",
     showSnackbar: false,
     createSuccessful: true,
   };
@@ -117,19 +120,23 @@ class CreateCourse extends React.Component<
                 Create A New Course
               </Typography>
               <div className={classes.grow} />
-              <Mutation
-                mutation={CREATE_COURSE}
-                variables={{
-                  name: this.state.courseName,
-                  description: this.state.courseDesc,
-                }}
-              >
+              <Mutation mutation={CREATE_COURSE}>
                 {doMutation => {
+                  const vars = {
+                    name: this.state.courseName,
+                    description: this.state.courseDesc,
+                  };
+                  if (this.state.selectedParent.length > 2) {
+                    (vars as any).parent_id = this.state.selectedParent;
+                  }
+                  const create = () => {
+                    doMutation({ variables: vars });
+                  };
                   return (
                     <Button
                       color="inherit"
                       onClick={() => {
-                        this.createCourse(doMutation);
+                        this.createCourse(create);
                       }}
                       aria-label="Close"
                     >
@@ -148,21 +155,41 @@ class CreateCourse extends React.Component<
             </Toolbar>
           </AppBar>
           <form className={classes.formMain}>
-            <Grid container justify="center" direction="column">
+            <Grid container>
               <Grid item>
-                <TextField
-                  label="Course Name"
-                  required
-                  onChange={e => this.setState({ courseName: e.target.value })}
-                  value={this.state.courseName}
-                />
+                <Grid container justify="center" direction="column">
+                  <Grid item>
+                    <TextField
+                      label="Course Name"
+                      required
+                      onChange={e =>
+                        this.setState({ courseName: e.target.value })
+                      }
+                      value={this.state.courseName}
+                    />
+                  </Grid>
+                  <Grid item>
+                    <TextField
+                      multiline
+                      label="Course Description"
+                      onChange={e =>
+                        this.setState({ courseDesc: e.target.value })
+                      }
+                      value={this.state.courseDesc}
+                    />
+                  </Grid>
+                </Grid>
               </Grid>
               <Grid item>
-                <TextField
-                  multiline
-                  label="Course Description"
-                  onChange={e => this.setState({ courseDesc: e.target.value })}
-                  value={this.state.courseDesc}
+                <CourseSearch
+                  allCourses
+                  value={this.state.selectedParent}
+                  onChange={newCourse =>
+                    this.setState(state => ({
+                      ...state,
+                      selectedParent: newCourse,
+                    }))
+                  }
                 />
               </Grid>
             </Grid>
