@@ -1,6 +1,7 @@
 import React from "react";
 import Typography from "@material-ui/core/Typography";
 import { createStyles, withStyles, Grid } from "@material-ui/core";
+import { Link } from "../Router";
 
 const styles = createStyles(theme => ({
   root: {
@@ -9,7 +10,8 @@ const styles = createStyles(theme => ({
     marginBottom: theme.spacing.unit * 2,
   },
   description: {
-    color: "#A6ADB7",
+    color: "#444444",
+    fontSize: "16px",
   },
 }));
 
@@ -31,9 +33,11 @@ interface ICourseHeaderProps {
 const CourseHeader: React.SFC<ICourseHeaderProps> = ({ course, classes }) => (
   <div className={classes.root}>
     <Grid container alignItems="flex-end" justify="space-between">
-      <Typography variant="h4" style={{ fontWeight: 500 }}>
-        {course.name} {course.term}
-      </Typography>
+      <Link route="courses" params={{ id: course.id }}>
+        <Typography variant="h4" style={{ fontSize: "36px", fontWeight: 600 }}>
+          {course.name} {course.term}
+        </Typography>
+      </Link>
     </Grid>
 
     <Typography variant="subtitle1" gutterBottom>
