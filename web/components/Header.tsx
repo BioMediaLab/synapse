@@ -63,7 +63,6 @@ const styles = theme =>
       minHeight: "100vh",
       height: "100%",
       overflowX: "hidden",
-      backgroundColor: "#FAFAFA",
     },
     toolbar: theme.mixins.toolbar,
     profilePicIconButton: {
