@@ -46,13 +46,6 @@ const CourseModListItems = ({ course, classes }) => {
                 </ListItem>
               </Link>
 
-              <Link route="course-files" params={{ id: course.id }}>
-                <ListItem className={classes.nested} button>
-                  <CourseFilesIcon color="inherit" />
-                  <ListItemText primary="Files" />
-                </ListItem>
-              </Link>
-
               <Link route="course-grades" params={{ id: course.id }}>
                 <ListItem className={classes.nested} button>
                   <GradebookIcon color="inherit" />
