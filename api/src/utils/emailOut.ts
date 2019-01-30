@@ -111,7 +111,7 @@ export const sendManyEmails = (
 
 export const canSendEmail = (): boolean => mailgunHelper.sendEmail();
 
-const TEMPLATE_BASE_DIR = "emailTemplates";
+const TEMPLATE_BASE_DIR = "email-templates";
 
 export const getEmailTempate = (fileName: string) => {
   return pug.compileFile(`${TEMPLATE_BASE_DIR}/${fileName}`);
