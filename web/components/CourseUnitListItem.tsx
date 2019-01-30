@@ -18,7 +18,7 @@ const FileViewerDialog = dynamic(() => import("./FileViewerDialog"), {
 const styles = theme =>
   createStyles({
     root: {
-      width: "100%",
+      maxWidth: "100%",
       marginBottom: theme.spacing.unit,
     },
     heading: {
@@ -39,6 +39,8 @@ const styles = theme =>
       paddingBottom: theme.spacing.unit,
       paddingLeft: theme.spacing.unit * 2,
       paddingRight: theme.spacing.unit * 2,
+      display: "flex",
+      flexDirection: "row",
     },
     list: {
       width: "100%",
@@ -77,12 +79,9 @@ class CourseUnitListItem extends Component {
             </Typography>
           </ExpansionPanelSummary>
 
-          <Box
-            flexDirection="row-reverse"
-            className={classes.customActionPanel}
-          >
+          <div className={classes.customActionPanel}>
             <AddFileToUnitButton courseId={courseId} unitId={unit.id} />
-          </Box>
+          </div>
 
           <ExpansionPanelDetails className={classes.expansionPanelDetails}>
             <List className={classes.list}>
