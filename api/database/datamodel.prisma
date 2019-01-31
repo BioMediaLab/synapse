@@ -22,6 +22,7 @@ type Course {
   name: String! @unique
   title: String
   description: String
+  requireActivation: Boolean @default(value: "false")
   activations: [Activation!]!
   term: String
   units: [CourseUnit!]!
