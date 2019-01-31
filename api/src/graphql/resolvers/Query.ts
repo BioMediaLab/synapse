@@ -36,7 +36,15 @@ export const Query = {
   user: { resolver: forwardTo("bindingDb") as any },
   me: {
     resolver: async (root, args, context): Promise<User> => {
-      return prisma.user({ id: context.id });
+      const user = await prisma.user({ id: context.id });
+      if (!user.hasVisited) {
+        // update the user object to record their visit
+        await prisma.updateUser({
+          where: { id: context.id },
+          data: { hasVisited: true },
+        });
+      }
+      return user;
     },
   },
   myRoleInCourse: {
