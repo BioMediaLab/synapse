@@ -54,7 +54,7 @@ type Activation {
   id: ID! @unique
   activation_code: String! @unique
   course: Course
-  user: CourseUser
+  user: User
   activatedAt: DateTime
   createdAt: DateTime!
   updatedAt: DateTime!

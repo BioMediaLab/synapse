@@ -504,8 +504,7 @@ export const Mutation = {
   },
   useActivationCode: {
     resolver: async (root, args, info) => {
-      const { activation_code, course_id } = args;
-      console.log(info);
+      const { activation_code, course_id, user_id } = args;
 
       const activation = await prisma.activation({ activation_code });
       var updatedActivation;
@@ -520,6 +519,11 @@ export const Mutation = {
             course: {
               connect: {
                 id: course_id,
+              },
+            },
+            user: {
+              connect: {
+                id: user_id,
               },
             },
             activatedAt: new Date(),

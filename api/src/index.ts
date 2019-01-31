@@ -60,10 +60,9 @@ const authMiddleware = async (
   const jwt = context.jwt;
 
   const me = await validateJWT(jwt);
-  /*
   if (!me.isValid) {
     throw new Error("unauthorized");
-  }*/
+  }
   context.id = me.uid;
   return resolve();
 };
