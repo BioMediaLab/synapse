@@ -31,6 +31,17 @@ const styles = theme =>
     grow: {
       flexGrow: 1,
     },
+    btnContainer: {
+      margin: theme.spacing.unit * 2,
+    },
+    contentContainer: {
+      margin: "auto",
+      height: "100%",
+    },
+    instructionHeader: {
+      marginLeft: theme.spacing.unit * -5,
+      padding: theme.spacing.unit,
+    },
   });
 
 const Transition = props => <Slide direction="up" {...props} />;
@@ -39,6 +50,9 @@ interface ICreateCourseProps {
   classes: {
     appBar: string;
     grow: string;
+    btnContainer: string;
+    contentContainer: string;
+    instructionHeader: string;
   };
 }
 
@@ -152,6 +166,11 @@ class NewCourse extends React.Component<Props, ICreateCourseState> {
       curStep = (
         <Grid container justify="center" direction="column">
           <Grid item>
+            <Typography className={classes.instructionHeader}>
+              Enter the basic information about the course:
+            </Typography>
+          </Grid>
+          <Grid item>
             <TextField
               label="Course Name"
               required
@@ -174,7 +193,9 @@ class NewCourse extends React.Component<Props, ICreateCourseState> {
       curStep = (
         <Grid container>
           <Grid item>
-            <Typography> Select a parent course?</Typography>
+            <Typography className={classes.instructionHeader}>
+              Select a parent course?
+            </Typography>
           </Grid>
           <Grid item>
             <CourseSearch
@@ -192,67 +213,91 @@ class NewCourse extends React.Component<Props, ICreateCourseState> {
       );
     } else if (this.state.stepIndex === 2) {
       curStep = (
-        <Grid container>
-          <Typography>
-            Choose some initial members for the new course:
-          </Typography>
-          <FormControlLabel
-            label="set me as a course admin"
-            control={
-              <Switch
-                checked={this.state.addMeAsadmin}
-                onChange={() =>
-                  this.setState(state => ({
-                    ...state,
-                    addMeAsadmin: !state.addMeAsadmin,
-                  }))
-                }
-              />
-            }
-          />
+        <Grid container direction="column">
+          <Grid item>
+            <Typography className={classes.instructionHeader}>
+              Choose some initial members for the new course:
+            </Typography>
+          </Grid>
+          <Grid item>
+            <FormControlLabel
+              label="set me as a course admin"
+              control={
+                <Switch
+                  checked={this.state.addMeAsadmin}
+                  onChange={() =>
+                    this.setState(state => ({
+                      ...state,
+                      addMeAsadmin: !state.addMeAsadmin,
+                    }))
+                  }
+                />
+              }
+            />
+          </Grid>
         </Grid>
+      );
+    } else {
+      curStep = (
+        <div>
+          <Typography variant="h5">
+            Confirm details of the new course
+          </Typography>
+          <ul>
+            <li>
+              <Typography>name: {this.state.courseName}</Typography>
+            </li>
+            <li>
+              <Typography>description: {this.state.courseDesc}</Typography>
+            </li>
+          </ul>
+        </div>
       );
     }
 
     const stepControlBtns = (
-      <>
-        <Button
-          variant="contained"
-          color="primary"
-          disabled={this.state.stepIndex === 0}
-          onClick={() =>
-            this.setState(state => ({
-              ...state,
-              stepIndex: state.stepIndex - 1,
-            }))
-          }
-        >
-          Back
-        </Button>
-        {this.state.stepIndex <= 2 ? (
+      <Grid container className={classes.btnContainer} justify="space-between">
+        <Grid item>
           <Button
             variant="contained"
             color="primary"
-            disabled={!this.nextEnabled()}
+            disabled={this.state.stepIndex === 0}
             onClick={() =>
               this.setState(state => ({
                 ...state,
-                stepIndex: state.stepIndex + 1,
+                stepIndex: state.stepIndex - 1,
               }))
             }
           >
-            Next
+            Back
           </Button>
-        ) : (
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={this.createCourse}
-          >
-            Finish
-          </Button>
-        )}
-      </>
+        </Grid>
+        <Grid item>
+          {this.state.stepIndex <= 2 ? (
+            <Button
+              variant="contained"
+              color="primary"
+              disabled={!this.nextEnabled()}
+              onClick={() =>
+                this.setState(state => ({
+                  ...state,
+                  stepIndex: state.stepIndex + 1,
+                }))
+              }
+            >
+              Next
+            </Button>
+          ) : (
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={this.createCourse}
+            >
+              Finish
+            </Button>
+          )}
+        </Grid>
+      </Grid>
     );
 
     return (
@@ -296,8 +341,20 @@ class NewCourse extends React.Component<Props, ICreateCourseState> {
             </Step>
           </Stepper>
           <DialogContent>
-            {curStep}
-            {stepControlBtns}
+            <Grid
+              container
+              direction="column"
+              alignItems="center"
+              spacing={24}
+              className={classes.contentContainer}
+            >
+              <Grid item xs={8}>
+                {curStep}
+              </Grid>
+              <Grid item xs={2}>
+                {stepControlBtns}
+              </Grid>
+            </Grid>
           </DialogContent>
         </Dialog>
       </>

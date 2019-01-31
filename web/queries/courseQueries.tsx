@@ -24,7 +24,11 @@ export const GET_COURSES: DocumentNode = gql`
 
 export const CREATE_COURSE: DocumentNode = gql`
   mutation CreateCourse($name: String!, $description: String!, $parent_id: ID) {
-    createCourse(name: $name, description: $description) {
+    createCourse(
+      name: $name
+      description: $description
+      parent_id: $parent_id
+    ) {
       name
       id
     }

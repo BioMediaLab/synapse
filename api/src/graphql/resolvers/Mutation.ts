@@ -1,5 +1,4 @@
 import { rule, or } from "graphql-shield";
-
 import {
   prisma,
   Course,
@@ -55,7 +54,7 @@ export const Mutation = {
       }
       if (args.parent_id) {
         data.parent = {
-          connect: args.parent_id,
+          connect: { id: args.parent_id },
         };
       }
       return prisma.createCourse(data);
