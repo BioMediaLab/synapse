@@ -1,5 +1,6 @@
 import React from "react";
-import { graphql, ChildMutateProps } from "react-apollo";
+import { withApollo, WithApolloClient } from "react-apollo";
+import gql from "graphql-tag";
 import { withSnackbar, InjectedNotistackProps } from "notistack";
 import {
   Button,
@@ -22,6 +23,26 @@ import {
 
 import CourseSearch from "./CourseSearch";
 import { CREATE_COURSE } from "../queries/courseQueries";
+import { GET_ME } from "../queries/userQueries";
+
+const ADD_ME = gql`
+  mutation($courseId: String!, $me: String!) {
+    addUsersToCourse(
+      course_id: $courseId
+      users: [{ user_id: $me, role: ADMIN }]
+    ) {
+      id
+      userRoles {
+        id
+        user_type
+        user {
+          id
+          name
+        }
+      }
+    }
+  }
+`;
 
 const styles = theme =>
   createStyles({
@@ -71,18 +92,7 @@ interface ICreateCourseVars {
   parentId?: string;
 }
 
-type Props = ICreateCourseProps &
-  InjectedNotistackProps &
-  ChildMutateProps<
-    {},
-    {
-      createCourse: {
-        name: string;
-        id: string;
-      };
-    },
-    ICreateCourseVars
-  >;
+type Props = WithApolloClient<ICreateCourseProps & InjectedNotistackProps>;
 
 class NewCourse extends React.Component<Props, ICreateCourseState> {
   state = {
@@ -114,32 +124,49 @@ class NewCourse extends React.Component<Props, ICreateCourseState> {
 
   createCourse = async () => {
     this.closeCreateForm();
-    const variables = {
+    const variables: ICreateCourseVars = {
       name: this.state.courseName,
       description: this.state.courseDesc,
     };
     if (this.state.selectedParent && this.state.selectedParent.id) {
       (variables as any).parent_id = this.state.selectedParent.id;
     }
-    const result = await this.props.mutate({ variables });
+    const result = await this.props.client.mutate({
+      mutation: CREATE_COURSE,
+      variables,
+    });
 
-    // If there was an error, we will sniff it out and then display a message to the user
-    if (
-      !result ||
-      (result && (result.errors.length >= 0 || !result.data.createCourse.id))
-    ) {
+    let wasThereAnError: boolean = false;
+    if (!result || result.errors) {
+      wasThereAnError = true;
+    }
+    if (this.state.addMeAsadmin && !wasThereAnError) {
+      const me = await this.props.client.query({ query: GET_ME });
+      if (!me || !me.data || me.errors) {
+        wasThereAnError = true;
+      } else {
+        // TODO: this could probably be typed better
+        const userAddResult = await this.props.client.mutate({
+          mutation: ADD_ME,
+          variables: {
+            courseId: (result.data as any).createCourse.id,
+            me: (me.data as any).me.id,
+          },
+        });
+        if (!userAddResult || userAddResult.errors) {
+          wasThereAnError = true;
+        }
+      }
+    }
+    if (wasThereAnError) {
       this.props.enqueueSnackbar("Failed to create course", {
         variant: "error",
       });
-      return;
+    } else {
+      this.props.enqueueSnackbar("Course Created", {
+        variant: "success",
+      });
     }
-    if (this.state.addMeAsadmin) {
-      // TODO: implement this
-      console.log("add me as admin!");
-    }
-    this.props.enqueueSnackbar("Course Created", {
-      variant: "success",
-    });
   };
 
   nextEnabled = (): boolean => {
@@ -362,6 +389,4 @@ class NewCourse extends React.Component<Props, ICreateCourseState> {
   }
 }
 
-export default graphql<{}, {}, ICreateCourseVars>(CREATE_COURSE)(
-  withSnackbar(withStyles(styles)(NewCourse)),
-);
+export default withApollo(withSnackbar(withStyles(styles)(NewCourse)));
