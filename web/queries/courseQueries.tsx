@@ -153,16 +153,6 @@ interface ICoursesListQueryResult {
 
 export class QueryGetCourses extends Query<ICoursesListQueryResult, {}> {}
 
-export class ActivationCodeCreateMutation extends Mutation<
-  { id: string },
-  { activation_code: string }
-> {}
-
-export class ActivationCodeUseMutation extends Mutation<
-  { id: string },
-  { activation_code: string; course_id: string }
-> {}
-
 export class CourseDescMutation extends Mutation<
   { id: string },
   { desc: string; id: string }

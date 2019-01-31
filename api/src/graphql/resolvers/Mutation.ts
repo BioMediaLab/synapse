@@ -460,7 +460,7 @@ export const Mutation = {
     shield: or(isSystemAdmin, isCourseProfessorFromId, isCourseAdminFromId),
   },
   updateUserSettings: {
-    resolver: async (root, args, context, info): Promise<User> => {
+    resolver: async (root, args, context): Promise<User> => {
       const id = args.user_id ? args.user_id : context.id;
       const { fields } = args;
 
@@ -503,7 +503,7 @@ export const Mutation = {
     },
   },
   useActivationCode: {
-    resolver: async (root, args, info) => {
+    resolver: async (root, args) => {
       const { activation_code, course_id, user_id } = args;
 
       const activation = await prisma.activation({ activation_code });
