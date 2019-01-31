@@ -7,6 +7,8 @@ import {
   User,
   ContentPieceUpdateInput,
   UserUpdateDataInput,
+  ActivationCreateInput,
+  Activation,
 } from "../../../generated/prisma";
 import { IntResolverContext } from "../../graphqlContext";
 import { sendCourseMessageEmail } from "../../utils/emailCourse";
@@ -488,5 +490,49 @@ export const Mutation = {
       }
       return true;
     }),
+  },
+  addActivationCode: {
+    resolver: async (root, args) => {
+      const { activation_code } = args;
+
+      const activation = await prisma.createActivation({
+        activation_code,
+      });
+
+      return activation;
+    },
+  },
+  useActivationCode: {
+    resolver: async (root, args) => {
+      const { activation_code, course_id, user_id } = args;
+
+      const activation = await prisma.activation({ activation_code });
+      var updatedActivation;
+
+      if (!activation) {
+        throw new Error("Invalid Activation Code!");
+      } else if (activation.activatedAt)
+        throw new Error("Activation code has already been used.");
+      else {
+        updatedActivation = await prisma.updateActivation({
+          data: {
+            course: {
+              connect: {
+                id: course_id,
+              },
+            },
+            user: {
+              connect: {
+                id: user_id,
+              },
+            },
+            activatedAt: new Date(),
+          },
+          where: { id: activation.id },
+        });
+      }
+
+      return updatedActivation;
+    },
   },
 };

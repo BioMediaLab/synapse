@@ -152,6 +152,7 @@ mutation {
     data: {
       name: "BIO 100"
       description: "An introduction to the following fundamental topics in biology: the structure and function of cells, the molecular basis and mechanisms of genetic inheritance, concepts in evolution, mechanisms of metabolism, and ecology. Open to students in all colleges, but limited to students in programs requiring this course or intending to take additional biology courses. Lec 3 Lab 2 Students in online lecture sections have an onsite laboratory and an onsite recitation. Lec 3, Lab 2, Rec 1"
+      requireActivation: true
       userRoles: {
         create: [
           {
@@ -202,6 +203,7 @@ mutation {
     data: {
       name: "Synapse Demo"
       description: "Synapse is a Web application developed by the BioMediaLab, part of the School of Biology at the University of Maine. It is used by multiple courses each semester to provide online resources, such as course handouts, quizzes, grades, and discussion."
+      requireActivation: true
       userRoles: {
         create: [
           {

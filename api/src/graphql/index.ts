@@ -18,6 +18,7 @@ import { Notification as NotitificationResolvers } from "./resolvers/Notificatio
 import { Course } from "./resolvers/Course";
 import { MessageTarget } from "./resolvers/MessageTarget";
 import { Message } from "./resolvers/Message";
+import { Activation } from "./resolvers/Activation";
 
 const Subscription = {
   notification: {
@@ -78,6 +79,7 @@ createTopLevelResolver("Notification", NotitificationResolvers);
 createTopLevelResolver("Course", Course);
 createTopLevelResolver("MessageTarget", MessageTarget);
 createTopLevelResolver("Message", Message);
+createTopLevelResolver("Activation", Activation);
 
 export const getShield = () => shield(shieldBuilder);
 export const getResolvers = (): IResolvers => {
