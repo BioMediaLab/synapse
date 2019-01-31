@@ -23,4 +23,9 @@ export const Course = {
       });
     },
   },
+  parent: {
+    resolver: async (root, args, context) => {
+      return prisma.course({ id: root.id }).parent();
+    },
+  },
 };

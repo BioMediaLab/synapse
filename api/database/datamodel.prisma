@@ -27,6 +27,8 @@ type Course {
   units: [CourseUnit!]!
   files: [ContentPiece!]! @relation(name: "CourseContent")
   announcements: [MessageTarget!]! @relation(name: "MessageTargetCourse")
+  parent: Course @relation(name: "CourseParent")
+  children: [Course!]! @relation(name: "CourseParent")
   createdAt: DateTime!
   updatedAt: DateTime!
 }

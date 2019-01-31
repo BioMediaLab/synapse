@@ -34,6 +34,7 @@ type MessageStats {
 type Query {
   user(where: UserWhereUniqueInput!): User
   userSearch(name: String, email: String, course_id: String): [User]!
+  courseSearch(name: String, title: String, include_all: Boolean): [Course]!
   me: User
   myCourseRoles: [CourseUser!]!
   course(where: CourseWhereUniqueInput!, userFirst: Int, userLast: Int): Course
@@ -45,7 +46,7 @@ type Query {
 
 type Mutation {
   updateUserSettings(user_id: ID, fields: UserUpdateSettings): User
-  createCourse(name: String!, description: String): Course
+  createCourse(name: String!, description: String, parent_id: ID): Course
   editCourse(course_id: String!, name: String, description: String): Course
   addUsersToCourse(users: [CourseUserAndRole!]!, course_id: String!): Course
   removeUserFromCourse(user_id: String!, course_id: String!): Course

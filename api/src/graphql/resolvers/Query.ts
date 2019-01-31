@@ -91,6 +91,35 @@ export const Query = {
       });
     },
   },
+  courseSearch: {
+    resolver: async (root, args, context) => {
+      const ands = [];
+      if (!args.include_all) {
+        ands.push({
+          userRole: {
+            user: {
+              id: context.id,
+            },
+          },
+        });
+      }
+      ands.push({
+        OR: [{ name_contains: args.name }, { title_contains: args.title }],
+      });
+      const where = {
+        AND: ands,
+      };
+
+      return prisma.courses({ where, orderBy: "name_ASC", first: 10 });
+    },
+    shield: rule()(async (root, args, context) => {
+      if (args.include_all) {
+        const me = await prisma.user({ id: context.id });
+        return me.isAdmin;
+      }
+      return true;
+    }),
+  },
   recentNotifications: {
     resolver: async (root, args, context) => {
       const read = args.read ? args.read : false;
