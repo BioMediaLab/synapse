@@ -1,5 +1,5 @@
 import React from "react";
-import { graphql, DataValue, withApollo } from "react-apollo";
+import { graphql, DataValue, withApollo, WithApolloClient } from "react-apollo";
 import { withSnackbar, InjectedNotistackProps } from "notistack";
 import { compareDesc } from "date-fns";
 import NotificationsIcon from "@material-ui/icons/Notifications";
@@ -21,10 +21,9 @@ interface ITNProps {
   subscribeToUpdates: (
     updateCb: (newNotification: INotification) => void,
   ) => void;
-  client: any;
 }
 
-type ITNPropsFull = ITNProps & InjectedNotistackProps;
+type ITNPropsFull = WithApolloClient<ITNProps & InjectedNotistackProps>;
 
 interface ITNState {
   menuOpen: boolean;
@@ -120,7 +119,7 @@ class Notifications extends React.Component<ITNPropsFull, ITNState> {
 export default withSnackbar(
   withApollo(
     graphql<
-      InjectedNotistackProps & { client: any },
+      WithApolloClient<InjectedNotistackProps>,
       IRecentNotificationsResult,
       IRecentNotificationsVariables
     >(RECENT_NOTIFICATIONS_QUERY, {

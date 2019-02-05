@@ -9,7 +9,7 @@ import {
 } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
-import CreateCourse from "../components/CreateCourse";
+import NewCourse from "../components/NewCourse";
 import AdminResignation from "../components/AdminResignation";
 import withAuth from "../lib/withAuth";
 
@@ -59,7 +59,7 @@ class AdminPage extends React.Component<IAdminPageProps, IAdminPageState> {
               <Typography>Course Settings</Typography>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
-              <CreateCourse />
+              <NewCourse />
             </ExpansionPanelDetails>
           </ExpansionPanel>
           <ExpansionPanel

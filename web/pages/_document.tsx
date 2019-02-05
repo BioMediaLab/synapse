@@ -108,14 +108,14 @@ MyDocument.getInitialProps = async (ctx): Promise<any> => {
         // an error ocurred on the api server when generating the JWT. redirect them to the login.
         doRedirect(ctx.res, "/login?err=1");
       } else {
+        // everything worked out, we should create the session cookie
         const result = await resp.json();
         const expDate = addDays(new Date(), 30).toUTCString();
         ctx.res.setHeader(
           "Set-Cookie",
           `session=${result.jwt}; Path=/; Expires=${expDate};`,
         );
-        const destination = result.firstLogin ? "/?first=1" : "/";
-        doRedirect(ctx.res, destination);
+        doRedirect(ctx.res, "/");
       }
     }
   }

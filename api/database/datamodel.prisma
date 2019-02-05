@@ -9,6 +9,7 @@ type User {
   iClickerID: String
   bio: String
   isAdmin: Boolean @default(value: "false")
+  hasVisited: Boolean @default(value: "false")
   createdAt: DateTime!
   updatedAt: DateTime!
   activations: [Activation!]!
@@ -27,6 +28,8 @@ type Course {
   units: [CourseUnit!]!
   files: [ContentPiece!]! @relation(name: "CourseContent")
   announcements: [MessageTarget!]! @relation(name: "MessageTargetCourse")
+  parent: Course @relation(name: "CourseParent")
+  children: [Course!]! @relation(name: "CourseParent")
   createdAt: DateTime!
   updatedAt: DateTime!
 }
