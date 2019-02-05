@@ -1,0 +1,17 @@
+datamodel: datamodel.prisma
+
+hooks:
+  post-deploy:
+    - npx nexus-prisma-generate "./src/generated/prisma-client" "./src/generated/nexus-prisma.ts"
+
+generate:
+  - generator: typescript-client
+    output: ../src/generated/prisma-client/
+  - generator: graphql-schema
+    output: ../src/generated
+
+seed:
+  import: seed.graphql
+
+endpoint: ${env:PRISMA_ENDPOINT}
+secret: ${env:PRISMA_SECRET}

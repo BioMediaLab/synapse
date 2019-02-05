@@ -1,0 +1,15 @@
+type User {
+  id: ID! @unique
+  student_id: Int
+  name: String!
+  nickname: String
+  email: String! @unique
+  photo: String
+  iClickerID: String
+  bio: String
+  isAdmin: Boolean @default(value: "false")
+  hasVisited: Boolean @default(value: "false")
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  acceptsEmails: Boolean @default(value: "true")
+}
