@@ -10,7 +10,7 @@ import {
   InputLabel,
   MenuItem,
 } from "@material-ui/core";
-import ErrorMessageSoft from "../components/ErrorMessageSoft";
+import ErrorMessageFriendly from "../components/ErrorMessageFriendly";
 import gql from "graphql-tag";
 import { Query, Mutation } from "react-apollo";
 
@@ -169,7 +169,7 @@ class ActivationCode extends Component<
                           >
                             Submit
                           </Button>
-                          <ErrorMessageSoft error={mutationResult.error} />
+                          <ErrorMessageFriendly error={mutationResult.error} />
                         </>
                       );
                     }}
