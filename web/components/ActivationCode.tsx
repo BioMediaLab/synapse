@@ -57,12 +57,17 @@ const styles = (theme: Theme) =>
       maxWidth: 400,
     },
     button: {
-      margin: theme.spacing.unit,
+      marginTop: theme.spacing.unit * 2,
+      marginBottom: theme.spacing.unit,
+      maxWidth: 400,
     },
     formControl: {
-      margin: theme.spacing.unit,
       marginTop: 0,
-      minWidth: 170,
+      maxWidth: 400,
+    },
+    flexDiv: {
+      display: "flex",
+      flexDirection: "column",
     },
   });
 
@@ -72,6 +77,7 @@ interface IActivationCodeProps {
     textField: string;
     button: string;
     formControl: string;
+    flexDiv: string;
   };
 }
 
@@ -110,84 +116,75 @@ class ActivationCode extends Component<
   render() {
     const classes = this.props.classes;
     return (
-      <>
-        <div>
-          <Mutation mutation={ACTIVATION_CODE_USE_MUTATION}>
-            {(doMutation, mutationResult) => {
-              return (
-                <>
-                  <TextField
-                    label="Activation Code"
-                    placeholder="****-****-****-****"
-                    className={classes.textField}
-                    value={this.state.activationCode}
-                    fullWidth
-                    onChange={this.handleChange("activationCode")}
-                  />
-                  <Query query={GET_COURSES}>
-                    {({ loading, data }) => {
-                      if (loading) {
-                        return <div />;
-                      }
-                      const courses = data.myCourseRoles.map(
-                        role => role.course,
-                      );
-                      return (
-                        <>
-                          <FormControl className={classes.formControl}>
-                            <InputLabel>Course to Activate</InputLabel>
-                            <Select
-                              value={this.state.courseId}
-                              onChange={this.handleChange("courseId")}
-                            >
-                              {courses.map(course => {
-                                if (course.requireActivation)
-                                  return (
-                                    <MenuItem key={course.id} value={course.id}>
-                                      {course.name}
-                                    </MenuItem>
-                                  );
-                              })}
-                            </Select>
-                          </FormControl>
-                          <Button
-                            variant="contained"
-                            className={classes.button}
-                            onClick={event => {
-                              doMutation({
-                                variables: {
-                                  activation_code: this.state.activationCode,
-                                  course_id: this.state.courseId,
-                                  user_id: data.me.id,
-                                },
-                              });
-                              this.setState({
-                                activationCode: "",
-                                courseId: "",
-                              });
-                            }}
-                          >
-                            Submit
-                          </Button>
-                          <ErrorMessageFriendly error={mutationResult.error} />
-                        </>
-                      );
-                    }}
-                  </Query>
-                </>
-              );
-            }}
-          </Mutation>
-        </div>
+      <div className={classes.flexDiv}>
+        <Query query={GET_COURSES}>
+          {({ loading, data }) => {
+            if (loading) {
+              return <div />;
+            }
+            const courses = data.myCourseRoles.map(role => role.course);
+            return (
+              <>
+                <FormControl className={classes.formControl} fullWidth>
+                  <InputLabel>Course to Activate</InputLabel>
+                  <Select
+                    value={this.state.courseId}
+                    onChange={this.handleChange("courseId")}
+                  >
+                    {courses.map(course => {
+                      if (course.requireActivation)
+                        return (
+                          <MenuItem key={course.id} value={course.id}>
+                            {course.name}
+                          </MenuItem>
+                        );
+                    })}
+                  </Select>
+                </FormControl>
+                <Mutation mutation={ACTIVATION_CODE_USE_MUTATION}>
+                  {(doMutation, mutationResult) => {
+                    return (
+                      <>
+                        <TextField
+                          label="Activation Code"
+                          placeholder="****-****-****-****"
+                          className={classes.textField}
+                          value={this.state.activationCode}
+                          fullWidth
+                          onChange={this.handleChange("activationCode")}
+                        />
+                        <Button
+                          variant="contained"
+                          className={classes.button}
+                          onClick={event => {
+                            doMutation({
+                              variables: {
+                                activation_code: this.state.activationCode,
+                                course_id: this.state.courseId,
+                                user_id: data.me.id,
+                              },
+                            });
+                            this.setState({
+                              activationCode: "",
+                              courseId: "",
+                            });
+                          }}
+                        >
+                          Submit
+                        </Button>
+                        <ErrorMessageFriendly error={mutationResult.error} />
+                      </>
+                    );
+                  }}
+                </Mutation>
+              </>
+            );
+          }}
+        </Query>
         {this.props.isAdmin ? (
-          <div>
+          <>
             <Mutation mutation={ACTIVATION_CODE_CREATE_MUTATION}>
               {(doMutation, mutationResult) => {
-                if (mutationResult.error) {
-                  return (
-                    <ErrorMessage message={mutationResult.error.message} />
-                  );
-                }
                 return (
                   <>
                     <TextField
@@ -214,15 +211,16 @@ class ActivationCode extends Component<
                     >
                       Create
                     </Button>
+                    <ErrorMessageFriendly error={mutationResult.error} />
                   </>
                 );
               }}
             </Mutation>
-          </div>
+          </>
         ) : (
           <div />
         )}
-      </>
+      </div>
     );
   }
 }
