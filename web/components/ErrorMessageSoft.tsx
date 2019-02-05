@@ -3,7 +3,10 @@ const styles = {
   color: "red",
 };
 
-export default ({ message }) => {
-  if (!message) return null;
-  else return <span style={styles}>{message}</span>;
+export default ({ error }) => {
+  if (!error || !error.message) return null;
+  else
+    return (
+      <span style={styles}>{error.message.replace("GraphQL error: ", "")}</span>
+    );
 };

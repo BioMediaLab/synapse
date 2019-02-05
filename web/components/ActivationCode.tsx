@@ -169,7 +169,7 @@ class ActivationCode extends Component<
                           >
                             Submit
                           </Button>
-                          <ErrorMessageSoft message="hiii" />
+                          <ErrorMessageSoft error={mutationResult.error} />
                         </>
                       );
                     }}
