@@ -10,7 +10,7 @@ import {
   InputLabel,
   MenuItem,
 } from "@material-ui/core";
-import ErrorMessage from "../components/ErrorMessage";
+import ErrorMessageSoft from "../components/ErrorMessageSoft";
 import gql from "graphql-tag";
 import { Query, Mutation } from "react-apollo";
 
@@ -114,9 +114,6 @@ class ActivationCode extends Component<
         <div>
           <Mutation mutation={ACTIVATION_CODE_USE_MUTATION}>
             {(doMutation, mutationResult) => {
-              if (mutationResult.error) {
-                return <ErrorMessage message={mutationResult.error.message} />;
-              }
               return (
                 <>
                   <TextField
@@ -172,6 +169,7 @@ class ActivationCode extends Component<
                           >
                             Submit
                           </Button>
+                          <ErrorMessageSoft message="hiii" />
                         </>
                       );
                     }}
