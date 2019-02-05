@@ -53,28 +53,25 @@ const ACTIVATION_CODE_CREATE_MUTATION = gql`
 
 const styles = (theme: Theme) =>
   createStyles({
-    textField: {
-      maxWidth: 400,
-    },
     button: {
       marginTop: theme.spacing.unit * 2,
       marginBottom: theme.spacing.unit,
-      maxWidth: 400,
+      maxWidth: 80,
+      alignSelf: "flex-end",
     },
     formControl: {
       marginTop: 0,
-      maxWidth: 400,
     },
     flexDiv: {
       display: "flex",
       flexDirection: "column",
+      maxWidth: 400,
     },
   });
 
 interface IActivationCodeProps {
   isAdmin: boolean;
   classes: {
-    textField: string;
     button: string;
     formControl: string;
     flexDiv: string;
@@ -148,7 +145,6 @@ class ActivationCode extends Component<
                         <TextField
                           label="Activation Code"
                           placeholder="****-****-****-****"
-                          className={classes.textField}
                           value={this.state.activationCode}
                           fullWidth
                           onChange={this.handleChange("activationCode")}
@@ -190,7 +186,6 @@ class ActivationCode extends Component<
                     <TextField
                       label="Create Activation Code"
                       placeholder="****-****-****-****"
-                      className={classes.textField}
                       fullWidth
                       onChange={this.handleChange("newActivationCode")}
                       value={this.state.newActivationCode}
