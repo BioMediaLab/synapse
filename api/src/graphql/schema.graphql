@@ -93,6 +93,7 @@ type Mutation {
     course_id: String!
     user_id: String!
   ): Activation
+  clearActivationCode(activation_code: String!, user_id: String!): Activation
 }
 
 type Subscription {

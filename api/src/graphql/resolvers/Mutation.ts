@@ -511,9 +511,9 @@ export const Mutation = {
 
       if (!activation) {
         throw new Error("Invalid Activation Code!");
-      } else if (activation.activatedAt)
-        throw new Error("Activation code has already been used.");
-      else {
+      } else if (activation.activatedAt) {
+        throw new Error("Activation code has already been used!");
+      } else {
         updatedActivation = await prisma.updateActivation({
           data: {
             course: {
@@ -532,6 +532,37 @@ export const Mutation = {
         });
       }
 
+      return updatedActivation;
+    },
+  },
+  clearActivationCode: {
+    resolver: async (root, args) => {
+      const { activation_code, user_id } = args;
+
+      const activation = await prisma.activation({ activation_code });
+      const user = await prisma.activation({ activation_code }).user();
+      var updatedActivation;
+
+      if (!activation) {
+        throw new Error("Invalid Activation Code!");
+      } else if (!activation.activatedAt) {
+        throw new Error("Activation Code has not been used!");
+      } else if (user.id != user_id) {
+        throw new Error("This activation code belongs to someone else!");
+      } else {
+        updatedActivation = await prisma.updateActivation({
+          data: {
+            course: {
+              disconnect: true,
+            },
+            user: {
+              disconnect: true,
+            },
+            activatedAt: null,
+          },
+          where: { id: activation.id },
+        });
+      }
       return updatedActivation;
     },
   },
