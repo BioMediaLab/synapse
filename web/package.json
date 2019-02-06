@@ -70,11 +70,11 @@
     "ws": "^6.1.0"
   },
   "devDependencies": {
-    "@types/jest": "^23.3.12",
+    "@types/jest": "^24.0.0",
     "@types/react-beautiful-dnd": "^10.0.1",
     "babel-core": "7.0.0-bridge.0",
-    "babel-jest": "^23.6.0",
-    "jest": "^23.6.0",
+    "babel-jest": "^24.1.0",
+    "jest": "^24.1.0",
     "react-testing-library": "^5.4.4",
     "ts-jest": "^23.10.5",
     "tslint": "^5.12.0",
