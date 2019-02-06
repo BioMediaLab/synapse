@@ -43,6 +43,14 @@ const ACTIVATION_CODE_USE_MUTATION = gql`
   }
 `;
 
+const ACTIVATION_CODE_CLEAR_MUTATION = gql`
+  mutation($activation_code: String!, $user_id: String!) {
+    clearActivationCode(activation_code: $activation_code, user_id: $user_id) {
+      id
+    }
+  }
+`;
+
 const ACTIVATION_CODE_CREATE_MUTATION = gql`
   mutation($activation_code: String!) {
     addActivationCode(activation_code: $activation_code) {
@@ -56,7 +64,7 @@ const styles = (theme: Theme) =>
     button: {
       marginTop: theme.spacing.unit * 2,
       marginBottom: theme.spacing.unit,
-      maxWidth: 80,
+      width: 80,
       alignSelf: "flex-end",
     },
     formControl: {
@@ -82,6 +90,7 @@ interface IActivationCodeState {
   activationCode: string;
   newActivationCode: string;
   courseId: string;
+  activationCodeToClear: string;
 }
 
 class ActivationCode extends Component<
@@ -92,6 +101,7 @@ class ActivationCode extends Component<
     activationCode: "",
     newActivationCode: "",
     courseId: "",
+    activationCodeToClear: "",
   };
 
   handleChange = name => event => {
@@ -104,6 +114,9 @@ class ActivationCode extends Component<
         break;
       case "courseId":
         this.setState({ courseId: event.target.value });
+        break;
+      case "activationCodeToClear":
+        this.setState({ activationCodeToClear: event.target.value });
         break;
       default:
         break;
@@ -166,7 +179,41 @@ class ActivationCode extends Component<
                             });
                           }}
                         >
-                          Submit
+                          Activate
+                        </Button>
+                        <ErrorMessageFriendly error={mutationResult.error} />
+                      </>
+                    );
+                  }}
+                </Mutation>
+                <Mutation mutation={ACTIVATION_CODE_CLEAR_MUTATION}>
+                  {(doMutation, mutationResult) => {
+                    return (
+                      <>
+                        <TextField
+                          label="Reset Activation Code"
+                          placeholder="****-****-****-****"
+                          fullWidth
+                          onChange={this.handleChange("activationCodeToClear")}
+                          value={this.state.activationCodeToClear}
+                        />
+
+                        <Button
+                          variant="contained"
+                          className={classes.button}
+                          onClick={event => {
+                            doMutation({
+                              variables: {
+                                activation_code: this.state
+                                  .activationCodeToClear,
+                                user_id: data.me.id,
+                              },
+                            });
+
+                            this.setState({ newActivationCode: "" });
+                          }}
+                        >
+                          Reset
                         </Button>
                         <ErrorMessageFriendly error={mutationResult.error} />
                       </>
@@ -177,6 +224,7 @@ class ActivationCode extends Component<
             );
           }}
         </Query>
+
         {this.props.isAdmin ? (
           <>
             <Mutation mutation={ACTIVATION_CODE_CREATE_MUTATION}>
