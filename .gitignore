@@ -42,7 +42,7 @@ build/Release
 */.DS_Store
 
 # ignore prisma generated code
-*/generated
+*/**/generated
 
 # ignore typescript generated code
 dist
