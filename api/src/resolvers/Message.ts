@@ -1,3 +1,8 @@
 import { prismaObjectType } from "nexus-prisma";
 
-export const Message = prismaObjectType("Message");
+export const Message = prismaObjectType({
+  name: "Message",
+  definition(t) {
+    t.prismaFields();
+  },
+});

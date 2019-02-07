@@ -1,49 +1,35 @@
-import { arg, stringArg } from "nexus";
+import { queryType, stringArg } from "nexus";
 import { prismaObjectType } from "nexus-prisma";
+import { User, Course } from ".";
 
-export const Query = prismaObjectType("Query", t => {
-  t.prismaFields([
-    "user",
-    "course",
-    "courseUser",
-    "courseUnit",
-    "contentPiece",
-    "activation",
-    "notification",
-    "message",
-    "messageTarget",
-    "messageRead",
-    "reminder",
-  ]);
+export const Query = queryType({
+  definition(t) {
+    t.list.field("users", {
+      type: User,
+      resolve: (parent, args, ctx) => {
+        return ctx.prisma.users();
+      },
+    });
 
-  t.field("users", "User", {
-    list: true,
-    resolve: (parent, args, ctx) => {
-      return ctx.prisma.users();
-    },
-  });
+    t.list.field("userSearch", {
+      type: User,
+      args: {
+        name: stringArg(),
+      },
+      resolve: (parent, { name }, ctx) => {
+        return ctx.prisma.users({
+          where: {
+            name_contains: name,
+          },
+        });
+      },
+    });
 
-  // currently the args parameter does not work with latest nexus package
-  // works with nexus@0.7.0-alpha.2
-  // TODO: look into submitting PR for nexus-prisma to use latest nexus package
-  t.field("userSearch", "User", {
-    list: true,
-    args: {
-      name: stringArg(),
-    },
-    resolve: (parent, { name }, ctx) => {
-      return ctx.prisma.users({
-        where: {
-          name_contains: name,
-        },
-      });
-    },
-  });
-
-  t.field("courses", "Course", {
-    list: true,
-    resolve: (parent, args, ctx) => {
-      return ctx.prisma.courses();
-    },
-  });
+    t.list.field("courses", {
+      type: Course,
+      resolve: (parent, args, ctx) => {
+        return ctx.prisma.courses();
+      },
+    });
+  },
 });
