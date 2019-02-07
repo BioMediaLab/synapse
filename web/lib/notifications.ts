@@ -20,10 +20,10 @@ export const whenNotificationRecieved = (
 ) => {
   switch (notification.notify_type) {
     case NoteType.COURSE_MESSAGE:
-      console.log("must refresh course homepage");
+      throw new Error("unimpl...");
       break;
     case NoteType.NEW_COURSE:
-      console.log("must refresh courses");
+      throw new Error("unimpl...");
       break;
   }
 };

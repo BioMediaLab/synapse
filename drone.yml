@@ -8,6 +8,7 @@ steps:
     commands:
       - yarn install
       - yarn run test
+      - yarn run lint
     when:
       event:
         - pull_request

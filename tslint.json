@@ -25,5 +25,8 @@
     "no-console": [true, "log"],
     "member-access": [true, "no-public"],
     "max-classes-per-file": [true, 5, "exclude-class-expressions"]
+  },
+  "linterOptions": {
+    "exclude": ["api/generated/prisma/*", "*/__tests__/*"]
   }
 }
