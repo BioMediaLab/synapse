@@ -6,6 +6,7 @@
   "scripts": {
     "test": "NODE_ENV=test jest",
     "generate": "prisma generate",
+    "nexus": "npx nexus-prisma-generate ./src/generated/prisma-client ./src/generated/nexus-prisma.ts",
     "deploy": "prisma deploy",
     "build": "prisma generate && tsc -p tsconfig.production.json",
     "dev": "ts-node-dev --ignore-watch generated --no-notify --transpileOnly --respawn ./src",
