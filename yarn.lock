@@ -7870,17 +7870,10 @@ nexus-prisma@^0.0.17:
     camelcase "^5.0.0"
     nexus "0.7.0-alpha.2"
 
-nexus@0.7.0-alpha.2:
+nexus@0.7.0-alpha.2, nexus@^0.7.0-alpha.2:
   version "0.7.0-alpha.2"
   resolved "https://registry.yarnpkg.com/nexus/-/nexus-0.7.0-alpha.2.tgz#8ad97853b9f013522ef7f65ed64eb4605ef387c9"
   integrity sha512-1SRAKQZHTCQDIwH7cE03IBH0RaoashfvY7GVrWXwF8Pue3Js3fmjK3Iqa+E/x0/P9kZDAo/NhuyMvQFFYeKpsQ==
-  dependencies:
-    tslib "^1.9.3"
-
-nexus@^0.9.9:
-  version "0.9.9"
-  resolved "https://registry.yarnpkg.com/nexus/-/nexus-0.9.9.tgz#321e848dac99de066fcaff79e2ab865c5e8519aa"
-  integrity sha512-IxMEHVctPHSg5KbetSDT9pP+2uzLY4M/OL9Rr/aUXIWWplWZk0TM5Oz64n/w7YE+y6lcpxhy72kyugOpwIIc9w==
   dependencies:
     tslib "^1.9.3"
 

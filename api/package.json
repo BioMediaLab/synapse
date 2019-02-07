@@ -47,7 +47,7 @@
     "graphql-tools": "^4.0.3",
     "jsonwebtoken": "^8.4.0",
     "mailgun-js": "^0.22.0",
-    "nexus": "^0.9.9",
+    "nexus": "^0.7.0-alpha.2",
     "nexus-prisma": "^0.0.17",
     "prisma": "1.26.1",
     "prisma-binding": "^2.2.14",
