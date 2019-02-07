@@ -16,6 +16,7 @@
         <a href="https://www.biomedialab.net/"> About us </a>
   </p>
 </div>
+[![Build Status](https://cloud.drone.io/api/badges/BioMediaLab/synapse/status.svg)](https://cloud.drone.io/BioMediaLab/synapse)
 
 Synapse is a Web application developed by the BioMediaLab, part of the School of Biology at the University of Maine. It is used by multiple courses each semester to provide online resources, such as course handouts, quizzes, grades, and discussion.
 
