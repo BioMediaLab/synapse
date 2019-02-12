@@ -12001,6 +12001,20 @@ wsrun@^3.3.3:
     throat "^4.1.0"
     yargs "^10.0.3"
 
+wsrun@^3.6.4:
+  version "3.6.4"
+  resolved "https://registry.yarnpkg.com/wsrun/-/wsrun-3.6.4.tgz#05cfcc5bfaf3056c3eecb0762fdc1038cb3db0bc"
+  integrity sha512-lOWQ7Oo+PPuiJ3ggUETrYoqEmGCJyvnnSDY2TAXR5IcV2HlAIjhcNKTK0u8rzz9+CTiEe/n46UR7fKK2PeAHEg==
+  dependencies:
+    bluebird "^3.5.1"
+    chalk "^2.3.0"
+    glob "^7.1.2"
+    lodash "^4.17.4"
+    minimatch "^3.0.4"
+    split "^1.0.1"
+    throat "^4.1.0"
+    yargs "^10.0.3"
+
 xdg-basedir@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/xdg-basedir/-/xdg-basedir-3.0.0.tgz#496b2cc109eca8dbacfe2dc72b603c17c5870ad4"

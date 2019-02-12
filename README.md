@@ -1,22 +1,11 @@
-<div align="center">
-<img src="./web/static/synapse-icon@2x.png" alt="synapse logo">
+[![Synapse]](./web/static/synapse-icon@2x.png)
 
-<h3 align="center">Synapse</h3>
+# Synapse
 
-  <p align="center">
-    Classroom management software
-    <br>
-    <br>
-    <a href="https://github.com/BioMediaLab/synapse/issues/new"> Report bug </a>
-    .
-        <a href="https://github.com/BioMediaLab/synapse/issues/new"> Request Features </a>
-        .
-        <a href="mailto:synapse@maine.edu" target="_top"> Contact </a>
-        .
-        <a href="https://www.biomedialab.net/"> About us </a>
-  </p>
-</div>
+Classroom Management Software
+
 [![Build Status](https://cloud.drone.io/api/badges/BioMediaLab/synapse/status.svg)](https://cloud.drone.io/BioMediaLab/synapse)
+[![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/Naereen/StrapDown.js/blob/master/LICENSE)
 
 Synapse is a Web application developed by the BioMediaLab, part of the School of Biology at the University of Maine. It is used by multiple courses each semester to provide online resources, such as course handouts, quizzes, grades, and discussion.
 

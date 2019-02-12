@@ -9,17 +9,16 @@ steps:
       - yarn install
       - yarn run test
       - yarn run lint
-    when:
-      event:
-        - pull_request
   - name: slack
     image: plugins/slack
     settings:
       webhook:
         from_secret: slack_webhook
       channel: synapse
-      username: DroneCI
     when:
       status:
         - failure
-        - success
+trigger:
+  event:
+    - push
+    - pull_request
