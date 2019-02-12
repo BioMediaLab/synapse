@@ -142,12 +142,11 @@ class ActivationCode extends Component<
                     onChange={this.handleChange("courseId")}
                   >
                     {courses.map(course => {
-                      if (course.requireActivation)
-                        return (
-                          <MenuItem key={course.id} value={course.id}>
-                            {course.name}
-                          </MenuItem>
-                        );
+                      return course.requireActivation ? (
+                        <MenuItem key={course.id} value={course.id}>
+                          {course.name}
+                        </MenuItem>
+                      ) : null;
                     })}
                   </Select>
                 </FormControl>
@@ -181,7 +180,7 @@ class ActivationCode extends Component<
                         >
                           Activate
                         </Button>
-                        <ErrorMessageFriendly error={mutationResult.error} />
+                        <ErrorMessageFriendly message={mutationResult.error} />
                       </>
                     );
                   }}
@@ -215,7 +214,7 @@ class ActivationCode extends Component<
                         >
                           Reset
                         </Button>
-                        <ErrorMessageFriendly error={mutationResult.error} />
+                        <ErrorMessageFriendly message={mutationResult.error} />
                       </>
                     );
                   }}
@@ -254,7 +253,7 @@ class ActivationCode extends Component<
                     >
                       Create
                     </Button>
-                    <ErrorMessageFriendly error={mutationResult.error} />
+                    <ErrorMessageFriendly message={mutationResult.error} />
                   </>
                 );
               }}
