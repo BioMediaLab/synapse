@@ -76,10 +76,10 @@ const redirectServer = (ctx: NextAppContext) => {
 };
 
 const redirectClient = () => {
-  window.location = `/` as any;
+  window.location.href = `/`;
 };
 
-export const doWeRedirect = (ctx): void => {
+export const doWeRedirect = (ctx: NextAppContext): void => {
   if (!getSessionCookie(ctx)) {
     if (ctx.ctx.req) {
       redirectServer(ctx);
@@ -90,10 +90,14 @@ export const doWeRedirect = (ctx): void => {
 };
 
 export const getSessionFrontend = (): string | null => {
-  return BrowserCookies.get("session");
+  const session = parseCookie(document.cookie).session;
+  if (!session) {
+    return null;
+  }
+  return session;
 };
 
-export const destroySessionFrontend = () => {
+export const destroySessionFrontend = (): void => {
   BrowserCookies.remove("session");
   redirectClient();
 };

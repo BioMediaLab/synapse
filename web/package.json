@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "NODE_ENV=test jest",
+    "reset-tests": "NODE_ENV=test jest --updateSnapshot",
     "dev": "node server.js",
     "build": "next build",
     "start": "NODE_ENV=production node server.js"
@@ -23,6 +24,7 @@
     "@types/next": "^6.1.8",
     "@types/node": "^10.12.14",
     "@types/react": "^16.4.14",
+    "@types/react-beautiful-dnd": "^10.0.1",
     "@types/react-dom": "^16.0.7",
     "@types/react-select": "^2.0.4",
     "@types/ws": "^6.0.1",
@@ -46,6 +48,7 @@
     "graphql-tag": "^2.10.0",
     "isomorphic-unfetch": "^3.0.0",
     "js-cookie": "^2.2.0",
+    "jss": "^9.8.7",
     "jwt-decode": "^2.2.0",
     "moment": "^2.22.2",
     "next": "^7.0.2",
@@ -69,13 +72,11 @@
   },
   "devDependencies": {
     "@types/jest": "^23.3.12",
-    "@types/react-beautiful-dnd": "^10.0.1",
     "babel-core": "7.0.0-bridge.0",
     "babel-jest": "^23.6.0",
     "jest": "^23.6.0",
     "react-testing-library": "^5.4.4",
     "ts-jest": "^23.10.5",
-    "tslint": "^5.12.0",
     "wsrun": "^3.3.3"
   }
 }

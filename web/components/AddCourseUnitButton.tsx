@@ -30,7 +30,7 @@ const ADD_COURSE_UNIT = gql`
   }
 `;
 
-class AddCourseUnitButton extends Component {
+class AddCourseUnitButton extends Component<{ courseId: string }> {
   state = {
     open: false,
     unit: {
@@ -61,16 +61,16 @@ class AddCourseUnitButton extends Component {
     this.setState({
       unit: {
         ...this.state.unit,
-        visibile: !this.state.unit.visibile,
+        visibile: !this.state.unit.visible,
       },
     });
   };
 
-  handleAddUnitToCourse = () => {};
+  handleAddUnitToCourse = () => {
+    console.warn("unimpl...");
+  };
 
   render() {
-    console.log("state", this.state);
-
     return (
       <Mutation mutation={ADD_COURSE_UNIT}>
         {(addCourseUnit, { data }) => (

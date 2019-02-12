@@ -9,11 +9,12 @@ import { contextCreatorFactory, IntResolverContext } from "./graphqlContext";
 import googleAuthRouter from "./routes/auth/google";
 import { getShield, getResolvers } from "./graphql/index";
 
-const Sentry = require("@sentry/node");
+import * as Sentry from "@sentry/node";
 
 // This allows TypeScript to detect our global value
 declare global {
   namespace NodeJS {
+    // tslint:disable-next-line
     interface Global {
       __rootdir__: string;
     }

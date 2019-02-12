@@ -6,10 +6,10 @@ import { ApolloClient, NormalizedCacheObject } from "apollo-boost";
 import { getSessionCookie } from "./handleSessions";
 import { NextAppContext } from "next/app";
 
-interface Proc {
+interface IProc {
   browser: boolean;
 }
-declare var process: Proc;
+declare var process: IProc;
 
 export default App => {
   interface IApolloProps {
@@ -17,6 +17,7 @@ export default App => {
     hasSession: boolean;
   }
 
+  // tslint:disable-next-line
   interface Apollo extends React.Component<IApolloProps, {}> {
     apolloClient: ApolloClient<any>;
   }

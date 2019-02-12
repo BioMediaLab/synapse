@@ -11,9 +11,12 @@
   },
   "scripts": {
     "predev": "yarn && cd api && yarn generate",
-    "dev": "wsrun dev"
+    "dev": "wsrun dev",
+    "test": "wsrun test --fast-exit",
+    "lint": "tslint -p tslint.json"
   },
   "devDependencies": {
+    "tslint": "^5.12.1",
     "wsrun": "^3.3.3"
   }
 }

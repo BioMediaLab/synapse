@@ -27,6 +27,8 @@ interface ISignInWithGoogleButtonProps {
   };
 }
 
+/* tslint:disable:max-line-length */
+
 const SignInWithGoogleButton: React.SFC<ISignInWithGoogleButtonProps> = ({
   onClick,
   classes,
@@ -39,7 +41,7 @@ const SignInWithGoogleButton: React.SFC<ISignInWithGoogleButtonProps> = ({
     onClick={onClick}
   >
     <SvgIcon
-      component={svgProps => (
+      component={() => (
         <svg
           className={classes.icon}
           viewBox="0 0 366 372"

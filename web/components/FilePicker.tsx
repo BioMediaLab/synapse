@@ -135,7 +135,7 @@ class FilePicker extends React.Component<IFilePickerProps, IFilePickerState> {
   render() {
     const { classes, courseId } = this.props;
 
-    console.log(this.state);
+    console.warn(this.state);
 
     return (
       <>
@@ -216,8 +216,6 @@ class FilePicker extends React.Component<IFilePickerProps, IFilePickerState> {
             if (error) {
               return <ErrorMessage message={error.message} />;
             }
-
-            console.log("data", data);
 
             let items = data.course.files;
             if (this.state.filteringFiles) {
