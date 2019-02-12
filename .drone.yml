@@ -15,11 +15,9 @@ steps:
       webhook:
         from_secret: slack_webhook
       channel: synapse
-      username: DroneCI
     when:
       status:
         - failure
-        - success
 trigger:
   event:
     - push
