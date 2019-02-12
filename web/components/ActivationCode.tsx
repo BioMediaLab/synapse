@@ -10,7 +10,7 @@ import {
   InputLabel,
   MenuItem,
 } from "@material-ui/core";
-import ErrorMessageFriendly from "../components/ErrorMessageFriendly";
+import SnackbarMessage from "./SnackbarMessage";
 import gql from "graphql-tag";
 import { Query, Mutation } from "react-apollo";
 
@@ -180,7 +180,7 @@ class ActivationCode extends Component<
                         >
                           Activate
                         </Button>
-                        <ErrorMessageFriendly message={mutationResult.error} />
+                        <SnackbarMessage error message={mutationResult.error} />
                       </>
                     );
                   }}
@@ -214,7 +214,7 @@ class ActivationCode extends Component<
                         >
                           Reset
                         </Button>
-                        <ErrorMessageFriendly message={mutationResult.error} />
+                        <SnackbarMessage error message={mutationResult.error} />
                       </>
                     );
                   }}
@@ -253,7 +253,7 @@ class ActivationCode extends Component<
                     >
                       Create
                     </Button>
-                    <ErrorMessageFriendly message={mutationResult.error} />
+                    <SnackbarMessage error message={mutationResult.error} />
                   </>
                 );
               }}
