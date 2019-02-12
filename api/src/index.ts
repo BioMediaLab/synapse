@@ -6,16 +6,23 @@ import * as fs from "fs";
 import { ApolloServer, gql } from "apollo-server-express";
 import { prisma } from "./generated/prisma-client";
 import { schema } from "./schema";
+import googleAuthRouter from "./routes/auth/google";
+import { applyMiddleware } from "graphql-middleware";
+import { permissions } from "./permissions";
 
 const PORT = 4000;
 
 const app = express();
 
-app.use("/test", (req, res) => {
-  return res.send("works!");
+app.use("/auth/google", googleAuthRouter);
+
+const schemaWithMiddlware = applyMiddleware(schema, permissions);
+
+const server = new ApolloServer({
+  schema: schemaWithMiddlware,
+  context: { prisma },
 });
 
-const server = new ApolloServer({ schema, context: { prisma } });
 server.applyMiddleware({ app });
 
 app.listen({ port: PORT }, () => {

@@ -4,6 +4,23 @@ import { User, Course } from ".";
 
 export const Query = queryType({
   definition(t) {
+    t.field("me", {
+      type: User,
+      resolve: async (parent, args, ctx) => {
+        const user = await ctx.prisma.user({ id: ctx.user_id });
+
+        if (!user.hasVisited) {
+          // update the user object to record their visit
+          await ctx.prisma.updateUser({
+            where: { id: ctx.user_id },
+            data: { hasVisited: true },
+          });
+        }
+
+        return user;
+      },
+    });
+
     t.list.field("users", {
       type: User,
       resolve: (parent, args, ctx) => {

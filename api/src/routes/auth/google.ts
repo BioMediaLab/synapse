@@ -1,7 +1,7 @@
-import { prisma } from "../../../generated/prisma";
+import { prisma } from "../../generated/prisma-client";
 import { Router } from "express";
 import { google } from "googleapis";
-import { createJWT } from "../../auth";
+import { createJWT } from "../../utils/jwt";
 import { sendWelcomingEmail } from "../../utils/welcomeEmail";
 
 const getGoogleApiClient = () => {
