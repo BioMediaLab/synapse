@@ -9,9 +9,6 @@ steps:
       - yarn install
       - yarn run test
       - yarn run lint
-    when:
-      event:
-        - pull_request
   - name: slack
     image: plugins/slack
     settings:
@@ -23,3 +20,7 @@ steps:
       status:
         - failure
         - success
+trigger:
+  event:
+    - push
+    - pull_request
