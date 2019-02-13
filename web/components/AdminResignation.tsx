@@ -1,111 +1,53 @@
-import React from "react";
+import React, { useState } from "react";
 import { Mutation, Query } from "react-apollo";
 import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
 
 import { Router } from "../Router";
 import { destroySessionFrontend } from "../lib/handleSessions";
 import { REMOVE_ADMIN, MY_ID } from "../queries/userQueries";
+import AreYouSure from "./AreYouSure";
 
-interface IAdminResignationState {
-  showDialog: boolean;
-}
+const AdminResign = () => {
+  const [showing, updateVisibility] = useState(false);
 
-class AdminResignation extends React.Component<{}, IAdminResignationState> {
-  state = {
-    showDialog: false,
-  };
+  return (
+    <Query query={MY_ID}>
+      {({ loading, error, data }) => {
+        if (loading || error) {
+          return <div />;
+        }
+        return (
+          <Mutation mutation={REMOVE_ADMIN} variables={{ myId: data.me.id }}>
+            {doResign => (
+              <>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  onClick={() => updateVisibility(true)}
+                >
+                  Resign As Admin
+                </Button>
+                <AreYouSure
+                  title="Permanently remove administrative access from your account?"
+                  showing={showing}
+                  yes={() => {
+                    updateVisibility(false);
+                    doResign();
+                    Router.pushRoute("/");
+                    destroySessionFrontend();
+                  }}
+                  no={() => updateVisibility(false)}
+                >
+                  You will be logged out. Click "yes" to proceed or "no" to
+                  cancel.
+                </AreYouSure>
+              </>
+            )}
+          </Mutation>
+        );
+      }}
+    </Query>
+  );
+};
 
-  changeWarning = (open: boolean) => {
-    this.setState(state => ({
-      ...state,
-      showDialog: open,
-    }));
-  };
-
-  resign = async resigner => {
-    this.changeWarning(false);
-    Router.pushRoute("/");
-    resigner();
-    destroySessionFrontend();
-  };
-
-  render() {
-    return (
-      <>
-        <Button
-          variant="contained"
-          color="secondary"
-          onClick={() => {
-            this.changeWarning(true);
-          }}
-        >
-          Resign As Admin
-        </Button>
-        <Dialog
-          open={this.state.showDialog}
-          onClose={() => {
-            this.changeWarning(false);
-          }}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogTitle id="alert-dialog-title">
-            Give Up Admin Capability?
-          </DialogTitle>
-          <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-              This will permanently remove the admin capability from your
-              account. Do you wish to continue?
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button
-              onClick={() => {
-                this.changeWarning(false);
-              }}
-              color="primary"
-            >
-              No
-            </Button>
-            <Query query={MY_ID}>
-              {({ loading, data }) => {
-                if (loading) {
-                  return (
-                    <Button color="secondary" disabled={true}>
-                      Yes
-                    </Button>
-                  );
-                }
-                return (
-                  <Mutation
-                    mutation={REMOVE_ADMIN}
-                    variables={{ myId: data.me.id }}
-                  >
-                    {doResign => (
-                      <Button
-                        color="secondary"
-                        autoFocus
-                        onClick={() => {
-                          this.resign(doResign);
-                        }}
-                      >
-                        Yes
-                      </Button>
-                    )}
-                  </Mutation>
-                );
-              }}
-            </Query>
-          </DialogActions>
-        </Dialog>
-      </>
-    );
-  }
-}
-
-export default AdminResignation;
+export default AdminResign;

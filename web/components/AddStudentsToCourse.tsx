@@ -16,7 +16,7 @@ import gql from "graphql-tag";
 import { withSnackbar, InjectedNotistackProps } from "notistack";
 
 import UserSearch from "./UserSearch";
-import { CourseRoleType } from "../queries/courseQueries";
+import { CourseRoleType, ADD_USERS_TO_COURSE } from "../queries/courseQueries";
 
 const styles = theme =>
   createStyles({
@@ -170,18 +170,6 @@ class AddStudentsToCourse extends React.Component<Props, IState> {
   }
 }
 
-export default graphql<IProps, {}, IVars>(gql`
-  mutation($courseId: String!, $users: [CourseUserAndRole!]!) {
-    addUsersToCourse(course_id: $courseId, users: $users) {
-      id
-      userRoles {
-        id
-        user_type
-        user {
-          id
-          name
-        }
-      }
-    }
-  }
-`)(withSnackbar(withStyles(styles)(AddStudentsToCourse)));
+export default graphql<IProps, {}, IVars>(ADD_USERS_TO_COURSE)(
+  withSnackbar(withStyles(styles)(AddStudentsToCourse)),
+);
