@@ -5,8 +5,12 @@ import {
   SnackbarContent,
   withStyles,
 } from "@material-ui/core";
+import { green, amber } from "@material-ui/core/colors";
+import CheckCircleIcon from "@material-ui/icons/CheckCircle";
+import ErrorIcon from "@material-ui/icons/Error";
+import InfoIcon from "@material-ui/icons/Info";
+import WarningIcon from "@material-ui/icons/Warning";
 import CloseIcon from "@material-ui/icons/Close";
-import green from "@material-ui/core/colors/green";
 
 const styles = theme => ({
   error: {
@@ -15,8 +19,20 @@ const styles = theme => ({
   success: {
     backgroundColor: green[600],
   },
+  info: {
+    backgroundColor: theme.palette.primary.dark,
+  },
+  warning: {
+    backgroundColor: amber[700],
+  },
   icon: {
     fontSize: 20,
+    opacity: 0.9,
+    marginRight: theme.spacing.unit,
+  },
+  message: {
+    display: "flex",
+    alignItems: "center",
   },
 });
 
@@ -24,10 +40,15 @@ interface ISnackbarMessageProps {
   message: any;
   success?: boolean;
   error?: boolean;
+  info?: boolean;
+  warning?: boolean;
   classes: {
     error: string;
     success: string;
+    info: string;
+    warning: string;
     icon: string;
+    message: string;
   };
 }
 
@@ -55,14 +76,23 @@ class SnackbarMessage extends Component<
 
   render() {
     const props = this.props;
+    const classes = props.classes;
+
     var snackbarContent = <div />;
-    if (!props.message || !props.message.message) return null;
+    if (!props.message) return null;
     else {
-      if (props.success) {
+      if (props.error) {
         snackbarContent = (
           <SnackbarContent
-            message={props.message}
-            className={props.classes.success}
+            message={
+              <span id="client-snackbar" className={classes.message}>
+                <ErrorIcon className={classes.icon} />
+                {props.message.message
+                  ? props.message.message.replace("GraphQL error: ", "")
+                  : props.message.replace("GraphQL error: ", "")}
+              </span>
+            }
+            className={classes.error}
             action={[
               <IconButton
                 key="close"
@@ -70,20 +100,35 @@ class SnackbarMessage extends Component<
                 color="inherit"
                 onClick={this.handleClose}
               >
-                <CloseIcon className={props.classes.icon} />
+                <CloseIcon className={classes.icon} />
               </IconButton>,
             ]}
           />
         );
-      } else if (props.error) {
+      } else {
         snackbarContent = (
           <SnackbarContent
             message={
-              props.message.message
-                ? props.message.message.replace("GraphQL error: ", "")
-                : props.message.replace("GraphQL error: ", "")
+              <span id="client-snackbar" className={classes.message}>
+                {props.success ? (
+                  <CheckCircleIcon className={classes.icon} />
+                ) : props.info ? (
+                  <InfoIcon className={classes.icon} />
+                ) : props.warning ? (
+                  <WarningIcon className={classes.icon} />
+                ) : null}
+                {props.message}
+              </span>
             }
-            className={props.classes.error}
+            className={
+              props.success
+                ? classes.success
+                : props.info
+                ? classes.info
+                : props.warning
+                ? classes.warning
+                : null
+            }
             action={[
               <IconButton
                 key="close"
@@ -91,7 +136,7 @@ class SnackbarMessage extends Component<
                 color="inherit"
                 onClick={this.handleClose}
               >
-                <CloseIcon className={props.classes.icon} />
+                <CloseIcon className={classes.icon} />
               </IconButton>,
             ]}
           />

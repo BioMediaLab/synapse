@@ -495,6 +495,8 @@ export const Mutation = {
     resolver: async (root, args) => {
       const { activation_code } = args;
 
+      if (!activation_code) throw new Error("Activation Code cannot be empty!");
+
       const activation = await prisma.createActivation({
         activation_code,
       });

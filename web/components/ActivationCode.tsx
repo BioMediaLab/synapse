@@ -125,6 +125,7 @@ class ActivationCode extends Component<
 
   render() {
     const classes = this.props.classes;
+    var successMessage = <div />;
     return (
       <div className={classes.flexDiv}>
         <Query query={GET_COURSES}>
@@ -180,6 +181,12 @@ class ActivationCode extends Component<
                         >
                           Activate
                         </Button>
+                        {mutationResult.data ? (
+                          <SnackbarMessage
+                            success
+                            message="Course Activation Successful!"
+                          />
+                        ) : null}
                         <SnackbarMessage error message={mutationResult.error} />
                       </>
                     );
@@ -209,11 +216,17 @@ class ActivationCode extends Component<
                               },
                             });
 
-                            this.setState({ newActivationCode: "" });
+                            this.setState({ activationCodeToClear: "" });
                           }}
                         >
                           Reset
                         </Button>
+                        {mutationResult.data ? (
+                          <SnackbarMessage
+                            success
+                            message="Activation Code Reset Successful!"
+                          />
+                        ) : null}
                         <SnackbarMessage error message={mutationResult.error} />
                       </>
                     );
@@ -253,6 +266,12 @@ class ActivationCode extends Component<
                     >
                       Create
                     </Button>
+                    {mutationResult.data ? (
+                      <SnackbarMessage
+                        success
+                        message="Activation Code Creation Successful!"
+                      />
+                    ) : null}
                     <SnackbarMessage error message={mutationResult.error} />
                   </>
                 );
