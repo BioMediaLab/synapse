@@ -9,18 +9,23 @@ import { schema } from "./schema";
 import googleAuthRouter from "./routes/auth/google";
 import { applyMiddleware } from "graphql-middleware";
 import { permissions } from "./permissions";
+import { json } from "body-parser";
 
 const PORT = 4000;
 
 const app = express();
 
+app.use(json());
 app.use("/auth/google", googleAuthRouter);
 
 const schemaWithMiddlware = applyMiddleware(schema, permissions);
 
 const server = new ApolloServer({
   schema: schemaWithMiddlware,
-  context: { prisma },
+  context: ({ req }) => ({
+    prisma,
+    req,
+  }),
 });
 
 server.applyMiddleware({ app });

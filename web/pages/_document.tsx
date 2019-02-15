@@ -1,13 +1,7 @@
 import React from "react";
 import Document, { Head, Main, NextScript } from "next/document";
 import flush from "styled-jsx/server";
-import fetch from "isomorphic-unfetch";
 import getConfig from "next/config";
-import { ServerResponse } from "http";
-import { addDays } from "date-fns";
-import { parseCookie } from "../lib/handleSessions";
-
-const serverConfig = getConfig();
 
 interface IMyDocumentProps {
   pageContext: any;
@@ -72,53 +66,6 @@ MyDocument.getInitialProps = async (ctx): Promise<any> => {
   // 4. page.render
 
   // Render app and page and get the context of the page with collected side effects.
-
-  const doRedirect = (res: ServerResponse, path: string) => {
-    res.writeHead(302, { Location: path });
-    res.end();
-  };
-
-  if (ctx.pathname === "/finishLogin") {
-    if (
-      ctx.req.headers.cookie &&
-      parseCookie(ctx.req.headers.cookie as any).session
-    ) {
-      // we already have the session, so we can redirect them to the main page.
-      doRedirect(ctx.res, "/");
-    } else {
-      const code = ctx.query.code;
-      if (!code) {
-        // the code from google is not here, redirect them to the login page with an
-        // error message.
-        doRedirect(ctx.res, "/login?err=1");
-      }
-
-      // make a request to the api server to get a JWT.
-      const resp = await fetch(
-        `${serverConfig.publicRuntimeConfig.API_URL}auth/google/complete`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json; charset=utf-8",
-          },
-          body: JSON.stringify({ code }),
-        },
-      );
-      if (resp.status !== 200) {
-        // an error ocurred on the api server when generating the JWT. redirect them to the login.
-        doRedirect(ctx.res, "/login?err=1");
-      } else {
-        // everything worked out, we should create the session cookie
-        const result = await resp.json();
-        const expDate = addDays(new Date(), 30).toUTCString();
-        ctx.res.setHeader(
-          "Set-Cookie",
-          `session=${result.jwt}; Path=/; Expires=${expDate};`,
-        );
-        doRedirect(ctx.res, "/");
-      }
-    }
-  }
 
   let pageContext;
   const page = ctx.renderPage(Component => {

@@ -21,14 +21,14 @@ googleAuthRouter.get("/", (req, res) => {
   const scopes = [
     "https://www.googleapis.com/auth/userinfo.email",
     "https://www.googleapis.com/auth/userinfo.profile",
-    "https://www.googleapis.com/auth/plus.login",
-    "https://www.googleapis.com/auth/plus.me",
   ];
 
   const url = oauth2Client.generateAuthUrl({
     access_type: "online",
     scope: scopes,
+    state: req.get("Referrer"),
   });
+
   return res.redirect(url);
 });
 

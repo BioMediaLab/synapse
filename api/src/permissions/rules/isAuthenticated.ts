@@ -1,18 +1,8 @@
 import { rule } from "graphql-shield";
-import { validateJWT } from "../../utils/jwt";
+import { getUserId } from "../../utils/getUserId";
 
 export const isAuthenticated = rule()(async (parent, args, ctx) => {
-  const jwt = ctx.jwt;
+  const userId = getUserId(ctx);
 
-  if (!jwt) {
-    return new Error("unauthorized");
-  }
-
-  const me = await validateJWT(jwt);
-
-  if (!me.isValid) {
-    throw new Error("unauthorized");
-  }
-
-  ctx.user_id = me.uid;
+  return Boolean(userId);
 });

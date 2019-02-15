@@ -9644,6 +9644,14 @@ react-form-validator-core@0.5.1:
   dependencies:
     react-lifecycles-compat "^3.0.2"
 
+react-google-login@^5.0.2:
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/react-google-login/-/react-google-login-5.0.2.tgz#0eb7964afd53e4a8cd80159b166b3079072717da"
+  integrity sha512-a8ctm/PNPK7DMrtbO1cJF0iXqusEJkYJjCH+iG2GhQe9MvEEalyj7yM5iU3CJJgwmQ+9iVS+VdXepS9rSEBlqA==
+  dependencies:
+    "@types/react" "*"
+    prop-types "^15.6.0"
+
 react-input-autosize@^2.2.1:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/react-input-autosize/-/react-input-autosize-2.2.1.tgz#ec428fa15b1592994fb5f9aa15bb1eb6baf420f8"
