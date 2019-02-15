@@ -59,7 +59,6 @@
     "react-big-calendar": "^0.20.3",
     "react-dom": "^16.5.1",
     "react-file-viewer": "^1.1.0",
-    "react-google-login": "^5.0.2",
     "react-jss": "^8.6.1",
     "react-material-ui-form-validator": "^2.0.2",
     "react-pdf-js": "^4.0.2",
