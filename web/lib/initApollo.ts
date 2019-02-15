@@ -70,7 +70,7 @@ function create(
   });
 
   const httpLink = new HttpLink({
-    uri: publicRuntimeConfig.API_URL, // Server URL (must be absolute)
+    uri: publicRuntimeConfig.API_GRAPHQL_URL, // Server URL (must be absolute)
     headers,
   });
 
