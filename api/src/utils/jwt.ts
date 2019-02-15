@@ -6,17 +6,15 @@ const getSecret = (): string => {
 
 interface IUser {
   id: string;
-  name: string;
-  email: string;
-  photo: string;
-  isAdmin: boolean;
 }
 
 export const createJWT = (user: IUser): Promise<string> =>
   new Promise(async (resolve, reject) => {
     const sec = getSecret();
     jwt.sign(
-      user,
+      {
+        userId: user.id,
+      },
       sec,
       {
         algorithm: "HS512",
