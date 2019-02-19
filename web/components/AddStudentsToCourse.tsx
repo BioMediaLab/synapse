@@ -1,22 +1,16 @@
 import React from "react";
 import {
   withStyles,
-  Button,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
   Typography,
   Select,
   MenuItem,
   createStyles,
 } from "@material-ui/core";
 import { graphql, ChildMutateProps } from "react-apollo";
-import gql from "graphql-tag";
 import { withSnackbar, InjectedNotistackProps } from "notistack";
 
-import UserSearch from "./UserSearch";
-import { CourseRoleType } from "../queries/courseQueries";
+import AddMembers from "./AddMembers";
+import { CourseRoleType, ADD_USERS_TO_COURSE } from "../queries/courseQueries";
 
 const styles = theme =>
   createStyles({
@@ -46,12 +40,6 @@ interface IProps {
   userAddCallback?: (userIds: string[]) => void;
 }
 
-interface IState {
-  addDialogOpen: boolean;
-  usersToAdd: any[];
-  userType: CourseRoleType;
-}
-
 interface IVars {
   courseId: string;
   users: Array<{ user_id: string; role: string }>;
@@ -63,125 +51,70 @@ type Props = ChildMutateProps<
   IVars
 >;
 
-class AddStudentsToCourse extends React.Component<Props, IState> {
-  state = {
-    addDialogOpen: false,
-    usersToAdd: [],
-    userType: "PROFESSOR" as CourseRoleType,
-  };
+const AddStudentsToCourse: React.FunctionComponent<Props> = ({
+  curCourseId,
+  mutate,
+  userAddCallback,
+  classes,
+}) => {
+  const [role, updateRole] = React.useState<CourseRoleType>(
+    "PROFESSOR" as CourseRoleType,
+  );
 
-  showAddDialog = () => {
-    this.setState(state => ({ ...state, addDialogOpen: true }));
-  };
-
-  hideAddDialog = () => {
-    this.setState(state => ({
-      ...state,
-      usersToAdd: [],
-      addDialogOpen: false,
-    }));
-  };
-
-  doUserAdd = async () => {
-    this.hideAddDialog();
-    if (this.props.curCourseId && this.state.usersToAdd.length > 0) {
-      const res = await this.props.mutate({
-        // TODO: support adding users of different types
-        variables: {
-          courseId: this.props.curCourseId,
-          users: this.state.usersToAdd.map(user => ({
-            user_id: user.id,
-            role: this.state.userType,
-          })),
-        },
-      });
-      if (res && !res.errors) {
-        this.props.enqueueSnackbar("Users added", { autoHideDuration: 1000 });
-        if (this.props.userAddCallback) {
-          this.props.userAddCallback(this.state.usersToAdd);
+  return (
+    <AddMembers
+      onComplete={async users => {
+        if (curCourseId && users.length > 0) {
+          const res = await mutate({
+            // TODO: support adding users of different types
+            variables: {
+              courseId: curCourseId,
+              users: users.map(user => ({
+                user_id: user.id,
+                role,
+              })),
+            },
+          });
+          if (res && !res.errors) {
+            if (userAddCallback) {
+              userAddCallback(users.map(({ id }) => id));
+            }
+            return { success: true, message: "Users successfuly added" };
+          }
         }
-        return;
-      }
-    }
-    this.props.enqueueSnackbar("An Error Ocurred.", {
-      autoHideDuration: 1000,
-      variant: "error",
-    });
-  };
-
-  updateSelectedUsers = users => {
-    this.setState(state => ({ ...state, usersToAdd: users }));
-  };
-
-  updateSelectUserType = event => {
-    this.setState(state => ({ ...state, userType: event.target.value }));
-  };
-
-  render() {
-    return (
-      <>
-        <Dialog
-          open={this.state.addDialogOpen}
-          onClose={this.hideAddDialog}
-          maxWidth="md"
-          className={this.props.classes.fullDialog}
+        return {
+          success: false,
+          message: "An error ocurred when adding users. Please try again.",
+        };
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+        }}
+      >
+        <span>Add these users as</span>
+        <Select
+          className={classes.roleSelect}
+          value={role}
+          onChange={event => {
+            const type = event.target.value;
+            updateRole(type as any);
+          }}
         >
-          <DialogTitle>Choose new members</DialogTitle>
-          <DialogContent className={this.props.classes.addDialog}>
-            <UserSearch onValueChange={this.updateSelectedUsers} />
-            <Typography
-              variant="body1"
-              style={{
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
-              <span>Add these users as</span>
-              <Select
-                className={this.props.classes.roleSelect}
-                value={this.state.userType}
-                onChange={this.updateSelectUserType}
-              >
-                <MenuItem value="PROFESSOR">professors</MenuItem>
-                <MenuItem value="ADMIN">administrators</MenuItem>
-                <MenuItem value="STUDENT">students</MenuItem>
-                <MenuItem value="ASSISTANT">teaching assistants</MenuItem>
-                <MenuItem value="AUDITOR">auditors</MenuItem>
-              </Select>
-              <span>into the class.</span>
-            </Typography>
-          </DialogContent>
-          <DialogActions>
-            <Button
-              color="primary"
-              onClick={this.doUserAdd}
-              disabled={this.state.usersToAdd.length === 0}
-            >
-              Save
-            </Button>
-            <Button onClick={this.hideAddDialog}>Cancel</Button>
-          </DialogActions>
-        </Dialog>
-        <Button color="primary" onClick={this.showAddDialog}>
-          Add new members
-        </Button>
-      </>
-    );
-  }
-}
+          <MenuItem value="PROFESSOR">professors</MenuItem>
+          <MenuItem value="ADMIN">administrators</MenuItem>
+          <MenuItem value="STUDENT">students</MenuItem>
+          <MenuItem value="ASSISTANT">teaching assistants</MenuItem>
+          <MenuItem value="AUDITOR">auditors</MenuItem>
+        </Select>
+        <span>into the class.</span>
+      </div>
+    </AddMembers>
+  );
+};
 
-export default graphql<IProps, {}, IVars>(gql`
-  mutation($courseId: String!, $users: [CourseUserAndRole!]!) {
-    addUsersToCourse(course_id: $courseId, users: $users) {
-      id
-      userRoles {
-        id
-        user_type
-        user {
-          id
-          name
-        }
-      }
-    }
-  }
-`)(withSnackbar(withStyles(styles)(AddStudentsToCourse)));
+export default graphql<IProps, {}, IVars>(ADD_USERS_TO_COURSE)(
+  withSnackbar(withStyles(styles)(AddStudentsToCourse)),
+);

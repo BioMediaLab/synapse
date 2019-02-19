@@ -117,6 +117,22 @@ export const COURSE_INFO: DocumentNode = gql`
   }
 `;
 
+export const ADD_USERS_TO_COURSE = gql`
+  mutation($courseId: String!, $users: [CourseUserAndRole!]!) {
+    addUsersToCourse(course_id: $courseId, users: $users) {
+      id
+      userRoles {
+        id
+        user_type
+        user {
+          id
+          name
+        }
+      }
+    }
+  }
+`;
+
 interface ICourseSelectVars {
   courseId: string;
 }
