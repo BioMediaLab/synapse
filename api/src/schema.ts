@@ -1,6 +1,7 @@
 import * as path from "path";
 import * as allTypes from "./resolvers";
-import nexusPrismaSchema from "./generated/nexus-prisma.ts";
+import datamodelInfo from "./generated/nexus-prisma.ts";
+import { prisma } from "./generated/prisma-client";
 import { makePrismaSchema } from "nexus-prisma";
 
 /**
@@ -12,8 +13,8 @@ export const schema = makePrismaSchema({
   types: allTypes,
 
   prisma: {
-    nexusPrismaSchema,
-    contextClientName: "prisma",
+    datamodelInfo,
+    client: prisma,
   },
 
   outputs: {

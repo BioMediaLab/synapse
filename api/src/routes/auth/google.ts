@@ -48,11 +48,11 @@ googleAuthRouter.post("/complete", async (req, res) => {
   const { email, name, picture } = data;
 
   // does the user already have an account?
-  let account = await prisma.user({ email });
+  let user = await prisma.user({ email });
 
-  if (!account) {
+  if (!user) {
     // create a new account
-    account = await prisma.createUser({
+    user = await prisma.createUser({
       email,
       name,
       photo: picture,
@@ -62,18 +62,13 @@ googleAuthRouter.post("/complete", async (req, res) => {
 
   // create the JWT that will be sent to the front end for future authentication
   const jwt = await createJWT({
-    id: account.id,
-    name: account.name,
-    email: account.email,
-    photo: account.photo,
-    isAdmin: account.isAdmin,
+    id: user.id,
   });
 
-  return res.send(
-    JSON.stringify({
-      jwt,
-    }),
-  );
+  return res.send({
+    jwt,
+    user,
+  });
 });
 
 export default googleAuthRouter;

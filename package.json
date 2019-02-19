@@ -14,6 +14,6 @@
     "dev": "wsrun dev"
   },
   "devDependencies": {
-    "wsrun": "^3.3.3"
+    "wsrun": "^3.6.4"
   }
 }

@@ -4,7 +4,7 @@ import { stringArg } from "nexus";
 export const User = prismaObjectType({
   name: "User",
   definition(t) {
-    t.prismaFields();
+    t.prismaFields(["*"]);
 
     t.list.field("courseRoles", {
       type: "CourseUser",

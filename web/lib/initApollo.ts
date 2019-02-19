@@ -6,15 +6,11 @@ import {
 } from "apollo-boost";
 import { getMainDefinition } from "apollo-utilities";
 import { ApolloLink, split } from "apollo-link";
-import { withClientState } from "apollo-link-state";
 import { WebSocketLink } from "apollo-link-ws";
 import { SubscriptionClient } from "subscriptions-transport-ws";
 import fetch from "isomorphic-unfetch";
-import jwtDecode from "jwt-decode";
 import getConfig from "next/config";
 const { publicRuntimeConfig } = getConfig();
-
-import { MeResolvers } from "../resolvers/me";
 
 interface IProc {
   browser: boolean;
@@ -32,13 +28,6 @@ if (!process.browser) {
   global.fetch = fetch;
 }
 
-interface IUser {
-  id: string | null;
-  photo?: string;
-  name?: string;
-  isAdmin?: boolean;
-}
-
 const ssrMode = !process.browser;
 
 function create(
@@ -47,34 +36,19 @@ function create(
 ): ApolloClient<NormalizedCacheObject> {
   // Check out https://github.com/zeit/next.js/pull/4611 if you want to use the AWSAppSyncClient
   const headers: any = {};
-  let loggedInUser: IUser = {
-    id: null,
-  };
 
   if (hasSession) {
     headers.Authorization = hasSession;
-    loggedInUser = jwtDecode(hasSession);
   }
 
   const cache = new InMemoryCache().restore(initialState || {});
-
-  const stateLink = withClientState({
-    cache,
-    defaults: {
-      me: {
-        __typename: "User",
-        ...loggedInUser,
-      },
-    },
-    resolvers: { MeResolvers },
-  });
 
   const httpLink = new HttpLink({
     uri: publicRuntimeConfig.API_GRAPHQL_URL, // Server URL (must be absolute)
     headers,
   });
 
-  const defaultLink = ApolloLink.from([stateLink, httpLink]);
+  const defaultLink = ApolloLink.from([httpLink]);
 
   let link = defaultLink;
 
