@@ -36,7 +36,12 @@ const AddMembers: FunctionComponent<Props> = (props: Props) => {
   return (
     <>
       <Button onClick={() => setIsOpen(true)}>{buttonText}</Button>
-      <Dialog open={isOpen} onClose={() => setIsOpen(false)}>
+      <Dialog
+        open={isOpen}
+        onClose={() => setIsOpen(false)}
+        fullWidth
+        maxWidth="md"
+      >
         <DialogTitle>{titleText}</DialogTitle>
         <DialogContent>
           <UserSearch onValueChange={users => updateUsers(users)} />
