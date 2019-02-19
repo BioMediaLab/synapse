@@ -509,7 +509,14 @@ export const Mutation = {
       const { activation_code, course_id, user_id } = args;
 
       const activation = await prisma.activation({ activation_code });
+      const userAlreadyInCourse = await prisma.$exists.activation({
+        AND: [{ user: { id: user_id } }, { course: { id: course_id } }],
+      });
       var updatedActivation;
+
+      if (userAlreadyInCourse) {
+        throw new Error("User is already in the course!");
+      }
 
       if (!activation) {
         throw new Error("Invalid Activation Code!");
