@@ -49,6 +49,7 @@ const AddMembers: FunctionComponent<Props> = (props: Props) => {
         </DialogContent>
         <DialogActions>
           <Button
+            disabled={selectedUsers.length === 0}
             onClick={async () => {
               setIsOpen(false);
               const users = selectedUsers;
