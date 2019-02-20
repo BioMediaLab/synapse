@@ -125,7 +125,6 @@ class ActivationCode extends Component<
 
   render() {
     const classes = this.props.classes;
-    var successMessage = <div />;
     return (
       <div className={classes.flexDiv}>
         <Query query={GET_COURSES}>
