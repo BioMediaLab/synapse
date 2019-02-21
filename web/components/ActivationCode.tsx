@@ -14,7 +14,7 @@ import SnackbarMessage from "./SnackbarMessage";
 import gql from "graphql-tag";
 import { Query, Mutation } from "react-apollo";
 
-const GET_COURSES = gql`
+export const GET_COURSES = gql`
   query {
     myCourseRoles {
       id
@@ -164,7 +164,7 @@ class ActivationCode extends Component<
                         <Button
                           variant="contained"
                           className={classes.button}
-                          onClick={event => {
+                          onClick={() => {
                             doMutation({
                               variables: {
                                 activation_code: this.state.activationCode,
@@ -206,7 +206,7 @@ class ActivationCode extends Component<
                         <Button
                           variant="contained"
                           className={classes.button}
-                          onClick={event => {
+                          onClick={() => {
                             doMutation({
                               variables: {
                                 activation_code: this.state
@@ -253,7 +253,7 @@ class ActivationCode extends Component<
                     <Button
                       variant="contained"
                       className={classes.button}
-                      onClick={event => {
+                      onClick={() => {
                         doMutation({
                           variables: {
                             activation_code: this.state.newActivationCode,

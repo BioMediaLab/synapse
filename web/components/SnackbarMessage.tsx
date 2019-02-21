@@ -70,7 +70,7 @@ class SnackbarMessage extends Component<
     }
   }
 
-  handleClose = event => {
+  handleClose = () => {
     this.setState({ open: false });
   };
 
