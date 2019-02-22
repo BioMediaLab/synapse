@@ -6,7 +6,6 @@ import { ServerResponse } from "http";
 import { addDays } from "date-fns";
 import getConfig from "next/config";
 const { publicRuntimeConfig } = getConfig();
-import { MeStore } from "../stores/MeStore";
 
 const doRedirect = (res: ServerResponse, path: string) => {
   res.writeHead(302, { Location: path });
@@ -53,10 +52,6 @@ LoginPage.getInitialProps = async ({ req, res, query }: NextContext) => {
       "Set-Cookie",
       `session=${result.jwt}; Path=/; Expires=${expDate};`,
     );
-
-    const me = new MeStore();
-
-    me.setMe(result.user);
 
     doRedirect(res, redirectUrl);
   }
