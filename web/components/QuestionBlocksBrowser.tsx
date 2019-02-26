@@ -66,21 +66,8 @@ class QuestionBlocksBrowser extends React.Component<IProps, IState> {
   updateSelectedBlock = (id: string) => {
     this.setState(state => ({ ...state, curQuestionBlock: id }));
   };
-  listAnswers = (questionId: string, answersAr: Array) => {
-	  let container=[];
-		answersAr.forEach((answer,index)=>{
-			container.push(<div key={answer.id}><input type="radio" name={questionId}
-				onClick={(e) => this.updateChoice(answer.id, questionId, this.state.curQuestionBlock)} />
-				<label for={answer.id}>{answer.answerText}</label></div>);
-	    });
-		return (
-		  <div>
-		  {container}
-		  </div>
-		)
-	};
-  updateChoice = (answerId, questionId, blockId) => {
-    console.log('answerId: ', answerId, ' questionId:', questionId, 'block: ', blockId);
+  updateChoice = (answerId, questionId) => {
+    console.log('answerId: ', answerId, ' questionId:', questionId, 'block: ',  this.state.curQuestionBlock);
   }
 
   render() {
@@ -111,11 +98,12 @@ class QuestionBlocksBrowser extends React.Component<IProps, IState> {
                     {questions.map(questions => (
                       <div>{questions.question.questionText}
 					  <List>
-					  <ListItem>
-						{this.listAnswers(questions.question.id, questions.question.answerChoices)}
-					  </ListItem>
+					    {questions.question.answerChoices.map((answer) => (
+						  <ListItem>
+							<input type="radio" name={questions.question.id} onClick={(e) => this.updateChoice(answer.id, questions.question.id)} /> <label for={answer.id}>{answer.answerText}</label>
+						  </ListItem>
+						))}
 					  </List>
-						)}
 					  </div>
                     ))}
                   </Grid>
