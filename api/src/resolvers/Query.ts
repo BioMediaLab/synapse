@@ -4,7 +4,7 @@ import { User, Course } from ".";
 
 export const Query = queryType({
   definition(t) {
-    t.field("me", {
+    t.field("currentUser", {
       type: User,
       resolve: async (parent, args, ctx) => {
         const user = await ctx.prisma.user({ id: ctx.user_id });

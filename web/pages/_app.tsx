@@ -6,6 +6,7 @@ import JssProvider from "react-jss/lib/JssProvider";
 import getPageContext, { IPageContext } from "../lib/getPageContext";
 import withApolloClient from "../lib/withApolloClient";
 import { ApolloProvider } from "react-apollo";
+import { ApolloProvider as ApolloProviderHooks } from "react-apollo-hooks";
 import Meta from "../components/Meta";
 import * as Sentry from "@sentry/browser";
 
@@ -70,31 +71,33 @@ class IMyApp extends App<IMyAppProps> {
       <Container>
         <title>Synapse</title>
         <ApolloProvider client={apolloClient}>
-          {/* Wrap every page in Jss and Theme providers */}
-          <JssProvider
-            registry={this.pageContext.sheetsRegistry}
-            generateClassName={this.pageContext.generateClassName}
-          >
-            {/* MuiThemeProvider makes the theme available down the React
-              tree thanks to React context. */}
-            <MuiThemeProvider
-              theme={this.pageContext.theme}
-              sheetsManager={this.pageContext.sheetsManager}
+          <ApolloProviderHooks client={apolloClient}>
+            {/* Wrap every page in Jss and Theme providers */}
+            <JssProvider
+              registry={this.pageContext.sheetsRegistry}
+              generateClassName={this.pageContext.generateClassName}
             >
-              {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-              <CssBaseline />
-              {/* Pass pageContext to the _document though the renderPage enhancer
+              {/* MuiThemeProvider makes the theme available down the React
+              tree thanks to React context. */}
+              <MuiThemeProvider
+                theme={this.pageContext.theme}
+                sheetsManager={this.pageContext.sheetsManager}
+              >
+                {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+                <CssBaseline />
+                {/* Pass pageContext to the _document though the renderPage enhancer
                 to render collected styles on server side. */}
 
-              <Meta />
+                <Meta />
 
-              <Component
-                hasSession={hasSession}
-                pageContext={this.pageContext}
-                {...pageProps}
-              />
-            </MuiThemeProvider>
-          </JssProvider>
+                <Component
+                  hasSession={hasSession}
+                  pageContext={this.pageContext}
+                  {...pageProps}
+                />
+              </MuiThemeProvider>
+            </JssProvider>
+          </ApolloProviderHooks>
         </ApolloProvider>
       </Container>
     );

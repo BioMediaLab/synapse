@@ -3,30 +3,19 @@ import {
   AppBar,
   Toolbar,
   IconButton,
-  Badge,
   Menu,
   MenuItem,
   Drawer,
   createStyles,
   withStyles,
 } from "@material-ui/core";
-import {
-  Menu as MenuIcon,
-  AccountCircle,
-  Mail as MailIcon,
-  MoreVert as MoreIcon,
-  Settings as AdminIcon,
-} from "@material-ui/icons";
-import { Query } from "react-apollo";
+import { Menu as MenuIcon } from "@material-ui/icons";
 
-import ProfilePic from "../components/ProfilePic";
 import { Link, Router } from "../Router";
 import SearchBar from "../components/SearchBar";
 import CourseList from "./CourseList";
-import Notifications from "./NotificationMenu";
 import { destroySessionFrontend } from "../lib/handleSessions";
-import { GET_ME } from "../queries/userQueries";
-import WelcomeToSynapse from "./WelcomeToSynapse";
+import CurrentUserMenuItem from "./CurentUserMenuItem";
 
 const drawerWidth = 300;
 
@@ -52,12 +41,6 @@ const styles = theme =>
         display: "flex",
       },
     },
-    sectionMobile: {
-      display: "flex",
-      [theme.breakpoints.up("md")]: {
-        display: "none",
-      },
-    },
     drawerPaper: {
       position: "relative",
       width: drawerWidth,
@@ -69,10 +52,6 @@ const styles = theme =>
     profilePicIconButton: {
       width: "48px",
       height: "48px",
-    },
-    profilePicIconButtonMobile: {
-      width: "24px",
-      height: "24px",
     },
   });
 
@@ -86,25 +65,21 @@ interface IProps {
     inputRoot: string;
     inputInput: string;
     sectionDesktop: string;
-    sectionMobile: string;
     drawerPaper: string;
     toolbar: string;
     content: string;
     profilePicIconButton: string;
-    profilePicIconButtonMobile: string;
   };
 }
 
 interface IState {
   anchorEl: HTMLElement;
-  mobileMoreAnchorEl: HTMLElement;
   open: boolean;
 }
 
 class PrimarySearchAppBar extends React.Component<IProps, IState> {
   state = {
     anchorEl: null,
-    mobileMoreAnchorEl: null,
     open: true,
   };
 
@@ -115,14 +90,6 @@ class PrimarySearchAppBar extends React.Component<IProps, IState> {
   handleMenuClose = () => {
     this.setState({ anchorEl: null });
     this.handleMobileMenuClose();
-  };
-
-  handleMobileMenuOpen = event => {
-    this.setState({ mobileMoreAnchorEl: event.currentTarget });
-  };
-
-  handleMobileMenuClose = () => {
-    this.setState({ mobileMoreAnchorEl: null });
   };
 
   logout = () => {
@@ -144,10 +111,9 @@ class PrimarySearchAppBar extends React.Component<IProps, IState> {
   };
 
   render() {
-    const { anchorEl, mobileMoreAnchorEl } = this.state;
+    const { anchorEl } = this.state;
     const { classes } = this.props;
     const isMenuOpen = Boolean(anchorEl);
-    const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
     const renderMenu = (
       <Menu
@@ -159,66 +125,6 @@ class PrimarySearchAppBar extends React.Component<IProps, IState> {
       >
         <MenuItem onClick={this.goToSettings}>My Settings</MenuItem>
         <MenuItem onClick={this.logout}>Log Out</MenuItem>
-      </Menu>
-    );
-
-    const renderMobileMenu = (
-      <Menu
-        anchorEl={mobileMoreAnchorEl}
-        anchorOrigin={{ vertical: "top", horizontal: "right" }}
-        transformOrigin={{ vertical: "top", horizontal: "right" }}
-        open={isMobileMenuOpen}
-        onClose={this.handleMobileMenuClose}
-      >
-        <Query query={GET_ME}>
-          {({ loading, error, data }) => {
-            if (loading || error) {
-              return (
-                <MenuItem>
-                  <IconButton
-                    aria-owns={isMenuOpen ? "material-appbar" : null}
-                    aria-haspopup="true"
-                    color="inherit"
-                  >
-                    <AccountCircle />
-                  </IconButton>
-                </MenuItem>
-              );
-            }
-
-            return (
-              <Link route="users" params={{ id: data.me.id }} key={data.me.id}>
-                <MenuItem>
-                  <IconButton
-                    aria-owns={isMenuOpen ? "material-appbar" : null}
-                    aria-haspopup="true"
-                    color="inherit"
-                    className={classes.profilePicIconButtonMobile}
-                  >
-                    <ProfilePic
-                      user={data.me}
-                      classesOverride={classes.profilePicIconButtonMobile}
-                    />
-                  </IconButton>
-                  <p>My Profile</p>
-                </MenuItem>
-              </Link>
-            );
-          }}
-        </Query>
-
-        <MenuItem>
-          <IconButton color="inherit">
-            <Badge badgeContent={4} color="secondary">
-              <MailIcon />
-            </Badge>
-          </IconButton>
-          <p>Messages</p>
-        </MenuItem>
-        <MenuItem>
-          <Notifications />
-          <p>Notifications</p>
-        </MenuItem>
       </Menu>
     );
 
@@ -245,72 +151,11 @@ class PrimarySearchAppBar extends React.Component<IProps, IState> {
 
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
-              <Query query={GET_ME}>
-                {({ loading, error, data }) => {
-                  if (loading || error) {
-                    return (
-                      <>
-                        <Notifications />
-                        <IconButton color="inherit">
-                          <Badge badgeContent={4} color="secondary">
-                            <MailIcon />
-                          </Badge>
-                        </IconButton>
-                        <IconButton
-                          aria-owns={isMenuOpen ? "material-appbar" : null}
-                          aria-haspopup="true"
-                          onClick={this.handleProfileMenuOpen}
-                          color="inherit"
-                        >
-                          <AccountCircle />
-                        </IconButton>
-                      </>
-                    );
-                  }
-
-                  return (
-                    <>
-                      {data.me.isAdmin ? (
-                        <IconButton color="inherit" onClick={this.goToAdmin}>
-                          <AdminIcon />
-                        </IconButton>
-                      ) : (
-                        <span />
-                      )}
-                      <Notifications />
-                      <IconButton color="inherit">
-                        <Badge badgeContent={4} color="secondary">
-                          <MailIcon />
-                        </Badge>
-                      </IconButton>
-                      <IconButton
-                        aria-owns={isMenuOpen ? "material-appbar" : null}
-                        aria-haspopup="true"
-                        onClick={this.handleProfileMenuOpen}
-                        color="inherit"
-                        className={classes.profilePicIconButton}
-                        style={{ padding: 0 }}
-                      >
-                        <ProfilePic user={data.me} />
-                      </IconButton>
-                    </>
-                  );
-                }}
-              </Query>
-            </div>
-            <div className={classes.sectionMobile}>
-              <IconButton
-                aria-haspopup="true"
-                onClick={this.handleMobileMenuOpen}
-                color="inherit"
-              >
-                <MoreIcon />
-              </IconButton>
+              <CurrentUserMenuItem />
             </div>
           </Toolbar>
         </AppBar>
         {renderMenu}
-        {renderMobileMenu}
 
         {this.state.open ? (
           <Drawer
@@ -323,7 +168,6 @@ class PrimarySearchAppBar extends React.Component<IProps, IState> {
             <CourseList />
           </Drawer>
         ) : null}
-        <WelcomeToSynapse />
       </>
     );
   }

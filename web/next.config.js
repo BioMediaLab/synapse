@@ -9,6 +9,7 @@ module.exports = withCSS(
       // Will be available on both server and client
       staticFolder: "/static",
       API_URL: process.env.API_URL,
+      API_GRAPHQL_URL: process.env.API_GRAPHQL_URL,
       API_URL_GOOGLE: process.env.API_URL_GOOGLE,
       WEBSOCKET_URL: process.env.WEBSOCKET_URL,
       FILESTACK_API_KEY: process.env.FILESTACK_API_KEY,
