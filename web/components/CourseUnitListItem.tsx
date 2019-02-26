@@ -23,12 +23,21 @@ const styles = theme =>
     },
   });
 
-class CourseUnitListItem extends Component {
+interface IProps {
+  classes: {
+    root: string;
+    heading: string;
+    secondaryHeading: string;
+  };
+  unit: any;
+}
+
+class CourseUnitListItem extends Component<IProps> {
   state = {
     expanded: null,
   };
 
-  handleChange = panel => (event, expanded) => {
+  handleChange = panel => (_, expanded) => {
     this.setState({
       expanded: expanded ? panel : false,
     });

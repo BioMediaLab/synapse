@@ -13,9 +13,11 @@
     "predev": "yarn && cd api && yarn generate",
     "dev": "wsrun dev",
     "test": "wsrun test",
-    "lint": "tslint -p tslint.json"
+    "lint": "tslint -p tslint.json",
+    "typecheck": "tsc -p web"
   },
   "devDependencies": {
+    "typescript": "^3.3.3333",
     "tslint": "5.13.0",
     "wsrun": "3.6.4"
   }

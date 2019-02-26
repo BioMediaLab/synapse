@@ -17,7 +17,7 @@ interface IProps {
   children?: ReactNode;
 }
 
-const AreYouSure: React.SFC<IProps> = props => {
+const AreYouSure: React.FunctionComponent<IProps> = props => {
   const child = props.children ? props.children : <span>Are you sure?</span>;
   const title = props.title ? props.title : "Confirm?";
   const yesText = props.optionYesText ? props.optionYesText : "Yes";

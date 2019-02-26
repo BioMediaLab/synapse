@@ -142,7 +142,7 @@ export default withSnackbar(
                 subData.notification.notification;
 
               // a callback when the notification is recieved for updating cache
-              whenNotificationRecieved(newNotification, ownProps.client);
+              whenNotificationRecieved(newNotification, ownProps.client as any);
               // callback supplied by component
               updateCb(newNotification);
 

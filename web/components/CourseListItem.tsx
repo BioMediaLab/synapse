@@ -42,7 +42,7 @@ class CourseListItem extends Component<IProps & WithRouterProps> {
           </ListItem>
         </Link>
         <Collapse in={activeLink} timeout="auto" unmountOnExit>
-          <CourseModListItems course={course} />
+          <CourseModListItems curCourseId={course.id} />
         </Collapse>
       </>
     );

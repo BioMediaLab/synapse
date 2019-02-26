@@ -45,7 +45,7 @@ const customPlaceholderCourse = (
   </div>
 );
 
-const CourseList: React.SFC<{}> = ({ router, href }) => (
+const CourseList: React.FunctionComponent = () => (
   <QueryGetCourses query={GET_COURSES}>
     {({ loading, error, data }) => {
       if (loading) {
@@ -53,7 +53,6 @@ const CourseList: React.SFC<{}> = ({ router, href }) => (
           <div>
             <div style={{ margin: 20, marginBottom: 14 }}>
               <ReactPlaceholder
-                showLoadingAnimation
                 ready={false}
                 customPlaceholder={customPlaceholderUser}
               >
@@ -63,7 +62,6 @@ const CourseList: React.SFC<{}> = ({ router, href }) => (
             <Divider />
             <div style={{ margin: 20, marginTop: 11, marginBottom: 22 }}>
               <ReactPlaceholder
-                showLoadingAnimation
                 ready={false}
                 customPlaceholder={customPlaceholderCourse}
               >
@@ -72,7 +70,6 @@ const CourseList: React.SFC<{}> = ({ router, href }) => (
             </div>
             <div style={{ margin: 20, marginTop: 11, marginBottom: 22 }}>
               <ReactPlaceholder
-                showLoadingAnimation
                 ready={false}
                 customPlaceholder={customPlaceholderCourse}
               >
@@ -81,7 +78,6 @@ const CourseList: React.SFC<{}> = ({ router, href }) => (
             </div>
             <div style={{ margin: 20, marginTop: 11, marginBottom: 22 }}>
               <ReactPlaceholder
-                showLoadingAnimation
                 ready={false}
                 customPlaceholder={customPlaceholderCourse}
               >
@@ -90,7 +86,6 @@ const CourseList: React.SFC<{}> = ({ router, href }) => (
             </div>
             <div style={{ margin: 20, marginTop: 11, marginBottom: 22 }}>
               <ReactPlaceholder
-                showLoadingAnimation
                 ready={false}
                 customPlaceholder={customPlaceholderCourse}
               >
@@ -119,7 +114,7 @@ const CourseList: React.SFC<{}> = ({ router, href }) => (
 
             <Divider />
 
-            <Link prefetch href="/dashboard" key="dashboard">
+            <Link prefetch route="/dashboard" key="dashboard">
               <ListItem button>
                 <DashboardIcon
                   color="inherit"
@@ -129,7 +124,7 @@ const CourseList: React.SFC<{}> = ({ router, href }) => (
               </ListItem>
             </Link>
 
-            <Link prefetch href="/messages" key="messages">
+            <Link prefetch route="/messages" key="messages">
               <ListItem button>
                 <MessagesIcon
                   color="inherit"
@@ -139,7 +134,7 @@ const CourseList: React.SFC<{}> = ({ router, href }) => (
               </ListItem>
             </Link>
 
-            <Link prefetch href="/notifications" key="notifications">
+            <Link prefetch route="/notifications" key="notifications">
               <ListItem button>
                 <NotificationsIcon
                   color="inherit"
@@ -149,7 +144,7 @@ const CourseList: React.SFC<{}> = ({ router, href }) => (
               </ListItem>
             </Link>
 
-            <Link prefetch href="/calendar" key="calendar">
+            <Link prefetch route="/calendar" key="calendar">
               <ListItem button>
                 <CalendarIcon
                   color="inherit"

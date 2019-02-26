@@ -18,5 +18,5 @@
     "lib": ["dom", "es2017"],
     "outDir": "dist"
   },
-  "exclude": ["*/Router.js"]
+  "exclude": ["*/Router.js", "dist", "node_modules"]
 }

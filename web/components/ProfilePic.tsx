@@ -17,7 +17,7 @@ interface IProfilePicProps {
     avatar: string;
     initials: string;
   };
-  classesOverride?: object;
+  avatarClassOverride?: string;
   user: {
     name: string;
     photo: string | null;
@@ -26,14 +26,14 @@ interface IProfilePicProps {
 
 const ProfilePic: React.SFC<IProfilePicProps> = ({
   classes,
-  classesOverride,
+  avatarClassOverride,
   user,
   ...props
 }) => {
   return user.photo ? (
     <Avatar
       alt={user.name}
-      className={classesOverride ? classesOverride : classes.avatar}
+      className={avatarClassOverride ? avatarClassOverride : classes.avatar}
       src={user.photo}
       {...props}
     />

@@ -1,7 +1,6 @@
 import React from "react";
 
 import ErrorMessage from "./ErrorMessage";
-import PDFViewer from "./PDFViewer";
 import TextFileViewer from "./TextFileViewer";
 
 interface IProps {
@@ -24,7 +23,7 @@ const viewers = {
   },
 
   pdf({ url }: { url: string }) {
-    return <a href={url} alt="pdf" />;
+    return <a href={url} />;
   },
 
   image({ url }: { url: string }) {
@@ -76,8 +75,12 @@ const viewers = {
   },
 };
 
-const ContentViewer: React.SFC<IProps> = ({ type, name, url }) => {
-  const ViewerComp: React.SFC<{
+const ContentViewer: React.FunctionComponent<IProps> = ({
+  type,
+  name,
+  url,
+}) => {
+  const ViewerComp: React.FunctionComponent<{
     name: string;
     url: string;
   }> = viewers.getViewer(type);

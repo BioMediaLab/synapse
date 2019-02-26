@@ -31,7 +31,10 @@ interface ILayoutProps {
   };
 }
 
-const Layout: React.SFC<ILayoutProps> = ({ classes, children }) => (
+const Layout: React.FunctionComponent<ILayoutProps> = ({
+  classes,
+  children,
+}) => (
   <div className={classes.root}>
     <Header />
     <main className={classes.content}>

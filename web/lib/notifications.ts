@@ -18,6 +18,7 @@ export const whenNotificationRecieved = (
   notification: INotification,
   client: ApolloClient<any>,
 ) => {
+  console.warn(client);
   switch (notification.notify_type) {
     case NoteType.COURSE_MESSAGE:
       throw new Error("unimpl...");

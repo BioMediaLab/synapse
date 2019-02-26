@@ -62,7 +62,7 @@
     "react-jss": "^8.6.1",
     "react-material-ui-form-validator": "^2.0.2",
     "react-pdf-js": "^4.0.2",
-    "react-placeholder": "^3.0.1",
+    "react-placeholder": "^3.0.2",
     "react-select": "^2.1.0",
     "react-swipeable-views": "^0.13.0",
     "styled-jsx": "^3.1.0",
@@ -75,6 +75,6 @@
     "babel-jest": "23.6.0",
     "jest": "23.6.0",
     "react-testing-library": "5.8.0",
-    "ts-jest": "24.0.0",
+    "ts-jest": "24.0.0"
   }
 }

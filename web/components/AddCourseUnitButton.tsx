@@ -73,7 +73,7 @@ class AddCourseUnitButton extends Component<{ courseId: string }> {
   render() {
     return (
       <Mutation mutation={ADD_COURSE_UNIT}>
-        {(addCourseUnit, { data }) => (
+        {addCourseUnit => (
           <div>
             <Button variant="contained" onClick={this.handleClickOpen}>
               Add Unit
@@ -119,9 +119,9 @@ class AddCourseUnitButton extends Component<{ courseId: string }> {
                 <FormControlLabel
                   control={
                     <Switch
-                      checked={this.state.visibile}
+                      checked={this.state.unit.visible}
                       onChange={this.handleToggleVisibility}
-                      value={this.state.visibile}
+                      value={this.state.unit.visible}
                       color="primary"
                     />
                   }

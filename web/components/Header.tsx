@@ -198,7 +198,7 @@ class PrimarySearchAppBar extends React.Component<IProps, IState> {
                   >
                     <ProfilePic
                       user={data.me}
-                      classesOverride={classes.profilePicIconButtonMobile}
+                      avatarClassOverride={classes.profilePicIconButtonMobile}
                     />
                   </IconButton>
                   <p>My Profile</p>
