@@ -15,9 +15,6 @@ const CurrentUserQuery = gql`
 export const useCurrentUser = () => {
   const { data, error } = useQuery(CurrentUserQuery);
 
-  console.log("DATERZ", data);
-  console.log("ERROR", error);
-
   return {
     user: data.currentUser ? data.currentUser : null,
     error,
