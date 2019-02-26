@@ -1,6 +1,7 @@
-import { queryType, stringArg } from "nexus";
+import { queryType, idArg, stringArg } from "nexus";
 import { prismaObjectType } from "nexus-prisma";
 import { User, Course } from ".";
+import { string } from "prop-types";
 
 export const Query = queryType({
   definition(t) {
@@ -69,10 +70,41 @@ export const Query = queryType({
       },
     });
 
+    t.field("course", {
+      type: "Course",
+      args: {
+        id: stringArg(),
+      },
+      resolve: (parent, { id }, ctx) => {
+        return ctx.prisma.course({ id });
+      },
+    });
+
     t.list.field("courses", {
       type: Course,
       resolve: (parent, args, ctx) => {
         return ctx.prisma.courses();
+      },
+    });
+
+    t.field("myRoleInCourse", {
+      type: "CourseUser",
+      args: {
+        course_id: idArg(),
+      },
+      resolve: async (parent, { course_id }, ctx) => {
+        const roles = await ctx.prisma.course({ id: course_id }).userRoles({
+          where: {
+            user: {
+              id: ctx.user_id,
+            },
+          },
+        });
+        // This should never happen
+        if (roles.length !== 1) {
+          throw new Error(`User has no roles in course ${course_id}`);
+        }
+        return roles[0];
       },
     });
 
