@@ -7,6 +7,7 @@ steps:
     pull: always
     commands:
       - yarn install
+      - yarn run typecheck
       - yarn run test
       - yarn run lint
   - name: slack
