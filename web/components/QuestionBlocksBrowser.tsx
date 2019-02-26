@@ -16,6 +16,7 @@ import {
 const QBLOCK_LIST_QUERY = gql`
   query($courseId: ID!) {
     course(where: { id: $courseId }) {
+	  id
       questionBlocks {
         id
         blockName
@@ -65,6 +66,22 @@ class QuestionBlocksBrowser extends React.Component<IProps, IState> {
   updateSelectedBlock = (id: string) => {
     this.setState(state => ({ ...state, curQuestionBlock: id }));
   };
+  listAnswers = (questionId: string, answersAr: Array) => {
+	  let container=[];
+		answersAr.forEach((answer,index)=>{
+			container.push(<div key={answer.id}><input type="radio" name={questionId}
+				onClick={(e) => this.updateChoice(answer.id, questionId, this.state.curQuestionBlock)} />
+				<label for={answer.id}>{answer.answerText}</label></div>);
+	    });
+		return (
+		  <div>
+		  {container}
+		  </div>
+		)
+	};
+  updateChoice = (answerId, questionId, blockId) => {
+    console.log('answerId: ', answerId, ' questionId:', questionId, 'block: ', blockId);
+  }
 
   render() {
     const { courseId } = this.props;
@@ -91,8 +108,15 @@ class QuestionBlocksBrowser extends React.Component<IProps, IState> {
                     <Typography variant="h5">{blockName}</Typography>
                   </Grid>
                   <Grid item>
-                    {questions.map(question => (
-                      <div>{question.question.questionText}</div>
+                    {questions.map(questions => (
+                      <div>{questions.question.questionText}
+					  <List>
+					  <ListItem>
+						{this.listAnswers(questions.question.id, questions.question.answerChoices)}
+					  </ListItem>
+					  </List>
+						)}
+					  </div>
                     ))}
                   </Grid>
                 </Grid>
@@ -139,3 +163,5 @@ class QuestionBlocksBrowser extends React.Component<IProps, IState> {
 }
 
 export default QuestionBlocksBrowser;
+// https://stackoverflow.com/questions/48014390/how-to-handle-multiple-radio-button-groups-in-one-component-in-reactjs
+// may have the answer
