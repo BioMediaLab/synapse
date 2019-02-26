@@ -1,4 +1,5 @@
 export * from "./Query";
+export * from "./Mutation";
 export * from "./User";
 export * from "./Course";
 export * from "./CourseUser";
