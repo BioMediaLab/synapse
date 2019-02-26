@@ -28,7 +28,10 @@ interface ICourseHeaderProps {
   };
 }
 
-const CourseHeader: React.SFC<ICourseHeaderProps> = ({ course, classes }) => (
+const CourseHeader: React.FunctionComponent<ICourseHeaderProps> = ({
+  course,
+  classes,
+}) => (
   <div className={classes.root}>
     <Grid container alignItems="flex-end" justify="space-between">
       <Typography variant="h4" style={{ fontWeight: 500 }}>

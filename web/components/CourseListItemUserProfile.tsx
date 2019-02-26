@@ -1,17 +1,8 @@
-import React, { Component } from "react";
+import React from "react";
 import Typography from "@material-ui/core/Typography";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import { Link } from "../Router";
-
-const Styles = {
-  Card: {
-    marginBottom: 20,
-  },
-  CardContent: {
-    margin: 5,
-  },
-};
 
 const CourseListItemUserProfile = course => {
   return (

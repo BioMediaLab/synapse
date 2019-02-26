@@ -107,17 +107,7 @@ class SearchBar extends Component<ISearchBarProps> {
             <div className={classes.search}>
               <div className={classes.searchIcon}>{searchIcon}</div>
               <Downshift>
-                {({
-                  getInputProps,
-                  getItemProps,
-                  getLabelProps,
-                  getMenuProps,
-                  isOpen,
-                  inputValue,
-                  highlightedIndex,
-                  selectedItem,
-                  openMenu,
-                }) => {
+                {({ getInputProps, isOpen, openMenu }) => {
                   return (
                     <div>
                       <Input

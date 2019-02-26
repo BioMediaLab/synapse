@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  withStyles,
-  Typography,
-  Select,
-  MenuItem,
-  createStyles,
-} from "@material-ui/core";
+import { withStyles, Select, MenuItem, createStyles } from "@material-ui/core";
 import { graphql, ChildMutateProps } from "react-apollo";
 import { withSnackbar, InjectedNotistackProps } from "notistack";
 

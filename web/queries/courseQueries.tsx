@@ -144,7 +144,7 @@ export type CourseRoleType =
   | "STUDENT"
   | "AUDITOR";
 
-interface ICourseMyRoleResult {
+export interface ICourseMyRoleResult {
   myRoleInCourse: {
     user_type: CourseRoleType;
     id: string;

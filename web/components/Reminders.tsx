@@ -16,7 +16,6 @@ import { format, setHours, setMinutes, addHours } from "date-fns";
 import ErrorMessage from "./ErrorMessage";
 import {
   CREATE_REMINDER,
-  DELETE_REMINDER,
   VIEW_REMINDERS,
   ReminderMutationComp,
   ReminderQueryComp,

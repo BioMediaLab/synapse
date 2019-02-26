@@ -29,7 +29,11 @@ const GET_COURSE_UNITS = gql`
   }
 `;
 
-class CourseUnits extends Component {
+interface IProps {
+  courseId: string;
+}
+
+class CourseUnits extends Component<IProps> {
   render() {
     return (
       <Query

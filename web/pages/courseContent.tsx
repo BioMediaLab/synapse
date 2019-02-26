@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { withRouter } from "next/router";
+import { withRouter, WithRouterProps } from "next/router";
 
 import withAuth from "../lib/withAuth";
 import AddCourseUnitButton from "../components/AddCourseUnitButton";
