@@ -16,7 +16,7 @@
     "lint": "tslint -p tslint.json"
   },
   "devDependencies": {
-    "tslint": "5.12.1",
+    "tslint": "5.13.0",
     "wsrun": "3.6.4"
   }
 }

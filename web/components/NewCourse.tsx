@@ -22,8 +22,9 @@ import {
 } from "@material-ui/core";
 
 import CourseSearch from "./CourseSearch";
-import { CREATE_COURSE } from "../queries/courseQueries";
-import { GET_ME } from "../queries/userQueries";
+import AddMembers from "./AddMembers";
+import { CREATE_COURSE, ADD_USERS_TO_COURSE } from "../queries/courseQueries";
+import { GET_ME, IUser } from "../queries/userQueries";
 
 const ADD_ME = gql`
   mutation($courseId: String!, $me: String!) {
@@ -84,6 +85,8 @@ interface ICreateCourseState {
   stepIndex: number;
   selectedParent: any;
   addMeAsadmin: boolean;
+  initialProfs: IUser[];
+  initialStudents: IUser[];
 }
 
 interface ICreateCourseVars {
@@ -102,6 +105,8 @@ class NewCourse extends React.Component<Props, ICreateCourseState> {
     stepIndex: 0,
     selectedParent: null,
     addMeAsadmin: false,
+    initialProfs: [],
+    initialStudents: [],
   };
 
   openCreateForm = () => {
@@ -140,21 +145,46 @@ class NewCourse extends React.Component<Props, ICreateCourseState> {
     if (!result || result.errors) {
       wasThereAnError = true;
     }
-    if (this.state.addMeAsadmin && !wasThereAnError) {
-      const me = await this.props.client.query({ query: GET_ME });
-      if (!me || !me.data || me.errors) {
-        wasThereAnError = true;
-      } else {
-        // TODO: this could probably be typed better
-        const userAddResult = await this.props.client.mutate({
-          mutation: ADD_ME,
+
+    if (!wasThereAnError) {
+      const users = [
+        ...this.state.initialProfs.map(user => ({
+          user_id: user.id,
+          role: "PROFESSOR",
+        })),
+        ...this.state.initialStudents.map(user => ({
+          user_id: user.id,
+          role: "STUDENT",
+        })),
+      ];
+      if (users.length > 0) {
+        const addResult = await this.props.client.mutate({
+          mutation: ADD_USERS_TO_COURSE,
           variables: {
+            users,
             courseId: (result.data as any).createCourse.id,
-            me: (me.data as any).me.id,
           },
         });
-        if (!userAddResult || userAddResult.errors) {
+        if (!addResult || addResult.errors) {
           wasThereAnError = true;
+        }
+      }
+      if (this.state.addMeAsadmin) {
+        const me = await this.props.client.query({ query: GET_ME });
+        if (!me || !me.data || me.errors) {
+          wasThereAnError = true;
+        } else {
+          // TODO: this could probably be typed better
+          const userAddResult = await this.props.client.mutate({
+            mutation: ADD_ME,
+            variables: {
+              courseId: (result.data as any).createCourse.id,
+              me: (me.data as any).me.id,
+            },
+          });
+          if (!userAddResult || userAddResult.errors) {
+            wasThereAnError = true;
+          }
         }
       }
     }
@@ -190,6 +220,7 @@ class NewCourse extends React.Component<Props, ICreateCourseState> {
     const { classes } = this.props;
     let curStep = <React.Fragment />;
     if (this.state.stepIndex === 0) {
+      // basic course info
       curStep = (
         <Grid container justify="center" direction="column">
           <Grid item>
@@ -217,6 +248,7 @@ class NewCourse extends React.Component<Props, ICreateCourseState> {
         </Grid>
       );
     } else if (this.state.stepIndex === 1) {
+      // special options
       curStep = (
         <Grid container>
           <Grid item>
@@ -239,12 +271,35 @@ class NewCourse extends React.Component<Props, ICreateCourseState> {
         </Grid>
       );
     } else if (this.state.stepIndex === 2) {
+      // initial members
       curStep = (
         <Grid container direction="column">
           <Grid item>
             <Typography className={classes.instructionHeader}>
               Choose some initial members for the new course:
             </Typography>
+          </Grid>
+          <Grid item>
+            <AddMembers
+              buttonText="Professors"
+              titleText="Choose initial professors for the course"
+              onComplete={users => {
+                this.setState(state => ({ ...state, initialProfs: users }));
+                return null;
+              }}
+            />
+            {this.state.initialProfs.length}
+          </Grid>
+          <Grid item>
+            <AddMembers
+              buttonText="Students"
+              titleText="Choose initial students for the course"
+              onComplete={users => {
+                this.setState(state => ({ ...state, initialStudents: users }));
+                return null;
+              }}
+            />
+            {this.state.initialStudents.length}
           </Grid>
           <Grid item>
             <FormControlLabel
@@ -265,6 +320,7 @@ class NewCourse extends React.Component<Props, ICreateCourseState> {
         </Grid>
       );
     } else {
+      // review page
       curStep = (
         <div>
           <Typography variant="h5">
@@ -375,7 +431,7 @@ class NewCourse extends React.Component<Props, ICreateCourseState> {
               spacing={24}
               className={classes.contentContainer}
             >
-              <Grid item xs={8}>
+              <Grid item xs={7}>
                 {curStep}
               </Grid>
               <Grid item xs={2}>
@@ -389,4 +445,4 @@ class NewCourse extends React.Component<Props, ICreateCourseState> {
   }
 }
 
-export default withApollo(withSnackbar(withStyles(styles)(NewCourse)));
+export default withApollo<{}>(withSnackbar(withStyles(styles)(NewCourse)));

@@ -53,7 +53,9 @@ const UserProfile: React.SFC<IUserProps> = ({ router }) => {
                 </Typography>
               </ListItem>
               <Divider />
-              {courses.map(CourseListItemUserProfile)}
+              {courses.map(course => (
+                <CourseListItemUserProfile key={course.id} {...course} />
+              ))}
             </List>
           </div>
         );
