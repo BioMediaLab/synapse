@@ -1,7 +1,6 @@
 import { queryType, idArg, stringArg } from "nexus";
 import { prismaObjectType } from "nexus-prisma";
 import { User, Course } from ".";
-import { string } from "prop-types";
 
 export const Query = queryType({
   definition(t) {
