@@ -5,5 +5,6 @@ export const permissions = shield({
   Query: {
     currentUser: rules.isAuthenticated,
     users: rules.isAuthenticated,
+    myCourseRoles: rules.isAuthenticated,
   },
 });

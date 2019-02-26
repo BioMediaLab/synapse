@@ -12,7 +12,7 @@ export const GET_COURSES: DocumentNode = gql`
         name
       }
     }
-    me @client {
+    currentUser {
       isAdmin
       id
       name
@@ -146,7 +146,7 @@ interface ICoursesListQueryResult {
     user_type: string;
     course: ICourse;
   }>;
-  me: {
+  currentUser: {
     isAdmin: boolean;
     id: string;
     name: string;

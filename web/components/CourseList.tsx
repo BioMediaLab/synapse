@@ -107,12 +107,19 @@ const CourseList: React.SFC<{}> = ({ router, href }) => (
       return (
         <div>
           <List>
-            <Link route="users" params={{ id: data.me.id }} key={data.me.id}>
+            <Link
+              route="users"
+              params={{ id: data.currentUser.id }}
+              key={data.currentUser.id}
+            >
               <ListItem button>
-                <Avatar alt={data.me.name} src={data.me.photo} />
+                <Avatar
+                  alt={data.currentUser.name}
+                  src={data.currentUser.photo}
+                />
                 <ListItemText
-                  primary={data.me.name}
-                  secondary={data.me.email}
+                  primary={data.currentUser.name}
+                  secondary={data.currentUser.email}
                 />
               </ListItem>
             </Link>

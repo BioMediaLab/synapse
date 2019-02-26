@@ -48,5 +48,12 @@ export const Query = queryType({
         return ctx.prisma.courses();
       },
     });
+
+    t.list.field("myCourseRoles", {
+      type: "CourseUser",
+      resolve: (parent, args, ctx) => {
+        return ctx.prisma.user({ id: ctx.user_id }).courseRoles();
+      },
+    });
   },
 });
