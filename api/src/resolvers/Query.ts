@@ -32,12 +32,39 @@ export const Query = queryType({
       type: User,
       args: {
         name: stringArg(),
+        email: stringArg({ nullable: true }),
+        course_id: stringArg({ nullable: true }),
       },
-      resolve: (parent, { name }, ctx) => {
+      resolve: (parent, { name, email, course_id }, ctx) => {
+        const first = 10;
+
+        // Only search for users from a certain course
+        if (course_id) {
+          return ctx.prisma.users({
+            where: {
+              AND: [
+                { OR: [{ name_contains: name }, { email_contains: email }] },
+                {
+                  courseRoles_some: {
+                    course: {
+                      id: course_id,
+                    },
+                  },
+                },
+              ],
+            },
+            orderBy: "name_ASC",
+            first,
+          });
+        }
+
+        // we don't need to worry what course they're in
         return ctx.prisma.users({
           where: {
-            name_contains: name,
+            OR: [{ name_contains: name }, { email_contains: email }],
           },
+          orderBy: "name_ASC",
+          first,
         });
       },
     });
