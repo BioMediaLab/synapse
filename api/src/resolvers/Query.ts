@@ -73,9 +73,9 @@ export const Query = queryType({
     t.field("course", {
       type: "Course",
       args: {
-        id: stringArg(),
+        id: idArg(),
       },
-      resolve: (parent, { id }, ctx) => {
+      resolve: async (parent, { id }, ctx) => {
         return ctx.prisma.course({ id });
       },
     });
