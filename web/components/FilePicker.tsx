@@ -23,8 +23,11 @@ import { DragDropContext, Droppable } from "react-beautiful-dnd";
 
 const styles = (theme: Theme) =>
   createStyles({
+    filesPage: {
+      margin: "auto",
+      maxWidth: 1080,
+    },
     header: {
-      margin: theme.spacing.unit * 0.2,
       marginBottom: theme.spacing.unit * 0.5,
       display: "flex",
       justifyContent: "space-between",
@@ -56,6 +59,7 @@ const styles = (theme: Theme) =>
 interface IFilePickerProps {
   courseId: string;
   classes: {
+    filesPage: string;
     header: string;
     topFilterBar: string;
     fileList: string;
@@ -138,7 +142,7 @@ class FilePicker extends React.Component<IFilePickerProps, IFilePickerState> {
     console.warn(this.state);
 
     return (
-      <>
+      <div className={classes.filesPage}>
         <Typography variant="h5" className={classes.pageTitle}>
           Files
         </Typography>
@@ -254,7 +258,7 @@ class FilePicker extends React.Component<IFilePickerProps, IFilePickerState> {
             );
           }}
         </CourseFileQuery>
-      </>
+      </div>
     );
   }
 }
