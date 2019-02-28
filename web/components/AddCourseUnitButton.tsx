@@ -26,6 +26,8 @@ const ADD_COURSE_UNIT = gql`
     ) {
       id
       name
+      description
+      visible
     }
   }
 `;
@@ -70,7 +72,7 @@ class AddCourseUnitButton extends Component {
 
   render() {
     return (
-      <Mutation mutation={ADD_COURSE_UNIT}>
+      <Mutation update={this.props.update} mutation={ADD_COURSE_UNIT}>
         {(addCourseUnit, { data }) => (
           <div>
             <Button variant="contained" onClick={this.handleClickOpen}>
