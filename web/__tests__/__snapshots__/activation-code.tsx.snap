@@ -1,0 +1,46 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders 1`] = `
+<div>
+  <div
+    class="ActivationCode-flexDiv-3"
+  >
+    <div />
+    <div
+      class="MuiFormControl-root-4 MuiFormControl-fullWidth-7"
+    >
+      <label
+        class="MuiFormLabel-root-19 MuiInputLabel-root-8 MuiInputLabel-formControl-13 MuiInputLabel-animated-16"
+        data-shrink="false"
+      >
+        Create Activation Code
+      </label>
+      <div
+        class="MuiInputBase-root-39 MuiInput-root-26 MuiInput-underline-30 MuiInputBase-fullWidth-48 MuiInput-fullWidth-33 MuiInputBase-formControl-40 MuiInput-formControl-27"
+      >
+        <input
+          aria-invalid="false"
+          class="MuiInputBase-input-49 MuiInput-input-34"
+          placeholder="****-****-****-****"
+          type="text"
+          value=""
+        />
+      </div>
+    </div>
+    <button
+      class="MuiButtonBase-root-82 MuiButton-root-56 MuiButton-contained-67 MuiButton-raised-70 ActivationCode-button-1"
+      tabindex="0"
+      type="button"
+    >
+      <span
+        class="MuiButton-label-57"
+      >
+        Create
+      </span>
+      <span
+        class="MuiTouchRipple-root-91"
+      />
+    </button>
+  </div>
+</div>
+`;

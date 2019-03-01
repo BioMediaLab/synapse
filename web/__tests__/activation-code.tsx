@@ -13,15 +13,15 @@ const mocks = [
     result: {
       data: {
         myCourseRoles: {
-          id: "1",
+          id: "testID01",
           course: {
-            id: "2",
+            id: "testID02",
             name: "CourseName",
             requireActivation: true,
           },
         },
         me: {
-          id: "3",
+          id: "testID03",
           name: "UserName",
         },
       },
@@ -30,9 +30,10 @@ const mocks = [
 ];
 
 test("renders", () => {
-  render(
+  const { container } = render(
     <MockedProvider mocks={mocks} addTypename={false}>
       <ActivationCode isAdmin />
     </MockedProvider>,
   );
+  expect(container).toMatchSnapshot();
 });
