@@ -28,6 +28,18 @@ const ADD_COURSE_UNIT = gql`
       name
       description
       visible
+      contentPieces {
+        id
+        name
+        description
+        url
+        type
+        updatedAt
+        creator {
+          id
+          name
+        }
+      }
     }
   }
 `;

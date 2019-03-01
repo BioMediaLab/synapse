@@ -32,7 +32,6 @@ interface IFileUploadButtonProps {
 
 class AddFileToUnitButton extends React.Component<IFileUploadButtonProps> {
   render() {
-    console.log("unitId", this.props.unitId);
     return (
       <Mutation mutation={ADD_FILE_TO_UNIT}>
         {(doMutation, result) => {

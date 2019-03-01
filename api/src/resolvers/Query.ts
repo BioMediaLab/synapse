@@ -86,6 +86,22 @@ export const Query = queryType({
       },
     });
 
+    t.list.field("courseUnits", {
+      type: "CourseUnit",
+      args: {
+        course_id: idArg(),
+      },
+      resolve: (parent, { course_id }, ctx) => {
+        return ctx.prisma.courseUnits({
+          where: {
+            course: {
+              id: course_id,
+            },
+          },
+        });
+      },
+    });
+
     t.field("myRoleInCourse", {
       type: "CourseUser",
       args: {

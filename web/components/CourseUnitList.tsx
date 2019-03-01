@@ -8,42 +8,26 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 const GET_COURSE_UNITS = gql`
   query($course_id: ID!) {
-    course(id: $course_id) {
+    courseUnits(course_id: $course_id) {
       id
-      units {
+      name
+      description
+      visible
+      contentPieces {
         id
         name
         description
-        contentPieces {
+        url
+        type
+        updatedAt
+        creator {
           id
           name
-          description
-          url
-          type
-          updatedAt
-          creator {
-            id
-            name
-          }
         }
       }
     }
   }
 `;
-
-const updateCourseUnitsCache = (cache, newUnit) => {
-  console.log("newUnit", newUnit);
-  console.log("cache", cache);
-  const oldUnits = cache.readQuery({ query: GET_COURSE_UNITS });
-  console.log("oldUnits", oldUnits);
-
-  /*cache.writeQuery({
-    query: GET_COURSE_UNITS,
-    data: {
-      units: oldUnits.course.units.concat(newUnit.data.addCourseUnit),
-    },
-  });*/
-};
 
 class CourseUnits extends Component {
   onDragEnd = result => {
@@ -53,13 +37,30 @@ class CourseUnits extends Component {
     }
   };
 
+  updateCourseUnitsCache = (cache, { data: { addCourseUnit } }) => {
+    const data = cache.readQuery({
+      query: GET_COURSE_UNITS,
+      variables: {
+        course_id: this.props.courseId,
+      },
+    });
+
+    data.courseUnits = [...data.courseUnits, addCourseUnit];
+
+    cache.writeQuery({
+      query: GET_COURSE_UNITS,
+      variables: { course_id: this.props.courseId },
+      data,
+    });
+  };
+
   render() {
     return (
       <div>
         <div style={{ marginBottom: "20px" }}>
           <AddCourseUnitButton
             courseId={this.props.courseId}
-            update={updateCourseUnitsCache}
+            update={this.updateCourseUnitsCache}
           />
         </div>
         <Query
@@ -74,7 +75,7 @@ class CourseUnits extends Component {
               return <ErrorMessage message={error.message} />;
             }
 
-            if (!data.course.units.length) {
+            if (!data.courseUnits.length) {
               return <div>No content</div>;
             }
 
@@ -83,7 +84,7 @@ class CourseUnits extends Component {
                 <Droppable droppableId="droppable">
                   {(provided, snapshot) => (
                     <div ref={provided.innerRef}>
-                      {data.course.units.map((unit, index) => (
+                      {data.courseUnits.map((unit, index) => (
                         <Draggable
                           key={unit.id}
                           draggableId={unit.id}
