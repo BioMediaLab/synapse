@@ -1,9 +1,12 @@
-import { queryType, idArg, stringArg } from "nexus";
+import { idArg, stringArg } from "nexus";
 import { prismaObjectType } from "nexus-prisma";
 import { User, Course } from ".";
 
-export const Query = queryType({
+export const Query = prismaObjectType({
+  name: "Query",
   definition(t) {
+    t.prismaFields(["*"]);
+
     t.field("currentUser", {
       type: User,
       resolve: async (parent, args, ctx) => {
