@@ -24,7 +24,7 @@
   "homepage": "https://github.com/BioMediaLab/api#readme",
   "dependencies": {
     "@sentry/node": "^4.6.4",
-    "@types/algoliasearch": "^3.30.5",
+    "@types/algoliasearch": "^3.30.6",
     "@types/body-parser": "^1.17.0",
     "@types/dotenv": "^6.1.0",
     "@types/express": "^4.16.1",
@@ -32,7 +32,7 @@
     "@types/jsonwebtoken": "^8.3.0",
     "@types/mailgun-js": "^0.16.3",
     "@types/mocha": "^5.2.6",
-    "@types/node": "^11.9.5",
+    "@types/node": "^11.10.4",
     "@types/pug": "^2.0.4",
     "algoliasearch": "^3.30.0",
     "apollo-server-express": "^2.4.8",
@@ -48,20 +48,20 @@
     "jsonwebtoken": "^8.5.0",
     "mailgun-js": "^0.22.0",
     "nexus": "^0.10.0",
-    "nexus-prisma": "^0.3.3",
-    "prisma": "1.27.3",
+    "nexus-prisma": "^0.3.4",
+    "prisma": "1.27.4",
     "prisma-binding": "^2.3.3",
-    "prisma-client-lib": "1.27.3",
+    "prisma-client-lib": "1.27.4",
     "prisma-lib": "^0.1.44",
     "pug": "^2.0.3",
     "typescript": "^3.3.3333"
   },
   "devDependencies": {
     "jest": "^24.1.0",
-    "nexus-prisma-generate": "^0.3.3",
+    "nexus-prisma-generate": "^0.3.4",
     "ts-node": "^8.0.1",
     "ts-node-dev": "^1.0.0-pre.32",
-    "tslint": "^5.13.0",
+    "tslint": "^5.13.1",
     "wsrun": "^3.6.4"
   }
 }
