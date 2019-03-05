@@ -37,7 +37,7 @@ class CourseUnits extends Component {
     }
   };
 
-  updateCourseUnitsCache = (cache, { data: { addCourseUnit } }) => {
+  updateCourseUnitsCache = (cache, { data: { createCourseUnit } }) => {
     const data = cache.readQuery({
       query: GET_COURSE_UNITS,
       variables: {
@@ -45,7 +45,7 @@ class CourseUnits extends Component {
       },
     });
 
-    data.courseUnits = [...data.courseUnits, addCourseUnit];
+    data.courseUnits = [...data.courseUnits, createCourseUnit];
 
     cache.writeQuery({
       query: GET_COURSE_UNITS,
