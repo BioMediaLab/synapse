@@ -1,0 +1,399 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders 1`] = `
+<div>
+  <div
+    class="MuiSnackbar-root-7 MuiSnackbar-anchorOriginBottomLeft-13"
+  >
+    <div
+      class="MuiTypography-root-44 MuiTypography-body1-53 MuiPaper-root-17 MuiPaper-elevation6-25 MuiSnackbarContent-root-14"
+      role="alertdialog"
+      style="-webkit-transform: translate(0, 0); transform: translate(0, 0); -webkit-transition: -webkit-transform 225ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;"
+    >
+      <div
+        class="MuiSnackbarContent-message-15"
+      >
+        <span
+          class="SnackbarMessage-message-6"
+          id="client-snackbar"
+        >
+          message
+        </span>
+      </div>
+      <div
+        class="MuiSnackbarContent-action-16"
+      >
+        <button
+          aria-label="Close"
+          class="MuiButtonBase-root-86 MuiIconButton-root-80 MuiIconButton-colorInherit-81"
+          tabindex="0"
+          type="button"
+        >
+          <span
+            class="MuiIconButton-label-85"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root-89 SnackbarMessage-icon-5"
+              focusable="false"
+              role="presentation"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+              />
+              <path
+                d="M0 0h24v24H0z"
+                fill="none"
+              />
+            </svg>
+          </span>
+          <span
+            class="MuiTouchRipple-root-98"
+          />
+        </button>
+      </div>
+    </div>
+  </div>
+  <div
+    class="MuiSnackbar-root-7 MuiSnackbar-anchorOriginBottomLeft-13"
+  >
+    <div
+      class="MuiTypography-root-44 MuiTypography-body1-53 MuiPaper-root-17 MuiPaper-elevation6-25 MuiSnackbarContent-root-14 SnackbarMessage-error-1"
+      role="alertdialog"
+      style="-webkit-transform: translate(0, 0); transform: translate(0, 0); -webkit-transition: -webkit-transform 225ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;"
+    >
+      <div
+        class="MuiSnackbarContent-message-15"
+      >
+        <span
+          class="SnackbarMessage-message-6"
+          id="client-snackbar"
+        >
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root-89 SnackbarMessage-icon-5"
+            focusable="false"
+            role="presentation"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M0 0h24v24H0z"
+              fill="none"
+            />
+            <path
+              d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"
+            />
+          </svg>
+          error message
+        </span>
+      </div>
+      <div
+        class="MuiSnackbarContent-action-16"
+      >
+        <button
+          aria-label="Close"
+          class="MuiButtonBase-root-86 MuiIconButton-root-80 MuiIconButton-colorInherit-81"
+          tabindex="0"
+          type="button"
+        >
+          <span
+            class="MuiIconButton-label-85"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root-89 SnackbarMessage-icon-5"
+              focusable="false"
+              role="presentation"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+              />
+              <path
+                d="M0 0h24v24H0z"
+                fill="none"
+              />
+            </svg>
+          </span>
+          <span
+            class="MuiTouchRipple-root-98"
+          />
+        </button>
+      </div>
+    </div>
+  </div>
+  <div
+    class="MuiSnackbar-root-7 MuiSnackbar-anchorOriginBottomLeft-13"
+  >
+    <div
+      class="MuiTypography-root-44 MuiTypography-body1-53 MuiPaper-root-17 MuiPaper-elevation6-25 MuiSnackbarContent-root-14 SnackbarMessage-error-1"
+      role="alertdialog"
+      style="-webkit-transform: translate(0, 0); transform: translate(0, 0); -webkit-transition: -webkit-transform 225ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;"
+    >
+      <div
+        class="MuiSnackbarContent-message-15"
+      >
+        <span
+          class="SnackbarMessage-message-6"
+          id="client-snackbar"
+        >
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root-89 SnackbarMessage-icon-5"
+            focusable="false"
+            role="presentation"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M0 0h24v24H0z"
+              fill="none"
+            />
+            <path
+              d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"
+            />
+          </svg>
+          graphql error message
+        </span>
+      </div>
+      <div
+        class="MuiSnackbarContent-action-16"
+      >
+        <button
+          aria-label="Close"
+          class="MuiButtonBase-root-86 MuiIconButton-root-80 MuiIconButton-colorInherit-81"
+          tabindex="0"
+          type="button"
+        >
+          <span
+            class="MuiIconButton-label-85"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root-89 SnackbarMessage-icon-5"
+              focusable="false"
+              role="presentation"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+              />
+              <path
+                d="M0 0h24v24H0z"
+                fill="none"
+              />
+            </svg>
+          </span>
+          <span
+            class="MuiTouchRipple-root-98"
+          />
+        </button>
+      </div>
+    </div>
+  </div>
+  <div
+    class="MuiSnackbar-root-7 MuiSnackbar-anchorOriginBottomLeft-13"
+  >
+    <div
+      class="MuiTypography-root-44 MuiTypography-body1-53 MuiPaper-root-17 MuiPaper-elevation6-25 MuiSnackbarContent-root-14 SnackbarMessage-success-2"
+      role="alertdialog"
+      style="-webkit-transform: translate(0, 0); transform: translate(0, 0); -webkit-transition: -webkit-transform 225ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;"
+    >
+      <div
+        class="MuiSnackbarContent-message-15"
+      >
+        <span
+          class="SnackbarMessage-message-6"
+          id="client-snackbar"
+        >
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root-89 SnackbarMessage-icon-5"
+            focusable="false"
+            role="presentation"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M0 0h24v24H0z"
+              fill="none"
+            />
+            <path
+              d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+            />
+          </svg>
+          success message
+        </span>
+      </div>
+      <div
+        class="MuiSnackbarContent-action-16"
+      >
+        <button
+          aria-label="Close"
+          class="MuiButtonBase-root-86 MuiIconButton-root-80 MuiIconButton-colorInherit-81"
+          tabindex="0"
+          type="button"
+        >
+          <span
+            class="MuiIconButton-label-85"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root-89 SnackbarMessage-icon-5"
+              focusable="false"
+              role="presentation"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+              />
+              <path
+                d="M0 0h24v24H0z"
+                fill="none"
+              />
+            </svg>
+          </span>
+          <span
+            class="MuiTouchRipple-root-98"
+          />
+        </button>
+      </div>
+    </div>
+  </div>
+  <div
+    class="MuiSnackbar-root-7 MuiSnackbar-anchorOriginBottomLeft-13"
+  >
+    <div
+      class="MuiTypography-root-44 MuiTypography-body1-53 MuiPaper-root-17 MuiPaper-elevation6-25 MuiSnackbarContent-root-14 SnackbarMessage-info-3"
+      role="alertdialog"
+      style="-webkit-transform: translate(0, 0); transform: translate(0, 0); -webkit-transition: -webkit-transform 225ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;"
+    >
+      <div
+        class="MuiSnackbarContent-message-15"
+      >
+        <span
+          class="SnackbarMessage-message-6"
+          id="client-snackbar"
+        >
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root-89 SnackbarMessage-icon-5"
+            focusable="false"
+            role="presentation"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M0 0h24v24H0z"
+              fill="none"
+            />
+            <path
+              d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"
+            />
+          </svg>
+          info message
+        </span>
+      </div>
+      <div
+        class="MuiSnackbarContent-action-16"
+      >
+        <button
+          aria-label="Close"
+          class="MuiButtonBase-root-86 MuiIconButton-root-80 MuiIconButton-colorInherit-81"
+          tabindex="0"
+          type="button"
+        >
+          <span
+            class="MuiIconButton-label-85"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root-89 SnackbarMessage-icon-5"
+              focusable="false"
+              role="presentation"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+              />
+              <path
+                d="M0 0h24v24H0z"
+                fill="none"
+              />
+            </svg>
+          </span>
+          <span
+            class="MuiTouchRipple-root-98"
+          />
+        </button>
+      </div>
+    </div>
+  </div>
+  <div
+    class="MuiSnackbar-root-7 MuiSnackbar-anchorOriginBottomLeft-13"
+  >
+    <div
+      class="MuiTypography-root-44 MuiTypography-body1-53 MuiPaper-root-17 MuiPaper-elevation6-25 MuiSnackbarContent-root-14 SnackbarMessage-warning-4"
+      role="alertdialog"
+      style="-webkit-transform: translate(0, 0); transform: translate(0, 0); -webkit-transition: -webkit-transform 225ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;"
+    >
+      <div
+        class="MuiSnackbarContent-message-15"
+      >
+        <span
+          class="SnackbarMessage-message-6"
+          id="client-snackbar"
+        >
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root-89 SnackbarMessage-icon-5"
+            focusable="false"
+            role="presentation"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M0 0h24v24H0z"
+              fill="none"
+            />
+            <path
+              d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"
+            />
+          </svg>
+          warning message
+        </span>
+      </div>
+      <div
+        class="MuiSnackbarContent-action-16"
+      >
+        <button
+          aria-label="Close"
+          class="MuiButtonBase-root-86 MuiIconButton-root-80 MuiIconButton-colorInherit-81"
+          tabindex="0"
+          type="button"
+        >
+          <span
+            class="MuiIconButton-label-85"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root-89 SnackbarMessage-icon-5"
+              focusable="false"
+              role="presentation"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+              />
+              <path
+                d="M0 0h24v24H0z"
+                fill="none"
+              />
+            </svg>
+          </span>
+          <span
+            class="MuiTouchRipple-root-98"
+          />
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;
