@@ -81,67 +81,50 @@ class SnackbarMessage extends Component<
     var snackbarContent = <div />;
     if (!props.message) return null;
     else {
-      if (props.error) {
-        snackbarContent = (
-          <SnackbarContent
-            message={
-              <span id="client-snackbar" className={classes.message}>
+      snackbarContent = (
+        <SnackbarContent
+          message={
+            <span id="client-snackbar" className={classes.message}>
+              {props.error ? (
                 <ErrorIcon className={classes.icon} />
-                {props.message.message
+              ) : props.success ? (
+                <CheckCircleIcon className={classes.icon} />
+              ) : props.info ? (
+                <InfoIcon className={classes.icon} />
+              ) : props.warning ? (
+                <WarningIcon className={classes.icon} />
+              ) : null}
+              {props.error
+                ? props.message.message
                   ? props.message.message.replace("GraphQL error: ", "")
-                  : props.message.replace("GraphQL error: ", "")}
-              </span>
-            }
-            className={classes.error}
-            action={[
-              <IconButton
-                key="close"
-                aria-label="Close"
-                color="inherit"
-                onClick={this.handleClose}
-              >
-                <CloseIcon className={classes.icon} />
-              </IconButton>,
-            ]}
-          />
-        );
-      } else {
-        snackbarContent = (
-          <SnackbarContent
-            message={
-              <span id="client-snackbar" className={classes.message}>
-                {props.success ? (
-                  <CheckCircleIcon className={classes.icon} />
-                ) : props.info ? (
-                  <InfoIcon className={classes.icon} />
-                ) : props.warning ? (
-                  <WarningIcon className={classes.icon} />
-                ) : null}
-                {props.message}
-              </span>
-            }
-            className={
-              props.success
-                ? classes.success
-                : props.info
-                ? classes.info
-                : props.warning
-                ? classes.warning
-                : null
-            }
-            action={[
-              <IconButton
-                key="close"
-                aria-label="Close"
-                color="inherit"
-                onClick={this.handleClose}
-              >
-                <CloseIcon className={classes.icon} />
-              </IconButton>,
-            ]}
-          />
-        );
-      }
+                  : props.message.replace("GraphQL error: ", "")
+                : props.message}
+            </span>
+          }
+          className={
+            props.error
+              ? classes.error
+              : props.success
+              ? classes.success
+              : props.info
+              ? classes.info
+              : props.warning
+              ? classes.warning
+              : null
+          }
+          action={[
+            <IconButton
+              key="close"
+              aria-label="Close"
+              color="inherit"
+              onClick={this.handleClose}
+            >
+              <CloseIcon className={classes.icon} />
+            </IconButton>,
+          ]}
+        />
+      );
+
       return (
         <Snackbar
           anchorOrigin={{
