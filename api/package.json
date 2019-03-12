@@ -39,7 +39,7 @@
     "dotenv": "^6.1.0",
     "draftjs-to-html": "^0.8.4",
     "express": "^4.16.4",
-    "googleapis": "^37.0.0",
+    "googleapis": "^38.0.0",
     "graphql": "^14.0.2",
     "graphql-shield": "^5.1.0",
     "graphql-tools": "^4.0.3",
