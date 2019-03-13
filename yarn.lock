@@ -4140,10 +4140,10 @@ dotenv@^4.0.0:
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-4.0.0.tgz#864ef1379aced55ce6f95debecdce179f7a0cd1d"
   integrity sha1-hk7xN5rO1Vzm+V3r7NzhefegzR0=
 
-dotenv@^6.1.0:
-  version "6.2.0"
-  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-6.2.0.tgz#941c0410535d942c8becf28d3f357dbd9d476064"
-  integrity sha512-HygQCKUBSFl8wKQZBSemMywRWcEDNidvNbjGVyZu3nbZ8qq9ubiPoGLMdRDpfSrpkkm9BXYFkpKxxFX38o/76w==
+dotenv@^7.0.0:
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-7.0.0.tgz#a2be3cd52736673206e8a85fb5210eea29628e7c"
+  integrity sha512-M3NhsLbV1i6HuGzBUH8vXrtxOk+tWmzWKDMbAVSUp3Zsjm7ywFeuwrUXhmhQyRK1q5B5GGy7hcXPbj3bnfZg2g==
 
 double-ended-queue@2.1.0-0:
   version "2.1.0-0"
@@ -9691,10 +9691,10 @@ react-swipeable-views@^0.13.0:
     react-swipeable-views-utils "^0.13.0"
     warning "^4.0.1"
 
-react-testing-library@5.8.0:
-  version "5.8.0"
-  resolved "https://registry.yarnpkg.com/react-testing-library/-/react-testing-library-5.8.0.tgz#b5163758b1ddfd2e15c3cd2790562a527a1bb0a5"
-  integrity sha512-cYOX8aUKea5ojFVXkhLbNEAq86nYqBlhKulJI/0v8JfwWyQm+kbyNKFfyci6b2qI4KUEvBYZKWx+zZWeYrYOOA==
+react-testing-library@6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/react-testing-library/-/react-testing-library-6.0.0.tgz#81edfcfae8a795525f48685be9bf561df45bb35d"
+  integrity sha512-h0h+YLe4KWptK6HxOMnoNN4ngu3W8isrwDmHjPC5gxc+nOZOCurOvbKVYCvvuAw91jdO7VZSm/5KR7TxKnz0qA==
   dependencies:
     "@babel/runtime" "^7.3.1"
     dom-testing-library "^3.13.1"
