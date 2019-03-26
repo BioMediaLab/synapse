@@ -11,21 +11,37 @@ import Switch from "@material-ui/core/Switch";
 import gql from "graphql-tag";
 import { Mutation } from "react-apollo";
 
-const ADD_COURSE_UNIT = gql`
-  mutation AddCourseUnit(
+const CREATE_COURSE_UNIT = gql`
+  mutation CreateCourseUnit(
     $course_id: ID!
     $name: String!
     $description: String!
     $visible: Boolean
   ) {
-    addCourseUnit(
-      course_id: $course_id
-      name: $name
-      description: $description
-      visible: $visible
+    createCourseUnit(
+      data: {
+        course: { connect: { id: $course_id } }
+        name: $name
+        description: $description
+        visible: $visible
+      }
     ) {
       id
       name
+      description
+      visible
+      contentPieces {
+        id
+        name
+        description
+        url
+        type
+        updatedAt
+        creator {
+          id
+          name
+        }
+      }
     }
   }
 `;
@@ -70,7 +86,7 @@ class AddCourseUnitButton extends Component {
 
   render() {
     return (
-      <Mutation mutation={ADD_COURSE_UNIT}>
+      <Mutation update={this.props.update} mutation={CREATE_COURSE_UNIT}>
         {(addCourseUnit, { data }) => (
           <div>
             <Button variant="contained" onClick={this.handleClickOpen}>

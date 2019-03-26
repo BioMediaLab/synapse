@@ -1,9 +1,12 @@
-import { queryType, idArg, stringArg } from "nexus";
+import { idArg, stringArg } from "nexus";
 import { prismaObjectType } from "nexus-prisma";
 import { User, Course } from ".";
 
-export const Query = queryType({
+export const Query = prismaObjectType({
+  name: "Query",
   definition(t) {
+    t.prismaFields(["*"]);
+
     t.field("currentUser", {
       type: User,
       resolve: async (parent, args, ctx) => {
@@ -83,6 +86,22 @@ export const Query = queryType({
       type: Course,
       resolve: (parent, args, ctx) => {
         return ctx.prisma.courses();
+      },
+    });
+
+    t.list.field("courseUnits", {
+      type: "CourseUnit",
+      args: {
+        course_id: idArg(),
+      },
+      resolve: (parent, { course_id }, ctx) => {
+        return ctx.prisma.courseUnits({
+          where: {
+            course: {
+              id: course_id,
+            },
+          },
+        });
       },
     });
 

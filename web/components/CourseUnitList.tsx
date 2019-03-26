@@ -2,32 +2,27 @@ import React, { Component } from "react";
 import gql from "graphql-tag";
 import { Query } from "react-apollo";
 import ErrorMessage from "./ErrorMessage";
+import AddCourseUnitButton from "./AddCourseUnitButton";
 import CourseUnitListItem from "./CourseUnitListItem";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 const GET_COURSE_UNITS = gql`
   query($course_id: ID!) {
-    course(id: $course_id) {
+    courseUnits(course_id: $course_id) {
       id
-      files {
-        id
-        name
-      }
-      units {
+      name
+      description
+      visible
+      contentPieces {
         id
         name
         description
-        contentPieces {
+        url
+        type
+        updatedAt
+        creator {
           id
           name
-          description
-          url
-          type
-          updatedAt
-          creator {
-            id
-            name
-          }
         }
       }
     }
@@ -40,61 +35,84 @@ class CourseUnits extends Component {
     if (!result.destination) {
       return;
     }
+  };
 
-    console.log(result);
+  updateCourseUnitsCache = (cache, { data: { createCourseUnit } }) => {
+    const data = cache.readQuery({
+      query: GET_COURSE_UNITS,
+      variables: {
+        course_id: this.props.courseId,
+      },
+    });
+
+    data.courseUnits = [...data.courseUnits, createCourseUnit];
+
+    cache.writeQuery({
+      query: GET_COURSE_UNITS,
+      variables: { course_id: this.props.courseId },
+      data,
+    });
   };
 
   render() {
     return (
-      <Query
-        query={GET_COURSE_UNITS}
-        variables={{ course_id: this.props.courseId }}
-      >
-        {({ loading, error, data }) => {
-          if (loading) {
-            return <div>Loading...</div>;
-          }
-          if (error) {
-            return <ErrorMessage message={error.message} />;
-          }
+      <div>
+        <div style={{ marginBottom: "20px" }}>
+          <AddCourseUnitButton
+            courseId={this.props.courseId}
+            update={this.updateCourseUnitsCache}
+          />
+        </div>
+        <Query
+          query={GET_COURSE_UNITS}
+          variables={{ course_id: this.props.courseId }}
+        >
+          {({ loading, error, data }) => {
+            if (loading) {
+              return <div>Loading...</div>;
+            }
+            if (error) {
+              return <ErrorMessage message={error.message} />;
+            }
 
-          if (!data.course.units.length) {
-            return <div>No content</div>;
-          }
+            if (!data.courseUnits.length) {
+              return <div>No content</div>;
+            }
 
-          return (
-            <DragDropContext onDragEnd={this.onDragEnd}>
-              <Droppable droppableId="droppable">
-                {(provided, snapshot) => (
-                  <div ref={provided.innerRef}>
-                    {data.course.units.map((unit, index) => (
-                      <Draggable
-                        key={unit.id}
-                        draggableId={unit.id}
-                        index={index}
-                      >
-                        {(provided, snapshot) => (
-                          <div
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                          >
-                            <CourseUnitListItem
-                              key={unit.id}
-                              courseId={this.props.courseId}
-                              unit={unit}
-                            />
-                          </div>
-                        )}
-                      </Draggable>
-                    ))}
-                  </div>
-                )}
-              </Droppable>
-            </DragDropContext>
-          );
-        }}
-      </Query>
+            return (
+              <DragDropContext onDragEnd={this.onDragEnd}>
+                <Droppable droppableId="droppable">
+                  {(provided, snapshot) => (
+                    <div ref={provided.innerRef}>
+                      {data.courseUnits.map((unit, index) => (
+                        <Draggable
+                          key={unit.id}
+                          draggableId={unit.id}
+                          index={index}
+                        >
+                          {(provided, snapshot) => (
+                            <div
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                            >
+                              <CourseUnitListItem
+                                key={unit.id}
+                                courseId={this.props.courseId}
+                                unit={unit}
+                              />
+                            </div>
+                          )}
+                        </Draggable>
+                      ))}
+                    </div>
+                  )}
+                </Droppable>
+              </DragDropContext>
+            );
+          }}
+        </Query>
+      </div>
     );
   }
 }
