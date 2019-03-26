@@ -46,7 +46,7 @@ const currentUserMenuItem = () => {
         </Badge>
       </IconButton>
       <IconButton aria-haspopup="true" color="inherit" style={{ padding: 0 }}>
-        <ProfilePic user={user} avatar40 />
+        <ProfilePic user={user} classesOverride />
       </IconButton>
     </>
   );

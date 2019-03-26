@@ -2,7 +2,6 @@ import configCheck from "./config";
 configCheck(); // Make sure that the config we're reading from the .env is sane.
 
 import * as express from "express";
-import * as fs from "fs";
 import { ApolloServer, gql } from "apollo-server-express";
 import { prisma } from "./generated/prisma-client";
 import { schema } from "./schema";

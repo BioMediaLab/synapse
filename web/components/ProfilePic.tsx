@@ -23,7 +23,6 @@ interface IProfilePicProps {
     initials: string;
   };
   classesOverride?: boolean;
-  avatar40: boolean;
   user: {
     name: string;
     photo: string | null;

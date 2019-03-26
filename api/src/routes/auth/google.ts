@@ -51,7 +51,7 @@ googleAuthRouter.post("/complete", async (req, res) => {
   let user = await prisma.user({ email });
 
   if (!user) {
-    // create a new account
+    // if not, create a new account
     user = await prisma.createUser({
       email,
       name,
