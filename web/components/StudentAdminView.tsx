@@ -116,17 +116,21 @@ class StudentAdminView extends React.Component<Props, IState> {
                         courseId: this.props.courseId,
                         userId: id,
                       },
-                    }).then(res => {
-                      if (!res || !res.data || res.data.error) {
-                        console.warn(res);
+                    })
+                      .then(res => {
+                        if (!res || !res.data || res.data.error) {
+                          throw new Error(res as any);
+                        } else {
+                          this.props.data.refetch();
+                          this.props.enqueueSnackbar(
+                            `${user.name} was removed from this class.`,
+                          );
+                        }
+                      })
+                      .catch(err => {
+                        console.warn(err);
                         this.props.enqueueSnackbar(`An error ocurred`);
-                      } else {
-                        this.props.data.refetch();
-                        this.props.enqueueSnackbar(
-                          `${user.name} was removed from this class.`,
-                        );
-                      }
-                    });
+                      });
                   }}
                 />
               ))}

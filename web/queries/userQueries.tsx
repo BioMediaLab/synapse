@@ -27,7 +27,7 @@ export const SEARCH = gql`
 `;
 
 export const REMOVE_USER_MUTATION = gql`
-  mutation($courseId: String!, $userId: String!) {
+  mutation($courseId: ID!, $userId: ID!) {
     removeUserFromCourse(course_id: $courseId, user_id: $userId) {
       id
     }
@@ -35,7 +35,7 @@ export const REMOVE_USER_MUTATION = gql`
 `;
 
 export const REMOVE_ADMIN = gql`
-  mutation($myId: String!) {
+  mutation($myId: ID!) {
     promoteUser(id: $myId, admin: false) {
       id
     }
@@ -70,7 +70,7 @@ export interface IRreadCourseResult {
 
 export const READ_COURSE_USERS: DocumentNode = gql`
   query($courseId: ID!, $startOn: String, $numRecords: Int) {
-    course(where: { id: $courseId }) {
+    course(id: $courseId) {
       id
       userRoles(after: $startOn, first: $numRecords) {
         id

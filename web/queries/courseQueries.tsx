@@ -74,7 +74,7 @@ export const COURSE_QUERY: DocumentNode = gql`
 `;
 
 export const COURSE_DESC_MUTATION: DocumentNode = gql`
-  mutation($desc: String!, $id: String!) {
+  mutation($desc: String!, $id: ID!) {
     updateCourseDescription(course_id: $id, description: $desc) {
       id
     }

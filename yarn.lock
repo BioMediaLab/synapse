@@ -8070,10 +8070,10 @@ nexus-prisma@^0.3.4:
   resolved "https://registry.yarnpkg.com/nexus-prisma/-/nexus-prisma-0.3.4.tgz#4e0958044e6ca1134c25c383ec81d0450d327c27"
   integrity sha512-VVO7+xjsI1Np5tPdEwTmDgTpu1jMEzIDxPAPSjmFasPh63JJPzOLAwcC3zQgOSTttjFUjWZPp9AI5lP4KQf98Q==
 
-nexus@^0.10.0:
-  version "0.10.0"
-  resolved "https://registry.yarnpkg.com/nexus/-/nexus-0.10.0.tgz#551e36852c3761d0e449fb845cd618a74bdb6dc2"
-  integrity sha512-dbd9JPOtVsOWy7I4Q2IiXC2WLPGUwc1dwqaCI7s5NMZm55wkTwCqFGz5yH9gpYHNfGvyQmQvhPx5hRvgpQU/uw==
+nexus@^0.11.6:
+  version "0.11.6"
+  resolved "https://registry.yarnpkg.com/nexus/-/nexus-0.11.6.tgz#2d2b7c30a0c6816ecbf671ba3f826a67b1488f4e"
+  integrity sha512-H9cSPGpPZejniI77O429fUVKUqEzFr/n6Q5poCbixpPsisQwADAI8C6GrTLe7ojFCfVcUHhhpEaDHyWg2+bSYA==
   dependencies:
     tslib "^1.9.3"
 
