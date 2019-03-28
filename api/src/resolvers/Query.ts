@@ -1,6 +1,6 @@
 import { idArg, stringArg } from "nexus";
 import { prismaObjectType } from "nexus-prisma";
-import { User, Course } from ".";
+import { User, Course, CourseUser } from ".";
 
 export const Query = prismaObjectType({
   name: "Query",
@@ -106,7 +106,7 @@ export const Query = prismaObjectType({
     });
 
     t.field("myRoleInCourse", {
-      type: "CourseUser",
+      type: CourseUser,
       args: {
         course_id: idArg(),
       },

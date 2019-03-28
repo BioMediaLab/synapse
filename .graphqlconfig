@@ -1,0 +1,31 @@
+{
+  "projects": {
+    "api": {
+      "schemaPath": "api/src/generated/schema.graphql",
+      "extensions": {
+        "endpoints": {
+          "dev": {
+            "url": "http://localhost:4000/graphql",
+            "headers": {
+              "Authorization": "JWT HERE. GET ME FROM YOUR BROWSER"
+            }
+          }
+        }
+      }
+    },
+    "db": {
+      "schemaPath": "api/src/generated/prisma.graphql",
+      "extensions": {
+        "endpoints": {
+          "local": {
+            "url": "http://localhost:4466",
+            "headers": {
+              "Authorization": "bearer GET FROM GET `prisma token`"
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
