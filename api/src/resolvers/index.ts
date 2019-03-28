@@ -11,3 +11,4 @@ export * from "./Message";
 export * from "./MessageTarget";
 export * from "./MessageRead";
 export * from "./Reminder";
+export * from "./InputTypes";

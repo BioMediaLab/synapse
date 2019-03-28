@@ -3,8 +3,8 @@ import { Query, Mutation } from "react-apollo";
 import { DocumentNode } from "graphql";
 
 export const GET_ME = gql`
-  {
-    me @client {
+  query {
+    currentUser {
       isAdmin
       id
       name

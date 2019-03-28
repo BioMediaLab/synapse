@@ -12,7 +12,7 @@ import {
 
 const ME_QUERY = gql`
   query {
-    me {
+    currentUser {
       id
       hasVisited
     }
@@ -38,8 +38,8 @@ const closeDialog = (client: any, id: string) => {
 export default withApollo(({ client }) => (
   <Query query={ME_QUERY}>
     {({ loading, error, data }) => {
-      const open = !(error || loading || (data.me && data.me.hasVisited));
-      const id = data.me ? data.me.id : "";
+      const open = !(error || loading || data.currentUser);
+      const id = data.currentUser ? data.currentUser.id : "";
       return (
         <Dialog open={open}>
           <DialogTitle>Welcome to Syanpse</DialogTitle>

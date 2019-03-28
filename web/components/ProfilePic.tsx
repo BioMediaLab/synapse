@@ -7,10 +7,6 @@ const styles = createStyles({
     height: "30px",
     width: "30px",
   },
-  avatar40: {
-    height: "50px",
-    width: "50px",
-  },
   initials: {
     fontSize: "110%",
   },
@@ -19,10 +15,9 @@ const styles = createStyles({
 interface IProfilePicProps {
   classes: {
     avatar: string;
-    avatar40: string;
     initials: string;
   };
-  classesOverride?: boolean;
+  avatarClassOverride?: string;
   user: {
     name: string;
     photo: string | null;
@@ -31,14 +26,14 @@ interface IProfilePicProps {
 
 const ProfilePic: React.SFC<IProfilePicProps> = ({
   classes,
-  classesOverride,
+  avatarClassOverride,
   user,
   ...props
 }) => {
   return user.photo ? (
     <Avatar
       alt={user.name}
-      className={classesOverride ? classes.avatar40 : classes.avatar}
+      className={avatarClassOverride ? avatarClassOverride : classes.avatar}
       src={user.photo}
       {...props}
     />

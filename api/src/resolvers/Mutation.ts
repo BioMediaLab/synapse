@@ -1,7 +1,5 @@
-import { mutationType, idArg, stringArg, booleanArg } from "nexus";
-import { Course } from "./Course";
-import { User } from "./User";
-import { CourseUser } from "./CourseUser";
+import { mutationType, idArg, stringArg, booleanArg, arg } from "nexus";
+import { Course, User, CourseUser, CourseUserAndRole } from ".";
 
 export const Mutation = mutationType({
   definition(t) {
@@ -93,6 +91,35 @@ export const Mutation = mutationType({
             id: args.course_id,
           },
         });
+      },
+    });
+
+    t.list.field("addUsersToCourse", {
+      type: CourseUser,
+      args: {
+        course_id: idArg(),
+        users: arg({
+          type: CourseUserAndRole,
+          list: true,
+        }),
+      },
+      resolve: async (_, args, context) => {
+        const newUsers = args.users.map(({ user_id, role }) =>
+          context.prisma.createCourseUser({
+            user_type: role,
+            user: {
+              connect: {
+                id: user_id,
+              },
+            },
+            course: {
+              connect: {
+                id: args.course_id,
+              },
+            },
+          }),
+        );
+        return Promise.all(newUsers);
       },
     });
   },
