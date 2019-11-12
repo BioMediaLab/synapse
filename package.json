@@ -18,7 +18,7 @@
   },
   "devDependencies": {
     "typescript": "3.3.3333",
-    "tslint": "5.13.0",
+    "tslint": "5.20.1",
     "wsrun": "3.6.4"
   }
 }
