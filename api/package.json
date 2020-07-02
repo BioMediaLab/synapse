@@ -56,6 +56,6 @@
   "devDependencies": {
     "jest": "24.1.0",
     "nodemon": "1.18.9",
-    "ts-node": "7.0.1"
+    "ts-node": "8.10.2"
   }
 }
