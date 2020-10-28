@@ -41,7 +41,7 @@
     "express": "^4.16.4",
     "googleapis": "^37.0.0",
     "graphql": "^14.0.2",
-    "graphql-shield": "^5.1.0",
+    "graphql-shield": "^6.0.0",
     "graphql-tools": "^4.0.3",
     "graphql-yoga": "^1.16.9",
     "jsonwebtoken": "^8.4.0",
