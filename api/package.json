@@ -48,7 +48,7 @@
     "mailgun-js": "^0.22.0",
     "prisma": "1.23.4",
     "prisma-binding": "^2.2.14",
-    "prisma-client-lib": "1.24.0",
+    "prisma-client-lib": "1.34.12",
     "prisma-lib": "^0.1.44",
     "pug": "^2.0.3",
     "typescript": "^3.0.3"
