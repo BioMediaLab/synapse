@@ -50,7 +50,7 @@
     "prisma-binding": "^2.2.14",
     "prisma-client-lib": "1.24.0",
     "prisma-lib": "^0.1.44",
-    "pug": "^2.0.3",
+    "pug": "^3.0.0",
     "typescript": "^3.0.3"
   },
   "devDependencies": {
