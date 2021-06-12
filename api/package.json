@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/BioMediaLab/api#readme",
   "dependencies": {
-    "@sentry/node": "^4.5.0",
+    "@sentry/node": "^6.0.0",
     "@types/algoliasearch": "^3.27.7",
     "@types/body-parser": "^1.17.0",
     "@types/dotenv": "^4.0.3",
