@@ -57,7 +57,7 @@
     "react": "^16.8.1",
     "react-apollo": "^2.4.1",
     "react-beautiful-dnd": "^10.0.4",
-    "react-big-calendar": "^0.20.2",
+    "react-big-calendar": "^0.40.0",
     "react-dom": "^16.8.1",
     "react-jss": "^8.6.1",
     "react-material-ui-form-validator": "^2.0.2",
