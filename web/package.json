@@ -50,7 +50,7 @@
     "js-cookie": "^2.2.0",
     "jss": "^9.8.7",
     "jwt-decode": "^2.2.0",
-    "next": "^8.0.0",
+    "next": "^9.3.2",
     "next-routes": "^1.4.2",
     "notistack": "^0.4.0",
     "random-gradient": "^0.0.2",
