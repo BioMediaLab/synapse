@@ -1207,9 +1207,7 @@ apollo-cache@1.1.18, apollo-cache@^1.1.18:
     apollo-utilities "^1.0.22"
 
 apollo-client@^2.4.3:
-  version "2.4.3"
-  resolved "https://registry.yarnpkg.com/apollo-client/-/apollo-client-2.4.3.tgz#261749c531eda367a1e2a3c5def024abb09add6e"
-  integrity sha512-ALfqkvnv2ZXrk08rqegFDkgRNVh7G/hz+jK+dblCKjcbgUmBduSHsnIfc335povbZTLPjtb0/z0iMECJu3FvZw==
+  version "2.6.10"
   dependencies:
     "@types/zen-observable" "^0.8.0"
     apollo-cache "1.1.18"
@@ -1259,16 +1257,12 @@ apollo-link-state@^0.4.0, apollo-link-state@^0.4.2:
     graphql-anywhere "^4.1.0-alpha.0"
 
 apollo-link-ws@^1.0.9:
-  version "1.0.9"
-  resolved "https://registry.yarnpkg.com/apollo-link-ws/-/apollo-link-ws-1.0.9.tgz#e2198abd6d3900e83fd842fdee335a28b347ea2d"
-  integrity sha512-CtKwLE61bCJTW5jrucOMm5PubeAlCl/9i45pg4GKKlAbl0zR4i2dww8TJkYoIY6iCyj4qjKW/uqGD6v5/aVwhg==
+  version "1.0.20"
   dependencies:
     apollo-link "^1.2.3"
 
 apollo-link@^1.0.0, apollo-link@^1.0.6, apollo-link@^1.2.3:
-  version "1.2.3"
-  resolved "https://registry.yarnpkg.com/apollo-link/-/apollo-link-1.2.3.tgz#9bd8d5fe1d88d31dc91dae9ecc22474d451fb70d"
-  integrity sha512-iL9yS2OfxYhigme5bpTbmRyC+Htt6tyo2fRMHT3K1XRL/C5IQDDz37OjpPy4ndx7WInSvfSZaaOTKFja9VWqSw==
+  version "1.2.14"
   dependencies:
     apollo-utilities "^1.0.0"
     zen-observable-ts "^0.8.10"
